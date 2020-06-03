@@ -5,8 +5,12 @@ Authors@R:
     c(person(given = "Henning",
            family = "Winker",
            role = c("aut","cre"),
-           email = "henning.winker@gmail.com"))
-Description: Compilations of functions from a "Cookbook of Model Diagnostics for Stock Sythesis"
+           email = "henning.winker@ec.europa.eu"),
+           person(given = "Felipe",
+           family = "Carvalho",
+           role = c("aut"),
+           email = "felipe.carvalho@noaa.gov"))
+Description: Compilation of ss3 diagnostic functions developed for the MS "Using Model Diagnostics in Integrated Stock Assessments"
 Depends:
     R (>= 3.1)
 Imports:

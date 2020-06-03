@@ -10,9 +10,9 @@ Description: Compilations of functions from a "Cookbook of Model Diagnostics for
 Depends:
     R (>= 3.1)
 Imports:
-      r4ss
-Suggests:     
       mvtnorm
+Suggests:     
+      r4ss
 License: EUPL
 Encoding: UTF-8
 LazyData: true

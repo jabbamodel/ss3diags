@@ -1,5 +1,12 @@
-
-
+#><>><>><>><>><>><>><>><>><>><>><>><>><>><>><>
+# Example code for library(ss3diags) 
+#
+# github.com/jabbamodel/ss3diags 
+#
+# Henning Winker (henning.winker@gmail.com) 
+# Joint Research Centre of the European Commission
+# Work Email: Henning.Winker@ec.europa.eu 
+#><>><>><>><>><>><>><>><>><>><>><>><>><>><>><>
 
 #-----------------------------------------------------------
 # This code is used with r4ss to extract retrospective runs
@@ -43,8 +50,9 @@ SSplotHCxval(retro.hke,add=T,legendcex=0.7,legend=T,legendindex = 1,tickEndYr=F,
 mtext("Year",side=1,outer=T,cex=1)
 mtext("Index",side=2,outer=T,line=1,cex=1)
 
+sspar(mfrow=c(1,1),labs=T,plot.cex=0.9)
 # Plot full time series
-SSplotHCxval(retro.hke,add=F,legendcex=0.7,legend=T,legendindex = 1,tickEndYr=F,xylabs=T,xmin=1)
+SSplotHCxval(retro.hke,add=T,legendcex=0.7,legend=T,legendindex = 1,tickEndYr=T,xylabs=T,xmin=1)
 # Change col
-SSplotHCxval(retro.hke,add=F,legendcex=0.7,legend=T,legendindex = 1,tickEndYr=F,xylabs=T,xmin=1,col=c(1,rainbow(5)))
+SSplotHCxval(retro.hke,add=T,legendcex=0.7,legend=T,legendindex = 1,tickEndYr=T,xylabs=T,xmin=1,col=c(1,rainbow(5)))
 

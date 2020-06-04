@@ -14,7 +14,8 @@ Description: Compilation of ss3 diagnostic functions developed for the MS "Using
 Depends:
     R (>= 3.1)
 Imports:
-      mvtnorm
+      mvtnorm,
+      snpar
 Suggests:     
       r4ss
 License: EUPL

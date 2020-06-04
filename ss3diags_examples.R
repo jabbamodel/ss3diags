@@ -42,13 +42,16 @@ SSplotHCxval(retro.sma,add=T,legendcex=0.7,legend=T,legendindex = 1)
 mtext("Year",side=1,outer=T,cex=1)
 mtext("Index",side=2,outer=T,line=1,cex=1)
 
+
 # Add hake
-sspar(mfrow=c(3,3),labs=F,plot.cex=0.7)
-SSplotHCxval(retro.sma,add=T,legendcex=0.7,legend=T,legendindex = 1,tickEndYr=F,xylabs=F)
-plot(0,0,type="n",axes=F)
+sspar(mfrow=c(3,2),labs=F,plot.cex=0.7)
+SSplotHCxval(retro.sma,add=T,legendcex=0.7,legend=T,legendindex = 1,tickEndYr=F,xylabs=F,legendloc="topright",indexselect = c(1,3,4,5,6))
+#plot(0,0,type="n",axes=F)
 SSplotHCxval(retro.hke,add=T,legendcex=0.7,legend=T,legendindex = 1,tickEndYr=F,xylabs=F)
 mtext("Year",side=1,outer=T,cex=1)
 mtext("Index",side=2,outer=T,line=1,cex=1)
+dev.print(png,paste0(getwd(),"/ts_trends.png"), width = 8.5, height = 8, res = 400, units = "in")
+
 
 sspar(mfrow=c(1,1),labs=T,plot.cex=0.9)
 # Plot full time series

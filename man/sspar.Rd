@@ -4,7 +4,12 @@
 \alias{sspar}
 \title{sspar()}
 \usage{
-sspar(mfrow = c(1, 1), plot.cex = 1, mai = c(0.35, 0.15, 0, 0.15), labs = TRUE)
+sspar(
+  mfrow = c(1, 1),
+  plot.cex = 1,
+  mai = c(0.35, 0.2, 0.1, 0.15),
+  labs = TRUE
+)
 }
 \arguments{
 \item{mfrow}{determines plot frame set up}

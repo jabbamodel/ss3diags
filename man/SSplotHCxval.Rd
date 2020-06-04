@@ -33,6 +33,7 @@ SSplotHCxval(
   legendorder = "default",
   legendncol = 1,
   legendcex = 1,
+  legendsp = 0.9,
   legendindex = NULL,
   pwidth = 6.5,
   pheight = 5,
@@ -109,6 +110,8 @@ the legend display the model names in an order that is different than that
 which is represented in the summary input object.}
 
 \item{legendncol}{Number of columns for the legend.}
+
+\item{legendsp}{Space between legend labels}
 
 \item{legendindex}{Allows to add lengend for selected indices (plots)}
 

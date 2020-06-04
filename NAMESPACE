@@ -2,5 +2,5 @@
 
 export(SSplotHCxval)
 export(SSplotRunstest)
-export(SSruns_sig3)
+export(runs_sig3)
 export(sspar)

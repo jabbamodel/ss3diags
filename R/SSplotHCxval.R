@@ -37,6 +37,7 @@
 #' which is represented in the summary input object.
 #' @param legendncol Number of columns for the legend.
 #' @param legendcex=1 Allows to adjust legend cex
+#' @param legendsp Space between legend labels
 #' @param legendindex Allows to add lengend for selected indices (plots)
 #' @param pwidth Width of plot
 #' @param pheight Height of plot
@@ -74,7 +75,7 @@ SSplotHCxval<- function(summaryoutput,
                         xylabs=TRUE,
                         type="o", uncertainty=TRUE, 
                         legend=TRUE, legendlabels="default", legendloc="topright",
-                        legendorder="default",legendncol=1,legendcex=1,legendindex = NULL,
+                        legendorder="default",legendncol=1,legendcex=1,legendsp=0.8,legendindex = NULL,
                         pwidth=6.5,pheight=5.0,punits="in",res=300,ptsize=10,cex.main=1,
                         plotdir=NULL,
                         filenameprefix="",
@@ -156,7 +157,7 @@ SSplotHCxval<- function(summaryoutput,
       }
       legend(legendloc, legend=legendlabels[legendorder],
              col=col[legendorder], lty=lty[legendorder],seg.len = 2,
-             lwd=lwd[legendorder], pch=legend.pch[legendorder], bty="n", ncol=legendncol,pt.cex=0.7,cex=legendcex)
+             lwd=lwd[legendorder], pch=legend.pch[legendorder], bty="n", ncol=legendncol,pt.cex=0.7,cex=legendcex,y.intersp = legendsp)
     }
     
     # r4ss Colors

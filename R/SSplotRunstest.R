@@ -5,7 +5,7 @@
 #' @param type only c("resid","observations")
 #' @return runs p value and 3 x sigma limits
 #' @export
-SSruns_sig3 <- function(x,type=NULL) {
+runs_sig3 <- function(x,type=NULL) {
   if(is.null(type)) type="resid"
   if(type=="resid"){mu = 0}else{mu = mean(x, na.rm = TRUE)}
   # Average moving range
@@ -204,7 +204,7 @@ SSplotRunstest <- function(ss3rep, subplots=c("cpue","comps")[1],
         }
         points(resid$Yr,resid$residuals,pch=pch,bg=ifelse(resid$residuals < lims[1] | resid$residuals > lims[2],2,"white"),cex=1)
         if(legend){
-        legend(legendloc,paste(resid$Fleet_name[1]),bty="n",y.intersp = -0.2,cex=legendcex)
+        legend(legendloc,paste(resid$Fleet_name[1]),bty="n",y.intersp = -0.2,cex=legendcex+0.1)
         }
         #legend("topright", bty='n',
         #       c("Passed","Failed"),pch=15,col=c(rgb(0,1,0,0.5),rgb(1,0,0,0.5)),pt.cex=2,cex=legendcex,y.intersp=0.9 )

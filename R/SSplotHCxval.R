@@ -151,7 +151,7 @@ SSplotHCxval<- function(summaryoutput,
       }
       
       # if type input is "l" then turn off points on top of lines in legend
-      legend.pch <- pch
+      legend.pch <- -1
       if(type=="l"){
         legend.pch <- rep(NA,length(pch))
       }
@@ -229,7 +229,7 @@ SSplotHCxval<- function(summaryoutput,
     if(length(lwd) < nlines) lwd <- rep(lwd,nlines)[1:nlines]
     
     if(!is.expression(legendlabels[1]) &&
-       legendlabels[1]=="default") legendlabels <- c("Ref",paste(endyrvec))
+       legendlabels[1]=="default") legendlabels <- c("Ref",paste(endyrvec)[-1])
     if(legendorder[1]=="default") legendorder <- 1:nlines
     
     # open new window if requested

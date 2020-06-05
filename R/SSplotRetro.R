@@ -250,15 +250,14 @@ SSplotRetro<- function(summaryoutput, subplots=c("SSB"),
      #ylim <- c(0,max(ifelse(uncertainty,unlist(upper[,1:nlines])*ylimAdj, ylimAdj*unlist(exp[,1:nlines])*1.05)))
     # if no values included in subset, then set ylim based on all values
     
-  
+    yr <- exp$Yr
+    
     if(is.null(xmin)){
       xmin = min(yr)} else {
         xmin = min(xmin,min(endyrvec)-3)  
       }
     
      ylim <- c(0,max(ifelse(uncertainty,max(unlist(upper[upper$Yr>=xmin,1:nlines]))*ylimAdj, ylimAdj*max(unlist(exp[exp$Yr>=xmin,1:nlines]))*1.05)))
-    #
-    yr <- exp$Yr
     # hindcast section
     yr.eval <- c(endyrvec)
     yr.eval <- (sort(yr.eval))

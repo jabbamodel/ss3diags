@@ -2,6 +2,7 @@
 
 export(SSplotHCxval)
 export(SSplotJABBAres)
+export(SSplotModelcomp)
 export(SSplotRetro)
 export(SSplotRunstest)
 export(runs_sig3)

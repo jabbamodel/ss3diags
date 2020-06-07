@@ -16,6 +16,7 @@
 #' @param xmin  optional minimum year shown in plot (default first yr)   
 #' @param labels yaxis lable for biomass (bony fish and sharks) 
 #' @param forecast if true one-step ahead forecasts are shown in plot
+#' @param forecastrho if true one-step ahead forecast rho value is denoted in plot
 #' @param col Optional vector of colors to be used for lines. Input NULL
 #' @param pch Optional vector of plot character values
 #' @param lty Optional vector of line types
@@ -68,6 +69,7 @@ SSplotRetro<- function(summaryoutput, subplots=c("SSB"),
                         labels=c("Spawning biomass (t)",    
                                  "Reproductive output")[1],       
                         forecast = TRUE,
+                        forcastrho = FALSE,
                         showrho  = TRUE,
                         col=NULL, 
                         pch=NULL, lty=1, lwd=2,
@@ -310,7 +312,7 @@ SSplotRetro<- function(summaryoutput, subplots=c("SSB"),
         
         legendfun(legendlabels)
       }
-      if(showrho) legend("top", paste0("Mohn's rho = ",round(rho,2),ifelse(forecast,paste0("(",round(fcrho,2),")"),"")),bty="n",y.intersp=-0.2,cex=legendcex+0.1)
+      if(showrho) legend("top", paste0("Mohn's rho = ",round(rho,2),ifelse(forecast & forcastrho,paste0("(",round(fcrho,2),")"),"")),bty="n",y.intersp=-0.2,cex=legendcex+0.1)
       
       axis(1, at=c(max(xmin,min(yr)):max(endyrvec)))
       if(tickEndYr) axis(1, at=max(endyrvec))
@@ -322,11 +324,11 @@ SSplotRetro<- function(summaryoutput, subplots=c("SSB"),
   } # End of plot_retro function  
   #------------------------------------------------------------
   
-  if(verbose) cat("Plotting Hindcast Cross-Validation (one-step-ahead) \n")
+  if(verbose) cat("Plotting Retrospective pattern \n")
   if(plot){ 
     if(print){
       
-        pngfun(paste0("retro_",type,".png",sep=""))
+        pngfun(paste0("retro_",quant,".png",sep=""))
         par(par)
         get_rho = plot_retro(quant)   
         dev.off()

@@ -16,6 +16,7 @@ SSplotRetro(
   xmin = NULL,
   labels = c("Spawning biomass (t)", "Reproductive output")[1],
   forecast = TRUE,
+  forcastrho = FALSE,
   showrho = TRUE,
   col = NULL,
   pch = NULL,
@@ -145,6 +146,8 @@ It will be separated from default name by an underscore.}
 \item{add}{surpresses par() to create multiplot figs}
 
 \item{mcmcVec}{NOT TESTED Vector of TRUE/FALSE values (or single value) indicating}
+
+\item{forecastrho}{if true one-step ahead forecast rho value is denoted in plot}
 
 \item{legendcex=1}{Allows to adjust legend cex}
 

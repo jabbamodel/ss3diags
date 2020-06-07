@@ -11,7 +11,7 @@
 #' @param fmsy to specify Fvalue as F/Fmsy if so in starter file setting
 #' @param ylabs yaxis labels for quants
 #' final year of values to show for each model. By default it is set to the
-#' @endyrvec ending year specified in each model.
+#' @param endyrvec ending year specified in each model.
 #' @param xmin = NULL optional number first year shown in plot (if available)  
 #' @param indexselect = Vector of fleet numbers for each model for which to compare
 #' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets

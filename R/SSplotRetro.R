@@ -314,7 +314,8 @@ SSplotRetro<- function(summaryoutput=retro.hke, subplots=c("SSB"),
       }
       if(showrho) legend("top", paste0("Mohn's rho = ",round(rho,2),ifelse(forecast & forcastrho,paste0("(",round(fcrho,2),")"),"")),bty="n",y.intersp=-0.2,cex=legendcex+0.1)
       
-      axis(1, at=c(max(xmin,min(yr)):max(endyrvec)))
+      #axis(1, at=c(max(xmin,min(yr)):max(endyrvec)))
+      axis(1)
       if(tickEndYr) axis(1, at=max(endyrvec))
       
       axis(2)

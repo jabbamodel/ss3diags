@@ -38,8 +38,15 @@ setwd("C:/Work/Research/MS_diags/Plots")
 library(ss3diags)
 # load data
 data("ss3diags")
+# TEST FUNCTIONS
+SSplotRunstest()
+SSplotJABBAres()
+SSplotModelcomp(fmsy=F,brp = "msy")
+SSplotModelcomp(aspm.sma,fmsy=T,brp = "msy")
+SSplotRetro()
+SSplotHCxval()
 
-# rename fleets
+# rename fleets for MS plots
 inames = c(paste0("SMA-CPUE",c(1,1.1,2,3,4,5)))
 retro.sma$indices$Fleet_name  =    inames[unclass(factor(retro.sma$indices$Fleet_name))] 
 retro.hke$indices$Fleet_name = "HAKE-Survey"
@@ -49,6 +56,7 @@ aspm.sma$indices$Fleet_name  =    c(paste0("CPUE",c(1,1.1,2,3,4,5)))[unclass(fac
 aspm.hke$indices$Fleet_name = "Survey"
 
 # PLOTS FOR MS COOKBOOK
+graphics.off()
 # Hindcast Cross-validation
 # Requires input from r4ss::SSsummarize()
 

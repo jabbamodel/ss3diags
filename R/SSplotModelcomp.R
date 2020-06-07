@@ -97,7 +97,7 @@ SSplotModelcomp<- function(summaryoutput,
   #------------------------------------------
   # subfunction to write png files
   if(!add) graphics.off()
-  
+  quant = subplots[1]
   refplots=c("SSB","Bratio","Fvalue","Recruits","Index")
   refline = 1
   if(brp[1]!="msy") ylabs[2]  = expression(SSB/SSB[0])

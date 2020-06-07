@@ -49,6 +49,9 @@ aspm.sma$indices$Fleet_name  =    c(paste0("CPUE",c(1,1.1,2,3,4,5)))[unclass(fac
 aspm.hke$indices$Fleet_name = "Survey"
 
 # PLOTS FOR MS COOKBOOK
+# Hindcast Cross-validation
+# Requires input from r4ss::SSsummarize()
+
 pwidth = 8
 pheight = 9
 res=300
@@ -65,6 +68,8 @@ dev.print(tiff,paste0(getwd(),"/",plname,"_hires.tiff"), width = pwidth, height 
 dev.print(jpeg,paste0(getwd(),"/",plname,".jpg"), width = pwidth, height = pheight, res = res, units = "in")
 
 # Runs Tests
+# Requires input from r4ss::SS_output()
+
 plname = "runsfig"
 windows(width=pwidth,height=pheight)
 
@@ -78,6 +83,7 @@ dev.print(tiff,paste0(getwd(),"/",plname,"_hires.tiff"), width = pwidth, height 
 dev.print(jpeg,paste0(getwd(),"/",plname,".jpg"), width = pwidth, height = pheight, res = res, units = "in")
 
 # JABBA-Residual plots
+# Requires input from r4ss::SS_output()
 plname = "jabbaresiduals"
 pwidth=8; pheight=5
 windows(width=pwidth,height=pheight)
@@ -94,6 +100,8 @@ dev.print(jpeg,paste0(getwd(),"/",plname,".jpg"), width = pwidth, height = pheig
 
 # Retrospective plots with one-step ahead forecasts
 # Ref lastyrplus1
+# Requires input from r4ss::SSsummarize()
+
 lastyrplus1 = TRUE
 start.retro= 0
 end.retro =5
@@ -116,6 +124,8 @@ dev.print(jpeg,paste0(getwd(),"/",plname,".jpg"), width = pwidth, height = pheig
 
 
 # Retrospective plots without forecasts
+# Requires input from r4ss::SSsummarize()
+
 pwidth=6; pheight=6
 windows(width=pwidth,height=pheight)
 
@@ -134,6 +144,7 @@ dev.print(jpeg,paste0(getwd(),"/",plname,".jpg"), width = pwidth, height = pheig
 
 
 # ASPM plots 
+# Requires input from r4ss::SSsummarize()
 plname = "aspmplot"
 pwidth = 8
 pheight = 9
@@ -160,6 +171,7 @@ dev.print(jpeg,paste0(getwd(),"/",plname,".jpg"), width = pwidth, height = pheig
 
 
 # ASPM plots (do seperate)
+# Requires input from r4ss::SSsummarize()
 plname = "aspmplot_bbmsy"
 pwidth = 8
 pheight = 9

@@ -71,7 +71,7 @@ runs_sig3 <- function(x,type=NULL) {
 #' @author Henning Winker
 #' @export
 
-SSplotRunstest <- function(ss3rep, subplots=c("cpue","comps")[1],
+SSplotRunstest <- function(ss3rep=ss3sma, subplots=c("cpue","comps")[1],
                              plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                              indexselect = NULL,
                              miny = 1,

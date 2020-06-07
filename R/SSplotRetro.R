@@ -61,7 +61,7 @@
 #' @param indexQdigits Number of significant digits for catchability in legend
 #' @author Henning Winker
 #' @export
-SSplotRetro<- function(summaryoutput, subplots=c("SSB"),
+SSplotRetro<- function(summaryoutput=retro.hke, subplots=c("SSB"),
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                         models="all",
                         endyrvec="default",

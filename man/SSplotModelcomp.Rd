@@ -5,7 +5,7 @@
 \title{SSplotHCxal() for one-step ahead hindcasting cross-validations of indices}
 \usage{
 SSplotModelcomp(
-  summaryoutput,
+  summaryoutput = aspm.hke,
   plot = TRUE,
   print = FALSE,
   png = print,

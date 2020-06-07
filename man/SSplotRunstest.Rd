@@ -5,7 +5,7 @@
 \title{plot function for runs test plot}
 \usage{
 SSplotRunstest(
-  ss3rep,
+  ss3rep = ss3sma,
   subplots = c("cpue", "comps")[1],
   plot = TRUE,
   print = FALSE,

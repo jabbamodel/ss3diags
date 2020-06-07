@@ -63,7 +63,7 @@
 #' @param indexQdigits Number of significant digits for catchability in legend
 #' @author Henning Winker
 #' @export
-SSplotModelcomp<- function(summaryoutput,
+SSplotModelcomp<- function(summaryoutput=aspm.hke,
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                         models="all",
                         subplots=c("SSB","Bratio","Fvalue","Recruits","Index"),
@@ -99,10 +99,10 @@ SSplotModelcomp<- function(summaryoutput,
   if(!add) graphics.off()
   quant = subplots[1]
   refplots=c("SSB","Bratio","Fvalue","Recruits","Index")
-  refline = 1
+  refline = refline2 = 1
   if(brp[1]!="msy") ylabs[2]  = expression(SSB/SSB[0])
   if(brp[1]!="msy") refline  = summaryoutput$btargs[1]
-  if(fmsy) refline2  = 1 
+  #if(fmsy) refline2  = 1 
   if(fmsy) ylabs[3] = expression(F/F[MSY])
   
   pngfun <- function(file){
@@ -504,7 +504,7 @@ SSplotModelcomp<- function(summaryoutput,
     if(length(lwd) < nlines) lwd <- rep(lwd,nlines)[1:nlines]
     
     if(!is.expression(legendlabels[1]) &&
-       legendlabels[1]=="default") legendlabels <- c("Ref",paste(endyrvec[-1]))
+       legendlabels[1]=="default") legendlabels <- paste("model",1:nlines)
     if(legendorder[1]=="default") legendorder <- 1:(nlines)
     
     # open new window if requested
@@ -565,7 +565,7 @@ SSplotModelcomp<- function(summaryoutput,
    
     }  
     if(quant == "Bratio") abline(h=refline,lty=2)
-    if(quant == "Fvalue") abline(h=refline2,lty=2)
+    if(quant == "Fvalue" & fmsy) abline(h=refline2,lty=2)
     
     if(legend){
       # add legend if requested

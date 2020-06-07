@@ -5,7 +5,7 @@
 \title{SSplotRetro() for one-step ahead hindcasting cross-validations of indices}
 \usage{
 SSplotRetro(
-  summaryoutput,
+  summaryoutput = retro.hke,
   subplots = c("SSB"),
   plot = TRUE,
   print = FALSE,

@@ -5,7 +5,7 @@
 \title{SSplotJABBAres()}
 \usage{
 SSplotJABBAres(
-  ss3rep,
+  ss3rep = ss3sma,
   subplots = c("cpue", "comps")[1],
   plot = TRUE,
   print = FALSE,

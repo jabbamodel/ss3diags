@@ -5,7 +5,7 @@
 \title{SSplotHCxal() for one-step ahead hindcasting cross-validations of indices}
 \usage{
 SSplotHCxval(
-  summaryoutput,
+  summaryoutput = retro.sma,
   plot = TRUE,
   print = FALSE,
   png = print,

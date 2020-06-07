@@ -49,7 +49,7 @@
 #' @param add surpresses par() to create multiplot figs
 #' @author Henning Winker
 #' @export
-SSplotJABBAres<- function(ss3rep,subplots=c("cpue","comps")[1],
+SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","comps")[1],
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                         indexselect=NULL,
                         miny = 3,

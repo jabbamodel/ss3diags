@@ -60,7 +60,7 @@
 #' @param indexQdigits Number of significant digits for catchability in legend
 #' @author Henning Winker
 #' @export
-SSplotHCxval<- function(summaryoutput,
+SSplotHCxval<- function(summaryoutput=retro.sma,
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                         models="all",
                         endyrvec="default",

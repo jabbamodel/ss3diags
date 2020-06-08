@@ -97,6 +97,10 @@ SSplotModelcomp<- function(summaryoutput=aspm.hke,
   #------------------------------------------
   # subfunction to write png files
   if(!add) graphics.off()
+  if(add){
+    print=F
+    png=F
+  }
   quant = subplots[1]
   refplots=c("SSB","Bratio","Fvalue","Recruits","Index")
   refline = refline2 = 1
@@ -127,31 +131,33 @@ SSplotModelcomp<- function(summaryoutput=aspm.hke,
   if(is.null(legendindex))  legendindex=1:summaryoutput$n
   if(!legend) legendindex=10000
   
+  
+  if(png) print <- TRUE
+  if(png & is.null(plotdir))
+    stop("to print PNG files, you must supply a directory as 'plotdir'")
+  
+  # check for internal consistency
+  if(pdf & png){
+    stop("To use 'pdf', set 'print' or 'png' to FALSE.")
+  }
+  if(pdf){
+    if(is.null(plotdir)){
+      stop("to write to a PDF, you must supply a directory as 'plotdir'")
+    }
+    pdffile <- file.path(plotdir,
+                         paste0(filenameprefix, "SSplotComparisons_",
+                                format(Sys.time(), '%d-%b-%Y_%H.%M' ), ".pdf"))
+    pdf(file=pdffile, width=pwidth, height=pheight)
+    if(verbose) cat("PDF file with plots will be:",pdffile,'\n')
+    par(par)
+  }
+  
+  
   #-------------
   #plot Index 
   #-------------
   plot_index <- function(indexfleets=1){  
   
-    if(png) print <- TRUE
-    if(png & is.null(plotdir))
-      stop("to print PNG files, you must supply a directory as 'plotdir'")
-    
-    # check for internal consistency
-    if(pdf & png){
-      stop("To use 'pdf', set 'print' or 'png' to FALSE.")
-    }
-    if(pdf){
-      if(is.null(plotdir)){
-        stop("to write to a PDF, you must supply a directory as 'plotdir'")
-      }
-      pdffile <- file.path(plotdir,
-                           paste0(filenameprefix, "SSplotComparisons_",
-                                  format(Sys.time(), '%d-%b-%Y_%H.%M' ), ".pdf"))
-      pdf(file=pdffile, width=pwidth, height=pheight)
-      if(verbose) cat("PDF file with plots will be:",pdffile,'\n')
-      par(par)
-    }
-    
     # subfunction to add legend
     legendfun <- function(legendlabels,cumulative=FALSE) {
       if(cumulative){
@@ -546,7 +552,7 @@ SSplotModelcomp<- function(summaryoutput=aspm.hke,
     if(uncertainty){
     for(iline in 1:nlines){
       
-    if(quant%in%c("SSB","F","Bratio")){  
+    if(quant%in%c("SSB","Fvalue","Bratio")){  
        polygon(c(yr,rev(yr)),c(lower[,iline],rev(upper[,iline])),col=shadecol[iline],border=shadecol)
     } else {
       adj <- 0.2*iline/nlines - 0.1
@@ -557,7 +563,7 @@ SSplotModelcomp<- function(summaryoutput=aspm.hke,
     }
     
     for(iline in 1:nlines){
-      if(quant%in%c("SSB","F","Bratio")){
+      if(quant%in%c("SSB","Fvalue","Bratio")){
         lines(yr,exp[,iline],col=col[iline],pch=pch[iline],lty=lty[iline],lwd=lwd[iline],type="l")
       } else {
         points(yr,exp[,iline],col=col[iline],pch=16,cex=0.8)

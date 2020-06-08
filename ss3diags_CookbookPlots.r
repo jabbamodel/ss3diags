@@ -96,11 +96,11 @@ plname = "jabbaresiduals"
 pwidth=8; pheight=5
 windows(width=pwidth,height=pheight)
 
-sspar(mfrow=c(1,2),labs=T,plot.cex=1)
+sspar(mfrow=c(1,2),labs=F,plot.cex=1)
 SSplotJABBAres(ss3sma,add=T,legendcex=0.8,tickEndYr=T,xylabs=F,indexselect = c(1,3,4,5,6),legendsp = 1)
 SSplotJABBAres(ss3hke,add=T,legendcex=0.8,tickEndYr=T,xylabs=F,legendsp = 1)
-mtext("Year",side=1,outer=T,cex=1,line=1)
-mtext("Residuals",side=2,outer=T,line=1,cex=1)
+mtext("Year",side=1,outer=T,cex=1,line=0.5)
+mtext("Residuals",side=2,outer=T,line=0.5,cex=1)
 mtext(c("SMA","HAKE"), side=3, outer=T,line= -0.4,cex=1.1,c(0.27,0.77))
 #save
 dev.print(tiff,paste0(getwd(),"/",plname,"_hires.tiff"), width = pwidth, height = pheight, res = res, units = "in")
@@ -118,11 +118,11 @@ eyh <- retro.hke$endyrs + start.retro:-end.retro+ifelse(lastyrplus1,1,0)
 pwidth=6; pheight=6
 windows(width=pwidth,height=pheight)
 plname = "retrowithforecast"
-sspar(mfrow=c(2,2),labs=T,plot.cex=1.)
+sspar(mfrow=c(2,2),labs=F,plot.cex=1.)
 SSplotRetro(retro.sma,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomleft",uncertainty = F,showrho = F,forecast = T,labels="SSB (t)",legendsp=0.9)
 SSplotRetro(retro.hke,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomleft",showrho = F,forecast = T,labels="SSB (t)",endyrvec = eyh,legendsp=0.9)
-mtext("Year",side=1,outer=T,cex=1,line=1)
-mtext("SSB (t)",side=2,outer=T,line=1,cex=1)
+mtext("Year",side=1,outer=T,cex=1,line=0.5)
+mtext("SSB (t)",side=2,outer=T,line=0.5,cex=1)
 mtext(c("SMA","HAKE"), side=3, outer=T,line= -0.4,cex=1.1,c(0.27,0.77))
 SSplotRetro(retro.sma,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomleft",xmin=2005,uncertainty = F,legend = F,forecast = T,legendsp = 0.9)
 SSplotRetro(retro.hke,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomright",xmin=2005,legend = F,forecast = T,endyrvec = eyh,legendsp = 0.9)
@@ -138,11 +138,11 @@ pwidth=6; pheight=6
 windows(width=pwidth,height=pheight)
 
 plname = "retrosimple"
-sspar(mfrow=c(2,2),labs=T,plot.cex=1.)
+sspar(mfrow=c(2,2),labs=F,plot.cex=1.)
 SSplotRetro(retro.sma,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomleft",uncertainty = F,showrho = F,forecast = F,labels="SSB (t)",legendsp = 0.9)
 SSplotRetro(retro.hke,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomleft",showrho = F,forecast = F,labels="SSB (t)",endyrvec = eyh,legendsp = 0.9)
-mtext("Year",side=1,outer=T,cex=1,line=1)
-mtext("SSB (t)",side=2,outer=T,line=1,cex=1)
+mtext("Year",side=1,outer=T,cex=1,line=0.5)
+mtext("SSB (t)",side=2,outer=T,line=0.5,cex=1)
 mtext(c("SMA","HAKE"), side=3, outer=T,line= -0.4,cex=1.1,c(0.27,0.77))
 SSplotRetro(retro.sma,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomleft",xmin=2005,uncertainty = F,legend = F,forecast = F)
 SSplotRetro(retro.hke,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomright",xmin=2005,legend = F,forecast = F,endyrvec = eyh)
@@ -170,7 +170,7 @@ SSplotModelcomp(aspm.hke,subplots = "SSB",add=T,legendcex=0.8,tickEndYr=F,xylabs
 SSplotModelcomp(aspm.sma,subplots = "Recruits",add=T,legendcex=0.8,tickEndYr=F,xylabs=F,indexselect = c(1),legend=F)
 mtext("Recruits (1000s)",side=2,outer=F,line=1.5,cex=1)
 SSplotModelcomp(aspm.hke,subplots = "Recruits",add=T,legendcex=0.8,tickEndYr=F,xylabs=F,indexselect = c(1),legend=F)
-mtext("Year",side=1,outer=T,cex=1,line=1)
+mtext("Year",side=1,outer=T,cex=1,line=0.5)
 mtext(c("SMA","HAKE"), side=3, outer=T,line= -0.2,cex=1.1,c(0.27,0.77))
 #safe
 dev.print(tiff,paste0(getwd(),"/",plname,"_hires.tiff"), width = pwidth, height = pheight, res = res, units = "in")
@@ -198,7 +198,7 @@ text(1952,1.3,expression(SSB[MSY]),cex=0.9)
 SSplotModelcomp(aspm.sma,subplots = "Recruits",add=T,legendcex=0.8,tickEndYr=F,xylabs=F,indexselect = c(1),legend=F)
 mtext("Recruits (1000s)",side=2,outer=F,line=1.5,cex=1)
 SSplotModelcomp(aspm.hke,subplots = "Recruits",add=T,legendcex=0.8,tickEndYr=F,xylabs=F,indexselect = c(1),legend=F)
-mtext("Year",side=1,outer=T,cex=1,line=1)
+mtext("Year",side=1,outer=T,cex=1,line=0.5)
 mtext(c("SMA","HAKE"), side=3, outer=T,line= -0.2,cex=1.1,c(0.27,0.77))
 #safe
 dev.print(tiff,paste0(getwd(),"/",plname,"_hires.tiff"), width = pwidth, height = pheight, res = res, units = "in")

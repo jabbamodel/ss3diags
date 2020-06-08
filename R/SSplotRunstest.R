@@ -96,14 +96,17 @@ SSplotRunstest <- function(ss3rep=ss3sma, subplots=c("cpue","comps")[1],
     #-------------------------------------------
     # subfunction to write png files
     if(!add) graphics.off()
-  
+    if(add){
+      print=F
+      png=F
+    }
   
     if(subplots=="cpue"){
     cpue = ss3rep$cpue
     cpue$residuals = ifelse(is.na(cpue$Obs),NA,log(cpue$Obs)-log(cpue$Exp))
     if(is.null(cpue$Fleet_name)){ # Deal with Version control
     cpue$Fleet_name = cpue$Name}
-    res = cpue
+    Res = cpue
     }
     
     pngfun <- function(file){
@@ -118,41 +121,42 @@ SSplotRunstest <- function(ss3rep=ss3sma, subplots=c("cpue","comps")[1],
   
   # subset if indexselect is specified
   if(is.null(indexselect) ==F & is.numeric(indexselect)){
-    iname =  unique(res$Fleet_name)[indexselect]
+    iname =  unique(Res$Fleet_name)[indexselect]
     if(TRUE %in% is.na(iname)) stop("One or more index numbers exceed number of available indices")
-    res = res[res$Fleet_name%in%iname,]
+    Res = Res[Res$Fleet_name%in%iname,]
   }
 
     # Define indices
-    indices = unique(res$Fleet_name)
+    indices = unique(Res$Fleet_name)
     n.indices = length(indices)
     series = 1:n.indices
     
+    
+    
+    if(png) print <- TRUE
+    if(png & is.null(plotdir))
+      stop("to print PNG files, you must supply a directory as 'plotdir'")
+    
+    # check for internal consistency
+    if(pdf & png){
+      stop("To use 'pdf', set 'print' or 'png' to FALSE.")
+    }
+    if(pdf){
+      if(is.null(plotdir)){
+        stop("to write to a PDF, you must supply a directory as 'plotdir'")
+      }
+      pdffile <- file.path(plotdir,
+                           paste0(filenameprefix, "SSplotComparisons_",
+                                  format(Sys.time(), '%d-%b-%Y_%H.%M' ), ".pdf"))
+      pdf(file=pdffile, width=pwidth, height=pheight)
+      if(verbose) cat("PDF file with plots will be:",pdffile,'\n')
+      par(par)
+    }
     
     #---------------------------------------
     plot_runs <- function(resid){  
       
       
-      
-      if(png) print <- TRUE
-      if(png & is.null(plotdir))
-        stop("to print PNG files, you must supply a directory as 'plotdir'")
-      
-      # check for internal consistency
-      if(pdf & png){
-        stop("To use 'pdf', set 'print' or 'png' to FALSE.")
-      }
-      if(pdf){
-        if(is.null(plotdir)){
-          stop("to write to a PDF, you must supply a directory as 'plotdir'")
-        }
-        pdffile <- file.path(plotdir,
-                             paste0(filenameprefix, "SSplotComparisons_",
-                                    format(Sys.time(), '%d-%b-%Y_%H.%M' ), ".pdf"))
-        pdf(file=pdffile, width=pwidth, height=pheight)
-        if(verbose) cat("PDF file with plots will be:",pdffile,'\n')
-        par(par)
-      }
       
         
       
@@ -228,7 +232,7 @@ SSplotRunstest <- function(ss3rep=ss3sma, subplots=c("cpue","comps")[1],
         
         runs = NULL
         for(fi in 1:nfleets){
-          resid = res[res$Fleet_name==indices[fi],]
+          resid = Res[Res$Fleet_name==indices[fi],]
           pngfun(paste0("residruns_",indices[fi],".png",sep=""))
           par(par)
           get_runs = plot_runs(resid)    
@@ -240,7 +244,7 @@ SSplotRunstest <- function(ss3rep=ss3sma, subplots=c("cpue","comps")[1],
       
       runs = NULL
       for(fi in 1:nfleets){
-        resid = res[res$Fleet_name==indices[fi],]
+        resid = Res[Res$Fleet_name==indices[fi],]
         if(!add)(par)
         get_runs = plot_runs(resid)    
         runs = rbind(runs,c(get_runs$p.runs,get_runs$sig3lim))

@@ -9,7 +9,7 @@ sspar(
   plot.cex = 1,
   mai = c(0.5, 0.5, 0.1, 0.1),
   omi = c(0, 0, 0, 0) + 0.05,
-  labs = TRUE
+  labs = FALSE
 )
 }
 \arguments{

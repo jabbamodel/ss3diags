@@ -161,5 +161,5 @@ It will be separated from default name by an underscore.}
 Plots retrospective pattern, including (optional) one-step ahead forecast and computes Mohn's Rho
 }
 \author{
-Henning Winker
+Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 }

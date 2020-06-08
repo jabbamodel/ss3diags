@@ -59,7 +59,7 @@
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
 #' @param indexQdigits Number of significant digits for catchability in legend
-#' @author Henning Winker
+#' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @export
 SSplotRetro<- function(summaryoutput=retro.hke, subplots=c("SSB"),
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,

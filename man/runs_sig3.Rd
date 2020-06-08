@@ -17,3 +17,6 @@ runs p value and 3 x sigma limits
 \description{
 runs test is conducted with library(snpar)
 }
+\author{
+Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+}

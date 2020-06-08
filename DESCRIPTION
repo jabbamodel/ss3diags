@@ -1,6 +1,6 @@
 Package: ss3diags
 Title: What the Package Does (One Line, Title Case)
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: 
     c(person(given = "Henning",
            family = "Winker",
@@ -9,7 +9,12 @@ Authors@R:
            person(given = "Felipe",
            family = "Carvalho",
            role = c("aut"),
-           email = "felipe.carvalho@noaa.gov"))
+           email = "felipe.carvalho@noaa.gov"),
+           person(given = "Kell",
+           family = "Laurence Kell",
+           role = c("aut"),
+           email = "laurie@seaplusplus.co.uk")
+           )
 Description: Compilation of ss3 diagnostic functions developed for the MS "Using Model Diagnostics in Integrated Stock Assessments"
 Depends:
     R (>= 3.1)

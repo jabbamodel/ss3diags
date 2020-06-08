@@ -109,5 +109,5 @@ It will be separated from default name by an underscore.}
 Residual diagnostics with runs test p-value and 3xsigma limits for Indices and meanL
 }
 \author{
-Henning Winker
+Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 }

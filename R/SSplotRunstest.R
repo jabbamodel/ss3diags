@@ -5,6 +5,7 @@
 #' @param type only c("resid","observations")
 #' @return runs p value and 3 x sigma limits
 #' @export
+#' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 runs_sig3 <- function(x,type=NULL) {
   if(is.null(type)) type="resid"
   if(type=="resid"){mu = 0}else{mu = mean(x, na.rm = TRUE)}
@@ -68,7 +69,7 @@ runs_sig3 <- function(x,type=NULL) {
 #' @param verbose Report progress to R GUI?
 #' @param new Create new empty plot window
 #' @param add surpresses par() to create multiplot figs
-#' @author Henning Winker
+#' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @export
 
 SSplotRunstest <- function(ss3rep=ss3sma, subplots=c("cpue","comps")[1],

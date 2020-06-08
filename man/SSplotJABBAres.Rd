@@ -134,5 +134,5 @@ It will be separated from default name by an underscore.}
 plots residuals for all indices as boxplot with a loess showing systematic trends
 }
 \author{
-Henning Winker
+Henning Winker (JRC-EC)
 }

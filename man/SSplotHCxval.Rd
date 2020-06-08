@@ -159,5 +159,5 @@ It will be separated from default name by an underscore.}
 Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals
 }
 \author{
-Henning Winker
+Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 }

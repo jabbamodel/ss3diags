@@ -15,9 +15,12 @@ Authors@R:
            role = c("aut"),
            email = "laurie@seaplusplus.co.uk")
            )
-Description: Compilation of ss3 diagnostic functions developed for the MS "Using Model Diagnostics in Integrated Stock Assessments"
+Maintainer: Henning Winker <Henning.Winker@gmail.com>
+Description: Compilation of diagnostic functions for Stock Synthesis 
+            models, which we developed for the MS 
+            "Using Model Diagnostics in Integrated Stock Assessments"
 Depends:
-    R (>= 3.1)
+    R (>= 3.5)
 Imports:
       reshape2,
       mvtnorm,

@@ -45,7 +45,7 @@ ssdeltaMVLN = function(ss3rep,pars=c('Bratio','F'),years=NULL,mc=5000,weight=1,r
     mvnmu = log(c(y$Value[2],y$Value[1])) # Assume order F_ then Bratio_ 
     # Create MVN-cov-matrix
     mvncov = matrix(c(varB,rep(cov,2),varF),ncol=2,nrow=2)
-    kb.temp = data.frame(year=yr,exp(rmvnorm(mc ,mean = mvnmu,sigma = mvncov,method=c( "svd"))),run=run) # random  MVN generator
+    kb.temp = data.frame(year=yr,exp(mvtnorm::rmvnorm(mc ,mean = mvnmu,sigma = mvncov,method=c( "svd"))),run=run) # random  MVN generator
     colnames(kb.temp) = c("year","stock","harvest","run")
     kb = rbind(kb,kb.temp)
     mle = rbind(mle,data.frame(year=yr,stock=y$Value[2],harvest=y$Value[1],run=run)) 

@@ -48,7 +48,7 @@ SSplotJABBAres(
 )
 }
 \arguments{
-\item{ss3rep}{from r4ss::SSgetoutput()$replist1}
+\item{ss3rep}{from r4ss::SS_output}
 
 \item{subplots}{optional use of cpue and comp data (only tested for length)}
 

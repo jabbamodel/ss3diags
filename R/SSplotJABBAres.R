@@ -2,7 +2,7 @@
 #'
 #' plots residuals for all indices as boxplot with a loess showing systematic trends
 #' 
-#' @param ss3rep from r4ss::SSgetoutput()$replist1
+#' @param ss3rep from r4ss::SS_output
 #' @param subplots optional use of cpue and comp data (only tested for length) 
 #' @param plot plot to active plot device?
 #' @param print print to PNG files?

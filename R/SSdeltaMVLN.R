@@ -14,6 +14,7 @@
 #' @param xmax xlim maximum
 #' @param legendcex=1 Allows to adjust legend cex
 #' @param verbose Report progress to R GUI?
+#' @return output list of kobe objects and mle's
 #' @author Henning Winker (JRC-EC)
 #' @export
 ssdeltaMVLN = function(ss3rep,pars=c('Bratio','F'),years=NULL,mc=5000,weight=1,run="MVLN",plot=TRUE,

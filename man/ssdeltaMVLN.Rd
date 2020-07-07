@@ -42,6 +42,9 @@ ssdeltaMVLN(
 
 \item{legendcex=1}{Allows to adjust legend cex}
 }
+\value{
+output list of kobe objects and mle's
+}
 \description{
 function to generate kobe pdfs from a Multivariate Log-Normal Distribution
 including plotting option

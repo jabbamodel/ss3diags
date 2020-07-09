@@ -6,13 +6,14 @@
 \usage{
 SSdeltaMVLN(
   ss3rep,
-  pars = c("Bratio", "F"),
+  status = c("Bratio", "F"),
+  quants = c("SSB", "Recr"),
   years = NULL,
   mc = 5000,
   weight = 1,
   run = "MVLN",
   plot = TRUE,
-  addtrj = FALSE,
+  addtrj = TRUE,
   ymax = NULL,
   xmax = NULL,
   legendcex = 1,
@@ -22,7 +23,9 @@ SSdeltaMVLN(
 \arguments{
 \item{ss3rep}{from r4ss::SSgetoutput()$replist1}
 
-\item{pars}{quantaties to extract from Hessian}
+\item{status}{covarying stock status quantaties to extract from Hessian}
+
+\item{quants}{additional stock quantaties to extract from Hessian}
 
 \item{years}{single year or vector of years for mvln}
 

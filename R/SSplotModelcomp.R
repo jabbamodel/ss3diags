@@ -485,9 +485,6 @@ SSplotModelcomp<- function(summaryoutput=aspm.hke,
     if(endyrvec[1]=="default"){
       endyrvec <- endyrs 
     }
-    if(length(endyrvec)==1){
-      stop("SSplotRequires requires a minimum of one reference and one retro peel")
-    }
     
     exp = exp[exp$Yr<=max(endyrvec) & exp$Yr>=max(startyrs),]
     lower  = lower[lower$Yr<=max(endyrvec) & lower$Yr>=max(startyrs),]

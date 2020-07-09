@@ -17,7 +17,7 @@
 #' @return output list of kobe objects and mle's
 #' @author Henning Winker (JRC-EC)
 #' @export
-ssdeltaMVLN = function(ss3rep,pars=c('Bratio','F'),years=NULL,mc=5000,weight=1,run="MVLN",plot=TRUE,
+SSdeltaMVLN = function(ss3rep,pars=c('Bratio','F'),years=NULL,mc=5000,weight=1,run="MVLN",plot=TRUE,
                        addtrj=FALSE,ymax=NULL,xmax=NULL,legendcex=1,verbose=TRUE){
   mc = round(weight*mc,0)
   quants = ss3rep$derived_quants

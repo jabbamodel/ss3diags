@@ -46,12 +46,12 @@ SSplotModelcomp(aspm.sma,fmsy=T,brp = "msy")
 ;engthSSplotHCxval()
 
 # rename fleets for MS plots
-inames = c(paste0("SMA-CPUE",c(1,1.1,2,3,4,5)))
+inames = c(paste0("SMA-CPUE_",c(1,1.1,3,4,5,6)))
 retro.sma$indices$Fleet_name  =    inames[unclass(factor(retro.sma$indices$Fleet_name))] 
 retro.hke$indices$Fleet_name = "HAKE-Survey"
 ss3sma$cpue$Fleet_name  =    inames[unclass(factor(ss3sma$cpue$Fleet_name))] 
 ss3hke$cpue$Fleet_name = "HAKE-Survey"
-aspm.sma$indices$Fleet_name  =    c(paste0("CPUE",c(1,1.1,2,3,4,5)))[unclass(factor(aspm.sma$indices$Fleet_name))] 
+aspm.sma$indices$Fleet_name  =    c(paste0("CPUE_",c(1,1.1,3,4,5,6)))[unclass(factor(aspm.sma$indices$Fleet_name))] 
 aspm.hke$indices$Fleet_name = "Survey"
 
 l = 1.2 # size of plot label a), b), c)
@@ -137,9 +137,9 @@ legend("topleft",paste0(letters[2],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n
 mtext("Year",side=1,outer=T,cex=1,line=0.5)
 mtext("SSB (t)",side=2,outer=T,line=0.5,cex=1)
 mtext(c("SMA","HAKE"), side=3, outer=T,line= -0.4,cex=1.1,c(0.27,0.77))
-SSplotRetro(retro.sma,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomleft",xmin=2005,uncertainty = F,legend = F,forecast = T,legendsp = 0.9)
+SSplotRetro(retro.sma,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomleft",xmin=2005,uncertainty = F,legend = F,forecast = T,legendsp = 0.9,forcastrho=T)
 legend("topleft",paste0(letters[3],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
-SSplotRetro(retro.hke,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomright",xmin=2005,legend = F,forecast = T,endyrvec = eyh,legendsp = 0.9)
+SSplotRetro(retro.hke,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomright",xmin=2005,legend = F,forecast = T,endyrvec = eyh,legendsp = 0.9,forcastrho=T)
 legend("topleft",paste0(letters[4],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 #save
 dev.print(tiff,paste0(getwd(),"/",plname,"_hires.tiff"), width = pwidth, height = pheight, res = res, units = "in")

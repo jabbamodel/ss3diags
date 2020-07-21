@@ -8,29 +8,17 @@
 # Work Email: Henning.Winker@ec.europa.eu 
 #><>><>><>><>><>><>><>><>><>><>><>><>><>><>><>
 
-#-----------------------------------------------------------
-# This code is used with r4ss to extract retrospective runs
-#----------------------------------------------------------
-#library(r4ss)
-#workdir = "C:/Users/henni/Dropbox/ss3diags/ss3hcxval/data/Mako"
-#start.retro <- 0    #end year of model e.g., 2018
-#end.retro   <- 5    #number of years for retrospective e.g., 2017,2016,2015,2014,2013
-#subdirs = paste0("retrospectives/retro",start.retro:-end.retro) # Difine SS3 model folders
-
-### Compile models
-#retroModels <- SSgetoutput(dirvec=file.path(workdir,subdirs))
-### Summarize outputs
-#retroSummary <- SSsummarize(retroModels)
-
-#----------------------------------------------
-# retroSummary are available for:
-# (1) N.Atl. Shortfin Mako: retro.sma
-# (2) Med (Sci) Hake: retro.hke
-# in data(retro.runs)
+#----------------------------------------------------
+# data(ss3diags) contains
+# ss3sma # SMA base-case model object from r4ss::SS_output()
+# ss3hke # HAKE base-case model object from r4ss::SS_output()
+# retro.sma # SMA retrospective models from r4ss::SSgetoutput()
+# retro.hke # HAKE retrospective models from r4ss::SSgetoutput()
+# aspm.sma # SMA base + aspm model from r4ss::SSgetoutput()
+# aspm.hke # HAKE base + aspm model from r4ss::SSgetoutput()
 #---------------------------------------------
+
 setwd("C:/Work/Research/MS_diags/Plots")
-
-
 # Install ss3diags
 #devtools::install_github("jabbamodel/ss3diags")
 
@@ -43,8 +31,11 @@ SSplotRunstest()
 SSplotJABBAres()
 SSplotModelcomp(fmsy=F,brp = "msy")
 SSplotModelcomp(aspm.sma,fmsy=T,brp = "msy")
-;engthSSplotHCxval()
+SSplotHCxval()
 
+#--------------------
+# Make Cookplots 
+#--------------------
 # rename fleets for MS plots
 inames = c(paste0("SMA-CPUE_",c(1,1.1,3,4,5,6)))
 retro.sma$indices$Fleet_name  =    inames[unclass(factor(retro.sma$indices$Fleet_name))] 
@@ -237,5 +228,5 @@ mtext(c("SMA","HAKE"), side=3, outer=T,line= -0.2,cex=1.1,c(0.27,0.77))
 dev.print(tiff,paste0(getwd(),"/",plname,"_hires.tiff"), width = pwidth, height = pheight, res = res, units = "in")
 dev.print(jpeg,paste0(getwd(),"/",plname,".jpg"), width = pwidth, height = pheight, res = res, units = "in")
 
-# Add MVLN (not relevant for this cookbook)
+
 

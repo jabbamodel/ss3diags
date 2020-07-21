@@ -23,7 +23,13 @@ Installing `ss3diags` requires the `librabry(devtools)`, which can be install by
 Core ss3diags functions include:
 
 `SSplotRunstest()`
+
 `SSplotJABBAres()`
+
 `SSplotModelcomp(fmsy=F,brp = "msy")`
+
 `SSplotModelcomp(aspm.sma,fmsy=T,brp = "msy")`
+
 `SSplotHCxval()`
+
+

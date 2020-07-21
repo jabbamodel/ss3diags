@@ -1,7 +1,7 @@
 ## ss3diags
 
 
-The R package `ss3diags` enables users of Stock Synthesis with [`r4ss`](https://github.com/r4ss/r4ss) to reproduce the key model diagnostics plots that presented in the paper 'A Cookbook for Using Model Diagnostics in Integrated Stock Assessments' with [`ss3diags_CookbookPlots_v2.R`](https://github.com/jabbamodel/ss3diags/blob/master/Cookbook/ss3diags_CookbookPlots_v2.R). 
+The R package `ss3diags` enables Stock Synthesis users to reproduce the key model diagnostics plots that presented in the paper 'A Cookbook for Using Model Diagnostics in Integrated Stock Assessments' with [`ss3diags_CookbookPlots_v2.R`](https://github.com/jabbamodel/ss3diags/blob/master/Cookbook/ss3diags_CookbookPlots_v2.R). 
 
 In addition, the ss3diags Github respository provides fully commented step-by-step R recipes on how to:  
 
@@ -10,7 +10,7 @@ In addition, the ss3diags Github respository provides fully commented step-by-st
 - [Conduct iterative hindcasts for restrospective analysis and model-free validation](https://github.com/jabbamodel/ss3diags/blob/master/Cookbook/Run_Retrospective_example.R)
 - [Do Jitter tests](https://github.com/jabbamodel/ss3diags/blob/master/Cookbook/Jitter_test_example.R)
 
-...with Stock Synthesis by making of a comprehensive collection of R functions available in [`r4ss`](https://github.com/r4ss/r4ss)
+...with Stock Synthesis by making of a comprehensive collection of R functions available in the R package [`r4ss`](https://github.com/r4ss/r4ss)
 
 ## Installation 
 

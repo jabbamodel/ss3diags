@@ -19,3 +19,11 @@ Installing `ss3diags` requires the `librabry(devtools)`, which can be install by
 `install_github("jabbamodel/ss3diags")`
 
 `library(ss3diags)`
+
+Core ss3diags functions include:
+
+`SSplotRunstest()`
+`SSplotJABBAres()`
+`SSplotModelcomp(fmsy=F,brp = "msy")`
+`SSplotModelcomp(aspm.sma,fmsy=T,brp = "msy")`
+`SSplotHCxval()`

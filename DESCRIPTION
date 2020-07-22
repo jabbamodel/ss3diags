@@ -10,8 +10,12 @@ Authors@R:
            family = "Carvalho",
            role = c("aut"),
            email = "felipe.carvalho@noaa.gov"),
-           person(given = "Kell",
-           family = "Laurence Kell",
+           person(given = "Massimiliano",
+           family = "Cardinale",
+           role = c("aut"),
+           email = "massimiliano.cardinale@slu.se"),
+           person(given = "Laurence",
+           family = "Kell",
            role = c("aut"),
            email = "laurie@seaplusplus.co.uk")
            )

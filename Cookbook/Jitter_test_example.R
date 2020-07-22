@@ -3,7 +3,6 @@
 # Stock Synthesis (tested in version 3_30_X for Windows) 
 # r4ss (tested in version(s) 1.35.1 - 1.35.3)  
 # R (tested in version(s) 3.3.2 - 3.5.2 64 bit Windows)
-# written by Felipe Carvalho
 ##
 library(r4ss)
 #devtools::install_github("r4ss/r4ss", ref="development")

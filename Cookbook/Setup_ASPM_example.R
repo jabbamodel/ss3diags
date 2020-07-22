@@ -5,7 +5,6 @@
 # Stock Synthesis (version 3_30_08 Windows) 
 # r4ss (version 1.35.1)  
 # R (version 3.3.2 64 bit)
-# written by Felipe Carvalho
 ##
 
 library(r4ss)

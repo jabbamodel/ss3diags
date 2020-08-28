@@ -6,6 +6,7 @@
 \usage{
 SSplotRunstest(
   ss3rep = ss3sma,
+  mixing = "less",
   subplots = c("cpue", "comps")[1],
   plot = TRUE,
   print = FALSE,
@@ -42,6 +43,8 @@ SSplotRunstest(
 }
 \arguments{
 \item{ss3rep}{from r4ss::SSgetoutput()$replist1}
+
+\item{mixing}{c("less","greater","two.sided"). Default less is checking for postive autocorrelation only}
 
 \item{subplots}{optional use of cpue and comp data (only tested for length)}
 

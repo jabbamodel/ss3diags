@@ -3,10 +3,11 @@
 #' runs test is conducted with library(snpar)
 #' @param x residuals from CPUE fits
 #' @param type only c("resid","observations")
+#' @param mixing c("less","greater","two.sided"). Default less is checking for postive autocorrelation only    
 #' @return runs p value and 3 x sigma limits
 #' @export
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
-runs_sig3 <- function(x,type=NULL) {
+ssruns_sig3 <- function(x,type=NULL,mixing="less") {
   if(is.null(type)) type="resid"
   if(type=="resid"){mu = 0}else{mu = mean(x, na.rm = TRUE)}
   # Average moving range
@@ -23,7 +24,7 @@ runs_sig3 <- function(x,type=NULL) {
   lcl <- mu - 3 * stdev
   ucl <- mu + 3 * stdev
   if(nlevels(factor(sign(x)))>1){
-    runstest = snpar::runs.test(x)
+    runstest = snpar::runs.test(x,alternative = mixing)
     pvalue = round(runstest$p.value,3)} else {
       pvalue = 0.001
     }
@@ -36,6 +37,7 @@ runs_sig3 <- function(x,type=NULL) {
 #' Residual diagnostics with runs test p-value and 3xsigma limits for Indices and meanL
 #'
 #' @param ss3rep from r4ss::SSgetoutput()$replist1
+#' @param mixing c("less","greater","two.sided"). Default less is checking for postive autocorrelation only    
 #' @param subplots optional use of cpue and comp data (only tested for length) 
 #' @param indexselect Vector of fleet numbers for each model for which to compare
 #' @param miny  minimum abs values of ylim
@@ -72,7 +74,7 @@ runs_sig3 <- function(x,type=NULL) {
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @export
 
-SSplotRunstest <- function(ss3rep=ss3sma, subplots=c("cpue","comps")[1],
+SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","comps")[1],
                              plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                              indexselect = NULL,
                              miny = 1,
@@ -188,7 +190,7 @@ SSplotRunstest <- function(ss3rep=ss3sma, subplots=c("cpue","comps")[1],
       ### make plot of index fits
       
       # Do runs test
-      runstest = runs_sig3(x=as.numeric(resid$residuals),type="resid")
+      runstest = ssruns_sig3(x=as.numeric(resid$residuals),type="resid",mixing=mixing)
       
       # if no values included in subset, then set ylim based on all values
       ylim=c(min(-miny,runstest$sig3lim[1]*ylimAdj),max(miny,runstest$sig3lim[2]*ylimAdj))

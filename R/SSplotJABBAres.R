@@ -109,11 +109,11 @@ SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","comps")[1],
   }
   
   # Define indices
-  resids = reshape2::dcast(Res,Yr~Fleet_name,value.var="residuals")
+  resids = reshape2::dcast(Res,Time~Fleet_name,value.var="residuals")
   indices = unique(Res$Fleet_name)
   n.indices = length(indices)
   series = 1:n.indices
-  
+  yr = unique(round(resids$Time))
   
   
   log=FALSE #(no option to plot on log scale)
@@ -254,8 +254,8 @@ SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","comps")[1],
       
     legend('topright',c(paste0("RMSE = ",RMSE,"%")),bty="n",cex=legendcex+0.1,y.intersp=0.2,x.intersp = 0)
     if(legend) legend(legendloc,legendlabels,bty="n",col=1,pt.cex=1.1,cex=legendcex,pch=c(rep(21,n.indices),-1),pt.bg=c(col,1),lwd=c(rep(-1,n.indices),2))
-     axis(1, at=c(min(yr):max(yr)))
-    if(tickEndYr) axis(1, at=max(yr))
+     axis(1, at=c(min(floor(yr)):max(floor(yr))))
+    if(tickEndYr) axis(1, at=max(floor(yr)))
     axis(2)
     box()
   

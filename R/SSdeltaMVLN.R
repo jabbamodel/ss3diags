@@ -25,7 +25,8 @@ SSdeltaMVLN = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),yea
   cv = ss3rep$CoVar
   if(is.null(cv)) stop("CoVar from Hessian required")
   # Get years
-  allyrs = unique(as.numeric(gsub(paste0(status[2],"_"),"",hat$Label[grep(paste0(status[2],"_"), hat$Label)])))[-1]
+  allyrs = unique(as.numeric(gsub(paste0(status[1],"_"),"",hat$Label[grep(paste0(status[1],"_"), hat$Label)])))[-1]
+  allyrs = allyrs[!is.na(allyrs)] 
   if(is.null(years) & addtrj==FALSE) yrs = ss3rep$endyr   
   if(is.null(years) & addtrj==TRUE) yrs = allyrs[allyrs<=ss3rep$endyr]
   if(is.null(years)==FALSE) yrs = years[years%in%allyrs==TRUE]

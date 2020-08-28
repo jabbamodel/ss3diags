@@ -7,9 +7,9 @@
 sspar(
   mfrow = c(1, 1),
   plot.cex = 1,
-  mai = c(0.5, 0.5, 0.1, 0.1),
-  omi = c(0, 0, 0, 0) + 0.05,
-  labs = FALSE
+  mai = c(0.55, 0.6, 0.1, 0.1),
+  omi = c(0, 0, 0, 0) + 0.1,
+  labs = TRUE
 )
 }
 \arguments{

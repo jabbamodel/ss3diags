@@ -167,10 +167,6 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","comps"
                "Residuals",        #2
                "Log index")        #3
       
-      #-------------------------------------------------------------
-      # plot_hcxal function
-      #-------------------------------------------------------------
-      # get stuff from summary output (minimized)
       
     
       # open new window if requested
@@ -185,6 +181,7 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","comps"
       
       # get quantities for plot
       yr <- resid$Yr
+      ti <- resid$Time  
       ylab=labels[2]
       
       ### make plot of index fits
@@ -207,9 +204,9 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","comps"
         
         abline(h=0,lty=2)
         for(j in 1:length(resid$Yr)){
-          lines(c(resid$Yr[j],resid$Yr[j]),c(0,resid$residuals[j]))
+          lines(c(resid$Time[j],resid$Time[j]),c(0,resid$residuals[j]))
         }
-        points(resid$Yr,resid$residuals,pch=pch,bg=ifelse(resid$residuals < lims[1] | resid$residuals > lims[2],2,"white"),cex=1)
+        points(resid$Time,resid$residuals,pch=pch,bg=ifelse(resid$residuals < lims[1] | resid$residuals > lims[2],2,"white"),cex=1)
         if(legend){
         legend(legendloc,paste(resid$Fleet_name[1]),bty="n",y.intersp = -0.2,cex=legendcex+0.1)
         }

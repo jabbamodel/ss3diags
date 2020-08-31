@@ -6,6 +6,7 @@
 #' @param models Optional subset of the models described in
 #' r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
 #' columns in summary tables.
+#' @param Season option to specify Season - Default uses first available, i.e. usual Seas = 1
 #' @param endyrvec Optional single year or vector of years representing the
 #' final year of values to show for each model. By default it is set to the
 #' ending year specified in each model.
@@ -60,7 +61,7 @@
 #' @param indexQdigits Number of significant digits for catchability in legend
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @export
-SSplotHCxval<- function(summaryoutput=retro.sma,
+SSplotHCxval<- function(summaryoutput=retro.sma,Season="default",
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                         models="all",
                         endyrvec="default",
@@ -185,8 +186,7 @@ SSplotHCxval<- function(summaryoutput=retro.sma,
     nsexes        <- summaryoutput$nsexes
     startyrs      <- summaryoutput$startyrs
     endyrs        <- summaryoutput$endyrs
-    indices <- summaryoutput$indices
-    
+    indices       <- summaryoutput$indices
     
     if(models[1]=="all") models <- 1:n    
     nlines <- length(models) 
@@ -246,7 +246,7 @@ SSplotHCxval<- function(summaryoutput=retro.sma,
     for(iline in 1:nlines){
       imodel <- models[iline]
       subset1 <- indices$imodel==imodel & !is.na(indices$Like)
-      subset2 <- indices$imodel==imodel
+      subset2 <- indices$imodel==imodel 
       if(length(unique(indices$Fleet[subset1])) > 1){
         if(!is.null(indexfleets[imodel])){
           ifleet <- indexfleets[imodel]
@@ -260,6 +260,21 @@ SSplotHCxval<- function(summaryoutput=retro.sma,
         indices2 <- rbind(indices2,indices[subset2,])
       }
     }
+    
+    # Subset by month
+    if(Season=="default"){
+                       Season = unique(indices2$Seas)[1]  
+                       if(verbose & length(unique(indices2$Seas))>1){cat("Taking Season",Season,"by default for Index",unique(indices2$Fleet_name))}
+                       
+    } else {
+      Season = as.numeric(Season)[1]
+      if(is.na(Season)) stop("Season must a default or and or the integer of indices$Seas 1,2,3,4")
+    }
+    
+    indices       <- indices[indices$Seas==Season,]
+    indices2       <- indices2[indices2$Seas==Season,]
+    
+    
     # get quantities for plot
     yr <- indices2$Yr
     obs <- indices2$Obs
@@ -293,10 +308,23 @@ SSplotHCxval<- function(summaryoutput=retro.sma,
       lower <- NULL
     }
     
+    
+    if(is.null(xmin)){
+      xmin = min(endyrvec)-5} else {
+        xmin = min(xmin,min(endyrvec)-3)  
+      }
+    
+    meanQ <- rep(NA,nlines)
+    imodel <- models[which(endyrvec==max(endyrvec))[1]]
+    subset <- indices2$imodel==imodel & !is.na(indices2$Like) & yr>= xmin
+    
+    
     ### make plot of index fits
     # calculate ylim (excluding dummy observations from observed but not expected)
-    sub <- !is.na(indices2$Like)
-    ylim <- ylimAdj*range(exp, obs[sub], lower[sub], upper[sub], na.rm=TRUE)
+    sub <- !is.na(indices2$Like) & yr>= xmin
+    
+    
+    ylim <- ylimAdj*range(exp[sub], obs[sub], lower[sub], upper[sub], na.rm=TRUE)
     # if no values included in subset, then set ylim based on all values
     
     
@@ -308,15 +336,6 @@ SSplotHCxval<- function(summaryoutput=retro.sma,
       # 0 included if not in log space
       ylim <- range(0,ylim*1.1)
     }
-    
-    if(is.null(xmin)){
-      xmin = min(endyrvec)-5} else {
-      xmin = min(xmin,min(endyrvec)-3)  
-      }
-    
-    meanQ <- rep(NA,nlines)
-    imodel <- models[which(endyrvec==max(endyrvec))[1]]
-    subset <- indices2$imodel==imodel & !is.na(indices2$Like) & yr>= xmin
     
     # hcxval section
     yr.eval <- c(endyrvec)
@@ -392,7 +411,7 @@ SSplotHCxval<- function(summaryoutput=retro.sma,
       maepr =  mean(abs(pred.resid))
       mase=maepr/scaler
       MASE.i = NULL
-      MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1], MASE=mase,MAE.PR=maepr,MAE.base=scaler,n.eval=npe)
+      MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=mase,MAE.PR=maepr,MAE.base=scaler,n.eval=npe)
       
       #legendlabels <- c("Ref",rev(yr.eval))
       if(indexQlabel){
@@ -404,7 +423,7 @@ SSplotHCxval<- function(summaryoutput=retro.sma,
       
         legendfun(legendlabels)
       }
-      legend("top",paste0(unique(indices2$Fleet_name)[1], ": MASE = ",round(mase,2)),bty="n",y.intersp=-0.2,cex=legendcex+0.1)
+      legend("top",paste0(unique(indices2$Fleet_name)[1],ifelse(length(unique(summaryoutput$indices$Seas))>1,paste0(".S",Season),""), ": MASE = ",round(mase,2)),bty="n",y.intersp=-0.2,cex=legendcex+0.1)
       
       
       
@@ -418,7 +437,7 @@ SSplotHCxval<- function(summaryoutput=retro.sma,
     } else {
       if(verbose) cat(paste0("\n","No observations in evaluation years to compute prediction residuals for Index ",indices2$Fleet_name[1]),"\n")
       MASE.i = NULL
-      MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1], MASE=NA,MAE.PR=NA,MAE.base=NA,n.eval=0)
+      MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=NA,MAE.PR=NA,MAE.base=NA,n.eval=0)
       if(png==FALSE & add==FALSE) dev.off()
     }
     return(list(MASE=MASE.i))

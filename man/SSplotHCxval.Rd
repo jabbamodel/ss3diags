@@ -6,6 +6,7 @@
 \usage{
 SSplotHCxval(
   summaryoutput = retro.sma,
+  Season = "default",
   plot = TRUE,
   print = FALSE,
   png = print,
@@ -56,6 +57,8 @@ SSplotHCxval(
 }
 \arguments{
 \item{summaryoutput}{List created by r4ss::SSsummarize()}
+
+\item{Season}{option to specify Season - Default uses first available, i.e. usual Seas = 1}
 
 \item{plot}{plot to active plot device?}
 

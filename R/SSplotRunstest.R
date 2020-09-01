@@ -38,7 +38,7 @@ ssruns_sig3 <- function(x,type=NULL,mixing="less") {
 #'
 #' @param ss3rep from r4ss::SSgetoutput()$replist1
 #' @param mixing c("less","greater","two.sided"). Default less is checking for postive autocorrelation only    
-#' @param subplots optional use of cpue and comp data (only tested for length) 
+#' @param subplots optional use of c("cpue","len","age"), yet to be tested for age.
 #' @param indexselect Vector of fleet numbers for each model for which to compare
 #' @param miny  minimum abs values of ylim
 #' @param plot plot to active plot device?
@@ -74,7 +74,7 @@ ssruns_sig3 <- function(x,type=NULL,mixing="less") {
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @export
 
-SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","comps")[1],
+SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","age")[1],
                              plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                              indexselect = NULL,
                              miny = 1,
@@ -104,6 +104,10 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","comps"
       png=F
     }
   
+    subplots = subplots[1]
+    datatypes= c("Index","Length Comps","Age Comps")
+    
+    if(verbose) cat('\n',"Running Runs Test Diagnosics for",datatypes[which(c("cpue","len","age")%in%subplots)],'\n')
     if(subplots=="cpue"){
     cpue = ss3rep$cpue
     cpue$residuals = ifelse(is.na(cpue$Obs),NA,log(cpue$Obs)-log(cpue$Exp))
@@ -112,6 +116,14 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","comps"
     Res = cpue
     }
     
+    if(subplots=="len" | subplots=="age"){
+      comps = SScompsTA1.8(ss3rep,fleet=NULL,type=subplots,plotit = FALSE)$runs_dat
+      comps$residuals = ifelse(is.na(comps$Obs),NA,log(comps$Obs)-log(comps$Exp))
+      if(is.null(comps$Fleet_name)){ # Deal with Version control
+      comps$Fleet_name = comps$Name}
+      Res = comps
+    }  
+      
     pngfun <- function(file){
     # if extra text requested, add it before extention in file name
     file <- paste0(filenameprefix, file)
@@ -192,7 +204,7 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","comps"
       # if no values included in subset, then set ylim based on all values
       ylim=c(min(-miny,runstest$sig3lim[1]*ylimAdj),max(miny,runstest$sig3lim[2]*ylimAdj))
       
-      if(xlim[1]=="default") xlim = range(yr)
+      if(xlim[1]=="default") xlim = c(floor(min(ti,yr)-.1),ceiling(max(ti,yr)+0.1))
       
         plot(0, type = "n", xlim = xlim, yaxs = yaxs, 
              ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylab,""), axes = FALSE)
@@ -235,9 +247,13 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","comps"
           resid = Res[Res$Fleet_name==indices[fi],]
           pngfun(paste0("residruns_",indices[fi],".png",sep=""))
           par(par)
+          if(nrow(resid)>3 & (max(resid$Time)-min(resid$Time))>3){
           get_runs = plot_runs(resid)    
           dev.off()
           runs = rbind(runs,c(get_runs$p.runs,get_runs$sig3lim))
+          } else {
+            runs = rbind(runs,c(NA,NA,NA))}
+          
         } # End of Fleet Loop
       }
       
@@ -245,15 +261,20 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","comps"
       runs = NULL
       for(fi in 1:nfleets){
         resid = Res[Res$Fleet_name==indices[fi],]
+        if(nrow(resid)>3 & (max(resid$Time)-min(resid$Time))>3){
         if(!add)(par)
         get_runs = plot_runs(resid)    
         runs = rbind(runs,c(get_runs$p.runs,get_runs$sig3lim))
         # End of Fleet Loop
+        } else {
+        runs = rbind(runs,c(NA,NA,NA))
+        }
     }   
     }
-    runstable = data.frame(Index=indices,runs.p=as.matrix(runs)[,1],Test=ifelse(as.matrix(runs)[,1]<0.05,"Failed","Passed"),sigma3.lo=as.matrix(runs)[,2],sigma3.hi=as.matrix(runs)[,3]) 
-    colnames(runstable) = c("Index","runs.p","test","sigma3.lo","sigma3.hi")
-    if(verbose) cat(paste0("\n","Runs Test stats by Index:","\n"))
+    
+    runstable = data.frame(Index=indices,runs.p=as.matrix(runs)[,1],Test=ifelse(is.na(as.matrix(runs)[,1]),"Excluded",ifelse(as.matrix(runs)[,1]<0.05,"Failed","Passed")),sigma3.lo=as.matrix(runs)[,2],sigma3.hi=as.matrix(runs)[,3],type=subplots) 
+    colnames(runstable) = c("Index","runs.p","test","sigma3.lo","sigma3.hi","type")
+    if(verbose) cat(paste0("\n","Runs Test stats by ",datatypes[which(c("cpue","len","age")%in%subplots)],":","\n"))
     return(runstable)
 } # end of SSplotRuns()
 #-----------------------------------------------------------------------------------------

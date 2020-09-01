@@ -7,7 +7,7 @@
 SSplotRunstest(
   ss3rep = ss3sma,
   mixing = "less",
-  subplots = c("cpue", "comps")[1],
+  subplots = c("cpue", "len", "age")[1],
   plot = TRUE,
   print = FALSE,
   png = print,
@@ -46,7 +46,7 @@ SSplotRunstest(
 
 \item{mixing}{c("less","greater","two.sided"). Default less is checking for postive autocorrelation only}
 
-\item{subplots}{optional use of cpue and comp data (only tested for length)}
+\item{subplots}{optional use of c("cpue","len","age"), yet to be tested for age.}
 
 \item{plot}{plot to active plot device?}
 

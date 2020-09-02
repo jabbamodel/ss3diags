@@ -24,7 +24,9 @@ ssruns_sig3 <- function(x,type=NULL,mixing="less") {
   lcl <- mu - 3 * stdev
   ucl <- mu + 3 * stdev
   if(nlevels(factor(sign(x)))>1){
-    runstest = snpar::runs.test(x,alternative = mixing)
+    # Make the runs test non-parametric
+    y = ifelse(x<0,-1,1)
+    runstest = snpar::runs.test(y,alternative = mixing)
     pvalue = round(runstest$p.value,3)} else {
       pvalue = 0.001
     }
@@ -110,7 +112,8 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","
     if(verbose) cat('\n',"Running Runs Test Diagnosics for",datatypes[which(c("cpue","len","age")%in%subplots)],'\n')
     if(subplots=="cpue"){
     cpue = ss3rep$cpue
-    cpue$residuals = ifelse(is.na(cpue$Obs),NA,log(cpue$Obs)-log(cpue$Exp))
+    cpue$residuals = ifelse(is.na(cpue$Obs) | is.na(cpue$Like),NA,log(cpue$Obs)-log(cpue$Exp))
+    
     if(is.null(cpue$Fleet_name)){ # Deal with Version control
     cpue$Fleet_name = cpue$Name}
     Res = cpue

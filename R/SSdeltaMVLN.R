@@ -88,7 +88,7 @@ SSdeltaMVLN = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),yea
   if(verbose) cat("\n","starter.sso with Bratio:",bbasis,"and F:",fbasis)
   
   
-  bref  = ss3rep$btarg
+  bref  = ifelse(ss3rep$btarg<0.2 |ss3rep$btarg>0.9 ,0.4,ss3rep$btarg)
   # Take ratios
   if(bb==1){
   kb[,"stock"] = kb[,"stock"]/bref  

@@ -2,7 +2,7 @@
 #'
 #' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
 #' 
-#' @param summaryoutput List created by r4ss::SSsummarize() 
+#' @param hcruns List created by r4ss::SSsummarize() 
 #' @param models Optional subset of the models described in
 #' r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
 #' columns in summary tables.
@@ -61,7 +61,7 @@
 #' @param indexQdigits Number of significant digits for catchability in legend
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @export
-SSplotHCxval<- function(summaryoutput=retro.sma,Season="default",
+SSplotHCxval<- function(hcruns=retro.sma,Season="default",
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                         models="all",
                         endyrvec="default",
@@ -103,16 +103,27 @@ SSplotHCxval<- function(summaryoutput=retro.sma,Season="default",
     par(par)
   }
   
+  if(is.null(hcruns$indices)==F){ 
+    datatype = "cpue"}
+  
+    #if(is.null(hcruns$comps)==F){
+    #   hcruns$indices = hcruns$comps
+    #  datatype = "comps"
+    #  }
+  
+   if(is.null(hcruns$indices)){
+     stop("Require input object from r4ss::SSsummarize()") 
+   }  
   # subset if indexselect is specified
   if(is.null(indexselect) ==F & is.numeric(indexselect)){
-    iname =  unique(summaryoutput$indices$Fleet_name)[indexselect]
+    iname =  unique(hcruns$indices$Fleet_name)[indexselect]
     if(TRUE %in% is.na(iname)) stop("One or more index numbers exceed number of available indices")
-    summaryoutput$indices = summaryoutput$indices[summaryoutput$indices$Fleet_name%in%iname,]
+    hcruns$indices = indices[hcruns$indices$Fleet_name%in%iname,]
   }
   
   
   log=FALSE #(no option to plot on log scale)
-  if(is.null(legendindex))  legendindex=1:summaryoutput$n
+  if(is.null(legendindex))  legendindex= 1:hcruns$n
   if(!legend) legendindex=10000
   
   
@@ -177,16 +188,19 @@ SSplotHCxval<- function(summaryoutput=retro.sma,Season="default",
     labels=c("Year",             #1
              "Index",            #2
              "Log index")        #3
+    if(datatype=="comps"){
+      if(hcruns$indices$type[1]=="len") labels[2] = "Mean length"
+      if(hcruns$indices$type[1]=="age") labels[2] = "Mean age"
+    }
     
     #-------------------------------------------------------------
     # plot_hcxal function
     #-------------------------------------------------------------
     # get stuff from summary output (minimized)
-    n             <- summaryoutput$n
-    nsexes        <- summaryoutput$nsexes
-    startyrs      <- summaryoutput$startyrs
-    endyrs        <- summaryoutput$endyrs
-    indices       <- summaryoutput$indices
+    n             <- hcruns$n
+    startyrs      <- hcruns$startyrs
+    endyrs        <- hcruns$endyrs
+    indices       <- hcruns$indices
     
     if(models[1]=="all") models <- 1:n    
     nlines <- length(models) 
@@ -314,7 +328,7 @@ SSplotHCxval<- function(summaryoutput=retro.sma,Season="default",
         xmin = min(xmin,min(endyrvec)-3)  
       }
     
-    meanQ <- rep(NA,nlines)
+    #meanQ <- rep(NA,nlines)
     imodel <- models[which(endyrvec==max(endyrvec))[1]]
     subset <- indices2$imodel==imodel & !is.na(indices2$Like) & yr>= xmin
     
@@ -381,10 +395,10 @@ SSplotHCxval<- function(summaryoutput=retro.sma,Season="default",
         imodel <- models[iline]
         subset <- indices2$imodel==imodel & yr <= endyrvec[iline]+1 & yr>=xmin
         subset.ref <- indices2$imodel==imodel
-        meanQ[iline] <- mean(Q[subset])
-        if(indexQlabel && any(Q[subset]!=mean(Q[subset]))){
-          Qtext[iline] <- "(mean Q ="
-        }
+        #meanQ[iline] <- mean(Q[subset])
+        #if(indexQlabel && any(Q[subset]!=mean(Q[subset]))){
+        #  Qtext[iline] <- "(mean Q ="
+        #}
         
         
         

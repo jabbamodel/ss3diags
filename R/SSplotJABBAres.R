@@ -49,7 +49,7 @@
 #' @param add surpresses par() to create multiplot figs
 #' @author Henning Winker (JRC-EC)
 #' @export
-SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","comps")[1],
+SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","len","age")[1],
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                         indexselect=NULL,
                         miny = 3,
@@ -79,6 +79,9 @@ SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","comps")[1],
     png=F
   }
   
+  subplots = subplots[1]
+  datatypes= c("Index","Length Comps","Age Comps")
+  
   
   if(subplots=="cpue"){
     cpue = ss3rep$cpue
@@ -88,6 +91,14 @@ SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","comps")[1],
     Res = cpue
     
   }
+  
+  if(subplots=="len" | subplots=="age"){
+    comps = SScompsTA1.8(ss3rep,fleet=NULL,type=subplots,plotit = FALSE)$runs_dat
+    comps$residuals = ifelse(is.na(comps$Obs),NA,log(comps$Obs)-log(comps$Exp))
+    if(is.null(comps$Fleet_name)){ # Deal with Version control
+      comps$Fleet_name = comps$Name}
+    Res = comps
+  }  
   
 
   

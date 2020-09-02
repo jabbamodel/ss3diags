@@ -2,6 +2,7 @@
 
 export(SScompsTA1.8)
 export(SSdeltaMVLN)
+export(SSgetComps)
 export(SSplotEnsemble)
 export(SSplotHCxval)
 export(SSplotJABBAres)

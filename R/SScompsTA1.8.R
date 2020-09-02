@@ -60,7 +60,7 @@ SScompsTA1.8 <- function(ss3rep,type=c('len','age','size','con')[1],fleet=NULL,
                                              dbase$Fleet,function(x)length(unique(x))))>1
   #><> added db$Time and dealing with Version issues
   if(is.null(dbase$Time)) dbase$Time =dbase$Yr.S
-  indx <- paste(dbase$Fleet,dbase$Yr,dbase$Time,if(type[1]=='con')dbase$'Lbin_lo' else
+  indx <- paste(dbase$Fleet,dbase$Yr,dbase$Seas,if(type[1]=='con')dbase$'Lbin_lo' else
     '',if(seas=='sep')dbase$Seas else '')
   if(gender.flag)indx <- paste(indx,dbase$Sexes)
   method.flag <- if(type[1]=='size') length(unique(dbase$method))>1 else FALSE
@@ -74,10 +74,10 @@ SScompsTA1.8 <- function(ss3rep,type=c('len','age','size','con')[1],fleet=NULL,
     return()
   }
   
-  pldat <- matrix(0,length(uindx),11,
+  pldat <- matrix(0,length(uindx),13,
                   dimnames=list(uindx,
-                                c('Obsmn','Obslo','Obshi','semn','Expmn','Std.res',
-                                  'ObsloAdj','ObshiAdj','Fleet','Yr','Time')))
+                                c('Obsmn','Obslo','Obshi','semn','Expmn','Like','Std.res',
+                                  'ObsloAdj','ObshiAdj','Fleet','Yr','Time','Seas')))
   if(type[1]=='con')pldat <- cbind(pldat,Lbin=0)
   if(gender.flag)pldat <- cbind(pldat,pick.gender=0)
   if(method.flag)pldat <- cbind(pldat,method=0)
@@ -97,6 +97,8 @@ SScompsTA1.8 <- function(ss3rep,type=c('len','age','size','con')[1],fleet=NULL,
     pldat[i,'Fleet'] <- mean(subdbase$Fleet)
     pldat[i,'Yr'] <- mean(subdbase$Yr) 
     pldat[i,'Time'] <- mean(subdbase$Time)
+    pldat[i,'Seas'] <- mean(subdbase$Seas)
+    pldat[i,'Like'] <- mean(subdbase$Like)
     
     if(type=='con')pldat[i,'Lbin'] <- mean(subdbase$'Lbin_lo')
     
@@ -185,8 +187,8 @@ SScompsTA1.8 <- function(ss3rep,type=c('len','age','size','con')[1],fleet=NULL,
   pldat=data.frame(pldat)
   yrs=pldat$Yr
   
-  comps_out  = list(ss_out = pldat ,runs_dat = data.frame(Fleet=pldat$Fleet,Fleet_name=ss3rep$FleetNames[pldat$Fleet],Yr=yrs,Time=pldat$Time,
-                                                          Obs=pldat$Obsmn,Exp=pldat$Expmn))
+  comps_out  = list(ss_out = pldat ,runs_dat = data.frame(Fleet=pldat$Fleet,Fleet_name=ss3rep$FleetNames[pldat$Fleet],Yr=yrs,Time=pldat$Time,Seas=pldat$Seas,
+                                                          Obs=pldat$Obsmn,Exp=pldat$Expmn,SE=((pldat$Obsmn-pldat$ObsloAdj)/1.96)/pldat$ObsloAdj,Like=pldat$Like))
   
   
   # return(Output)

@@ -6,7 +6,7 @@
 \usage{
 SSplotJABBAres(
   ss3rep = ss3sma,
-  subplots = c("cpue", "comps")[1],
+  subplots = c("cpue", "len", "age")[1],
   plot = TRUE,
   print = FALSE,
   png = print,

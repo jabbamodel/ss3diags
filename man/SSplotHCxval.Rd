@@ -5,7 +5,7 @@
 \title{SSplotHCxal() for one-step ahead hindcasting cross-validations of indices}
 \usage{
 SSplotHCxval(
-  summaryoutput = retro.sma,
+  hcruns = retro.sma,
   Season = "default",
   plot = TRUE,
   print = FALSE,
@@ -56,7 +56,7 @@ SSplotHCxval(
 )
 }
 \arguments{
-\item{summaryoutput}{List created by r4ss::SSsummarize()}
+\item{hcruns}{List created by r4ss::SSsummarize()}
 
 \item{Season}{option to specify Season - Default uses first available, i.e. usual Seas = 1}
 

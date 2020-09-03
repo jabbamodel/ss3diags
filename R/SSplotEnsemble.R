@@ -92,6 +92,11 @@ SSplotEnsemble<- function(kb,
     ylabs =  c(expression(SSB/SSB[MSY]),expression(F/F[MSY]),"SSB (t)","Recruits ('000s)")
   }
   
+  # Check time line
+  minyr = max(aggregate(year~run,kb,min)[,2])
+  maxyr = min(aggregate(year~run,kb,max)[,2])
+  kb = kb[kb$year>=minyr & kb$year<=maxyr,]
+  
   quants = subplots
   
   pngfun <- function(file){

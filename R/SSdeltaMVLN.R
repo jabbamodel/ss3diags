@@ -102,7 +102,7 @@ SSdeltaMVLN = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),yea
   }
   
   
-  trg =round(ss3rep$btarg*100,0)
+  trg =round(bref*100,0)
   xlab = c(bquote("SSB/SSB"[.(trg)]),expression(SSB/SSB[MSY]))[bb] 
   ylab = c(expression(F/F[MSY]),expression(F/F[MSY]),bquote("F/F"[.(trg)]))[fb] 
   

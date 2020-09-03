@@ -5,8 +5,10 @@
 #' @param mcmcdir file path for folder with the derived_posteriors.sso file
 #' @param Bref  Choice of reference point for stock SSB/X c("MSY","Btrg")
 #' @param Fref  Choice of reference point for stock SSB/XFref=c("MSY","Ftrg")                                                                      
+#' @param run qualifier for model run
 #' @param Fstarter starter settings for  c("_abs_F","(F)/(Fmsy)","Fstd_Btgt") see SSsettingsBratioF()
 #' @param forecast option to include forecasts TRUE/FALSE
+#' @param Plot option to plot results with SSplotEnsemble()
 #' @param thin  option to use additional thinning
 #' @param biomass the function is only tested to run with default biomass = "SSB" 
 #' @param refs required reference quantaties
@@ -15,10 +17,12 @@
 #' @export
 
 
-SSdiagsMCMC <- function (mcmcdir,Bref=c("MSY","Btrg","B0"),Fref=c("MSY","Ftrg"),Fstarter =  c("_abs_F","(F)/(Fmsy)","Fstd_Btgt"),forecast=FALSE,thin = 1, biomass = "SSB", refs = c("SSB_unfished","SSB_MSY","SSB_Btgt","SSB_SPR","SPR_MSY",
-                                                          "Fstd_MSY","Fstd_SPR","Fstd_Btgt","Recr_unfished", "B_MSY.SSB_unfished",
-                                                             "Dead_Catch_MSY", "Ret_Catch_MSY")) {
-    x = paste0(mcmcdir,"/derived_posteriors.sso")
+SSdiagsMCMC <- function (mcmcdir,Bref=c("MSY","Btrg"),Fref=c("MSY","Ftrg"),run="MCMC",Fstarter =  c("_abs_F","(F)/(Fmsy)","Fstd_Btgt"),forecast=FALSE,plot=TRUE,thin = 1, biomass = "SSB", 
+                         refs = c("SSB_unfished","SSB_MSY","SSB_Btgt","SSB_SPR","SPR_MSY",
+                                  "Fstd_MSY","Fstd_SPR","Fstd_Btgt","Recr_unfished", "B_MSY.SSB_unfished",
+                                 "Dead_Catch_MSY", "Ret_Catch_MSY")) {
+    
+   x = paste0(mcmcdir,"/derived_posteriors.sso")
     nms = names(read.csv(x, sep = " ", nrows = 1))
     yrs = nms[substr(nms, 1, 3) == "Bra"]
     yrs = as.numeric(substr(yrs, 8, nchar(yrs)))
@@ -66,20 +70,25 @@ SSdiagsMCMC <- function (mcmcdir,Bref=c("MSY","Btrg","B0"),Fref=c("MSY","Ftrg"),
   SSB = sims$stock
   if(Bref[1]=="MSY") stock = SSB/sims$SSB_MSY 
   if(Bref[1]=="Btrg") stock = SSB/sims$SSB_Btgt 
-  if(Bref[1]=="B0") stock = SSB/sims$SSB_unfished 
+  #if(Bref[1]=="B0") stock = SSB/sims$SSB_unfished 
   Fout = sims$harvest
   if(Fref[1]=="_abs_F"){ Fabs = Fout} else if(Fref[1] == "(F)/(Fmsy)"){Fabs = Fout*sims$Fstd_MSY} else {Fabs = Fout*sims$Fstd_Btgt}
   if(Fref[1]=="MSY"){harvest = Fout/sims$Fstd_MSY}else{harvest = Fout/sims$Fstd_Btgt}
-  simout = data.frame(sims[,1:2],SSB,Fabs,BB0 = SSB/sims$SSB_unfished,stock,harvest,Recr=sims$recr,sims[,6:ncol(sims)])
+  simout = data.frame(sims[,1:2],run=run,SSB,Fabs,BB0 = SSB/sims$SSB_unfished,stock=stock,harvest=harvest,Recr=sims$recr,sims[,6:ncol(sims)])
   if(forecast==FALSE) simout = simout[simout$year<=pts,] 
   
-  kb = data.frame(simout[,1:2],stock=simout$stock,harvest=simout$harvest,SSB=simout$SSB)
+  kb = data.frame(year=simout$year,run=run,iter=simout$iter,stock=simout$stock,harvest=simout$harvest,SSB=simout$SSB,Recr=simout$Recr)
   
   # some house cleaning
   bb = c("MSY","Btrg","B0")
   fb=c("MSY","Ftrg")
-  xlab = c(bquote("SSB/SSB"["trg"]),expression(SSB/SSB[MSY]),expression(SSB/SSB[MSY]))[which(Bref[1]%in%bb)] 
-  ylab = c(expression(F/F[MSY]),expression(F/F[MSY]),bquote("F/F"["trg"]))[which(Fref[1]%in%fb)] 
+  xlab = c(expression(SSB/SSB[MSY]),bquote("SSB/SSB"["trg"]),expression(SSB/SSB[MSY]))[which(bb%in%Bref[1])] 
+  ylab = c(expression(F/F[MSY]),bquote("F/F"["trg"]))[which(fb%in%Fref[1])] 
+  
+  if(plot==TRUE){
+    sspar(mfrow=c(2,2),plot.cex = 0.8)
+    SSplotEnsemble(test$kb,add=T,legend = F,ylabs=c(xlab,ylab,"SSB","Recruitment"))  
+  }
   
   return(list(sims = simout, kb = kb,Bref=Bref,Fref=Fref,Fstarter=Fstarter,labels=c(xlab,ylab,"SSB","Recruitment")))
 

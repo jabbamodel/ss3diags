@@ -6,10 +6,12 @@
 \usage{
 SSdiagsMCMC(
   mcmcdir,
-  Bref = c("MSY", "Btrg", "B0"),
+  Bref = c("MSY", "Btrg"),
   Fref = c("MSY", "Ftrg"),
+  run = "MCMC",
   Fstarter = c("_abs_F", "(F)/(Fmsy)", "Fstd_Btgt"),
   forecast = FALSE,
+  plot = TRUE,
   thin = 1,
   biomass = "SSB",
   refs = c("SSB_unfished", "SSB_MSY", "SSB_Btgt", "SSB_SPR", "SPR_MSY", "Fstd_MSY",
@@ -24,6 +26,8 @@ SSdiagsMCMC(
 
 \item{Fref}{Choice of reference point for stock SSB/XFref=c("MSY","Ftrg")}
 
+\item{run}{qualifier for model run}
+
 \item{Fstarter}{starter settings for  c("_abs_F","(F)/(Fmsy)","Fstd_Btgt") see SSsettingsBratioF()}
 
 \item{forecast}{option to include forecasts TRUE/FALSE}
@@ -33,6 +37,8 @@ SSdiagsMCMC(
 \item{biomass}{the function is only tested to run with default biomass = "SSB"}
 
 \item{refs}{required reference quantaties}
+
+\item{Plot}{option to plot results with SSplotEnsemble()}
 }
 \value{
 list of (1) all quataties "sims" (2) object of SSplotEnsemble() "kb" and settings

@@ -86,12 +86,14 @@ SSdeltaMVLN = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),yea
   fbasis = strsplit(ss3rep$F_report_basis,";")[[1]][1]
   gettrg = strsplit(fbasis,"%")[[1]][1]
   gettrg = as.numeric(strsplit(gettrg,"B")[[1]][2])
-  fb = which(c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))%in%fbasis)
-  fb = ss3rep$F_method
+  if(fbasis%in%c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))){
+    fb = which(c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))%in%fbasis)
+  } else {fb=3}
   if(verbose) cat("\n","starter.sso with Bratio:",bbasis,"and F:",fbasis)
   
   
   bref  = ifelse(ss3rep$btarg<0,gettrg/100,ss3rep$btarg)
+  if(is.na(bref)) bref = 0.4
   # Take ratios
   if(bb==1){
   kb[,"stock"] = kb[,"stock"]/bref  

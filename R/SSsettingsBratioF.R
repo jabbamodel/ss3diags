@@ -34,12 +34,15 @@ SSsettingsBratioF = function(ss3rep,status=c('Bratio','F'),verbose=TRUE){
   fbasis = strsplit(ss3rep$F_report_basis,";")[[1]][1]
   gettrg = strsplit(fbasis,"%")[[1]][1]
   gettrg = as.numeric(strsplit(gettrg,"B")[[1]][2])
-  fb = ss3rep$F_method #which(c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))%in%fbasis)
+  
+  if(fbasis%in%c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))){
+    fb = which(c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))%in%fbasis)
+  } else {fb=3}
   bref  = ifelse(ss3rep$btarg<0.2,gettrg/100,ss3rep$btarg)
+  if(is.na(bref)) bref= 0.4
   
   
-  
-  return(list(Bratio = bbasis,F = fbasis,Bref=btarg))
+  return(list(Bratio = bbasis,F = fbasis,Bref=bref))
 }
 
 

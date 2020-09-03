@@ -92,7 +92,7 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
   # subfunction to write png files
   if(!add) graphics.off()
   
-  summaryout = hcruns
+  summaryoutput = hcruns #added for now
   pngfun <- function(file){
     # if extra text requested, add it before extention in file name
     file <- paste0(filenameprefix, file)

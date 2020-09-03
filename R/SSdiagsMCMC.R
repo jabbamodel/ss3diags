@@ -87,7 +87,7 @@ SSdiagsMCMC <- function (mcmcdir,Bref=c("MSY","Btrg"),Fref=c("MSY","Ftrg"),run="
   
   if(plot==TRUE){
     sspar(mfrow=c(2,2),plot.cex = 0.8)
-    SSplotEnsemble(test$kb,add=T,legend = F,ylabs=c(xlab,ylab,"SSB","Recruitment"))  
+    SSplotEnsemble(kb,add=T,legend = F,ylabs=c(xlab,ylab,"SSB","Recruitment"))  
   }
   
   return(list(sims = simout, kb = kb,Bref=Bref,Fref=Fref,Fstarter=Fstarter,labels=c(xlab,ylab,"SSB","Recruitment")))

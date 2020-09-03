@@ -1,6 +1,6 @@
 #' SSdeltaMVLN() 
 #'
-#' function to generate kobe pdfs from a Multivariate Log-Normal Distribution
+#' function to generatbe kobe pdfs from a Multivariate Log-Normal Distribution
 #' including plotting option
 #'
 #' @param ss3rep from r4ss::SSgetoutput()$replist1
@@ -104,7 +104,7 @@ SSdeltaMVLN = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),yea
   
   trg =round(ss3rep$btarg*100,0)
   xlab = c(bquote("SSB/SSB"[.(trg)]),expression(SSB/SSB[MSY]))[bb] 
-  ylab = c(expression(F/F[MSY]),expression(F/F[MSY]),bquote("F/F"[.(trg)]))[bb] 
+  ylab = c(expression(F/F[MSY]),expression(F/F[MSY]),bquote("F/F"[.(trg)]))[fb] 
   
   if(plot==TRUE){
     sh =c("stock","harvest")

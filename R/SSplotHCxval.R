@@ -92,7 +92,7 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
   # subfunction to write png files
   if(!add) graphics.off()
   
-  
+  summaryout = hcruns
   pngfun <- function(file){
     # if extra text requested, add it before extention in file name
     file <- paste0(filenameprefix, file)
@@ -328,7 +328,7 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
         xmin = min(xmin,min(endyrvec)-3)  
       }
     
-    #meanQ <- rep(NA,nlines)
+    meanQ <- rep(NA,nlines)
     imodel <- models[which(endyrvec==max(endyrvec))[1]]
     subset <- indices2$imodel==imodel & !is.na(indices2$Like) & yr>= xmin
     
@@ -437,7 +437,7 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
       
         legendfun(legendlabels)
       }
-      legend("top",paste0(unique(indices2$Fleet_name)[1],ifelse(length(unique(summaryoutput$indices$Seas))>1,paste0(".S",Season),""), ": MASE = ",round(mase,2)),bty="n",y.intersp=-0.2,cex=legendcex+0.1)
+      legend("top",paste0(unique(indices2$Fleet_name)[1],ifelse(length(unique(hcruns$indices$Seas))>1,paste0(".S",Season),""), ": MASE = ",round(mase,2)),bty="n",y.intersp=-0.2,cex=legendcex+0.1)
       
       
       
@@ -461,15 +461,15 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
   if(verbose) cat("Plotting Hindcast Cross-Validation (one-step-ahead) \n")
   if(plot){ 
     # LOOP through fleets
-    nfleets=length(unique(summaryoutput$indices$Fleet))
+    nfleets=length(unique(hcruns$indices$Fleet))
     if(print){
       
       MASE = NULL
       for(fi in 1:nfleets){
         legend=F
         if(fi%in%legendindex) legend=TRUE
-        indexfleets = unique(summaryoutput$indices$Fleet)[fi] 
-        pngfun(paste0("hcxval_",unique(summaryoutput$indices$Fleet)[fi],".png",sep=""))
+        indexfleets = unique(hcruns$indices$Fleet)[fi] 
+        pngfun(paste0("hcxval_",unique(hcruns$indices$Fleet)[fi],".png",sep=""))
         par(par)
         get_mase = plot_hcxval(indexfleets)$MASE   
         dev.off()
@@ -482,7 +482,7 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
     for(fi in 1:nfleets){
       legend=F
       if(fi%in%legendindex) legend=TRUE
-      indexfleets = unique(summaryoutput$indices$Fleet)[fi] 
+      indexfleets = unique(hcruns$indices$Fleet)[fi] 
       if(!add)(par)
       get_mase = plot_hcxval(indexfleets)$MASE   
       MASE = rbind(MASE,get_mase)

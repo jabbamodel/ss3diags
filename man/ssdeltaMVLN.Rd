@@ -49,7 +49,7 @@ SSdeltaMVLN(
 output list of kobe objects and mle's
 }
 \description{
-function to generate kobe pdfs from a Multivariate Log-Normal Distribution
+function to generatbe kobe pdfs from a Multivariate Log-Normal Distribution
 including plotting option
 }
 \author{

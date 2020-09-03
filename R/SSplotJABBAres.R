@@ -80,7 +80,8 @@ SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","len","age")[1],
   }
   
   subplots = subplots[1]
-  datatypes= c("Index","Length Comps","Age Comps")
+  datatypes= c("Index","Mean length","Mean age")
+  ylabel = datatypes[which(c("cpue","len","age")%in%subplots)]
   
   
   if(subplots=="cpue"){
@@ -207,7 +208,7 @@ SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","len","age")[1],
     # get quantities for plot
     yr <- resids[,1]
     Resids = t(resids[,-1])
-    ylab=labels[2]
+    ylab= paste(ylabel,"residuals")
     n.years = length(yr)
     
     # setup colors, points, and line types

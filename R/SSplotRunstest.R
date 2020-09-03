@@ -107,8 +107,8 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","
     }
   
     subplots = subplots[1]
-    datatypes= c("Index","Length Comps","Age Comps")
-    
+    datatypes= c("Index","Mean length","Mean age")
+    ylabel = datatypes[which(c("cpue","len","age")%in%subplots)]
     if(verbose) cat('\n',"Running Runs Test Diagnosics for",datatypes[which(c("cpue","len","age")%in%subplots)],'\n')
     if(subplots=="cpue"){
     cpue = ss3rep$cpue
@@ -197,7 +197,7 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","
       # get quantities for plot
       yr <- resid$Yr
       ti <- resid$Time  
-      ylab=labels[2]
+      ylab= paste(ylabel,"residuals")
       
       ### make plot of index fits
       

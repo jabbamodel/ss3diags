@@ -32,12 +32,14 @@ SSsettingsBratioF = function(ss3rep,status=c('Bratio','F'),verbose=TRUE){
   if(bb%in%c(1:2)==F) stop("Bratio in starter.sso must specified as either 1 or 2")
   bbasis  = c("SSB/SSB0","SSB/SSBMSY","SSB/SSBtrg")[bb]
   fbasis = strsplit(ss3rep$F_report_basis,";")[[1]][1]
-  fb = which(c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))%in%fbasis)
-  bref  = ifelse(ss3rep$btarg<0.2 |ss3rep$btarg>0.9 ,0.4,ss3rep$btarg)
+  gettrg = strsplit(fbasis,"%")[[1]][1]
+  gettrg = as.numeric(strsplit(gettrg,"B")[[1]][2])
+  fb = ss3rep$F_method #which(c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))%in%fbasis)
+  bref  = ifelse(ss3rep$btarg<0.2,gettrg/100,ss3rep$btarg)
   
   
   
-  return(list(Bratio = bbasis,F = fbasis))
+  return(list(Bratio = bbasis,F = fbasis,Bref=btarg))
 }
 
 

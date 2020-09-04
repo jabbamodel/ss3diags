@@ -72,8 +72,9 @@ SSdiagsMCMC <- function (mcmcdir,Bref=c("MSY","Btrg"),Fref=c("MSY","Ftrg"),run="
   if(Bref[1]=="Btrg") stock = SSB/sims$SSB_Btgt 
   #if(Bref[1]=="B0") stock = SSB/sims$SSB_unfished 
   Fout = sims$harvest
-  if(Fref[1]=="_abs_F"){ Fabs = Fout} else if(Fref[1] == "(F)/(Fmsy)"){Fabs = Fout*sims$Fstd_MSY} else {Fabs = Fout*sims$Fstd_Btgt}
-  if(Fref[1]=="MSY"){harvest = Fout/sims$Fstd_MSY}else{harvest = Fout/sims$Fstd_Btgt}
+  #if(Fstarter[1]=="_abs_F"){ Fabs = Fout} else if(Fstarter[1] == "(F)/(Fmsy)"){Fabs = Fout} else {Fabs = Fout*sims$Fstd_Btgt}
+  if(Fstarter[1] == "(F)/(Fmsy)"){Fabs=Fout*sims$Fstd_MSY} else {Fabs=Fout}
+  if(Fref[1]=="MSY"){harvest = Fabs/sims$Fstd_MSY}else{harvest = Fabs/sims$Fstd_Btgt}
   simout = data.frame(sims[,1:2],run=run,SSB,Fabs,BB0 = SSB/sims$SSB_unfished,stock=stock,harvest=harvest,Recr=sims$recr,sims[,6:ncol(sims)])
   if(forecast==FALSE) simout = simout[simout$year<=pts,] 
   

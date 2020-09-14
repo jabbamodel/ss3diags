@@ -1,6 +1,6 @@
 #' Function to do runs.test and 3 x sigma limits
 #'
-#' runs test is conducted with library(snpar)
+#' runs test is conducted with library(randtests)
 #' @param x residuals from CPUE fits
 #' @param type only c("resid","observations")
 #' @param mixing c("less","greater","two.sided"). Default less is checking for postive autocorrelation only    
@@ -9,7 +9,9 @@
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 ssruns_sig3 <- function(x,type=NULL,mixing="less") {
   if(is.null(type)) type="resid"
-  if(type=="resid"){mu = 0}else{mu = mean(x, na.rm = TRUE)}
+  if(type=="resid"){
+    mu = 0}else{mu = mean(x, na.rm = TRUE)}
+  alternative=c("two.sided","left.sided")[which(c("two.sided", "less")%in%mixing)]
   # Average moving range
   mr  <- abs(diff(x - mu))
   amr <- mean(mr, na.rm = TRUE)
@@ -25,14 +27,15 @@ ssruns_sig3 <- function(x,type=NULL,mixing="less") {
   ucl <- mu + 3 * stdev
   if(nlevels(factor(sign(x)))>1){
     # Make the runs test non-parametric
-    y = ifelse(x<0,-1,1)
-    runstest = snpar::runs.test(y,alternative = mixing)
+    runstest = randtests::runs.test(x,threshold = 0,alternative = alternative)
+    if(is.na(runstest$p.value)) p.value =0.001
     pvalue = round(runstest$p.value,3)} else {
       pvalue = 0.001
     }
   
   return(list(sig3lim=c(lcl,ucl),p.runs= pvalue))
 }
+
 
 #' plot function for runs test plot 
 #'

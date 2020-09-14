@@ -28,7 +28,7 @@ Depends:
 Imports:
       reshape2,
       mvtnorm,
-      snpar,
+      randtests,
       r4ss
 License: EUPL
 Encoding: UTF-8

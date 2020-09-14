@@ -17,7 +17,7 @@ ssruns_sig3(x, type = NULL, mixing = "less")
 runs p value and 3 x sigma limits
 }
 \description{
-runs test is conducted with library(snpar)
+runs test is conducted with library(randtests)
 }
 \author{
 Henning Winker (JRC-EC) and Laurance Kell (Sea++)

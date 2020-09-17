@@ -6,6 +6,7 @@
 #' @param ss3rep from r4ss::SSgetoutput()$replist1
 #' @param status covarying stock status quantaties to extract from Hessian
 #' @param quants additional stock quantaties to extract from Hessian
+#' @param Fref  Choice of reference point for stock SSB/XFref=c("MSY","Ftrg"),only if F_report_basis: 0 or 3                                                                      
 #' @param years single year or vector of years for mvln   
 #' @param mc number of monte-carlo simulations   
 #' @param weight weighting option for model ensembles weight*mc 
@@ -18,7 +19,7 @@
 #' @return output list of kobe objects and mle's
 #' @author Henning Winker (JRC-EC)
 #' @export
-SSdeltaMVLN = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),years=NULL,mc=5000,weight=1,run="MVLN",plot=TRUE,
+SSdeltaMVLN = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),Fref = c("MSY","Ftrg"),years=NULL,mc=5000,weight=1,run="MVLN",plot=TRUE,
                        addtrj=TRUE,ymax=NULL,xmax=NULL,legendcex=1,verbose=TRUE){
   mc = round(weight*mc,0)
   hat = ss3rep$derived_quants
@@ -89,7 +90,7 @@ SSdeltaMVLN = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),yea
   if(fbasis%in%c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))){
     fb = which(c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))%in%fbasis)
   } else {fb=3}
-  if(verbose) cat("\n","starter.sso with Bratio:",bbasis,"and F:",fbasis)
+  if(verbose) cat("\n","starter.sso with Bratio:",bbasis,"and F:",fbasis,"\n","\n")
   
   
   bref  = ifelse(ss3rep$btarg<0,gettrg/100,ss3rep$btarg)
@@ -99,12 +100,19 @@ SSdeltaMVLN = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),yea
   kb[,"stock"] = kb[,"stock"]/bref  
   mle[,"stock"] = mle[,"stock"]/bref
   }
-  if(fb==1) warning("stater.sso specifies Fratio as abs_F. To derive F/Fmsy, Fmsy is represented by the MLE without error")
+  if(fb==1) warning("\n","stater.sso specifies Fratio as abs_F. To derive F/Fmsy, Fmsy is represented by the MLE without error")
   
-  if(fb==1){
+  if(fb==1 & Fref[1]=="MSY"){
     kb[,"harvest"] = kb[,"harvest"]/hat[hat$Label=="Fstd_MSY",2]  
     mle[,"harvest"] = mle[,"harvest"]/hat[hat$Label=="Fstd_MSY",2]
   }
+  if(fb==1 & Fref[1]=="Ftrg") fb = 3
+  # Needs to be tested
+  if(fb==3){
+    kb[,"harvest"] = kb[,"harvest"]/hat[hat$Label=="Fstd_Btgt",2]  
+    mle[,"harvest"] = mle[,"harvest"]/hat[hat$Label=="Fstd_Btgt",2]
+  }
+  
   
   
   trg =round(bref*100,0)

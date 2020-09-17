@@ -255,12 +255,16 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
       if(!add) par(par)
     }
     
+    # Exclude all Time steps not use in reference run replist1
+    RefUse = indices[indices$imodel==1&indices$Use==1,]
+    RefUse = paste0(RefUse$Fleet_name,".",RefUse$Time)
+    indices = indices[paste0(indices$Fleet_name,".",indices$Time)%in%RefUse,]
     
     indices2 <- NULL
     for(iline in 1:nlines){
       imodel <- models[iline]
-      subset1 <- indices$imodel==imodel & !is.na(indices$Like)
-      subset2 <- indices$imodel==imodel 
+      subset1 <- indices$imodel==imodel & !is.na(indices$Like) & indices$Use == 1
+      subset2 <- indices$imodel==imodel #& indices$Use == 1 #><>
       if(length(unique(indices$Fleet[subset1])) > 1){
         if(!is.null(indexfleets[imodel])){
           ifleet <- indexfleets[imodel]
@@ -274,6 +278,7 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
         indices2 <- rbind(indices2,indices[subset2,])
       }
     }
+    
     
     # Subset by month
     if(Season=="default"){
@@ -306,7 +311,7 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
     # get uncertainty intervals if requested
     if(indexUncertainty){
       
-      subset <- indices2$imodel==models[1]
+      subset <- indices2$imodel==models[1]&indices2$Use==1
       indexSEvec <- indices2$SE[subset]
       y <- obs[subset]
       if(log){
@@ -354,17 +359,25 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
     # hcxval section
     yr.eval <- c(endyrvec)
     yr.eval <- (sort(yr.eval))
+    yr.obs <- yr.eval%in%yr
+    pe.eval = which(yr.eval%in%yr)[-1]
+    
+    if(length(which(yr.eval%in%yr))-length(pe.eval)<1){
+      pe.eval = pe.eval[-1]
+    } 
+    npe <- length(pe.eval)  # number of prection errors
     obs.eval <- rep(NA,length(yr.eval))
     obs.eval[yr.eval%in%yr] = obs[subset][yr[subset] %in%yr.eval]
     nhc = length(endyrvec)-1
-    naive.eval = log(obs.eval[1:nhc])-log(obs.eval[2:(nhc+1)]) # add log for v1.1   
-    npe <- length(naive.eval[is.na(naive.eval)==F])  # number of prection errors
-    scaler = mean(abs(naive.eval[is.na(naive.eval)==F]))
+    #naive.eval = log(obs.eval[1:nhc])-log(obs.eval[2:(nhc+1)]) # add log for v1.1   
+    #npe <- length(naive.eval[is.na(naive.eval)==F])  # number of prection errors
+    #scaler = mean(abs(naive.eval[is.na(naive.eval)==F]))
     
     
     if(length(endyrvec[yr%in%endyrvec])>0){
-      if(verbose) cat(paste("\n","Computing",ifelse(npe<(length(endyrvec)-1),"only","all"), npe,"available one-step-ahead prediction residuals for computing MASE for Index",indices2$Fleet_name[1]),"\n")
-      
+      if(verbose) cat(paste("\n","Computing MASE with",ifelse(npe<(length(endyrvec)-1),"only","all"),
+                            npe,"of",length(endyrvec)-1," prediction residuals for Index",indices2$Fleet_name[1]),"\n")
+      if(verbose & npe<(length(endyrvec)-1))cat(paste("\n","Warning:  Unequal spacing of naive predictions residuals may influence the interpretation of MASE","\n"))
       
         plot(0, type = "n", xlim = c(max(min(yr),xmin),min(c(max(yr),max(endyrvec)))), yaxs = yaxs, 
              ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylab,""), axes = FALSE)
@@ -383,7 +396,7 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
       
       lines(yr[subset],obs[subset],pch=21,lty=2,col="white")
       points(yr[subset],obs[subset],pch=21,cex=1.5,bg="white")
-      points(yr.eval[-1][1:(nhc)][is.na(naive.eval)==F],obs.eval[-1][1:(nhc)][is.na(naive.eval)==F],pch=21,cex=1.5,bg=(rev(col[-1]))[is.na(naive.eval)==F])
+      points(yr.eval[pe.eval],obs.eval[pe.eval],pch=21,cex=1.5,bg=(rev(col))[pe.eval-1])
       
       # Plot Reference
       index.i = unique(indices2$Fleet_name)
@@ -395,15 +408,8 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
         imodel <- models[iline]
         subset <- indices2$imodel==imodel & yr <= endyrvec[iline]+1 & yr>=xmin
         subset.ref <- indices2$imodel==imodel
-        #meanQ[iline] <- mean(Q[subset])
-        #if(indexQlabel && any(Q[subset]!=mean(Q[subset]))){
-        #  Qtext[iline] <- "(mean Q ="
-        #}
         
-        
-        
-        if(is.na(naive.eval[iline-1])==FALSE){
-          
+        if(endyrvec[iline-1]%in%yr){
           x <- yr[subset]
           y <- exp[subset]
           yobs = obs[subset]
@@ -416,13 +422,20 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
           lines(x[(length(x)-1):(length(x))], y[(length(x)-1):(length(x))], lwd=2,
                 col=1,lty=2)
           
-          points(x[length(x)], y[length(y)],pch=21,
+            points(x[length(x)], y[length(y)],pch=21,
                  bg=col[iline],col=1, type="p",cex=0.9)
-          
+        }  
         }
         
-      }
+      #}
+      
       maepr =  mean(abs(pred.resid))
+      #nhc = length(endyrvec)-1
+      #naive.eval = log(obs.eval[1:nhc])-log(obs.eval[2:(nhc+1)]) # add log for v1.1   
+      #npe <- length(naive.eval[is.na(naive.eval)==F])  # number of prection errors
+      naive.eval=log(obs.eval[pe.eval])-log(obs.eval[is.na(obs.eval)==F][-(npe+1)])
+      scaler = mean(abs(naive.eval))
+      
       mase=maepr/scaler
       MASE.i = NULL
       MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=mase,MAE.PR=maepr,MAE.base=scaler,n.eval=npe)
@@ -447,7 +460,7 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
       
         axis(2)
         box()
-      
+    
     } else {
       if(verbose) cat(paste0("\n","No observations in evaluation years to compute prediction residuals for Index ",indices2$Fleet_name[1]),"\n")
       MASE.i = NULL

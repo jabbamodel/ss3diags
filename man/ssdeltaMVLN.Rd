@@ -8,6 +8,7 @@ SSdeltaMVLN(
   ss3rep,
   status = c("Bratio", "F"),
   quants = c("SSB", "Recr"),
+  Fref = c("MSY", "Ftrg"),
   years = NULL,
   mc = 5000,
   weight = 1,
@@ -26,6 +27,8 @@ SSdeltaMVLN(
 \item{status}{covarying stock status quantaties to extract from Hessian}
 
 \item{quants}{additional stock quantaties to extract from Hessian}
+
+\item{Fref}{Choice of reference point for stock SSB/XFref=c("MSY","Ftrg"),only if F_report_basis: 0 or 3}
 
 \item{years}{single year or vector of years for mvln}
 

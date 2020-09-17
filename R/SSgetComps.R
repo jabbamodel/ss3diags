@@ -16,22 +16,23 @@ SSgetComps <- function(dirvec=getwd(),ncols=400,covar=FALSE,verbose=FALSE){
   endyrs = startyrs = NULL 
   for(i in 1:length(dirvec)){
     rep = r4ss::SS_output(dir=dirvec[i],covar=covar,ncols = ncols,verbose = verbose)
-    lenc = SScompsTA1.8(rep,type="len",plotit = F)$runs_dat     
-    agec = SScompsTA1.8(rep,type="age",plotit = F)$runs_dat
+    lenc = SScompsTA1.8(rep,type="len",plotit = F)$runs_dat # from ss3diags     
+    agec = SScompsTA1.8(rep,type="age",plotit = F)$runs_dat # from ss3diags
     if(is.null(lenc)==FALSE) lenc$type="len"
     if(is.null(agec)==FALSE) lenc$type="age"
     comps = rbind(lenc,agec)
     comps$name = paste0("replist",i)
     comps$imodel = i
-    startyrs = c(startyrs,rep$endyr)
-    endyrs = c(endyrs,rep$endyr)
+    startyrs = c(startyrs,min(comps$Yr))
+    endyrs = c(endyrs,max(comps$Yr))
     summarycomps = rbind(summarycomps,comps)
   }
   compsout=list()
   compsout$comps <- summarycomps 
   compsout$n    <- length(unique(summarycomps$imodel))
-  compsout$startyrs      <- summaryoutput$startyrs
-  compsout$endyrs        <- summaryoutput$endyrs
+  compsout$startyrs      <- startyrs
+  compsout$endyrs        <- endyrs
   
   return(compsout)
 }
+

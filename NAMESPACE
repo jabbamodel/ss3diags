@@ -3,6 +3,7 @@
 export(SScompsTA1.8)
 export(SSdeltaMVLN)
 export(SSdiagsMCMC)
+export(SSdiagsTime2Year)
 export(SSgetComps)
 export(SSplotEnsemble)
 export(SSplotHCxval)

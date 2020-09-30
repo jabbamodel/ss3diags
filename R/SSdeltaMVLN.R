@@ -103,14 +103,29 @@ SSdeltaMVLN = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),Fre
   if(fb==1) warning("\n","stater.sso specifies Fratio as abs_F. To derive F/Fmsy, Fmsy is represented by the MLE without error")
   
   if(fb==1 & Fref[1]=="MSY"){
+    if("Fstd_MSY"%in%hat$Label){
     kb[,"harvest"] = kb[,"harvest"]/hat[hat$Label=="Fstd_MSY",2]  
     mle[,"harvest"] = mle[,"harvest"]/hat[hat$Label=="Fstd_MSY",2]
+    } else if("annF_MSY"%in%hat$Label) {
+      kb[,"harvest"] = kb[,"harvest"]/hat[hat$Label=="annF_MSY",2]  
+      mle[,"harvest"] = mle[,"harvest"]/hat[hat$Label=="annF_MSY",2]
+      
+    } else {
+      stop("This F label not defined (yet)")
+    }
   }
   if(fb==1 & Fref[1]=="Ftrg") fb = 3
   # Needs to be tested
   if(fb==3){
+    if("Fstd_Btrg"%in%hat$Label){
     kb[,"harvest"] = kb[,"harvest"]/hat[hat$Label=="Fstd_Btgt",2]  
     mle[,"harvest"] = mle[,"harvest"]/hat[hat$Label=="Fstd_Btgt",2]
+    } else if("annF_Btgt"%in%hat$Label){
+      kb[,"harvest"] = kb[,"harvest"]/hat[hat$Label=="annF_Btgt",2]  
+      mle[,"harvest"] = mle[,"harvest"]/hat[hat$Label=="annF_Btgt",2]
+    }  else {
+      stop("This F label not defined (yet)")
+    }
   }
   
   

@@ -108,6 +108,9 @@ It will be separated from default name by an underscore.}
 
 \item{legendcex=1}{Allows to adjust legend cex}
 }
+\value{
+Runs Test p-values and sig3 limits
+}
 \description{
 Residual diagnostics with runs test p-value and 3xsigma limits for Indices and meanL
 }

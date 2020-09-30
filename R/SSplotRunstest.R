@@ -76,6 +76,7 @@ ssruns_sig3 <- function(x,type=NULL,mixing="less") {
 #' @param verbose Report progress to R GUI?
 #' @param new Create new empty plot window
 #' @param add surpresses par() to create multiplot figs
+#' @return Runs Test p-values and sig3 limits
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @export
 

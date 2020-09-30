@@ -1,6 +1,6 @@
 Package: ss3diags
 Title: What the Package Does (One Line, Title Case)
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: 
     c(person(given = "Henning",
            family = "Winker",

@@ -47,5 +47,5 @@ list of (1) all quataties "sims" (2) object of SSplotEnsemble() "kb" and setting
 function to read mcmc file outputs for Kobe and SSplotEnsemble() plotting
 }
 \author{
-Henning Winker (JRC-EC)
+Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 }

@@ -6,7 +6,7 @@
 #' @param mixing c("less","greater","two.sided"). Default less is checking for postive autocorrelation only    
 #' @return runs p value and 3 x sigma limits
 #' @export
-#' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 ssruns_sig3 <- function(x,type=NULL,mixing="less") {
   if(is.null(type)) type="resid"
   if(type=="resid"){

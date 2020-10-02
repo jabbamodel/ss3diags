@@ -6,6 +6,7 @@
 \usage{
 SSplotHCxval(
   hcruns = retro.sma,
+  subplots = c("cpue", "len", "age"),
   Season = "default",
   plot = TRUE,
   print = FALSE,
@@ -22,7 +23,7 @@ SSplotHCxval(
   lwd = 2,
   tickEndYr = TRUE,
   xlim = "default",
-  ylimAdj = 1.05,
+  ylimAdj = 1.15,
   xaxs = "i",
   yaxs = "i",
   xylabs = TRUE,
@@ -57,6 +58,8 @@ SSplotHCxval(
 }
 \arguments{
 \item{hcruns}{List created by r4ss::SSsummarize()}
+
+\item{subplots}{optional use of c("cpue","len","age"), yet to be tested for age.}
 
 \item{Season}{option to specify Season - Default uses first available, i.e. usual Seas = 1}
 

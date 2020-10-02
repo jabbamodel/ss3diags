@@ -3,6 +3,7 @@
 #' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
 #' 
 #' @param hcruns List created by r4ss::SSsummarize() 
+#' @param subplots optional use of c("cpue","len","age"), yet to be tested for age.
 #' @param models Optional subset of the models described in
 #' r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
 #' columns in summary tables.
@@ -61,7 +62,7 @@
 #' @param indexQdigits Number of significant digits for catchability in legend
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 #' @export
-SSplotHCxval<- function(hcruns=retro.sma,Season="default",
+SSplotHCxval<- function(hcruns=retro.sma,subplots=c("cpue","len","age"),Season="default",
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                         models="all",
                         endyrvec="default",
@@ -71,7 +72,7 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
                         col=NULL, 
                         pch=NULL, lty=1, lwd=2,
                         tickEndYr=TRUE,
-                        xlim="default", ylimAdj=1.05,
+                        xlim="default", ylimAdj=1.15,
                         xaxs="i", yaxs="i",
                         xylabs=TRUE,
                         type="o", uncertainty=TRUE, 
@@ -103,17 +104,27 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
     par(par)
   }
   
-  if(is.null(hcruns$indices)==F){ 
-    datatype = "cpue"}
   
-    #if(is.null(hcruns$comps)==F){
-    #   hcruns$indices = hcruns$comps
-    #  datatype = "comps"
-    #  }
-  
-   if(is.null(hcruns$indices)){
+
+   if(is.null(hcruns$indices) & subplots[1] == "cpue"){
      stop("Require input object from r4ss::SSsummarize()") 
    }  
+  
+  if(subplots[1] %in% c("len","age")){
+    if(is.null(hcruns$age) & is.null(hcruns$len)){
+    stop("Require input object from ss3diags::SSdiagsComps") 
+  }}  
+  
+  if(subplots[1]=="len"){
+    if(is.null(hcruns$len)) stop("No Length Comps found")
+    hcruns$indices = hcruns$len
+  }
+    
+  if(subplots[1]=="age"){
+    if(is.null(hcruns$age)) stop("No Age Comps found")
+    hcruns$indices = hcruns$age
+  }
+    
   # subset if indexselect is specified
   if(is.null(indexselect) ==F & is.numeric(indexselect)){
     iname =  unique(hcruns$indices$Fleet_name)[indexselect]
@@ -188,10 +199,10 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
     labels=c("Year",             #1
              "Index",            #2
              "Log index")        #3
-    if(datatype=="comps"){
-      if(hcruns$indices$type[1]=="len") labels[2] = "Mean length"
-      if(hcruns$indices$type[1]=="age") labels[2] = "Mean age"
-    }
+    
+      if(subplots[1]=="len") labels[2] = "Mean length"
+      if(subplots[1]=="age") labels[2] = "Mean age"
+    
     
     #-------------------------------------------------------------
     # plot_hcxal function
@@ -256,7 +267,10 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
     }
     
     # Exclude all Time steps not use in reference run replist1
-    RefUse = indices[indices$imodel==1&indices$Use==1,]
+    if(subplots[1]%in%c("len","age")){
+      indices$Use =  ifelse(is.na(indices$Like),-1,1)
+    }
+    RefUse = indices[indices$imodel==1 & indices$Use==1,]
     RefUse = paste0(RefUse$Fleet_name,".",RefUse$Time)
     indices = indices[paste0(indices$Fleet_name,".",indices$Time)%in%RefUse,]
     

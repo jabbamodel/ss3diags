@@ -118,7 +118,7 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
   if(is.null(indexselect) ==F & is.numeric(indexselect)){
     iname =  unique(hcruns$indices$Fleet_name)[indexselect]
     if(TRUE %in% is.na(iname)) stop("One or more index numbers exceed number of available indices")
-    hcruns$indices = indices[hcruns$indices$Fleet_name%in%iname,]
+    hcruns$indices = hcruns$indices[hcruns$indices$Fleet_name%in%iname,]
   }
   
   
@@ -374,7 +374,7 @@ SSplotHCxval<- function(hcruns=retro.sma,Season="default",
     #scaler = mean(abs(naive.eval[is.na(naive.eval)==F]))
     
     
-    if(length(endyrvec[yr%in%endyrvec])>0){
+    if(length(endyrvec[yr%in%endyrvec])>0 & length(which(yr.eval%in%yr))>1){ # ><>
       if(verbose) cat(paste("\n","Computing MASE with",ifelse(npe<(length(endyrvec)-1),"only","all"),
                             npe,"of",length(endyrvec)-1," prediction residuals for Index",indices2$Fleet_name[1]),"\n")
       if(verbose & npe<(length(endyrvec)-1))cat(paste("\n","Warning:  Unequal spacing of naive predictions residuals may influence the interpretation of MASE","\n"))

@@ -63,13 +63,13 @@
 #' @param indexQdigits Number of significant digits for catchability in legend
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 #' @export
-SSplotModelcomp<- function(summaryoutput=aspm.hke,
+SSplotModelcomp<- function(summaryoutput=aspm.sma,
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                         models="all",
-                        subplots=c("SSB","Bratio","Fvalue","Recruits","Index"),
+                        subplots=c("SSB","Bratio","Fvalue","Recruits","Index","RecDevs"),
                         brp = c("msy","btargs"),
                         fmsy= TRUE,
-                        ylabs = c("SSB (t)",expression(SSB/SSB[MSY]),"Fishing mortality F","Recruits ('000s)","Index"),
+                        ylabs = c("SSB (t)",expression(SSB/SSB[MSY]),"Fishing mortality F","Recruits ('000s)","Index","Recruitment Deviations"),
                         endyrvec="default",
                         xmin = NULL,
                         indexselect = NULL,
@@ -102,7 +102,7 @@ SSplotModelcomp<- function(summaryoutput=aspm.hke,
     png=F
   }
   quant = subplots[1]
-  refplots=c("SSB","Bratio","Fvalue","Recruits","Index")
+  refplots=c("SSB","Bratio","Fvalue","Recruits","Index","RecDevs")
   refline = refline2 = 1
   if(brp[1]!="msy") ylabs[2]  = expression(SSB/SSB[0])
   if(brp[1]!="msy") refline  = summaryoutput$btargs[1]
@@ -318,7 +318,6 @@ SSplotModelcomp<- function(summaryoutput=aspm.hke,
     # if no values included in subset, then set ylim based on all values
     
     
-    
     if(!any(sub)){
       ylim <- ylimAdj*range(exp, obs, lower, upper, na.rm=TRUE)
     }
@@ -346,7 +345,7 @@ SSplotModelcomp<- function(summaryoutput=aspm.hke,
       adj <- 0.2*iline/nlines - 0.1
       imodel <- models[iline]
       subset <- indices2$imodel==imodel & !is.na(indices2$Like) & yr>= xmin
-      
+      subexp <- indices2$imodel==imodel  & yr>= xmin
       if(iline==1){
       if(indexUncertainty){
       arrows(x0=yr[subset], y0=lower[subset],
@@ -355,7 +354,7 @@ SSplotModelcomp<- function(summaryoutput=aspm.hke,
       }
       points(yr[subset],obs[subset],pch=21,cex=1,bg="white")
       }
-      lines(yr[subset],exp[subset],lwd=lwd,col=col[iline])
+      lines(yr[subexp],exp[subexp],lwd=lwd,col=col[iline])
       
       }
       if(quant=="Bratio") abline(h=1,lty=2)
@@ -472,12 +471,28 @@ SSplotModelcomp<- function(summaryoutput=aspm.hke,
       lower <- summaryoutput$recruitsLower
       upper <- summaryoutput$recruitsUpper
     }
-    if(quant=="Recdeves"){
+    if(quant=="RecDevs"){
       exp       <- summaryoutput$recdevs
       lower <- summaryoutput$recdevsLower
       upper <- summaryoutput$recdevsUpper
-    }  
-    
+      for(r in 1:(ncol(exp)-2)){
+      exp[,r] <- ifelse(is.na(exp[,r]),0,exp[,r])  
+      lower[,r] <- ifelse(is.na(lower[,r]) & is.na(exp[,r])==F,0.01,lower[,r])  
+      upper[,r] <- ifelse(is.na(upper[,r]) & is.na(exp[,r])==F,-0.01,upper[,r])  
+      } 
+      
+      base = summaryoutput$recruits
+      if(min(base$Yr)<min(exp$Yr)){
+      base = base[base$Yr%in%exp$Yr ==FALSE,] 
+      base[,1:(ncol(base)-2)] = 0
+      exp = rbind(base,exp)
+      lower = rbind(base,lower)
+      upper = rbind(base,upper)} else {
+      exp = exp[exp$Yr>=min(base$Yr),]
+      lower = lower[exp$Yr>=min(base$Yr),]
+      upper = upper[exp$Yr>=min(base$Yr),]
+    }
+    }
     if(models[1]=="all") models <- 1:n    
     nlines <- length(models) 
     
@@ -540,8 +555,12 @@ SSplotModelcomp<- function(summaryoutput=aspm.hke,
         xmin = min(xmin,min(endyrvec)-3)  
       }
     
-    ylim <- c(0,max(ifelse(uncertainty,max(unlist(upper[upper$Yr>=xmin,1:nlines]))*ylimAdj, ylimAdj*max(unlist(exp[exp$Yr>=xmin,1:nlines]))*1.05)))
-    
+    if(quant!="RecDevs"){
+      ylim <- c(0,max(ifelse(uncertainty,max(unlist(upper[upper$Yr>=xmin,1:nlines]))*ylimAdj, ylimAdj*max(unlist(exp[exp$Yr>=xmin,1:nlines]))*1.05)))
+    } else {
+      ylims <- max(ifelse(uncertainty,max(abs(unlist(upper[upper$Yr>=xmin,1:nlines])))*ylimAdj, ylimAdj*max(abs(unlist(exp[exp$Yr>=xmin,1:nlines])))*1.05))
+      ylim = c(-ylims,ylims) 
+    }
     
     plot(0, type = "n", xlim = c(max(min(yr),xmin),max(yr)), yaxs = yaxs, 
          ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylabs[which(refplots%in%quant)],""), axes = FALSE)
@@ -550,7 +569,7 @@ SSplotModelcomp<- function(summaryoutput=aspm.hke,
     for(iline in 1:nlines){
       
     if(quant%in%c("SSB","Fvalue","Bratio")){  
-       polygon(c(yr,rev(yr)),c(lower[,iline],rev(upper[,iline])),col=shadecol[iline],border=shadecol)
+       polygon(c(yr,rev(yr)),c(lower[,iline],rev(upper[,iline])),col=shadecol[iline],border=shadecol[iline])
     } else {
       adj <- 0.2*iline/nlines - 0.1
       arrows(x0=yr+adj, y0=lower[,iline],

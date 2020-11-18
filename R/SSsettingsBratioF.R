@@ -18,6 +18,7 @@ SSsettingsBratioF = function(ss3rep,status=c('Bratio','F'),verbose=TRUE){
   
   
   
+  
   # brp checks for starter file setting
   refyr = max(yrs)
   bt = hat[hat$Label==paste0("SSB_",refyr),2]

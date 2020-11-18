@@ -13,7 +13,7 @@
 #' @param biomass the function is only tested to run with default biomass = "SSB" 
 #' @param refs required reference quantaties
 #' @return  list of (1) all quataties "sims" (2) object of SSplotEnsemble() "kb" and settings
-#' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
+#' @author Henning Winker (JRC-EC), Massimiliano and Laurence Kell (Sea++)
 #' @export
 
 

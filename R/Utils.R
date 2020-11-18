@@ -22,7 +22,10 @@ sspar <- function(mfrow=c(1,1),plot.cex=1,mai=c(0.55,0.6,0.1,.1),omi = c(0.,0.,0
 #' @return Reformatted Rep file outputs
 #' @export
 SSdiagsTime2Year = function(ss3out,time.steps=0.25,end.time){
+  if(is.null(ss3out$len)==F | is.null(ss3out$len)==F){
+  type = "retrocomps"} else {  
   type = ifelse(is.null(ss3out$modelnames),"rep","retro")
+  }
   # Conversion match function
   convTY <- function(indices,end.time,time.steps){
     steps = (unique(indices$Time))
@@ -62,6 +65,12 @@ SSdiagsTime2Year = function(ss3out,time.steps=0.25,end.time){
     ss3out$startyrs = rep(min(ssb$Time),ss3out$n)
     ss3out$endyrs = rep(max(ssb$Time),ss3out$n)
     # Can add F and Rec if needed
-    }
+  }
+  if(type=="retrocomps"){
+    if(!is.null(ss3out$len)) ss3out$len =  convTY(ss3out$len,end.time,time.steps)
+    if(!is.null(ss3out$age)) ss3out$len =  convTY(ss3out$age,end.time,time.steps)
+    ss3out$startyrs = rep(min(ss3out$len$Time,ss3out$age$Time),ss3out$n)
+    ss3out$endyrs = rep(max(ss3out$len$Time,ss3out$age$Time),ss3out$n)
+  }
   return(ss3out)
 }

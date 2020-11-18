@@ -5,17 +5,17 @@
 \title{SSplotHCxal() for one-step ahead hindcasting cross-validations of indices}
 \usage{
 SSplotModelcomp(
-  summaryoutput = aspm.hke,
+  summaryoutput = aspm.sma,
   plot = TRUE,
   print = FALSE,
   png = print,
   pdf = FALSE,
   models = "all",
-  subplots = c("SSB", "Bratio", "Fvalue", "Recruits", "Index"),
+  subplots = c("SSB", "Bratio", "Fvalue", "Recruits", "Index", "RecDevs"),
   brp = c("msy", "btargs"),
   fmsy = TRUE,
   ylabs = c("SSB (t)", expression(SSB/SSB[MSY]), "Fishing mortality F",
-    "Recruits ('000s)", "Index"),
+    "Recruits ('000s)", "Index", "Recruitment Deviations"),
   endyrvec = "default",
   xmin = NULL,
   indexselect = NULL,

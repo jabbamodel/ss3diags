@@ -2,7 +2,7 @@
 #'
 #' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
 #' 
-#' @param hcruns List created by r4ss::SSsummarize() 
+#' @param retroSummary List created by r4ss::SSsummarize() or ss3diags::SSretroComps() 
 #' @param subplots optional use of c("cpue","len","age"), yet to be tested for age.
 #' @param models Optional subset of the models described in
 #' r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
@@ -62,7 +62,7 @@
 #' @param indexQdigits Number of significant digits for catchability in legend
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 #' @export
-SSplotHCxval<- function(hcruns=retro.sma,subplots=c("cpue","len","age"),Season="default",
+SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="default",
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                         models="all",
                         endyrvec="default",

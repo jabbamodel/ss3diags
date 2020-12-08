@@ -27,13 +27,14 @@ help("pac.hke")
 l = 1.2 # size of plot label a), b), c)
 # PLOTS FOR MS COOKBOOK
 graphics.off()
-
+res=300 # resolution
 # JABBA-Residual plots
 # Requires input from r4ss::SS_output()
 plname = "Fig3_jointresiduals"
-pwidth=8; pheight=7
-if(grepl("win",tolower(Sys.info()['sysname']))) {windows(width=pwidth,height=pheight)}
+pwidth=8
+pheight=7
 
+if(grepl("win",tolower(Sys.info()['sysname']))) {windows(width=pwidth,height=pheight)}
 sspar(mfrow=c(2,2),labs=T,plot.cex=0.9)
 SSplotJABBAres(ss3sma,add=T,legendcex=0.8,tickEndYr=T,xylabs=T,indexselect = c(1,3,4,5,6),legendsp = 1)
 legend("topleft",paste0(letters[1],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
@@ -49,7 +50,6 @@ dev.print(jpeg,paste0(getwd(),"/",plname,".jpg"), width = pwidth, height = pheig
 
 pwidth = 8
 pheight = 9
-res=300
 plname = "Fig4_runsfig_sma"
 if(grepl("win",tolower(Sys.info()['sysname']))) {windows(width=pwidth,height=pheight)}
 # set graphic options

@@ -5,7 +5,7 @@
 \title{SSplotHCxal() for one-step ahead hindcasting cross-validations of indices}
 \usage{
 SSplotHCxval(
-  hcruns = retro.sma,
+  retroSummary,
   subplots = c("cpue", "len", "age"),
   Season = "default",
   plot = TRUE,
@@ -57,7 +57,7 @@ SSplotHCxval(
 )
 }
 \arguments{
-\item{hcruns}{List created by r4ss::SSsummarize()}
+\item{retroSummary}{List created by r4ss::SSsummarize() or ss3diags::SSretroComps()}
 
 \item{subplots}{optional use of c("cpue","len","age"), yet to be tested for age.}
 

@@ -20,7 +20,7 @@ SSmase<- function(retroSummary,subplots=c("cpue","len","age"),Season="default",
                         verbose=TRUE
                         ){ 
   
-  summaryoutput = hcruns #added for now
+  hcruns =retroSummary #added for now
   xmin = NULL
   if(is.null(hcruns$indices) & subplots[1] == "cpue"){
      stop("Require input object from r4ss::SSsummarize()") 

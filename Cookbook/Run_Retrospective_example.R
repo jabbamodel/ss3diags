@@ -2,7 +2,7 @@
 # Run Retrospective analysis example
 # Example original application: 
 # 2017 ICCAT North Atlantic shortfin mako (SMA) Stock Synthesis model run 3
-# Stock Synthesis (version 3_30_08 Windows) 
+# Stock Synthesis (version 3_30_15 Windows) 
 # r4ss (version 1.35.1)  
 # R (version 3.3.2 64 bit)
 ##
@@ -44,6 +44,9 @@ file.copy(paste(dirname.completed.model.run,       "forecast.ss", sep="/"),
           paste(dirname.Retrospective, "forecast.ss", sep="/"))
 file.copy(paste(dirname.completed.model.run,       "SS.exe", sep="/"),
           paste(dirname.Retrospective, "SS.exe", sep="/"))
+# Required for assessments with wtatage.ss files
+file.copy(paste(dirname.completed.model.run,       "wtatage.ss", sep="/"),
+          paste(dirname.Retrospective, "wtatage.ss", sep="/"))
 
 #------------Make Changes to the Starter.ss file (DC Example) ------------------------------- 
 starter <- readLines(paste(dirname.Retrospective, "/starter.ss", sep=""))

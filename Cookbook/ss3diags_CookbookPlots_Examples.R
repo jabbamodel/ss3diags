@@ -10,7 +10,7 @@
 # Joint Research Centre of the European Commission
 # Work Email: Henning.Winker@ec.europa.eu 
 #><>><>><>><>><>><>><>><>><>><>><>><>><>><>><>
-#Test
+
 # load pakage
 library(ss3diags)
 library(r4ss)

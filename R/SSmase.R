@@ -3,6 +3,7 @@
 #' MASE for one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
 #' 
 #' @param retroSummary List created by r4ss::SSsummarize() 
+#' @param type data type c("cpue","len","age)
 #' @param models Optional subset of the models described in
 #' r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
 #' columns in summary tables.
@@ -15,13 +16,14 @@
 #' @param verbose Report progress to R GUI?
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 #' @export
-SSmase<- function(retroSummary,subplots=c("cpue","len","age"),Season="default",
+SSmase<- function(retroSummary,type=c("cpue","len","age"),Season="default",
                         models="all",endyrvec="default",indexselect = NULL,
                         verbose=TRUE
                         ){ 
   
   hcruns =retroSummary #added for now
   xmin = NULL
+  subplots = type
   if(is.null(hcruns$indices) & subplots[1] == "cpue"){
      stop("Require input object from r4ss::SSsummarize()") 
    }  

@@ -6,7 +6,7 @@
 \usage{
 SSmase(
   retroSummary,
-  subplots = c("cpue", "len", "age"),
+  type = c("cpue", "len", "age"),
   Season = "default",
   models = "all",
   endyrvec = "default",
@@ -16,6 +16,8 @@ SSmase(
 }
 \arguments{
 \item{retroSummary}{List created by r4ss::SSsummarize()}
+
+\item{type}{data type c("cpue","len","age)}
 
 \item{Season}{option to specify Season - Default uses first available, i.e. usual Seas = 1}
 

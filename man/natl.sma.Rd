@@ -7,9 +7,9 @@
 \format{
 \code{r4ss} list objects 
 \describe{
- \item{ss3sma}{ss3 rep file read with r4ss::SS_output()}
- \item{retro.sma}{list of retrospective rep files read with r4ss::SSgetoutput()}
- \item{aspm.sma}{list of referece and aspm rep files created with r4ss::SSsummarize()}
+ \item{ss3sma}{output from Stock Synthesis as read by r4ss::SS_output()}
+ \item{retro.sma}{list of retrospective runs with r4ss::SS_doRetro() as read by r4ss::SSgetoutput()}
+ \item{aspm.sma}{list of Stock Synthesis referece and aspm created with r4ss::SSsummarize()}
 }
 }
 \source{

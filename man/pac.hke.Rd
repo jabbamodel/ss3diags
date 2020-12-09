@@ -7,22 +7,22 @@
 \format{
 \code{r4ss} list objects
 \describe{
- \item{ss3phke}{ss3 rep file read with r4ss::SS_output()}
- \item{retro.phk}{list of retrospective rep files read with r4ss::SSgetoutput()}
- \item{aspm.phk}{list of referece and aspm rep files created with r4ss::SSsummarize()}
+ \item{ss3phke}{output from Stock Synthesis as read by r4ss::SS_output()}
+ \item{retro.phk}{list of retrospective runs with r4ss::SS_doRetro() as read by r4ss::SSgetoutput()}
+ \item{aspm.phk}{list of Stock Synthesis referece and aspm created with r4ss::SSsummarize()}
 }
 }
 \source{
-Joint Technical Committee of the U.S. and Canada Pacific Hake/Whiting 
+2020 Pacific hake/whiting Stock Synthesis assessment. Joint Technical Committee of the U.S. and Canada Pacific Hake/Whiting 
 Agreement, National Marine Fisheries Service and Fisheries and Oceans Canada
 }
 \usage{
 pac.hke
 }
 \description{
-Stock Synthesis (V3.30) base-case run, list of retrospective runs,
+Stock Synthesis (V3.30.14) base-case run, list of retrospective runs,
  list of base-case and aspm runs
 }
 \author{
-Grandin, C.J., K.F. Johnson, A.M. Edwards, and A.M. Berger (2020)
+Grandin, C.J., K.F. Johnson, A.M. Edwards, and A.M. Berger. (2020). Status of the Pacific Hake (whiting) stock in U.S. and Canadian waters in 2020. Prepared by the Joint Technical Committee of the U.S. and Canada Pacific Hake/Whiting Agreement, National Marine Fisheries Service and Fisheries and Oceans Canada. 273 p.
 }

@@ -77,7 +77,7 @@ columns in summary tables.}
 final year of values to show for each model. By default it is set to the
 ending year specified in each model.}
 
-\item{xmin}{= NULL optional number first year shown in plot (if available)}
+\item{xmin}{optional number first year shown in plot (if available)}
 
 \item{indexselect}{= Vector of fleet numbers for each model for which to compare}
 

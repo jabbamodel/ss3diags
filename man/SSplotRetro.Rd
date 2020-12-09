@@ -2,11 +2,11 @@
 % Please edit documentation in R/SSplotRetro.R
 \name{SSplotRetro}
 \alias{SSplotRetro}
-\title{SSplotRetro() for one-step ahead hindcasting cross-validations of indices}
+\title{SSplotRetro() Retrospective-Forecast with one-step ahead hindcasting}
 \usage{
 SSplotRetro(
-  summaryoutput = retro.hke,
-  subplots = c("SSB"),
+  summaryoutput,
+  subplots = c("SSB", "F"),
   plot = TRUE,
   print = FALSE,
   png = print,
@@ -14,9 +14,10 @@ SSplotRetro(
   models = "all",
   endyrvec = "default",
   xmin = NULL,
-  labels = c("Spawning biomass (t)", "Reproductive output")[1],
+  labels = NULL,
+  ylim = NULL,
   forecast = TRUE,
-  forcastrho = FALSE,
+  forecastrho = TRUE,
   showrho = TRUE,
   col = NULL,
   pch = NULL,
@@ -77,7 +78,11 @@ ending year specified in each model.}
 
 \item{labels}{yaxis lable for biomass (bony fish and sharks)}
 
+\item{ylim}{option to specify ylim range}
+
 \item{forecast}{if true one-step ahead forecasts are shown in plot}
+
+\item{forecastrho}{if true one-step ahead forecast rho value is denoted in plot}
 
 \item{col}{Optional vector of colors to be used for lines. Input NULL}
 
@@ -146,8 +151,6 @@ It will be separated from default name by an underscore.}
 \item{add}{surpresses par() to create multiplot figs}
 
 \item{mcmcVec}{NOT TESTED Vector of TRUE/FALSE values (or single value) indicating}
-
-\item{forecastrho}{if true one-step ahead forecast rho value is denoted in plot}
 
 \item{legendcex=1}{Allows to adjust legend cex}
 

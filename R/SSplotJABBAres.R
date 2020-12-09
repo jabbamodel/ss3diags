@@ -235,6 +235,7 @@ SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","len","age")[1],
     
     ### make plot of index fits
     yrange = ifelse(rep(max(ifelse(abs(Resids)>miny,0,Resids),na.rm = T),2)>0.5,range(ylimAdj*ifelse(abs(Resids)>miny,0,Resids),na.rm = T),range(c(-0.7,0.5)))
+    
     ylim= c(-max(abs(yrange)),max(abs(yrange)))
     
     if(xlim[1]=="default") xlim = range(yr)

@@ -11,7 +11,7 @@
 #' @param endyrvec Optional single year or vector of years representing the
 #' final year of values to show for each model. By default it is set to the
 #' ending year specified in each model.
-#' @param xmin = NULL optional number first year shown in plot (if available)  
+#' @param xmin optional number first year shown in plot (if available)  
 #' @param indexselect = Vector of fleet numbers for each model for which to compare
 #' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets
 #' @param indexUncertainty Show fixed uncertainty intervals on index (not estimated)
@@ -359,8 +359,6 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
     
     ylim <- ylimAdj*range(exp[sub], obs[sub], lower[sub], upper[sub], na.rm=TRUE)
     # if no values included in subset, then set ylim based on all values
-    
-    
     
     if(!any(sub)){
       ylim <- ylimAdj*range(exp, obs, lower, upper, na.rm=TRUE)

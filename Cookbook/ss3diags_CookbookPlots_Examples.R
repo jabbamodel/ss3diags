@@ -136,9 +136,9 @@ legend("topleft",paste0(letters[2],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n
 mtext("Year",side=1,outer=T,cex=1,line=0.5)
 mtext("SSB (t)",side=2,outer=T,line=0.5,cex=1)
 mtext(c("SMA","HAKE"), side=3, outer=T,line= -0.4,cex=1.1,c(0.27,0.77))
-SSplotRetro(retroI.sma,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomleft",xmin=2005,uncertainty = T,legend = F,forecast = T,legendsp = 0.9,forcastrho=T)
+SSplotRetro(retroI.sma,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomleft",xmin=2005,uncertainty = T,legend = F,forecast = T,legendsp = 0.9)
 legend("topleft",paste0(letters[3],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
-SSplotRetro(retroI.phke,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomright",xmin=2005,legend = F,forecast = T,legendsp = 0.9,forcastrho=T)
+SSplotRetro(retroI.phke,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomright",xmin=2005,legend = F,forecast = T,legendsp = 0.9)
 legend("topleft",paste0(letters[4],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 #save
 dev.print(jpeg,paste0(getwd(),"/",plname,".jpg"), width = pwidth, height = pheight, res = res, units = "in")

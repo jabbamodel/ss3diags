@@ -1,4 +1,4 @@
-#' SSplotRetro() for one-step ahead hindcasting cross-validations of indices
+#' SSplotRetro() Retrospective-Forecast with one-step ahead hindcasting 
 #'
 #' Plots retrospective pattern, including (optional) one-step ahead forecast and computes Mohn's Rho 
 #' 
@@ -15,6 +15,7 @@
 #' @param pdf not tested for TRUE
 #' @param xmin  optional minimum year shown in plot (default first yr)   
 #' @param labels yaxis lable for biomass (bony fish and sharks) 
+#' @param ylim option to specify ylim range
 #' @param forecast if true one-step ahead forecasts are shown in plot
 #' @param forecastrho if true one-step ahead forecast rho value is denoted in plot
 #' @param col Optional vector of colors to be used for lines. Input NULL
@@ -61,15 +62,15 @@
 #' @param indexQdigits Number of significant digits for catchability in legend
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @export
-SSplotRetro<- function(summaryoutput=retro.hke, subplots=c("SSB"),
+SSplotRetro<- function(summaryoutput, subplots=c("SSB","F"),
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                         models="all",
                         endyrvec="default",
                         xmin = NULL,
-                        labels=c("Spawning biomass (t)",    
-                                 "Reproductive output")[1],       
+                        labels =NULL,       
+                        ylim = NULL,
                         forecast = TRUE,
-                        forcastrho = FALSE,
+                        forecastrho = TRUE,
                         showrho  = TRUE,
                         col=NULL, 
                         pch=NULL, lty=1, lwd=2,
@@ -88,7 +89,7 @@ SSplotRetro<- function(summaryoutput=retro.hke, subplots=c("SSB"),
                         shadecol = grey(0.4,0.6),new=TRUE,
                         add=FALSE,mcmcVec=FALSE
 
-){ # plot different fits to a single index of abundance
+){ 
   #------------------------------------------
   # r4ss plotting functions
   #------------------------------------------
@@ -114,7 +115,7 @@ SSplotRetro<- function(summaryoutput=retro.hke, subplots=c("SSB"),
   quant = subplots[1] 
   
   #------------------------------------------------------------------
-  plot_retro <- function(quant="SSB"){  
+  plot_retro <- function(quant=quant){  
     
     if(png) print <- TRUE
     if(png & is.null(plotdir))
@@ -180,14 +181,38 @@ SSplotRetro<- function(summaryoutput=retro.hke, subplots=c("SSB"),
     startyrs      <- summaryoutput$startyrs
     endyrs        <- summaryoutput$endyrs
     years         <- min(startyrs):max(endyrs)
-    SpawnBio      <- summaryoutput$SpawnBio
-    SpawnBioLower <- summaryoutput$SpawnBioLower
-    SpawnBioUpper <- summaryoutput$SpawnBioUpper
-    # more to add
     
+    if(quant=="SSB"){
+    mu      <- summaryoutput$SpawnBio
+    Lower <- summaryoutput$SpawnBioLower
+    Upper <- summaryoutput$SpawnBioUpper
+    if(is.null(labels)){
+      if(summaryoutput$SpawnOutputUnits[1]=="numbers"){
+      labels = "Stock fecundity"
+      } else {
+      labels = "Spawning biomass (t)"
+      }}
+    }
     
-    if(models[1]=="all") models <- 1:n    
-    nlines <- length(models) 
+  if(quant=="F"){
+    mu      <- summaryoutput$Fvalue
+    Lower <- summaryoutput$FvalueLower
+    Upper <- summaryoutput$FvalueUpper
+    if(is.null(labels)){
+      if(strsplit(summaryoutput$FvalueLabels[1],";")[[1]][1]=="_abs_F"){
+        labels = "Fishing mortality F"
+      } else if(strsplit(summaryoutput$FvalueLabels[1],";")[[1]][1]=="(F)/(Fmsy)"){
+        labels = expression(F/F[MSY])
+      } else
+        labels = "F ratio"
+    }
+    }
+    
+
+    ylab = labels
+      
+  if(models[1]=="all") models <- 1:n    
+  nlines <- length(models) 
     
     
     if(endyrvec[1]=="default"){
@@ -226,19 +251,16 @@ SSplotRetro<- function(summaryoutput=retro.hke, subplots=c("SSB"),
     }
     
     # get quantities for plot
-    ylab=labels[1]
+    
     
     
     # get exp 
-    if(quant=="SSB"){
-    exp = SpawnBio[SpawnBio$Yr%in%years,]  
+    exp = mu[mu$Yr%in%years,]  
     
     # get uncertainty intervals if requested
-    
-      lower = SpawnBioLower[SpawnBioLower$Yr%in%years,]
-      upper = SpawnBioUpper[SpawnBioUpper$Yr%in%years,]
+    lower = Lower[Lower$Yr%in%years,]
+    upper = Upper[Upper$Yr%in%years,]
       
-    }
     
     # Check if uncertainty is measured
     if(uncertainty ==TRUE & sum(exp[,1]-lower[,1])==0){
@@ -259,7 +281,8 @@ SSplotRetro<- function(summaryoutput=retro.hke, subplots=c("SSB"),
         xmin = min(xmin,min(endyrvec)-3)  
       }
     
-     ylim <- c(0,max(ifelse(uncertainty,max(unlist(upper[upper$Yr>=xmin,1:nlines]))*ylimAdj, ylimAdj*max(unlist(exp[exp$Yr>=xmin,1:nlines]))*1.05)))
+        
+    if(is.null(ylim)) ylim <- c(0,max(ifelse(uncertainty,max(c(unlist(exp[exp$Yr>=xmin,1:nlines]),unlist(upper[upper$Yr>=xmin,1])))*ylimAdj, ylimAdj*max(unlist(exp[exp$Yr>=xmin,1:nlines]))*1.05)))
     # hindcast section
     yr.eval <- c(endyrvec)
     yr.eval <- (sort(yr.eval))
@@ -304,7 +327,7 @@ SSplotRetro<- function(summaryoutput=retro.hke, subplots=c("SSB"),
       
       rho =  mean(rho.i)
       fcrho= mean(fcrho.i)
-      rho.table = data.frame(type=quant,peel=c(endyrvec[-1],"Combined"),Rho=c(rho.i,rho),ForcastRho=c(fcrho.i,fcrho))
+      rho.table = data.frame(type=quant,peel=c(endyrvec[-1],"Combined"),Rho=c(rho.i,rho),ForecastRho=c(fcrho.i,fcrho))
       
       
       if(legend){
@@ -312,7 +335,7 @@ SSplotRetro<- function(summaryoutput=retro.hke, subplots=c("SSB"),
         
         legendfun(legendlabels)
       }
-      if(showrho) legend("top", paste0("Mohn's rho = ",round(rho,2),ifelse(forecast & forcastrho,paste0("(",round(fcrho,2),")"),"")),bty="n",y.intersp=-0.2,cex=legendcex+0.1)
+      if(showrho) legend("top", paste0("Mohn's rho = ",round(rho,2),ifelse(forecast & forecastrho,paste0("(",round(fcrho,2),")"),"")),bty="n",y.intersp=-0.2,cex=legendcex+0.1)
       
       #axis(1, at=c(max(xmin,min(yr)):max(endyrvec)))
       axis(1)

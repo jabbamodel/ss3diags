@@ -286,7 +286,107 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","
 } # end of SSplotRuns()
 #-----------------------------------------------------------------------------------------
 
+#' runs test  
+#'
+#' Residual diagnostics with runs test p-value and 3xsigma limits for Indices, mean length and mean age
+#'
+#' @param ss3rep from r4ss::SSgetoutput()$replist1
+#' @param mixing c("less","greater","two.sided"). Default less is checking for postive autocorrelation only    
+#' @param quants optional use of c("cpue","len","age"), yet to be tested for age.
+#' @param indexselect Vector of fleet numbers for each model for which to compare
+#' @param verbose Report progress to R GUI?
+#' @return Runs Test p-values and sig3 limits
+#' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' @export
+
+SSrunstest <- function(ss3rep=ss3sma,mixing="less",quants=c("cpue","len","age")[1],
+                           indexselect = NULL,
+                           verbose=TRUE){
+  
+  
+  datatypes= c("Index","Mean length","Mean age")
+  subplots = quants
+  ylabel = datatypes[which(c("cpue","len","age")%in%subplots)]
+  if(verbose) cat('\n',"Running Runs Test Diagnosics for",datatypes[which(c("cpue","len","age")%in%subplots)],'\n')
+  if(subplots=="cpue"){
+    cpue = ss3rep$cpue
+    cpue$residuals = ifelse(is.na(cpue$Obs) | is.na(cpue$Like),NA,log(cpue$Obs)-log(cpue$Exp))
     
+    if(is.null(cpue$Fleet_name)){ # Deal with Version control
+      cpue$Fleet_name = cpue$Name}
+    Res = cpue
+  }
+  
+  if(subplots=="len" | subplots=="age"){
+    comps = SScompsTA1.8(ss3rep,fleet=NULL,type=subplots,plotit = FALSE)$runs_dat
+    comps$residuals = ifelse(is.na(comps$Obs),NA,log(comps$Obs)-log(comps$Exp))
+    if(is.null(comps$Fleet_name)){ # Deal with Version control
+      comps$Fleet_name = comps$Name}
+    Res = comps
+  }  
+  
+  
+  # subset if indexselect is specified
+  if(is.null(indexselect) ==F & is.numeric(indexselect)){
+    iname =  unique(Res$Fleet_name)[indexselect]
+    if(TRUE %in% is.na(iname)) stop("One or more index numbers exceed number of available indices")
+    Res = Res[Res$Fleet_name%in%iname,]
+  }
+  
+  # Define indices
+  indices = unique(Res$Fleet_name)
+  n.indices = length(indices)
+  series = 1:n.indices
+  
+  
+  
+  
+  #---------------------------------------
+  doruns <- function(resid){  
+    
+    
+    # get quantities for plot
+    yr <- resid$Yr
+    ti <- resid$Time  
+    ylab= paste(ylabel,"residuals")
+    
+    ### make plot of index fits
+    
+    # Do runs test
+    runstest = ssruns_sig3(x=as.numeric(resid$residuals),type="resid",mixing=mixing)
+    
+    # if no values included in subset, then set ylim based on all values
+    lims = runstest$sig3lim
+
+    return(runstest)
+  } # End of runs function  
+  #------------------------------------------------------------
+  
+  
+  if(verbose) cat("Computing Residual Runs Tests \n")
+    # LOOP through fleets
+    nfleets=n.indices
+    runs = NULL
+    for(fi in 1:nfleets){
+      resid = Res[Res$Fleet_name==indices[fi],]
+      if(nrow(resid)>3 & (max(resid$Time)-min(resid$Time))>3){
+        get_runs = doruns(resid)    
+        runs = rbind(runs,c(get_runs$p.runs,get_runs$sig3lim))
+        # End of Fleet Loop
+      } else {
+        runs = rbind(runs,c(NA,NA,NA))
+      }
+    }   
+  
+  runstable = data.frame(Index=indices,runs.p=as.matrix(runs)[,1],Test=ifelse(is.na(as.matrix(runs)[,1]),"Excluded",ifelse(as.matrix(runs)[,1]<0.05,"Failed","Passed")),sigma3.lo=as.matrix(runs)[,2],sigma3.hi=as.matrix(runs)[,3],type=subplots) 
+  colnames(runstable) = c("Index","runs.p","test","sigma3.lo","sigma3.hi","type")
+  if(verbose) cat(paste0("\n","Runs Test stats by ",datatypes[which(c("cpue","len","age")%in%subplots)],":","\n"))
+  return(runstable)
+} # end of SSplotRuns()
+#-----------------------------------------------------------------------------------------
+
+
+
     
     
     

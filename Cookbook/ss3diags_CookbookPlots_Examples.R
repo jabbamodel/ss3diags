@@ -38,11 +38,11 @@ if(grepl("win",tolower(Sys.info()['sysname']))) {windows(width=pwidth,height=phe
 sspar(mfrow=c(2,2),labs=T,plot.cex=0.9)
 SSplotJABBAres(ss3sma,add=T,legendcex=0.8,tickEndYr=T,xylabs=T,indexselect = c(1,3,4,5,6),legendsp = 1)
 legend("topleft",paste0(letters[1],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
-SSplotJABBAres(ss3phke,add=T,legendcex=0.8,tickEndYr=T,xylabs=T,legendsp = 1)
+SSplotJABBAres(ss3phk,add=T,legendcex=0.8,tickEndYr=T,xylabs=T,legendsp = 1)
 legend("topleft",paste0(letters[2],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 SSplotJABBAres(ss3sma,subplots = "len", add=T,legendcex=0.8,tickEndYr=T,xylabs=T,legendsp = 1)
 legend("topleft",paste0(letters[1],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
-SSplotJABBAres(ss3phke,subplots = "age",add=T,legendcex=0.8,tickEndYr=T,xylabs=T,legendsp = 1)
+SSplotJABBAres(ss3phk,subplots = "age",add=T,legendcex=0.8,tickEndYr=T,xylabs=T,legendsp = 1)
 legend("topleft",paste0(letters[2],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 mtext(c("SMA","HAKE"), side=3, outer=T,line= -0.4,cex=1.1,c(0.27,0.79))
 #save
@@ -70,11 +70,11 @@ plname = "Fig5_runsfig_hke"
 if(grepl("win",tolower(Sys.info()['sysname']))) {windows(width=pwidth,height=pheight)}
 sspar(mfrow=c(3,1),labs=T,plot.cex=0.9)
 for(i in 1:1){
-  SSplotRunstest(ss3phke,add=T,legendcex=0.8,tickEndYr=F,xylabs=T,indexselect = i)
+  SSplotRunstest(ss3phk,add=T,legendcex=0.8,tickEndYr=F,xylabs=T,indexselect = i)
   legend("topleft",paste0(letters[c(1)[i]],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 }
 for(i in 1:2){
-  SSplotRunstest(ss3phke,subplots="age",add=T,legendcex=0.8,tickEndYr=F,xylabs=T,indexselect = c(2:1)[i])
+  SSplotRunstest(ss3phk,subplots="age",add=T,legendcex=0.8,tickEndYr=F,xylabs=T,indexselect = c(2:1)[i])
   legend("topleft",paste0(letters[c(2:3)[i]],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 }
 #save
@@ -92,17 +92,17 @@ sspar(mfrow=c(3,2),labs=F,plot.cex=1)
 SSplotModelcomp(aspm.sma,subplots = "Index",ylimAdj=1.1,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,indexselect = c(1),legendlabels = c("Full Model","ASPM","ASPMdev"))
 legend("topleft",paste0(letters[1],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 mtext("Index",side=2,outer=F,line=1.5,cex=1)
-SSplotModelcomp(aspm.phke,subplots = "Index",ylimAdj=1.1,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,indexselect = c(1),legendlabels = c("Full Model","ASPM","ASPMdev"))
+SSplotModelcomp(aspm.phk,subplots = "Index",ylimAdj=1.1,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,indexselect = c(1),legendlabels = c("Full Model","ASPM","ASPMdev"))
 legend("topleft",paste0(letters[2],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 SSplotModelcomp(aspm.sma,subplots = "SSB",ylimAdj=1.15,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,indexselect = c(1),legend=F)
 legend("topleft",paste0(letters[3],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 mtext("SSB (t)",side=2,outer=F,line=1.5,cex=1)
-SSplotModelcomp(aspm.phke,subplots = "SSB",ylimAdj=1.1,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,indexselect = c(1),legend=F)
+SSplotModelcomp(aspm.phk,subplots = "SSB",ylimAdj=1.1,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,indexselect = c(1),legend=F)
 legend("topleft",paste0(letters[4],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 SSplotModelcomp(aspm.sma,subplots = "RecDevs",ylimAdj=0.9,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,indexselect = c(1),legend=F)
 legend("topleft",paste0(letters[5],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 mtext("Recruitment Deviations",side=2,outer=F,line=1.5,cex=1)
-SSplotModelcomp(aspm.phke,subplots = "RecDevs",ylimAdj=1,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,indexselect = c(1),legend=F)
+SSplotModelcomp(aspm.phk,subplots = "RecDevs",ylimAdj=1,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,indexselect = c(1),legend=F)
 legend("topleft",paste0(letters[6],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 mtext("Year",side=1,outer=T,cex=1,line=0.5)
 mtext(c("SMA","HAKE"), side=3, outer=T,line= -0.2,cex=1.1,c(0.27,0.77))
@@ -118,9 +118,9 @@ retroI.sma = r4ss::SSsummarize(retro.sma)
 # convert replist into summary object with mean size/age
 hccomps.sma = ss3diags::SSretroComps(retro.sma)
 # convert replist into summary object
-retroI.phke = r4ss::SSsummarize(retro.phke)
+retroI.phk = r4ss::SSsummarize(retro.phk)
 # convert replist into summary object with mean size/age
-hccomps.phke = ss3diags::SSretroComps(retro.phke)
+hccomps.phk = ss3diags::SSretroComps(retro.phk)
 
 #--------------------------------------------------
 # Retrospective plots with one-step ahead forecasts
@@ -131,14 +131,14 @@ plname = "Fig8_retrowithforecast"
 sspar(mfrow=c(2,2),labs=F,plot.cex=1.)
 SSplotRetro(retroI.sma,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomleft",uncertainty = T,showrho = F,forecast = T,labels="SSB (t)",legendsp=0.9)
 legend("topleft",paste0(letters[1],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
-SSplotRetro(retroI.phke,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "topright",uncertainty = T,showrho = F,forecast = T,labels="SSB (t)",legendsp=0.9)
+SSplotRetro(retroI.phk,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "topright",uncertainty = T,showrho = F,forecast = T,labels="SSB (t)",legendsp=0.9)
 legend("topleft",paste0(letters[2],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 mtext("Year",side=1,outer=T,cex=1,line=0.5)
 mtext("SSB (t)",side=2,outer=T,line=0.5,cex=1)
 mtext(c("SMA","HAKE"), side=3, outer=T,line= -0.4,cex=1.1,c(0.27,0.77))
 SSplotRetro(retroI.sma,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomleft",xmin=2005,uncertainty = T,legend = F,forecast = T,legendsp = 0.9)
 legend("topleft",paste0(letters[3],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
-SSplotRetro(retroI.phke,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomright",xmin=2005,legend = F,forecast = T,legendsp = 0.9)
+SSplotRetro(retroI.phk,add=T,legendcex=0.8,tickEndYr=F,xylabs=F,legendloc = "bottomright",xmin=2005,legend = F,forecast = T,legendsp = 0.9)
 legend("topleft",paste0(letters[4],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 #save
 dev.print(jpeg,paste0(getwd(),"/",plname,".jpg"), width = pwidth, height = pheight, res = res, units = "in")
@@ -175,11 +175,11 @@ if(grepl("win",tolower(Sys.info()['sysname']))) {windows(width=pwidth,height=phe
 sspar(mfrow=c(3,1),labs=T,plot.cex=0.9)
 
 for(i in 1:1){
-  SSplotHCxval(retroI.phke,add=T,legendcex=0.8,legend=F,legendsp = 0.8,legendindex = 1,tickEndYr=F,xylabs=T,legendloc="topright",indexselect = c(1)[i])
+  SSplotHCxval(retroI.phk,add=T,legendcex=0.8,legend=F,legendsp = 0.8,legendindex = 1,tickEndYr=F,xylabs=T,legendloc="topright",indexselect = c(1)[i])
   legend("topleft",paste0(letters[c(1)[i]],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 }
 for(i in 1:2){
-  SSplotHCxval(hccomps.phke,subplots = "age",add=T,legendcex=0.8,legend=ifelse(i==2,T,F),legendsp = 0.8,legendindex = 1,tickEndYr=F,xylabs=T,legendloc="bottomleft",indexselect = c(2,1)[i])
+  SSplotHCxval(hccomps.phk,subplots = "age",add=T,legendcex=0.8,legend=ifelse(i==2,T,F),legendsp = 0.8,legendindex = 1,tickEndYr=F,xylabs=T,legendloc="bottomleft",indexselect = c(2,1)[i])
   legend("topleft",paste0(letters[c(2:3)[i]],")"),y.intersp = -0.2,x.intersp = -0.7,bty="n",cex=l)
 }
 dev.print(jpeg,paste0(getwd(),"/",plname,".jpg"), width = pwidth, height = pheight, res = res, units = "in")

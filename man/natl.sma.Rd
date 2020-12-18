@@ -3,13 +3,13 @@
 \docType{data}
 \name{natl.sma}
 \alias{natl.sma}
-\title{ICCAT 2017 North Atlantic Shortfin Mako (SMA) SS3 Model Run 3}
+\title{ICCAT 2017 North Atlantic Shortfin Mako Stock Synthesis model run 3}
 \format{
-\code{r4ss} list objects 
+Individual list objects generated using \pkg{r4ss}
 \describe{
- \item{ss3sma}{output from Stock Synthesis as read by r4ss::SS_output()}
- \item{retro.sma}{list of retrospective runs with r4ss::SS_doRetro() as read by r4ss::SSgetoutput()}
- \item{aspm.sma}{list of Stock Synthesis referece and aspm created with r4ss::SSsummarize()}
+ \item{ss3sma}{output from Stock Synthesis as read by \code{\link[r4ss]{SS_output}()}}
+ \item{retro.sma}{list of retrospective runs with \code{\link[r4ss]{SS_doRetro}()} as read by \code{\link[r4ss]{SSgetoutput}()}}
+ \item{aspm.sma}{list of Stock Synthesis referece and aspm created with \code{\link[r4ss]{SSsummarize}()}}
 }
 }
 \source{
@@ -19,9 +19,10 @@ ICCAT 2017. Report of the 2017 Shortfin Mako Assessment Meeting (Madrid, Spain 1
 natl.sma
 }
 \description{
+Information relevant to North Atlantic Shortfin Mako (SMA), including
 Stock Synthesis (V3.30.15) reference run 3, list of retrospective runs,
- list of reference and aspm runs
+and list of reference run 3 and aspm runs.
 }
 \author{
-C Courtney, D., Carvalho, C. Winker, H., and LT Kell. (2020) Examples of Stock Synthesis diagnostic methods and results implemented for previously completed North Atlantic shortfin mako Stock Synthesis model runs. Collect. Vol. Sci. Pap. ICCAT, 76(10): 173-234.
+Courtney, C., D., Carvalho, C. Winker, H., and LT Kell. (2020). Examples of Stock Synthesis diagnostic methods and results implemented for previously completed North Atlantic shortfin mako Stock Synthesis model runs. Collect. Vol. Sci. Pap. ICCAT, 76(10): 173-234.
 }

@@ -23,6 +23,13 @@ Information relevant to North Atlantic Shortfin Mako (SMA), including
 Stock Synthesis (V3.30.15) reference run 3, list of retrospective runs,
 and list of reference run 3 and aspm runs.
 }
+\examples{
+\dontrun{
+data(natl.sma, package = "ss3diags")
+# List the three objects returned by the line above
+ls(pattern = "sma")
+}
+}
 \author{
 Courtney, C., D., Carvalho, C. Winker, H., and LT Kell. (2020). Examples of Stock Synthesis diagnostic methods and results implemented for previously completed North Atlantic shortfin mako Stock Synthesis model runs. Collect. Vol. Sci. Pap. ICCAT, 76(10): 173-234.
 }

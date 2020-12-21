@@ -24,6 +24,15 @@ Information relevant to Pacific Hake (HKE) example, including
 Stock Synthesis (V3.30.14) base-case run, list of retrospective runs,
 and list of base-case and aspm runs.
 }
+\examples{
+\dontrun{
+data(pac.hke, package = "ss3diags")
+# List the three objects returned by the line above
+ls(pattern = "phk")
+# The list of retrospective runs, which contains 8 lists, one for each peel
+str(retro.phk, max.level = 1)
+}
+}
 \author{
 Grandin, C.J., K.F. Johnson, A.M. Edwards, and A.M. Berger. (2020). Status of the Pacific Hake (whiting) stock in U.S. and Canadian waters in 2020. Prepared by the Joint Technical Committee of the U.S. and Canada Pacific Hake/Whiting Agreement, National Marine Fisheries Service and Fisheries and Oceans Canada. 273 p.
 }

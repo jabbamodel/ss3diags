@@ -13,6 +13,7 @@
 #' @param plot plot to active plot device?
 #' @param print print to PNG files?
 #' @param pdf not tested for TRUE
+#' @param xlim  optional xlim, which overwrites xmin   
 #' @param xmin  optional minimum year shown in plot (default first yr)   
 #' @param labels yaxis lable for biomass (bony fish and sharks) 
 #' @param ylim option to specify ylim range
@@ -66,6 +67,7 @@ SSplotRetro<- function(summaryoutput, subplots=c("SSB","F"),
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                         models="all",
                         endyrvec="default",
+                        xlim = NULL,
                         xmin = NULL,
                         labels =NULL,       
                         ylim = NULL,
@@ -75,7 +77,7 @@ SSplotRetro<- function(summaryoutput, subplots=c("SSB","F"),
                         col=NULL, 
                         pch=NULL, lty=1, lwd=2,
                         tickEndYr=TRUE,
-                        xlim="default", ylimAdj=1.05,
+                        ylimAdj=1.05,
                         xaxs="i", yaxs="i",
                         xylabs=TRUE,
                         type="o", uncertainty=TRUE, 
@@ -283,13 +285,15 @@ SSplotRetro<- function(summaryoutput, subplots=c("SSB","F"),
     
         
     if(is.null(ylim)) ylim <- c(0,max(ifelse(uncertainty,max(c(unlist(exp[exp$Yr>=xmin,1:nlines]),unlist(upper[upper$Yr>=xmin,1])))*ylimAdj, ylimAdj*max(unlist(exp[exp$Yr>=xmin,1:nlines]))*1.05)))
+    if(is.null(xlim)) xlim <- c(max(min(yr),xmin),min(c(max(yr),max(endyrvec+0.5))))
+    
     # hindcast section
     yr.eval <- c(endyrvec)
     yr.eval <- (sort(yr.eval))
     nhc = length(endyrvec)-1
     
     
-      plot(0, type = "n", xlim = c(max(min(yr),xmin),min(c(max(yr),max(endyrvec)))), yaxs = yaxs, 
+      plot(0, type = "n", xlim = xlim, yaxs = yaxs, 
            ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylab,""), axes = FALSE)
       
       imodel <- models[which(endyrvec==max(endyrvec))[1]]

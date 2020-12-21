@@ -13,6 +13,7 @@ SSplotRetro(
   pdf = FALSE,
   models = "all",
   endyrvec = "default",
+  xlim = NULL,
   xmin = NULL,
   labels = NULL,
   ylim = NULL,
@@ -24,7 +25,6 @@ SSplotRetro(
   lty = 1,
   lwd = 2,
   tickEndYr = TRUE,
-  xlim = "default",
   ylimAdj = 1.05,
   xaxs = "i",
   yaxs = "i",
@@ -73,6 +73,8 @@ columns in summary tables.}
 \item{endyrvec}{Optional single year or vector of years representing the
 final year of values to show for each model. By default it is set to the
 ending year specified in each model.}
+
+\item{xlim}{optional xlim, which overwrites xmin}
 
 \item{xmin}{optional minimum year shown in plot (default first yr)}
 

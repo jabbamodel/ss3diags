@@ -14,7 +14,7 @@
 #' @source 2020 Pacific hake/whiting Stock Synthesis assessment. Joint Technical Committee of the U.S. and Canada Pacific Hake/Whiting
 #' Agreement, National Marine Fisheries Service and Fisheries and Oceans Canada
 #' @author Grandin, C.J., K.F. Johnson, A.M. Edwards, and A.M. Berger. (2020). Status of the Pacific Hake (whiting) stock in U.S. and Canadian waters in 2020. Prepared by the Joint Technical Committee of the U.S. and Canada Pacific Hake/Whiting Agreement, National Marine Fisheries Service and Fisheries and Oceans Canada. 273 p.
-#' @example
+#' @examples
 #' \dontrun{
 #' data(pac.hke, package = "ss3diags")
 #' # List the three objects returned by the line above
@@ -40,7 +40,7 @@ NULL
 #' @source ICCAT 2017. Report of the 2017 Shortfin Mako Assessment Meeting (Madrid, Spain 12–16 June 2017).Collect. Vol. Sci. Pap.
 #'
 #' @author Courtney, C., D., Carvalho, C. Winker, H., and LT Kell. (2020). Examples of Stock Synthesis diagnostic methods and results implemented for previously completed North Atlantic shortfin mako Stock Synthesis model runs. Collect. Vol. Sci. Pap. ICCAT, 76(10): 173-234.
-#' @example
+#' @examples
 #' \dontrun{
 #' data(natl.sma, package = "ss3diags")
 #' # List the three objects returned by the line above

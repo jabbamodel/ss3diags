@@ -182,7 +182,12 @@ SSplotRetro<- function(summaryoutput, subplots=c("SSB","F"),
     n             <- summaryoutput$n
     startyrs      <- summaryoutput$startyrs
     endyrs        <- summaryoutput$endyrs
-    years         <- min(startyrs):max(endyrs)
+    
+    if(endyrvec[1]=="default"){
+      endyrvec <- endyrs-seq(0,n-1,1) 
+    }
+    
+    years         <- min(startyrs):max(endyrvec)
     
     if(quant=="SSB"){
     mu      <- summaryoutput$SpawnBio
@@ -213,13 +218,13 @@ SSplotRetro<- function(summaryoutput, subplots=c("SSB","F"),
 
     ylab = labels
       
-  if(models[1]=="all") models <- 1:n    
+  if(models[1]=="all"){models <- 1:n}
+
+  
   nlines <- length(models) 
     
     
-    if(endyrvec[1]=="default"){
-      endyrvec <- endyrs-seq(0,n-1,1) 
-    }
+    
     if(length(endyrvec)==1){
       stop("SSplotRequires requires a minimum of one reference and one retro peel")
     }

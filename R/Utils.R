@@ -74,3 +74,20 @@ SSdiagsTime2Year = function(ss3out,time.steps=0.25,end.time){
   }
   return(ss3out)
 }
+
+#' r4ss color palette 
+#' @param n number of colors
+#' @param alpha transluscency 
+#' @return vector of color codes
+#' @export
+rc <- function(n,alpha=1){
+  # a subset of rich.colors by Arni Magnusson from the gregmisc package
+  # a.k.a. rich.colors.short, but put directly in this function
+  # to try to diagnose problem with transparency on one computer
+  x <- seq(0, 1, length = n)
+  r <- 1/(1 + exp(20 - 35 * x))
+  g <- pmin(pmax(0, -0.8 + 6 * x - 5 * x^2), 1)
+  b <- dnorm(x, 0.25, 0.15)/max(dnorm(x, 0.25, 0.15))
+  rgb.m <- matrix(c(r, g, b), ncol = 3)
+  rich.vector <- apply(rgb.m, 1, function(v) rgb(v[1], v[2], v[3], alpha=alpha))
+}

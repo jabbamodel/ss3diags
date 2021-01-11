@@ -213,9 +213,6 @@ SSplotModelcomp<- function(summaryoutput=aspm.sma,
     if(endyrvec[1]=="default"){
       endyrvec <- endyrs 
     }
-    if(length(endyrvec)==1){
-      stop("SSplotHCxval requires a minimum of one reference and one retro peel")
-    }
     # check length of indexfleets
     if(!is.null(indexfleets) && length(indexfleets) < n){
       if(length(indexfleets)==1){

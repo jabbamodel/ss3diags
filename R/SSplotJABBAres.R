@@ -121,7 +121,7 @@ SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","len","age")[1],
   }
   
   # Define indices
-  resids = reshape2::dcast(Res,Time~Fleet_name,value.var="residuals")
+  resids = reshape2::dcast(Res,Time~Fleet,value.var="residuals")
   indices = unique(Res$Fleet_name)
   n.indices = length(indices)
   series = 1:n.indices

@@ -75,7 +75,7 @@ SSdiagsTime2Year = function(ss3out,time.steps=0.25,end.time){
   return(ss3out)
 }
 
-#' r4ss color palette 
+#' rc r4ss color palette 
 #' @param n number of colors
 #' @param alpha transluscency 
 #' @return vector of color codes
@@ -90,4 +90,24 @@ rc <- function(n,alpha=1){
   b <- dnorm(x, 0.25, 0.15)/max(dnorm(x, 0.25, 0.15))
   rgb.m <- matrix(c(r, g, b), ncol = 3)
   rich.vector <- apply(rgb.m, 1, function(v) rgb(v[1], v[2], v[3], alpha=alpha))
+}
+
+
+
+#' sscol r4ss color generator 
+#' @param n number of colors
+#' @param alpha transluscency 
+#' @return vector of color codes
+#' @export
+sscol <- function(n,alpha=1){
+if(n>3) col <- rc(n+1)[-1]
+if(n<3)  col <- rc(n)
+if(n==3) col <- c("blue","red","green3")
+if(alpha<1){
+  # new approach thanks to Trevor Branch
+  cols <- adjustcolor(col, alpha.f=alpha)
+} else {
+  cols=col
+}
+return(cols)
 }

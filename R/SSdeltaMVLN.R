@@ -41,6 +41,7 @@ SSdeltaMVLN = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),Fre
     yr = yrs[yi]
     x <- cv[cv$label.j %in% paste0(status[2],"_",c(yr-1,yr,yr+1)) & cv$label.i %in% paste0(status[1],"_",c(yr-1,yr,yr+1)),]
     y = hat[ylabel %in% paste0(status,"_",yr),] # old version Label not LABEL
+    y$Value[1] = ifelse(y$Value[1]==0,0.001,y$Value[1])
     varF = log(1+(y$StdDev[1]/y$Value[1])^2) # variance log(F/Fmsy)  
     varB = log(1+(y$StdDev[2]/y$Value[2])^2) # variance log(SSB/SSBmsy)  
     cov = log(1+mean(x$corr)*sqrt(varF*varB)) # covxy
@@ -87,6 +88,7 @@ SSdeltaMVLN = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),Fre
   fbasis = strsplit(ss3rep$F_report_basis,";")[[1]][1]
   gettrg = strsplit(fbasis,"%")[[1]][1]
   gettrg = as.numeric(strsplit(gettrg,"B")[[1]][2])
+  
   if(fbasis%in%c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))){
     fb = which(c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))%in%fbasis)
   } else {fb=3}
@@ -117,7 +119,7 @@ SSdeltaMVLN = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),Fre
   if(fb==1 & Fref[1]=="Ftrg") fb = 3
   # Needs to be tested
   if(fb==3){
-    if("Fstd_Btrg"%in%hat$Label){
+    if("Fstd_Btgt"%in%hat$Label){
     kb[,"harvest"] = kb[,"harvest"]/hat[hat$Label=="Fstd_Btgt",2]  
     mle[,"harvest"] = mle[,"harvest"]/hat[hat$Label=="Fstd_Btgt",2]
     } else if("annF_Btgt"%in%hat$Label){
@@ -128,8 +130,15 @@ SSdeltaMVLN = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),Fre
     }
   }
   
-  
-  
+  # Add catch
+  C_obs = aggregate(Obs~Yr,ss3rep$catch,sum)
+  Cobs = C_obs[C_obs$Yr%in%yrs,]
+  foreyrs = unique(as.numeric(gsub(paste0("ForeCatch_"),"",hat$Label[grep(paste0("ForeCatch_"), hat$Label)])))
+  Cfore = data.frame(Yr=foreyrs,Obs=hat$Value[hat$Label%in%paste0("ForeCatch_",foreyrs)] )
+  Catch = rbind(Cobs,Cfore)
+  Catch = Catch[Catch$Yr%in%yrs,]
+  kb$catch = rep(Catch$Obs,each=max(kb$iter))
+  mle$catch = Catch$Obs
   trg =round(bref*100,0)
   xlab = c(bquote("SSB/SSB"[.(trg)]),expression(SSB/SSB[MSY]))[bb] 
   ylab = c(expression(F/F[MSY]),expression(F/F[MSY]),bquote("F/F"[.(trg)]))[fb] 

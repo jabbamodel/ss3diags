@@ -8,7 +8,6 @@
 #' @param ylabs yaxis labels for quants
 #' final year of values to show for each model. By default it is set to the
 #' @param endyrvec ending year specified in each model.
-#' @param xmin = NULL optional number first year shown in plot (if available)  
 #' @param plot plot to active plot device?
 #' @param print print to PNG files?
 #' @param pdf not tested for TRUE
@@ -19,6 +18,7 @@
 #' @param tickEndYr TRUE/FALSE switch to turn on/off extra axis mark at final
 #' year in timeseries plots.
 #' @param ylimAdj Multiplier for ylim parameter. Allows additional white space
+#' @param xlim = NULL range of years
 #' @param xaxs Choice of xaxs parameter (see ?par for more info)
 #' @param yaxs Choice of yaxs parameter (see ?par for more info)
 #' @param type Type parameter passed to points (default 'o' overplots points on
@@ -59,12 +59,11 @@ SSplotEnsemble<- function(kb,
                         quantiles = c(0.025,0.975),
                         ylabs = NULL,
                         endyrvec="default",
-                        xmin = NULL,
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                         col=NULL, 
                         pch=NULL, lty=1, lwd=2,
                         tickEndYr=FALSE,
-                        xlim="default", ylimAdj=1.05,
+                        xlim=NULL, ylimAdj=1.05,
                         xaxs="i", yaxs="i",
                         xylabs=TRUE,
                         type="l", uncertainty=TRUE, 
@@ -88,9 +87,16 @@ SSplotEnsemble<- function(kb,
     print=F
     png=F
   }
+  
   if(is.null(ylabs)){
+    ylab.default = TRUE
     ylabs =  c(expression(SSB/SSB[MSY]),expression(F/F[MSY]),"SSB (t)","Recruits ('000s)")
+  } else {
+    ylab.default = FALSE
   }
+  
+  
+  refquants=c("stock","harvest","SSB","Recr")
   
   # Check time line
   minyr = max(aggregate(year~run,kb,min)[,2])
@@ -243,20 +249,23 @@ SSplotEnsemble<- function(kb,
     
     yr <- years
     
-    
-    if(is.null(xmin)){
-      xmin = min(yr)} 
-    
+    if(is.null(xlim)) xlim = c(max(min(yr)),max(yr)) 
+    xmin = min(xlim)
     ylim <- c(0,max(ifelse(uncertainty,max(upper[upper$Yr>=xmin,"y"])*ylimAdj, ylimAdj*max(exp[exp$Yr>=xmin,"y"])*1.05)))
     
+    if(ylab.default){
+    ylab = ylabs[which(refquants%in%quant)]} else {
+    ylab = ylabs[which(subplots%in%quant)]  
+    }
     
-    plot(0, type = "n", xlim = c(max(min(yr),xmin),max(yr)), yaxs = yaxs, 
-         ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylabs[which(subplots%in%quant)],""), axes = FALSE)
     
-    if(uncertainty){
-    for(iline in 1:nlines){
+    plot(0, type = "n", xlim = xlim, yaxs = yaxs, 
+         ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylab,""), axes = FALSE)
+    
+    if(uncertainty & quant!="catch"){
+    for(iline in nlines:1){
       
-    if(quant%in%c("SSB","stock","harvest")){  
+    if(quant%in%c("SSB","stock","harvest","F")){  
        polygon(c(yr,rev(yr)),c(lower[lower$run == runs[iline],"y"],rev(upper[upper$run == runs[iline],"y"])),col=shadecol[iline],border=shadecol)
     } else {
       adj <- 0.2*iline/nlines - 0.1
@@ -267,7 +276,7 @@ SSplotEnsemble<- function(kb,
     }
     
     for(iline in 1:nlines){
-      if(quant%in%c("SSB","stock","harvest")){
+      if(quant%in%c("SSB","stock","harvest","F","catch")){
         lines(yr,exp[exp$run == runs[iline],"y"],col=col[iline],pch=pch[iline],lty=lty[iline],lwd=lwd[iline],type="l")
       } else {
         points(yr,exp[exp$run == runs[iline],"y"],col=col[iline],pch=16,cex=0.8)

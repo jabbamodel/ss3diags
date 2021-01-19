@@ -11,7 +11,6 @@ SSplotEnsemble(
   quantiles = c(0.025, 0.975),
   ylabs = NULL,
   endyrvec = "default",
-  xmin = NULL,
   plot = TRUE,
   print = FALSE,
   png = print,
@@ -21,7 +20,7 @@ SSplotEnsemble(
   lty = 1,
   lwd = 2,
   tickEndYr = FALSE,
-  xlim = "default",
+  xlim = NULL,
   ylimAdj = 1.05,
   xaxs = "i",
   yaxs = "i",
@@ -66,8 +65,6 @@ final year of values to show for each model. By default it is set to the}
 
 \item{endyrvec}{ending year specified in each model.}
 
-\item{xmin}{= NULL optional number first year shown in plot (if available)}
-
 \item{plot}{plot to active plot device?}
 
 \item{print}{print to PNG files?}
@@ -84,6 +81,8 @@ final year of values to show for each model. By default it is set to the}
 
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
+
+\item{xlim}{= NULL range of years}
 
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 

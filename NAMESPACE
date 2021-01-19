@@ -2,6 +2,7 @@
 
 export(SScompsTA1.8)
 export(SSdeltaMVLN)
+export(SSdeltaMVLN_test)
 export(SSdiagsMCMC)
 export(SSdiagsTime2Year)
 export(SShcbias)

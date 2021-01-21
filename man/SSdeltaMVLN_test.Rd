@@ -6,9 +6,7 @@
 \usage{
 SSdeltaMVLN_test(
   ss3rep,
-  status = c("Bratio", "F"),
-  quants = c("SSB", "Recr"),
-  Fref = c("MSY", "Ftrg"),
+  Fref = NULL,
   years = NULL,
   mc = 5000,
   weight = 1,
@@ -24,11 +22,7 @@ SSdeltaMVLN_test(
 \arguments{
 \item{ss3rep}{from r4ss::SSgetoutput()$replist1}
 
-\item{status}{covarying stock status quantaties to extract from Hessian}
-
-\item{quants}{additional stock quantaties to extract from Hessian}
-
-\item{Fref}{Choice of reference point for stock SSB/XFref=c("MSY","Ftrg"),only if F_report_basis: 0 or 3}
+\item{Fref}{Choice of Fratio c("MSY","Btgt), correponding to F_MSY and F_Btgt}
 
 \item{years}{single year or vector of years for mvln}
 
@@ -40,7 +34,7 @@ SSdeltaMVLN_test(
 
 \item{plot}{option to show plot}
 
-\item{addprj}{include projected years}
+\item{addprj}{include forecast years}
 
 \item{ymax}{ylim maximum}
 

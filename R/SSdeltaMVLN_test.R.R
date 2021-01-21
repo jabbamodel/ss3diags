@@ -4,9 +4,7 @@
 #' including plotting option
 #'
 #' @param ss3rep from r4ss::SSgetoutput()$replist1
-#' @param status covarying stock status quantaties to extract from Hessian
-#' @param quants additional stock quantaties to extract from Hessian
-#' @param Fref  Choice of reference point for stock SSB/XFref=c("MSY","Ftrg"),only if F_report_basis: 0 or 3                                                                      
+#' @param Fref  Choice of Fratio c("MSY","Btgt), correponding to F_MSY and F_Btgt                                                               
 #' @param years single year or vector of years for mvln   
 #' @param mc number of monte-carlo simulations   
 #' @param weight weighting option for model ensembles weight*mc 
@@ -14,14 +12,17 @@
 #' @param plot option to show plot
 #' @param ymax ylim maximum
 #' @param xmax xlim maximum
-#' @param addprj include projected years
+#' @param addprj include forecast years
 #' @param legendcex=1 Allows to adjust legend cex
 #' @param verbose Report progress to R GUI?
 #' @return output list of kobe objects and mle's
 #' @author Henning Winker (JRC-EC)
 #' @export
-SSdeltaMVLN_test = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),Fref = c("MSY","Ftrg"),years=NULL,mc=5000,weight=1,run="MVLN",plot=TRUE,
+SSdeltaMVLN_test = function(ss3rep,Fref = NULL,years=NULL,mc=5000,weight=1,run="MVLN",plot=TRUE,
                        addprj=FALSE,ymax=NULL,xmax=NULL,legendcex=1,verbose=TRUE){
+  
+  status=c('Bratio','F')
+  quants =c("SSB","Recr")
   mc = round(weight*mc,0)
   hat = ss3rep$derived_quants
   cv = cv1 = ss3rep$CoVar
@@ -47,7 +48,8 @@ SSdeltaMVLN_test = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"
   # bratio definition
   bratio = hat[hat$Label==paste0("Bratio_",refyr),2]
   bb = which(abs(bratio-bb.check)==min(abs(bratio-bb.check)))   
-  if(bb%in%c(1:2)==F) stop("Bratio in starter.sso must specified as either 1 or 2")
+  if(bb%in%c(1:2)==F) stop("This Bratio is not [yet] defined, please rerun Stock Synthesis with starter.ss option for Depletion basis: 1 or 2")
+  
   bbasis  = c("SSB/SSB0","SSB/SSBMSY","SSB/SSBtrg")[bb]
   fbasis = strsplit(ss3rep$F_report_basis,";")[[1]][1]
   gettrg = strsplit(fbasis,"%")[[1]][1]
@@ -55,14 +57,20 @@ SSdeltaMVLN_test = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"
   
   if(fbasis%in%c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))){
     fb = which(c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))%in%fbasis)
-  } else {fb=3}
+  } else {fb=4}
+  if(fb==4) stop("This F_report_basis is not [yet] defined, please rerun Stock Synthesis with starter.ss option for F_report_basis: 0,2 or 3")
+  if(is.null(Fref) & fb%in%c(1,2)) Fref = "MSY"
+  if(is.null(Fref) & fb%in%c(3)) Fref = "Btgt"
   if(verbose) cat("\n","starter.sso with Bratio:",bbasis,"and F:",fbasis,"\n","\n")
   bref  = ifelse(ss3rep$btarg<0,gettrg/100,ss3rep$btarg)
   if(is.na(bref)) bref = 0.4
-  if(fb==2 & Fref[1] =="Ftrg") stop("Fref = ",Fref[1]," option conflicts with ",fbasis," setting in starter.sso")
-  if(fb%in%c(1,3) &  Fref[1] =="MSY") Fquant = "MSY"
-  if(fb==2) Fquant = "MSY"
-  if(fb%in%c(1,3) & Fref[1] =="Ftrg") Fquant = "Btgt"
+  
+  if(fb==2 & Fref[1] =="Btgt") stop("Fref = ",Fref[1]," option conflicts with ",fbasis," in starter.sso, please choose Fref = MSY")
+  if(fb==3 & Fref[1] =="MSY") stop("Fref = ",Fref[1]," option conflicts with ",fbasis,", in starter.sso, please choose Fref = Btgt")
+  
+  if(fb%in%c(1,2) &  Fref[1] =="MSY") Fquant = "MSY"
+  if(fb%in%c(1,3) & Fref[1] =="Btgt") Fquant = "Btgt"
+  
   # check ss3 version
   if("Fstd_MSY"%in%hat$Label){Fname = "Fstd_"} else {Fname="annF_"}
   cv <- cv[cv$label.i %in% paste0(status,"_",yrs),]
@@ -125,7 +133,7 @@ SSdeltaMVLN_test = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"
   mle[,"stock"] = mle[,"stock"]/bref
   }
   
-   if(fb==2 & Fref[1]=="MSY"){
+   if(fb> 1){
     kb[,"F"] = kb[,"F"]*kb[,"harvest"] 
     mle[,"F"] = mle[,"F"]*mle[,"harvest"] 
     

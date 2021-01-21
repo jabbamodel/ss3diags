@@ -6,7 +6,7 @@
 \usage{
 SSplotEnsemble(
   kb,
-  subplots = c("stock", "harvest", "SSB", "Recr"),
+  subplots = c("stock", "harvest", "SSB", "F", "Recr", "Catch"),
   models = "all",
   quantiles = c(0.025, 0.975),
   ylabs = NULL,
@@ -56,7 +56,7 @@ SSplotEnsemble(
 \arguments{
 \item{kb}{SSdeltaMVLN $kb type output}
 
-\item{subplots}{option to "SSB","Recruits","Bratio","Fvalue"}
+\item{subplots}{option to "Bratio","Fvalue","SSB", "F", "Recr","Catch"}
 
 \item{models}{option to manually subset the models in kb$run}
 

@@ -3,7 +3,7 @@
 #' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
 #' 
 #' @param kb SSdeltaMVLN $kb type output    
-#' @param subplots option to "SSB","Recruits","Bratio","Fvalue" 
+#' @param subplots option to "Bratio","Fvalue","SSB", "F", "Recr","Catch" 
 #' @param models option to manually subset the models in kb$run  
 #' @param ylabs yaxis labels for quants
 #' final year of values to show for each model. By default it is set to the
@@ -54,7 +54,7 @@
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 #' @export
 SSplotEnsemble<- function(kb,
-                        subplots=c("stock","harvest","SSB","Recr"),
+                        subplots=c("stock","harvest","SSB","F","Recr","Catch"),
                         models = "all", 
                         quantiles = c(0.025,0.975),
                         ylabs = NULL,
@@ -90,13 +90,13 @@ SSplotEnsemble<- function(kb,
   
   if(is.null(ylabs)){
     ylab.default = TRUE
-    ylabs =  c(expression(SSB/SSB[MSY]),expression(F/F[MSY]),"SSB (t)","Recruits ('000s)")
+    ylabs =  c(expression(SSB/SSB[MSY]),expression(F/F[MSY]),"SSB (t)","Fishing Mortality (F)","Recruits ('000s)","Catch (t)")
   } else {
     ylab.default = FALSE
   }
   
   
-  refquants=c("stock","harvest","SSB","Recr")
+  refquants=c("stock","harvest","SSB","F","Recr","Catch")
   
   # Check time line
   minyr = max(aggregate(year~run,kb,min)[,2])
@@ -262,7 +262,7 @@ SSplotEnsemble<- function(kb,
     plot(0, type = "n", xlim = xlim, yaxs = yaxs, 
          ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylab,""), axes = FALSE)
     
-    if(uncertainty & quant!="catch"){
+    if(uncertainty & quant!="Catch"){
     for(iline in nlines:1){
       
     if(quant%in%c("SSB","stock","harvest","F")){  
@@ -276,7 +276,7 @@ SSplotEnsemble<- function(kb,
     }
     
     for(iline in 1:nlines){
-      if(quant%in%c("SSB","stock","harvest","F","catch")){
+      if(quant%in%c("SSB","stock","harvest","F","Catch")){
         lines(yr,exp[exp$run == runs[iline],"y"],col=col[iline],pch=pch[iline],lty=lty[iline],lwd=lwd[iline],type="l")
       } else {
         points(yr,exp[exp$run == runs[iline],"y"],col=col[iline],pch=16,cex=0.8)

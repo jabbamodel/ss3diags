@@ -8,7 +8,6 @@ SSplotHCxval(
   retroSummary,
   subplots = c("cpue", "len", "age"),
   Season = "default",
-  plot = TRUE,
   print = FALSE,
   png = print,
   pdf = FALSE,
@@ -16,6 +15,8 @@ SSplotHCxval(
   endyrvec = "default",
   xmin = NULL,
   indexselect = NULL,
+  MAE.base.adj = 0.1,
+  show.mase.adj = TRUE,
   indexUncertainty = TRUE,
   col = NULL,
   pch = NULL,
@@ -24,6 +25,7 @@ SSplotHCxval(
   tickEndYr = TRUE,
   xlim = "default",
   ylimAdj = 1.15,
+  ylim = NULL,
   xaxs = "i",
   yaxs = "i",
   xylabs = TRUE,
@@ -63,8 +65,6 @@ SSplotHCxval(
 
 \item{Season}{option to specify Season - Default uses first available, i.e. usual Seas = 1}
 
-\item{plot}{plot to active plot device?}
-
 \item{print}{print to PNG files?}
 
 \item{pdf}{not tested for TRUE}
@@ -81,6 +81,10 @@ ending year specified in each model.}
 
 \item{indexselect}{= Vector of fleet numbers for each model for which to compare}
 
+\item{MAE.base.adj}{minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)}
+
+\item{show.mase.adj}{if TRUE it show mase.adj in () in plot}
+
 \item{indexUncertainty}{Show fixed uncertainty intervals on index (not estimated)}
 
 \item{col}{Optional vector of colors to be used for lines. Input NULL}
@@ -95,6 +99,8 @@ ending year specified in each model.}
 year in timeseries plots.}
 
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
+
+\item{ylim}{will over-write ylimAdj if specified}
 
 \item{xaxs}{Choice of xaxs parameter (see ?par for more info)}
 
@@ -157,12 +163,17 @@ It will be separated from default name by an underscore.}
 
 \item{indexfleets}{CHECK IF NEEDED or how to adjust indexfleets}
 
+\item{plot}{plot to active plot device?}
+
 \item{legendcex=1}{Allows to adjust legend cex}
 
 \item{shadecol1}{uncertainty shading of early years not affected by hindcast}
 }
 \description{
-Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals
+Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
+MASE is calculated the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and Naive Predictions (MAE.base)
+MASE.adj sets the MAE.base to a minimum MAE.base.adj (default=0.1)
+MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate, when obs show extremely little variation
 }
 \author{
 Henning Winker (JRC-EC) and Laurence Kell (Sea++)

@@ -1,7 +1,10 @@
 #' SSmase() computes MASE for one-step ahead hindcasting cross-validations of indices
 #'
-#' MASE for one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
-#' 
+#' MASE for one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals. 
+#' MASE is calculated the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and Naive Predictions (MAE.base)
+#' MASE.adj sets the MAE.base to a minimum MAE.base.adj (default=0.1)
+#' MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate, when obs show extremely little variation   
+#'
 #' @param retroSummary List created by r4ss::SSsummarize() 
 #' @param quants data type c("cpue","len","age)
 #' @param models Optional subset of the models described in
@@ -13,11 +16,13 @@
 #' ending year specified in each model.
 #' @param indexselect = Vector of fleet numbers for each model for which to compare
 #' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets
+#' @param MAE.base.adj minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)   
 #' @param verbose Report progress to R GUI?
+#' @return MASE and hcxval statistic
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 #' @export
 SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
-                        models="all",endyrvec="default",indexselect = NULL,
+                        models="all",endyrvec="default",indexselect = NULL,MAE.base.adj=0.1,
                         verbose=TRUE
                         ){ 
   
@@ -185,15 +190,16 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
       scaler = mean(abs(naive.eval))
       
       mase=maepr/scaler
+      mase.adj = maepr/max(scaler,MAE.base.adj) 
       MASE.i = NULL
-      MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=mase,MAE.PR=maepr,MAE.base=scaler,n.eval=npe)
+      MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=mase,MAE.PR=maepr,MAE.base=scaler,MASE.adj=mase.adj,n.eval=npe)
     
       
       
     } else {
       if(verbose) cat(paste0("\n","No observations in evaluation years to compute prediction residuals for Index ",indices2$Fleet_name[1]),"\n")
       MASE.i = NULL
-      MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=NA,MAE.PR=NA,MAE.base=NA,n.eval=0)    }
+      MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=NA,MAE.PR=NA,MAE.base=NA,MASE.adj=NA,n.eval=0)    }
     return(list(MASE=MASE.i))
   } # End of mase function  
   #------------------------------------------------------------

@@ -1,7 +1,10 @@
 #' SSplotHCxal() for one-step ahead hindcasting cross-validations of indices
 #'
 #' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
-#' 
+#' MASE is calculated the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and Naive Predictions (MAE.base)
+#' MASE.adj sets the MAE.base to a minimum MAE.base.adj (default=0.1)
+#' MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate, when obs show extremely little variation   
+#'
 #' @param retroSummary List created by r4ss::SSsummarize() or ss3diags::SSretroComps() 
 #' @param subplots optional use of c("cpue","len","age"), yet to be tested for age.
 #' @param models Optional subset of the models described in
@@ -11,9 +14,11 @@
 #' @param endyrvec Optional single year or vector of years representing the
 #' final year of values to show for each model. By default it is set to the
 #' ending year specified in each model.
-#' @param xmin optional number first year shown in plot (if available)  
 #' @param indexselect = Vector of fleet numbers for each model for which to compare
+#' @param MAE.base.adj minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)   
+#' @param show.mase.adj if TRUE it show mase.adj in () in plot
 #' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets
+#' @param xmin optional number first year shown in plot (if available)  
 #' @param indexUncertainty Show fixed uncertainty intervals on index (not estimated)
 #' @param plot plot to active plot device?
 #' @param print print to PNG files?
@@ -25,6 +30,7 @@
 #' @param tickEndYr TRUE/FALSE switch to turn on/off extra axis mark at final
 #' year in timeseries plots.
 #' @param ylimAdj Multiplier for ylim parameter. Allows additional white space
+#' @param ylim will over-write ylimAdj if specified
 #' @param xaxs Choice of xaxs parameter (see ?par for more info)
 #' @param yaxs Choice of yaxs parameter (see ?par for more info)
 #' @param type Type parameter passed to points (default 'o' overplots points on
@@ -63,16 +69,18 @@
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 #' @export
 SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="default",
-                        plot=TRUE,print=FALSE,png=print,pdf=FALSE,
+                        print=FALSE,png=print,pdf=FALSE,
                         models="all",
                         endyrvec="default",
                         xmin = NULL,
                         indexselect = NULL,
+                        MAE.base.adj=0.1,
+                        show.mase.adj = TRUE,
                         indexUncertainty=TRUE,
                         col=NULL, 
                         pch=NULL, lty=1, lwd=2,
                         tickEndYr=TRUE,
-                        xlim="default", ylimAdj=1.15,
+                        xlim="default", ylimAdj=1.15,ylim=NULL,
                         xaxs="i", yaxs="i",
                         xylabs=TRUE,
                         type="o", uncertainty=TRUE, 
@@ -92,7 +100,7 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
   #------------------------------------------
   # subfunction to write png files
   if(!add) graphics.off()
-  
+  plot=TRUE
   hcruns =  retroSummary #added for now
   pngfun <- function(file){
     # if extra text requested, add it before extention in file name
@@ -356,7 +364,7 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
     # calculate ylim (excluding dummy observations from observed but not expected)
     sub <- !is.na(indices2$Like) & yr>= xmin
     
-    
+    if(is.null(ylim)){
     ylim <- ylimAdj*range(exp[sub], obs[sub], lower[sub], upper[sub], na.rm=TRUE)
     # if no values included in subset, then set ylim based on all values
     
@@ -367,7 +375,7 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
       # 0 included if not in log space
       ylim <- range(0,ylim*1.1)
     }
-    
+    }
     # hcxval section
     yr.eval <- c(endyrvec)
     yr.eval <- (sort(yr.eval))
@@ -449,8 +457,10 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
       scaler = mean(abs(naive.eval))
       
       mase=maepr/scaler
+      mase.adj =maepr/(max(scaler,MAE.base.adj))
+      
       MASE.i = NULL
-      MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=mase,MAE.PR=maepr,MAE.base=scaler,n.eval=npe)
+      MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=mase,MAE.PR=maepr,MAE.base=scaler,MASE.adj=mase.adj,n.eval=npe)
       
       #legendlabels <- c("Ref",rev(yr.eval))
       if(indexQlabel){
@@ -462,9 +472,8 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
       
         legendfun(legendlabels)
       }
-      legend("top",paste0(unique(indices2$Fleet_name)[1],ifelse(length(unique(hcruns$indices$Seas))>1,paste0(".S",Season),""), ": MASE = ",round(mase,2)),bty="n",y.intersp=-0.2,cex=legendcex+0.1)
-      
-      
+      if(mase==mase.adj | show.mase.adj==FALSE) legend("top",paste0(unique(indices2$Fleet_name)[1],ifelse(length(unique(hcruns$indices$Seas))>1,paste0(".S",Season),""), ": MASE = ",round(mase,2)),bty="n",y.intersp=-0.2,cex=legendcex+0.1)
+      if(mase.adj<mase & show.mase.adj==TRUE) legend("top",paste0(unique(indices2$Fleet_name)[1],ifelse(length(unique(hcruns$indices$Seas))>1,paste0(".S",Season),""), ": MASE = ",round(mase,2)," (",round(mase.adj,2),")"),bty="n",y.intersp=-0.2,cex=legendcex+0.1)
       
       
         axis(1, at=c(max(xmin,min(yr)):max(endyrvec)))
@@ -476,7 +485,7 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
     } else {
       if(verbose) cat(paste0("\n","No observations in evaluation years to compute prediction residuals for Index ",indices2$Fleet_name[1]),"\n")
       MASE.i = NULL
-      MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=NA,MAE.PR=NA,MAE.base=NA,n.eval=0)
+      MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=NA,MAE.PR=NA,MAE.base=NA,MASE.adj=NA,n.eval=0)
       if(png==FALSE & add==FALSE) dev.off()
     }
     return(list(MASE=MASE.i))

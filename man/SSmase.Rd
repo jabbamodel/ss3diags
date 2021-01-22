@@ -11,6 +11,7 @@ SSmase(
   models = "all",
   endyrvec = "default",
   indexselect = NULL,
+  MAE.base.adj = 0.1,
   verbose = TRUE
 )
 }
@@ -31,12 +32,20 @@ ending year specified in each model.}
 
 \item{indexselect}{= Vector of fleet numbers for each model for which to compare}
 
+\item{MAE.base.adj}{minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)}
+
 \item{verbose}{Report progress to R GUI?}
 
 \item{indexfleets}{CHECK IF NEEDED or how to adjust indexfleets}
 }
+\value{
+MASE and hcxval statistic
+}
 \description{
-MASE for one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals
+MASE for one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals. 
+MASE is calculated the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and Naive Predictions (MAE.base)
+MASE.adj sets the MAE.base to a minimum MAE.base.adj (default=0.1)
+MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate, when obs show extremely little variation
 }
 \author{
 Henning Winker (JRC-EC) and Laurence Kell (Sea++)

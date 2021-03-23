@@ -1,7 +1,7 @@
 ## ss3diags
 
 
-The R package `ss3diags` enables Stock Synthesis users to reproduce the key model diagnostics plots that presented in the paper 'A Cookbook for Using Model Diagnostics in Integrated Stock Assessments' with [`ss3diags_CookbookPlots.R`](https://github.com/jabbamodel/ss3diags/blob/master/Cookbook/ss3diags_CookbookPlots.R). 
+The R package `ss3diags` enables Stock Synthesis users to reproduce the key model diagnostics plots that presented in the paper 'A Cookbook for Using Model Diagnostics in Integrated Stock Assessments' with the R script [`ss3diags_CookbookPlots.R`](https://github.com/jabbamodel/ss3diags/blob/master/Cookbook/ss3diags_CookbookPlots.R). 
 
 In addition, the ss3diags Github respository provides fully commented step-by-step R recipes on how to:  
 

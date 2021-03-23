@@ -5,16 +5,15 @@
 #
 # Install ss3diags
 # devtools::install_github("jabbamodel/ss3diags")
-#
+# Requires r4ss installation
+# devtools::install_github("r4ss/r4ss")
 # Henning Winker (henning.winker@gmail.com) 
 # Joint Research Centre of the European Commission
 # Work Email: Henning.Winker@ec.europa.eu 
 #><>><>><>><>><>><>><>><>><>><>><>><>><>><>><>
 
-#----------------------------------------------------
 
-
-# load pakage
+# load packages
 library(ss3diags)
 library(r4ss)
 

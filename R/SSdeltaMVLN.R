@@ -46,6 +46,8 @@ SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,mc=5000,weight=1,run="MVLN"
   bmsy = hat[hat$Label==paste0("SSB_MSY"),2]
   bb.check = c(bt/b0,bt/bmsy,bt/btrg)
   
+  
+  
   # bratio definition
   bratio = hat[hat$Label==paste0("Bratio_",refyr),2]
   bb = which(abs(bratio-bb.check)==min(abs(bratio-bb.check)))   

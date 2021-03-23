@@ -7,7 +7,7 @@ In addition, the ss3diags Github respository provides fully commented step-by-st
 
 - [Do log-likelood  profiling for R0](https://github.com/jabbamodel/ss3diags/blob/master/Cookbook/Likelihood_profile_R0_example.R)
 - [Run the ASPM diagnostic](https://github.com/jabbamodel/ss3diags/blob/master/Cookbook/Setup_ASPM_example.R)
-- [Conduct iterative hindcasts for restrospective analysis with forecasts with `r4ss`](https://github.com/jabbamodel/ss3diags/blob/master/Cookbook/Run_Retrospective_example.R)
+- [Conduct iterative hindcasts for restrospective analysis with forecasts](https://github.com/jabbamodel/ss3diags/blob/master/Cookbook/Run_Retrospective_example.R)
 - [Do Jitter tests](https://github.com/jabbamodel/ss3diags/blob/master/Cookbook/Jitter_test_example.R)
 
 ...with Stock Synthesis by making use of a comprehensive collection of R functions available in the R package [`r4ss`](https://github.com/r4ss/r4ss)

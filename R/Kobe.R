@@ -5,7 +5,7 @@
 #' @param kb output from SSdeltaMVLN()$kb
 #' @param joint option FALSE shows individual runs
 #' @param year option to choose year for kobe, last year is default
-#' @param posterior visualisation of posterior c("points","kernel")
+#' @param posterior visualization of posterior c("points","kernel")
 #' @param xlab graphic parameter
 #' @param ylab graphic parameter
 #' @param ylim graphic parameter
@@ -54,7 +54,7 @@ SSplotKobe <- function(kb,joint = TRUE,year = NULL,
   lines(c2,c1,lty=3,lwd=0.7)
   
   if(posterior[1]=="kernel"){
-    kernelF <- ci2d(kb$stock,kb$harvest,nbins=151,factor=1.5,ci.levels=c(0.50,0.80,0.75,0.90,0.95),show="none")
+    kernelF <- gplots::ci2d(kb$stock,kb$harvest,nbins=151,factor=1.5,ci.levels=c(0.50,0.80,0.75,0.90,0.95),show="none")
     polygon(kernelF$contours$"0.95",lty=2,border=NA,col="cornsilk4")
     polygon(kernelF$contours$"0.8",border=NA,lty=2,col="grey")
     polygon(kernelF$contours$"0.5",border=NA,lty=2,col="cornsilk2")

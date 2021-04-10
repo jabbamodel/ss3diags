@@ -29,7 +29,8 @@ Imports:
       reshape2,
       mvtnorm,
       randtests,
-      r4ss
+      r4ss,
+      gplots
 License: EUPL
 Encoding: UTF-8
 LazyData: true

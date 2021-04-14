@@ -27,8 +27,9 @@ SSplotKobe <- function(kb,joint = TRUE,year = NULL,
                        xlim = NULL,fill = TRUE,legend = TRUE,legendpos = "right",legendcex = 0.7, 
                        legendruns = TRUE, yr.label = TRUE, yr.int = 5,verbose=TRUE){
   
+  if(is.null(year)) year =max(kb$year)
   trj = aggregate(cbind(stock,harvest)~year,kb,median)
-  kb = kb[kb$year==max(kb$year),]
+  kb = kb[kb$year==year,]
   r = (unique(kb$run)) # runs
   n = length(r)
   
@@ -80,7 +81,7 @@ SSplotKobe <- function(kb,joint = TRUE,year = NULL,
   points(median(kb$stock),median(kb$harvest),bg=0,pch=21,cex=2,lwd=2)
   points(trj$stock[1],trj$harvest[1],bg=0,pch=21,cex=1.7,lwd=2)
   if(legendruns & joint==F){
-    legend("topright",paste(r),bty="n",cex=0.8,pch=21,pt.bg=sscol(2,1),col=1,pt.cex=1.5)
+    legend("topright",paste(r),bty="n",cex=0.8,pch=21,pt.bg=sscol(n,1),col=1,pt.cex=1.5)
   }
   # Get Propability
   b = kb$stock

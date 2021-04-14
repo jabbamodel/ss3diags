@@ -30,7 +30,7 @@ SSplotKobe(
 
 \item{year}{option to choose year for kobe, last year is default}
 
-\item{posterior}{visualisation of posterior c("points","kernel")}
+\item{posterior}{visualization of posterior c("points","kernel")}
 
 \item{xlab}{graphic parameter}
 

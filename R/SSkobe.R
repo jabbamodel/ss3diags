@@ -29,6 +29,7 @@ SSplotKobe <- function(kb,joint = TRUE,year = NULL,
   
   if(is.null(year)) year =max(kb$year)
   trj = aggregate(cbind(stock,harvest)~year,kb,median)
+  trj = trj[trj$year<=year,]
   kb = kb[kb$year==year,]
   r = (unique(kb$run)) # runs
   n = length(r)

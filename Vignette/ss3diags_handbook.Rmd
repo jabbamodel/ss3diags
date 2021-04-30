@@ -341,7 +341,8 @@ Note that applying HCxval for composition data requires to correctly specify the
 retroC.phk = SSretroComps(retro.phk) # summarize comps
 
 sspar(mfrow=c(1,2),plot.cex=0.8)
-hcl = SSplotHCxval(retroC.phk,subplots="age",add=T,verbose=F,ylimAdj = 1.3,legendcex = 0.7,indexselect = c(1,2))
+hcl = SSplotHCxval(retroC.phk,subplots="age",add=T,
+verbose=F,ylimAdj = 1.3,legendcex = 0.7,indexselect = c(1,2))
 
 SSmase(retroC.phk,quants="age")
 ```
@@ -480,13 +481,15 @@ Now all is readt to run the retrospective analyses with r4SS function ` SS_doRet
 Ideally, the runs should be done with Hessian to allow evaluating the retrospective trajectories with respect to confidence interval coverage of the reference model.
 <br>
 ```{r eval=FALSE}
-r4ss::SS_doRetro(masterdir=dir.retro, oldsubdir="", newsubdir="", years=start.retro:-end.retro)
+r4ss::SS_doRetro(masterdir=dir.retro, oldsubdir="",
+newsubdir="", years=start.retro:-end.retro)
 ```
 <br>
 However, for larger models it might be desirable to shorten run times, by not inverting the hessian, using the option `extras = "-nohess"` (much faster)   
 <br>
 ```{r eval=FALSE}
-r4ss::SS_doRetro(masterdir=dir.retro, oldsubdir="", newsubdir="", years=start.retro:-end.retro,extras = "-nohess")
+r4ss::SS_doRetro(masterdir=dir.retro,oldsubdir="",
+newsubdir="", years=start.retro:-end.retro,extras = "-nohess")
 ```
 <br>
 

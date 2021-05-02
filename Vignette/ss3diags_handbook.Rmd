@@ -349,9 +349,75 @@ SSmase(retroC.phk,quants="age")
 
 
 
+\newpage
 
 ## Uncertainty with `ss3diags` 
 
+The management advice frameworks increasingly require translating the estimated uncertainty about the stock status into probabilistic statements (Kell et al. 2016). A classical example is the Kobe framework that is use in tuna Regional Fisheries Management Organisations around the world. The key quantities of interest are typically the ratios $SSB/SSB_{MSY}$ and $F/F_{MSY}$. While is reasonably straight forward in Stock Synthesis to approximate uncertainty of individual quantities (e.g. $SSB$) from the asymptotic standard errors (SE) derived from the hessian matrix using the delta method, the joint distribution of $SSB/SSB_{MSY}$ and $F/F_{MSY}$   
+requires to adequately account for the covariance structure between these two derived quantities. Joint distributions were therefore typical constructed using bootstrap or Markov Chain Monte-Carlo (MCMC) methods. However, these methods can be computationally intense and time consuming in integrated assessments.  
+
+As an alternative, `ss3diags` implements a rapid delta-Multivariate lognormal approximation with `SSdeltaMVLN()` to generate joint error distributions for $SSB/SSB_{ref}$ and $F/F_{ref}$,where the $ref$ may refer to $MSY$, but also, e.g., $SSB_{40}$ and $F_{40}$. In Stock Synthesis, these ratios are determined by the derived quantaties  `Bratio` and `F`, where either can take the form of ratios (e.g. $F/F_{ref}$) or absolute value (e.g. `absF`) depending on settings in the `starter.ss` file.
+
+Let `Bratio` be $u = SSB/SSB_{ref}$, `F` be $v = F$, and $w = F_{ref}$ be the F reference point of interest (e.g. $F_{MSY}$), with $x = \log(u)$, $y = \log(v)$ and $z = \log(w)$, then the variance-covariance matrix $VCM$ has the form:
+
+$$
+VCM_{x,y,z} =
+ \begin{pmatrix}
+  \sigma^2_{x} & cov_{x,y} & cov_{x,y} \\
+  cov_{x,y} & \sigma^2_{y} & cov_{y,z} \\
+  cov_{x,z} & cov_{y,z} & \sigma^2_{z}
+ \end{pmatrix}
+$$
+
+where, e.g., $\sigma^2_{x}$ is the variance of $x$ and $cov_{x,y}$ is the covariance of $x$ and $y$. Deriving those requires to conduct a few normal to lognormal transformations. First, we approximate the variances as:
+
+$$
+\sigma^2_{x} = \log\left(1+\left(\frac{SE_u}{u}\right)^2\right)  
+$$
+$$
+\sigma^2_{y} = \log\left(1+\left(\frac{SE_u}{u}\right)^2\right)  
+$$
+
+$$
+\sigma^2_{z} = \log\left(1+\left(\frac{SE_w}{w}\right)^2\right)  
+$$
+
+
+
+where $SE_{u}$, $SE_{v}$ and $SE_{z}$ are the asymptotic standard error estimates for $u = SSB/SSB_{ref}$, $v = F$ and $z = F_{ref}$. 
+
+The covariances for, e.g.  x and y, can then be approximated on the log-scale by:
+
+$$
+COV_{x,y} = \log \left( {1+\rho_{u,v} \sqrt{\sigma^2_{x}\sigma^2_{y}}} \right) 
+$$
+
+where $rho_{u,v}$ denotes the correlation of u and v.
+
+To generate a joint distribution of $\tilde{u}$ = $SSB/SSB_{ref}$, $\tilde{v}$ = $F$ and $\tilde{z}$ = $F_{ref}$, we use a multivariate random generator, available in the R package ‘mvtnorm’, to obtain a large number (e.g. nsim = 10,000) iterations, such that
+
+$$
+JD(\tilde{u},\tilde{v},\tilde{w}) = \exp(MVN(\mu_{x,y,z},VCM_{x,y,z}))
+$$
+so that
+
+$$ 
+\tilde{SSB}/\tilde{SSB}_{{MSY}} = \tilde{u}  
+$$ 
+and
+
+$$ 
+\tilde{F}/\tilde{F}_{{MSY}} = \tilde{v}/\tilde{w}  
+$$ 
+ 
+ 
+
+ 
+The type of reference points dependents on settings in the `starter.ss` file that determine the derived quanties `Bratio` and `Fvalue`. `SSdeltaMVLN()` has been tested thus for the settings for `Bratio`:
+
+`1 or 2# Depletion basis:  denom is: 0=skip; 1=rel X*SPB0; 2=rel SPBmsy; 3=rel X*SPB_styr; 4=rel X*SPB_endyr`
+
+ 
 
 
 ## Model Ensembles with `ss3diags`

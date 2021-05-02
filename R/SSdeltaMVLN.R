@@ -3,8 +3,8 @@
 #' function to generatbe kobe pdfs from a Multivariate Log-Normal Distribution
 #' including plotting option
 #'
-#' @param ss3rep from r4ss::SSgetoutput()$replist1
-#' @param Fref  Choice of Fratio c("MSY","Btgt), correponding to F_MSY and F_Btgt                                                               
+#' @param ss3rep from r4ss::SS_output
+#' @param Fref  Choice of Fratio c("MSY","Btgt"), correponding to F_MSY and F_Btgt                                                               
 #' @param years single year or vector of years for mvln   
 #' @param mc number of monte-carlo simulations   
 #' @param weight weighting option for model ensembles weight*mc 
@@ -57,22 +57,25 @@ SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,mc=5000,weight=1,run="MVLN"
   fbasis = strsplit(ss3rep$F_report_basis,";")[[1]][1]
   gettrg = strsplit(fbasis,"%")[[1]][1]
   gettrg = as.numeric(strsplit(gettrg,"B")[[1]][2])
-  
-  if(fbasis%in%c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))){
-    fb = which(c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"))%in%fbasis)
-  } else {fb=4}
-  if(fb==4) stop("This F_report_basis is not [yet] defined, please rerun Stock Synthesis with starter.ss option for F_report_basis: 0,2 or 3")
+  if(fbasis%in%c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"),paste0("(F)/(F",ss3rep$btarg*100,"%SPR)"))){
+    fb = which(c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"),
+                 paste0("(F)/(F",ss3rep$btarg*100,"%SPR)"))%in%fbasis)
+  } else { stop("F_report_basis is not defined, please rerun Stock Synthesis with recommended starter.ss option for F_report_basis: 1")}
   if(is.null(Fref) & fb%in%c(1,2)) Fref = "MSY"
   if(is.null(Fref) & fb%in%c(3)) Fref = "Btgt"
+  if(is.null(Fref) & fb%in%c(4)) Fref = "SPR"
+  
   if(verbose) cat("\n","starter.sso with Bratio:",bbasis,"and F:",fbasis,"\n","\n")
   bref  = ifelse(ss3rep$btarg<0,gettrg/100,ss3rep$btarg)
   if(is.na(bref)) bref = 0.4
   
-  if(fb==2 & Fref[1] =="Btgt") stop("Fref = ",Fref[1]," option conflicts with ",fbasis," in starter.sso, please choose Fref = MSY")
-  if(fb==3 & Fref[1] =="MSY") stop("Fref = ",Fref[1]," option conflicts with ",fbasis,", in starter.sso, please choose Fref = Btgt")
-  
+  if(fb==4 & Fref[1] %in% c("Btgt","MSY")) stop("Fref = ",Fref[1]," option conflicts with ",fbasis," in starter.sso, please choose Fref = SPR")
+  if(fb==2 & Fref[1] %in% c("Btgt","SPR")) stop("Fref = ",Fref[1]," option conflicts with ",fbasis," in starter.sso, please choose Fref = MSY")
+  if(fb==3 & Fref[1] %in% c("Btgt","MSY")) stop("Fref = ",Fref[1]," option conflicts with ",fbasis,", in starter.sso, please choose Fref = Btgt")
   if(fb%in%c(1,2) &  Fref[1] =="MSY") Fquant = "MSY"
   if(fb%in%c(1,3) & Fref[1] =="Btgt") Fquant = "Btgt"
+  if(fb%in%c(1,4) & Fref[1] =="SPR") Fquant = "SPR"
+  
   
   # check ss3 version
   if("Fstd_MSY"%in%hat$Label){Fname = "Fstd_"} else {Fname="annF_"}
@@ -162,7 +165,10 @@ SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,mc=5000,weight=1,run="MVLN"
   mle$Catch = Catch$Obs
   trg =round(bref*100,0)
   xlab = c(bquote("SSB/SSB"[.(trg)]),expression(SSB/SSB[MSY]))[bb] 
-  ylab = c(expression(F/F[MSY]),bquote("F/F"[.(trg)]))[ifelse(Fquant=="MSY",1,2)] 
+  ylab = c(expression(F/F[MSY]),
+           bquote("F/F"[SB~.(trg)]),
+           bquote("F/F"[SPR~.(trg)])
+  )[which(c("MSY","Btgt","SPR")%in%Fquant)] 
   
   if(plot==TRUE){
     sh =c("stock","harvest")

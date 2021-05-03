@@ -20,9 +20,9 @@ SSdeltaMVLN(
 )
 }
 \arguments{
-\item{ss3rep}{from r4ss::SSgetoutput()$replist1}
+\item{ss3rep}{from r4ss::SS_output}
 
-\item{Fref}{Choice of Fratio c("MSY","Btgt), correponding to F_MSY and F_Btgt}
+\item{Fref}{Choice of Fratio c("MSY","Btgt"), correponding to F_MSY and F_Btgt}
 
 \item{years}{single year or vector of years for mvln}
 

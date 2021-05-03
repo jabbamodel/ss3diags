@@ -5,43 +5,47 @@
 \title{SSdiagsMCMC()}
 \usage{
 SSdiagsMCMC(
-  mcmcdir,
-  Bref = c("MSY", "Btrg"),
-  Fref = c("MSY", "Ftrg"),
+  mcmc,
+  ss3rep,
+  Fref = NULL,
+  years = NULL,
   run = "MCMC",
-  Fstarter = c("_abs_F", "(F)/(Fmsy)", "Fstd_Btgt"),
-  forecast = FALSE,
-  plot = TRUE,
   thin = 1,
-  biomass = "SSB",
-  refs = c("SSB_unfished", "SSB_MSY", "SSB_Btgt", "SSB_SPR", "SPR_MSY", "Fstd_MSY",
-    "Fstd_SPR", "Fstd_Btgt", "Recr_unfished", "B_MSY.SSB_unfished", "Dead_Catch_MSY",
-    "Ret_Catch_MSY")
+  plot = TRUE,
+  addprj = FALSE,
+  ymax = NULL,
+  xmax = NULL,
+  legendcex = 1,
+  verbose = TRUE
 )
 }
 \arguments{
-\item{mcmcdir}{file path for folder with the derived_posteriors.sso file}
+\item{mcmc}{file path for folder with the derived_posteriors.sso file}
 
-\item{Bref}{Choice of reference point for stock SSB/X c("MSY","Btrg")}
+\item{ss3rep}{from r4ss::SS_output}
 
-\item{Fref}{Choice of reference point for stock SSB/XFref=c("MSY","Ftrg")}
+\item{Fref}{Choice of Fratio c("MSY","Btgt), correponding to F_MSY and F_Btgt}
+
+\item{years}{single year or vector of years for mvln}
 
 \item{run}{qualifier for model run}
 
-\item{Fstarter}{starter settings for  c("_abs_F","(F)/(Fmsy)","Fstd_Btgt") see SSsettingsBratioF()}
-
-\item{forecast}{option to include forecasts TRUE/FALSE}
-
 \item{thin}{option to use additional thinning}
 
-\item{biomass}{the function is only tested to run with default biomass = "SSB"}
+\item{plot}{option to show plot}
 
-\item{refs}{required reference quantaties}
+\item{addprj}{include forecast years}
 
-\item{Plot}{option to plot results with SSplotEnsemble()}
+\item{ymax}{ylim maximum}
+
+\item{xmax}{xlim maximum}
+
+\item{verbose}{Report progress to R GUI?}
+
+\item{legendcex=1}{Allows to adjust legend cex}
 }
 \value{
-list of (1) all quataties "sims" (2) object of SSplotEnsemble() "kb" and settings
+output list of quant mcmc posteriors and mle's
 }
 \description{
 function to read mcmc file outputs for Kobe and SSplotEnsemble() plotting

@@ -1,6 +1,6 @@
 ---
 title: "User guidelines for Advanced Model Diagnostics with ss3diags"
-author: "Hennig Winker, Felipe Carvalho, Massimiliano Cardinale & Laurence Kell"
+author: "Hennig Winker (JRC-EC), Felipe Carvalho (NOAA), Massimiliano Cardinale (SLU) & Laurence Kell (Sea++)"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   pdf_document:
@@ -18,9 +18,9 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "  " ,fig.align = 'center', cac
 ```
 
 
-# Getting started (UNDER CONSTRUCTION)
+# Getting started 
 
-This vignette explains functions for applying advanced model diagnostics for Stock Synthesis model with the `ss3diags` R package for model. The `ss3diags` package builds on R package `r4ss` (Taylor et al. 2021), which is designed to support the use of the Stock Synthesis software (Methot and Wetzel, 2013).
+This vignette explains functions for applying advanced model diagnostics for Stock Synthesis model with the `ss3diags` R package for model. The `ss3diag` R package accompanies the paper "A cookbook for using model diagnostics in integrated stock assessments"  by [Carvalho, Winker et al. (2021)](https://www.sciencedirect.com/science/article/pii/S0165783621000874). The `ss3diags` package builds on R package `r4ss` (Taylor et al. 2021), which is designed to support the use of the Stock Synthesis software (Methot and Wetzel, 2013).
 
 ## Installation
 
@@ -42,7 +42,7 @@ library(ss3diags)
 
 ## Loading built-in example data
 
-The package contains two examples of Stock Synthesis assessments as presented in [Carvalho, Winker et (2021)](https://www.sciencedirect.com/science/article/pii/S0165783621000874). 
+The package contains two examples of Stock Synthesis assessments as presented in [Carvalho, Winker et al. (2021)](https://www.sciencedirect.com/science/article/pii/S0165783621000874). 
 
 ### The Pacif hake (*Merluccius productus*) base case model
 
@@ -374,19 +374,10 @@ where, e.g., $\sigma^2_{x}$ is the variance of $x$ and $cov_{x,y}$ is the covari
 $$
 \sigma^2_{x} = \log\left(1+\left(\frac{SE_u}{u}\right)^2\right)  
 $$
-$$
-\sigma^2_{y} = \log\left(1+\left(\frac{SE_u}{u}\right)^2\right)  
-$$
-
-$$
-\sigma^2_{z} = \log\left(1+\left(\frac{SE_w}{w}\right)^2\right)  
-$$
-
-
 
 where $SE_{u}$, $SE_{v}$ and $SE_{z}$ are the asymptotic standard error estimates for $u = SSB/SSB_{ref}$, $v = F$ and $z = F_{ref}$. 
 
-The covariances for, e.g.  x and y, can then be approximated on the log-scale by:
+The corresponding covariance for  x and y, can then be approximated on the log-scale by:
 
 $$
 COV_{x,y} = \log \left( {1+\rho_{u,v} \sqrt{\sigma^2_{x}\sigma^2_{y}}} \right) 
@@ -409,20 +400,121 @@ and
 $$ 
 \tilde{F}/\tilde{F}_{{MSY}} = \tilde{v}/\tilde{w}  
 $$ 
- 
- 
-
- 
-The type of reference points dependents on settings in the `starter.ss` file that determine the derived quanties `Bratio` and `Fvalue`. `SSdeltaMVLN()` has been tested thus for the settings for `Bratio`:
-
-`1 or 2# Depletion basis:  denom is: 0=skip; 1=rel X*SPB0; 2=rel SPBmsy; 3=rel X*SPB_styr; 4=rel X*SPB_endyr`
-
+<br> 
  
 
+The type of reference points dependents on settings in the `starter.ss` file that determine the derived quanties `Bratio` and `Fvalue`. 
 
-## Model Ensembles with `ss3diags`
+In the first example, we consider the `ss3sma` Stock Synthesis model, which was run with `starter.ss` settings that are commonly to produce target Kobe plot estimates of $SSB/SSB_{MSY}$ and $F/F_{MSY}$ in tRFMO assessments: 
+
+`2 # Depletion basis: 2=rel SPBmsy; 3=rel X*SPB_styr; 4=rel X*SPB_endyr`
+
+`2 # F_report_basis: 0=raw_F_report; 1=F/Fspr; 2=F/Fmsy ; 3=F/Fbtgt`
+
+We provide the the function `SSsettingsBratioF(ss3sma)` to the `starter.ss` settings:
+
+```{r}
+SSsettingsBratioF(ss3sma)
+```
+\newpage
+
+This function is also inbuilt in the `SSdeltaMVLN()` to prevent misleading results. To generate a joint MVLN of $SSB/SSB_{MSY}$ and $F/F_{MSY}$, we can use the default options
+
+```{r fig10, fig.width=4,fig.cap="Kobe phase plots showing MVLN Kobe probability distributions of $SSB/SSB_{MSY}$ and $F/F_{MSY}$ for North Atlantic shortfin mako Stock model."}
+
+mvln = SSdeltaMVLN(ss3sma,run="SMA") 
+```
+
+\newpage
+
+The `SSdeltaMVLN()` output include the maximum the maximum likelihood estimates (mles) and the MVLN monte-Carlo distributions `$kb` of $SSB/SSB_{MSY}$, $F/F_{MSY}$ and $F$. Note the additional quanties $SSB$ and $Rec$ are generated independely from lognormal distributions for practical reasons. These can be plotted by
+
+```{r fig11, fig.height=6.5,fig.cap="Distributions for $SSB/SSB_{MSY}$ $F/F_{MSY}$, $SSB$, Recruitment and Catch trajectories for the North Atlantic shortfin mako SS3 model"}
+sspar(mfrow=c(3,2),plot.cex = 0.7)
+SSplotEnsemble(mvln$kb,ylabs=mvln$labels,add=T,verbose=F) 
+```
+
+The `SSdeltaMVLN()` provides the option to set alternative `Fref` values, but this is only possible for the recommended `starter.ss` option 0 for `F_report_basis`. For option 2, `SSdeltaMVLN()` get an error if `Fref` where to be changed.
+
+```{r error=TRUE}
+mvln = SSdeltaMVLN(ss3sma,run="SMA", Fref="Btgt") 
+```
+
+By comparison, the Pacific Hake base case model `ss3phk` is run with settings that are common in NOAA assessments, with `Bratio` set $SSB/SSB_{0}$ and `F` is typically kept at absolute quantity.   
+
+`1 # Depletion basis: 2=rel SPBmsy; 3=rel X*SPB_styr; 4=rel X*SPB_endyr`
+
+`0 # F_report_basis: 0=raw_F_report; 1=F/Fspr; 2=F/Fmsy ; 3=F/Fbtgt`
+
+The management quantaties are in this case $SSB/SSB_{40}$ and $F/F_{spr40}$, where the target of 40\% is specified in the `forecast.ss` file.
+
+`0.4 # SPR target (e.g. 0.40)`
+`0.4 # Biomass target (e.g. 0.40)`
+
+```{r fig13, fig.width=4,fig.cap="Kobe phase plots showing MVLN Kobe probability distributions of $SSB/SSB_{40}$ and $F/F_{SPR40}$ for North Atlantic shortfin mako Stock model."}
+
+mvln = SSdeltaMVLN(ss3phk,run="Pac.Hake", Fref="SPR",plot=TRUE) 
+
+```
 
 
+
+```{r fig14, fig.height=6.5,fig.cap="Distributions for $SSB/SSB_{40}$ $F/F_{SPR40}$, $SSB$, Recruitment and Catch trajectories for the Pacific Hake SS3 model"} 
+sspar(mfrow=c(3,2),plot.cex = 0.7)
+SSplotEnsemble(mvln$kb,ylabs=mvln$labels,add=T,verbose=F) 
+```
+
+<br> 
+
+It is important to note that MVLN approximation differs notably from MCMC posterior for this model as has been documented in [Stewart et al. (2013)](https://www.sciencedirect.com/science/article/abs/pii/S0165783612002081) and [Taylor et al. (2021)](https://www.sciencedirect.com/science/article/abs/pii/S0165783621000527). Such differences may be more likely to occur in cases where key parameters such as steepness $h$ or natural $M$ are estimated using informative priors, which can result in left skewed (non-lognormal) distributions of the benchmarks $F_{ref}$ and $B_{ref}$. 
+
+In other instances, mismatches between the`SSdeltaMVLN` and MCMC may also be caused by poor performance of the latter due to poor regularization [(Monnahan et al., 2019)](https://academic.oup.com/icesjms/article/76/6/1477/5475859?login=true).
+
+To facilitate comparison between the `SSdeltaMLVN()` and MCMC outputs, we provide the function `SSdiagsMCMC()`, which we illustrate on the example of the Stock Synthesis model for the ICES Gulf of Bothian Herring stock [(ICES, 2021)](https://www.ices.dk/sites/pub/Publication%20Reports/Stock%20Annexes/2021/her.27.3031_SA.pdf). 
+
+
+`SSdiagsMCMC()` requires loading both the `report.sso` and MCMC output in the `posterior.sso` file, where the MCMC was in this case run in the subfolder of the assessment file `/mcmc`. 
+
+
+```{r eval=F}
+# Alread loaded to ss3diags
+ss3her =  SS_output("gob_her")
+mcmc.her =  SSreadMCMC("gob_her/mcmc")
+```
+
+The options and output of `SSdiagsMCMC()` is largely identical to `SSdeltaMVLN`. In this case, the `starter.ss` is the same as for `ss3phk`, only the we use Fref = "Btgt" for illustration with $SB_{50}$ and $F_{SB50}$ for this illustration.
+
+```{r}
+mvln = SSdeltaMVLN(ss3her,Fref="Btgt",plot=F,run="mvln")
+mcmc = SSdiagsMCMC(mcmc.her,ss3her,Fref="Btgt",plot=F,run="mcmc")
+```
+
+Comparing detla-MVLN with MCMC simply requires combining the `$kb` outputs by, e.g.,
+
+
+```{r fig15, fig.height=3,fig.width=3.8,fig.cap="Kobe phase plot comparing MVLN and MCMC posterior distributions of $SSB/SSB_{50}$ and $F/F_{50}$  for the ICES Gulf of Bothia Herring SS3 model"} 
+sspar(mfrow=c(1,1),plot.cex = 0.8)
+SSplotKobe(rbind(mvln$kb,mcmc$kb),joint=F,xlab=mvln$labels[1],
+ylab=mvln$labels[2],fill=F)
+
+
+```
+
+
+
+```{r fig16, fig.height=4.5,fig.cap="Comparison of MVLN and MCMC posterios for $SSB/SSB_{40}$ $F/F_{SB40}$, $SSB$ for the ICES Gulf of Bothia Herring SS3 model"} 
+
+sspar(mfrow=c(2,2),plot.cex = 0.7)
+SSplotEnsemble(rbind(mvln$kb,mcmc$kb),ylabs=mvln$labels,
+add=T,subplots = c("stock", "harvest", "SSB", "F"),
+verbose=F)
+
+```
+
+<br>
+This works equally for joining a model ensemble. 
+
+\newpage
 
 # Cookbook Recipies
 
@@ -587,7 +679,4 @@ SSplotRetro(check.retro,forecast = T,add=T,legendcex = 0.7,legendloc = "topleft"
 ```
 
 
-## Profiling
-
-## Jittering
 

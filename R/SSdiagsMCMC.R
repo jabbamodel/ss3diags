@@ -44,10 +44,20 @@ SSdiagsMCMC = function(mcmc,ss3rep,Fref = NULL,years=NULL,run="MCMC",thin = 1,pl
   
 
   dat = mcmc
+  
+  # check ss3 version
+  ssver = ifelse("annF_MSY"%in%ss3rep$derived_quants$Label,"new","old")
   # Define refs
-  refs = c("SSB_unfished","SSB_MSY","SSB_Btgt","SSB_SPR","SPR_MSY",
+  if(ssver=="new")
+    refs = c("SSB_unfished","SSB_MSY","SSB_Btgt","SSB_SPR","SPR_MSY",
+             "annF_MSY","annF_SPR","annF_Btgt","Recr_unfished", "B_MSY.SSB_unfished",
+             "Dead_Catch_MSY", "Ret_Catch_MSY")  
+  } else {
+    refs = c("SSB_unfished","SSB_MSY","SSB_Btgt","SSB_SPR","SPR_MSY",
            "Fstd_MSY","Fstd_SPR","Fstd_Btgt","Recr_unfished", "B_MSY.SSB_unfished",
            "Dead_Catch_MSY", "Ret_Catch_MSY")  
+  }  
+ 
     # Some checks
     nms = names(dat)
     yrs = nms[substr(nms, 1, 3) == "Bra"]
@@ -141,13 +151,24 @@ SSdiagsMCMC = function(mcmc,ss3rep,Fref = NULL,years=NULL,run="MCMC",thin = 1,pl
   #if(Bref[1]=="B0") stock = SSB/sims$SSB_unfished 
   Fout = sims$harvest
   #if(Fstarter[1]=="_abs_F"){ Fabs = Fout} else if(Fstarter[1] == "(F)/(Fmsy)"){Fabs = Fout} else {Fabs = Fout*sims$Fstd_Btgt}
-  if(fb==1) {Fabs=Fout}
-  if(fb==2) {Fabs=Fout*sims$Fstd_MSY}
-  if(fb==3) {Fabs=Fout*sims$Fstd_Btgt}
-  if(fb==4) {Fabs=Fout*sims$Fstd_SPR}
-  if(Fref[1]=="MSY"){harvest = Fabs/sims$Fstd_MSY}
-  if(Fref[1]=="Btgt"){harvest = Fabs/sims$Fstd_Btgt}
-  if(Fref[1]=="SPR"){harvest = Fabs/sims$Fstd_SPR}
+  if(ssver=="new"){ # new version
+    if(fb==1) {Fabs=Fout}
+    if(fb==2) {Fabs=Fout*sims$annF_MSY}
+    if(fb==3) {Fabs=Fout*sims$annF_Btgt}
+    if(fb==4) {Fabs=Fout*sims$annF_SPR}
+    if(Fref[1]=="MSY"){harvest = Fabs/sims$annF_MSY}
+    if(Fref[1]=="Btgt"){harvest = Fabs/sims$annF_Btgt}
+    if(Fref[1]=="SPR"){harvest = Fabs/sims$annF_SPR}
+    
+  } else { # Old version
+   if(fb==1) {Fabs=Fout}
+   if(fb==2) {Fabs=Fout*sims$Fstd_MSY}
+   if(fb==3) {Fabs=Fout*sims$Fstd_Btgt}
+   if(fb==4) {Fabs=Fout*sims$Fstd_SPR}
+   if(Fref[1]=="MSY"){harvest = Fabs/sims$Fstd_MSY}
+   if(Fref[1]=="Btgt"){harvest = Fabs/sims$Fstd_Btgt}
+   if(Fref[1]=="SPR"){harvest = Fabs/sims$Fstd_SPR}
+  }
   
   simout = data.frame(sims[,1:2],run=run,SSB,Fabs,BB0 = SSB/sims$SSB_unfished,stock=stock,harvest=harvest,Recr=sims$recr,sims[,6:ncol(sims)])
   

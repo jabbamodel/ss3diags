@@ -48,7 +48,7 @@ SSdiagsMCMC = function(mcmc,ss3rep,Fref = NULL,years=NULL,run="MCMC",thin = 1,pl
   # check ss3 version
   ssver = ifelse("annF_MSY"%in%ss3rep$derived_quants$Label,"new","old")
   # Define refs
-  if(ssver=="new")
+  if(ssver=="new"){
     refs = c("SSB_unfished","SSB_MSY","SSB_Btgt","SSB_SPR","SPR_MSY",
              "annF_MSY","annF_SPR","annF_Btgt","Recr_unfished", "B_MSY.SSB_unfished",
              "Dead_Catch_MSY", "Ret_Catch_MSY")  
@@ -159,7 +159,6 @@ SSdiagsMCMC = function(mcmc,ss3rep,Fref = NULL,years=NULL,run="MCMC",thin = 1,pl
     if(Fref[1]=="MSY"){harvest = Fabs/sims$annF_MSY}
     if(Fref[1]=="Btgt"){harvest = Fabs/sims$annF_Btgt}
     if(Fref[1]=="SPR"){harvest = Fabs/sims$annF_SPR}
-    
   } else { # Old version
    if(fb==1) {Fabs=Fout}
    if(fb==2) {Fabs=Fout*sims$Fstd_MSY}

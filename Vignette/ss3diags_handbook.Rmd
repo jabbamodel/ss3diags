@@ -1,6 +1,10 @@
 ---
 title: "User guidelines for Advanced Model Diagnostics with ss3diags"
-author: "Hennig Winker (JRC-EC), Felipe Carvalho (NOAA), Massimiliano Cardinale (SLU) & Laurence Kell (Sea++)"
+author: 
+ - Hennig Winker (JRC-EC)
+ - Felipe Carvalho (NOAA)
+ - Massimiliano Cardinale (SLU) 
+ - Laurence Kell (Sea++)
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   pdf_document:
@@ -13,14 +17,36 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-```{r, echo = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "  " ,fig.align = 'center', cache=FALSE)
+```{r wrap-hook, echo = FALSE}
+library(knitr)
+hook_output = knit_hooks$get('output')
+knit_hooks$set(output = function(x, options) {
+  # this hook is used only when the linewidth option is not NULL
+  if (!is.null(n <- options$linewidth)) {
+    x = knitr:::split_lines(x)
+    # any lines wider than n should be wrapped
+    if (any(nchar(x) > n)) x = strwrap(x, width = n)
+    x = paste(x, collapse = '\n')
+  }
+  hook_output(x, options)
+})
 ```
 
 
-# Getting started 
+```{r, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "  " ,fig.align = 'center', cache=FALSE,tidy.opts=list(width.cutoff=80), tidy=TRUE)
 
-This vignette explains functions for applying advanced model diagnostics for Stock Synthesis model with the `ss3diags` R package for model. The `ss3diag` R package accompanies the paper "A cookbook for using model diagnostics in integrated stock assessments"  by [Carvalho, Winker et al. (2021)](https://www.sciencedirect.com/science/article/pii/S0165783621000874). The `ss3diags` package builds on R package `r4ss` (Taylor et al. 2021), which is designed to support the use of the Stock Synthesis software (Methot and Wetzel, 2013).
+```
+
+
+
+# Getting started {#s1}
+
+This vignette introduces you to the ss3diags R package, which accompanies the paper “A cookbook for using model diagnostics in integrated stock assessments” by Carvalho, Winker et al. (2021). 
+
+The `ss3diags` comprises a explains set of functions for applying advanced model diagnostics for Stock Synthesis models.  with the ss3diags R package for model. The ss3diag R package accompanies the paper “A cookbook for using model diagnostics in integrated stock assessments” by [Carvalho, Winker et al. (2021)](https://www.sciencedirect.com/science/article/pii/S0165783621000874). The `ss3diags` package builds on the widely used R package r4ss [(Taylor et al. 2021)](https://www.sciencedirect.com/science/article/abs/pii/S0165783621000527), which is designed to support the use of the Stock Synthesis software modeling framework [(Methot and Wetzel, 2013)](https://www.sciencedirect.com/science/article/abs/pii/S0165783612003293).
+<br>
+This vignette is divided into four sections. [Section 1](#s1) consists of installing `ss3diags` and loading the data from the two case studies presented in the cookbook. [Section 2](#s2) describes the plotting of various model diagnostics as described in the [Cookbook](https://www.sciencedirect.com/science/article/pii/S0165783621000874). [Section 3](#s3) provides a detailed explanation on how to assess model uncertainty using `ss3diags`. In [Section 4](#s4) we provide a series “cookbook recipes” on how to implement selected model diagnostics in Stock Synthesis.  
 
 ## Installation
 
@@ -42,11 +68,10 @@ library(ss3diags)
 
 ## Loading built-in example data
 
-The package contains two examples of Stock Synthesis assessments as presented in [Carvalho, Winker et al. (2021)](https://www.sciencedirect.com/science/article/pii/S0165783621000874). 
+The package contains two fully worked examples of Stock Synthesis assessments as presented in the [Cookbook](https://www.sciencedirect.com/science/article/pii/S0165783621000874).
 
 ### The Pacif hake (*Merluccius productus*) base case model
 
-2020 Pacific hake/whiting Stock Synthesis assessment. Joint Technical Committee of the U.S. and Canada Pacific Hake/Whiting Agreement, National Marine Fisheries Service and Fisheries and Oceans Canada 
 <br>
 ```{r}
 data("pac.hke")
@@ -68,7 +93,7 @@ ss3pke = r4ss::SS_output(file.path(dir.path,"Reference_Run"))
 <br>
 
 
-In this case the retrospective runs, produced with `r4ss:SS_doRetro()`(see recipe below), were located in the subfolders `/Retro_Reference_Run` and named "retro0","retro-1", "retro-2" and so on. To load those at once we use the `r4ss::SSgetoutput()`. In this case we conducted eight retrospective runs, where "retro0" corresponds to the "Reference_Run" and "retro-1" to "retro-7" are "peels". To assign the model names, we there specify `start.retro = 0` and `end.retro = 7` below.     
+The retrospective runs, produced with `r4ss:SS_doRetro()`, were located in the subfolders `/Retro_Reference_Run` and named "retro0","retro-1",..., "retro-7" and so on. To load those at once we use the `r4ss::SSgetoutput()`. Eight retrospective runs were conducted, where "retro0" corresponds to the "Reference_Run" and "retro-1" to "retro-7" are "peels". To assign the model names, specify `start.retro = 0` and `end.retro = 7` below.     
 <br>
 
 
@@ -82,10 +107,10 @@ retro.runs,paste0("retro",start.retro:-end.retro)))
 
 ```
 <br>
-Again, note that list object `retro.phk[[1]]` ("retro0") corresponds to the reference run ss3phk 
+The list object `retro.phk[[1]]` ("retro0") corresponds to the reference run ss3phk 
 <br><br>
 
-`aspm.phk`: Comprises of two runs the "Reference_Run" and the "ASPM", which can be loaded together using `r4ss::SSgetoutput()` and then summarized with `r4ss::SSsummarize()` 
+- `aspm.phk`: Comprises of two runs the "Reference_Run" and the "ASPM", which can be loaded together using `r4ss::SSgetoutput()` and then summarized with `r4ss::SSsummarize()` 
 
 <br>
 
@@ -96,7 +121,7 @@ asem.phk <- r4ss::SSsummarize(asem.phk)
 ```
 <br>
 
-### The ICCAT North Atlantic shortfin mako (*Isurus oxyrinchus*) reference model
+###  North Atlantic shortfin mako (*Isurus oxyrinchus*)
 
 ```{r}
 data("natl.sma")
@@ -113,12 +138,12 @@ Individual list objects generated using R package [r4ss](https://github.com/r4ss
 
 <br>
 
-# Model Diagnostics with ss3diags 
+# Model Diagnostics with ss3diags {#s2} 
 
-## Plotting residual diagnostic with `ss3diags` 
+## Residual diagnostics
 
-The plotting options are kept mostly to those provided by [r4ss](https://github.com/r4ss/r4ss).
-Just like with [r4ss](https://github.com/r4ss/r4ss), if, for example, `SSplotRunstest() called with no further specifications several windows will open,  which depends in this case on the number abundance indices.
+The plotting options are kept mainly to those provided by [r4ss](https://github.com/r4ss/r4ss).
+Like with [r4ss](https://github.com/r4ss/r4ss), if, for example, `SSplotRunstest() called with no further specifications several windows will open,  which depends on the number abundance indices.
 
 <br>
 
@@ -128,16 +153,8 @@ SSplotRunstest(ss3sma)
 
 <br>
 
-The runs test is a nonparametric hypothesis test for
-randomness in a data sequence that calculates the 2-sided p-value to
-estimate the number of runs (i.e., sequences of values of the same sign)
-above and below a reference value. the runs test can diagnose model misspecification using residuals from fits to abundance indices [(Carvalho et al. 2017)](https://www.sciencedirect.com/science/article/pii/S0165783616303113). It can also be applied to other data components in assessment models such as the mean-length residuals and mean-age residuals. In addition, the three-sigma limits can be considered
-to identify potential outliers as any data point would be unlikely given a random process error in the observed residual distribution if it is further than three
-standard deviations away from the expected residual process average of
-zero.
 
-
-To visiualized the runs test for multiple indices, it is suggested to make use of the function `sspar()` and the option plot `add=TRUE`. `sspar()` facilitates setting the graphic parameters so that they are suitable for `ss3diags` plots and option `add=TRUE` prevents the plotting functions from over-writing `sspar()`.
+To visiualize the runs test for multiple indices, it is recommended to use of the function `sspar()`. The option plot `add=TRUE` in `sspar()` facilitates setting the graphic parameters so that they are suitable for `ss3diags` plots. The option `add=TRUE` prevents the plotting functions from over-writing `sspar()`.
 
 <br>
 
@@ -148,7 +165,7 @@ rt = SSplotRunstest(ss3sma,add=T,verbose=F)
 ```
 <br><br>
 
-It is also possible to select the indices that should be plotted. For example, in this case we may want to exclude CPUE2 as it was not fitted (zero weight to the likelihood). This also creates space to add another plot, such as joint-residual `SSplotJABBAres` to summarize all selected indices.
+It is also possible to select the indices that should be plotted. For example, we excluded CPUE2 as it was not fitted (zero weight to the likelihood). This creates space to add the joint-residual plot `SSplotJABBAres` to summarize all selected indices.
 
 <br><br>
 
@@ -162,7 +179,7 @@ jr = SSplotJABBAres(ss3sma,add=T,indexselect = c(1,3:6),legendcex = 0.55,verbose
 <br><br>
 
 
-The default for `SSplotRunstest()` and `SSplotJABBAres()` is plot the residual runs for the abundance indices, but it is also possible to do the plot plot for the composition data by specifying `subplots="len"` (or "age")
+The default for `SSplotRunstest()` and `SSplotJABBAres()` is plot the residual runs for the abundance indices. However, it is also possible to plot the composition data by specifying `subplots="len"` (or "age")
 <br><br>
 
 ```{r fig3, fig.height=6,fig.cap= "Runs test plot and Joint residual plot for mean lengths from fits length composition data"}
@@ -177,7 +194,7 @@ jr = SSplotJABBAres(ss3sma,add=T,
 
 \newpage
 
-Several diagnostic tests can also be called without plotting, e.g. to facilitate automated processing  
+To facilitate automated processing, results from several diagnostic tests can also be called without plotting
 
 <br> 
 
@@ -187,7 +204,7 @@ rtl= SSrunstest(ss3sma,quant="len",verbose=F)
 rbind(rti,rtl)
 ```
 <br><br>
-The pacific hake assessment provides an example of fits to age composition instead of length composition data, which can plotted by specifying `subplots="age"`
+The Pacific hake assessment provides an example of fits to age composition instead of length composition data, which can visualized by specifying `subplots="age"`
 <br><br>
 
 ```{r,fig.height=4, fig.cap="Runs test plot and Joint residual plot for a survey abudance index and mean ages from fits to survey and fisheries dependent age-composition data"}
@@ -203,21 +220,18 @@ jra = SSplotJABBAres(ss3phk,add=T,legendcex = 0.7,subplot="age",verbose=F)
 <br> 
 
 
-## Ploting Retrospective and Forecast bias
+## Retrospective and Forecast bias
 
-Retrospective analysis is commonly used to check the consistency of model estimates, i.e., the invariance in spawning stock biomass (SSB) and fishing mortality (F) as the model is
-updated with new data in retrospect. The retrospective analysis involves sequentially removing observations from the terminal year (i.e., peels), fitting the model to the truncated series, and then comparing the relative difference between model estimates from the full-time series with the truncated time-series.
-
-In Stock Synthesis, retrospective analysis can be routinely implemented in Stock Synthesis using `r4ss:SS_doRetro()` available in [r4ss](https://github.com/r4ss/r4ss) as demonstrated in Section [3.1][Retrospetive with hindcasts]. `ss3diags` then provides the function `SSplotRetro()` to visualize the retrospective patterns of SBB and F and to compute the associated Mohn's rho value (i.e. retrospective bias). This would require to first load the retrospective runs (Section [1.2][Loading built-in example data]), which are already inbuilt into `ss3diags` in this case. The next step is summarize the list of retrospective runs using `r4ss::SSsummarize()`.
+In Stock Synthesis, retrospective analysis can be routinely  using `r4ss:SS_doRetro()` (see [Section 4.1](#r1)). `ss3diags` provides the function `SSplotRetro()` to visualize the retrospective patterns of SBB and F and compute the associated Mohn's rho value (i.e. retrospective bias). This would require first loading the retrospective runs ([Section 1.2]()]), which are already inbuilt into `ss3diags` in this case. The next step is to summarize the list of retrospective runs using `r4ss::SSsummarize()`.
 
 
 ```{r}
 retroI.phk <- r4ss::SSsummarize(retro.phk,verbose=F)
 ```
 
-We use notation "retroI" because `r4ss::SSsummarize()` summarizes the modelled quantaties and abudances indices, but length or age composition data, which becomes relevant again in the next Section. With summarized object `retroI.phk` it is now possible to produce some basic retrospective plots.
+We use notation "retroI" because `r4ss::SSsummarize()` summarizes the modeled quantities and abundance indices, but not length or age composition data. Using `retroI.phk` it is possible to produce some basic retrospective plots.
 
-```{r fig5, fig.height=3,fig.cap= "Retrospective analysis of spawning stock biomass (SSB) and fishing mortality estimates for Pacific hake conducted by re-fitting the reference model (Ref) after seven years, one year at a time sequentially. Mohn’s rho statistic are denoted on top of the panels. Grey shaded areas are the 95 \\% confidence intervals from the reference model in cases where the analysis was run with Hessiean"}
+```{r fig5, fig.height=3,fig.cap= "Retrospective analysis of spawning stock biomass (SSB) and fishing mortality estimates for Pacific hake conducted by re-fitting the reference model (Ref) after seven years, one year at a time sequentially. Mohn’s rho statistic are denoted on top of the panels. Grey shaded areas are the 95 \\% confidence intervals from the reference model in cases where the analysis was run with Hessian"}
 
 sspar(mfrow=c(1,2),plot.cex=0.8)
 rb = SSplotRetro(retroI.phk,add=T,forecast = F,legend = F,verbose=F)
@@ -228,10 +242,7 @@ rf = SSplotRetro(retroI.phk,add=T,subplots="F", ylim=c(0,0.4),
 
 
 
-Retrospective analysis is useful to evaluate how consistent the modeled
-quantities are in retrospect. However, providing fisheries management
-advice requires predicting a stock’s response to management and
-checking that predictions are consistent when updated by new data in the future.  A first, intuitive extension of the retrospective analysis is to assess potential forecast bias by adding the additional step of forward projecting quantities, such as SSB, over the truncated years. A desirable feature of Stock Synthesis is that forecasts are automatically done when using `r4ss:SS_doRetro()`.The forecasts are based on the settings in ‘forecast.ss’, which are also evoked when conducting future projections with the same model, only that the observed catches are used for the retrospective forecasts. Retrospective forecasts (i.e. hindcasts) with Stock Synthesis is therefore only a matter of visualization, which can be done by setting the `SSplotRetro()` option `forecast=TRUE`.
+An intuitive extension of the retrospective analysis is to assess potential forecast bias by adding the additional step of forward projecting quantities, such as SSB, over the truncated years. In Stock Synthesis the forecasts are automatically done when using `r4ss:SS_doRetro()`.The forecasts are based on the settings specified in ‘forecast.ss’, which are also evoked when conducting future projections with the same model. The observed catches are used for the retrospective forecasts. Retrospective forecasts with Stock Synthesis are therefore only a matter of visualization, which can be done by setting the `SSplotRetro()` option `forecast=TRUE`.
 
 
 ```{r fig6, fig.height=3.,fig.cap= "Retrospective results shown for the most recent years only. Mohn’s rho statistic and the corresponding ‘hindcast rho’ values (in brackets) are now printed at the top of the panels. One-year-ahead projections denoted by color-coded dashed lines with terminal points are shown for each model."}
@@ -246,7 +257,7 @@ rf = SSplotRetro(retroI.phk,add=T,subplots="F", ylim=c(0,0.4),
 
 \newpage
 
-The statistics in from the retrospective analysis with forecasting, including mohn's rho and forecast bias, can also be called without plotting using the function `SShcbias()`   
+The statistics from the retrospective analysis with forecasting, mohn's rho and forecast bias, can be called without plotting using the function `SShcbias()`   
 
 <br><br>  
 
@@ -261,21 +272,18 @@ SShcbias(retroI.phk,quant="F",verbose=F)
 
 ## Hindcast Cross-Validation and prediction skill 
 
-Retrospective forecasting provides an indication of the expected bias of in modelled quantities when updated with new data, but is not suitable for model validation, which should based on actual observations that are unknown to the model.To address this, [Kell et al. (2016)](https://www.sciencedirect.com/science/article/abs/pii/S0165783616301540) proposed the used of hindcasting  cross-validation techniques (HCXval) for stock assessment model validation, where observations (e.g. CPUE, length comps) are compared to their predicted future values. The key concept behind the HCXval approach is ’prediction skill’, which is defined as any measure of the accuracy of a forecasted value to the actual observed value that is not known by the model (Kell et al., 2021).
-
+Implementing the Hindcast Cross-Validation (HCxval) diagnostic in Stock Synthesis  requires the same model outputs generated by `r4ss:SS_doRetro()` as described in Section [3.1](#r1). Therefore, no additional step is needed for HCxval if conducted in conjunction with retrospective analysis. 
 <br> 
-Implementing the Hindcast Cross-Validation (HCxval) diagnostic in Stock Synthesis  requires the same model outputs that are already produced with generated by `r4ss:SS_doRetro()` as described in Section [3.1][Retrospetive with hindcasts]. Therefore, there is no additional computationally intensive step needed for HCxval if conducted in conjunction with retrospective analysis. 
-<br> 
-As robust measure of prediction skill, we implemented the mean absolute
+As a robust measure of prediction skill, we implemented the mean absolute
 scaled error (MASE). In brief, the MASE score scales
 the mean absolute error (MAE) of forecasts (i.e., prediction residuals) to
 MAE of a naïve in-sample prediction, which is realized in the form of a simple 'persistence algorithm', i.e. tomorrow’s weather will be the same as today’s (see Eq. 3, p.5 in [Carvalho and Winker et al. 2021](https://www.sciencedirect.com/science/article/pii/S0165783621000874)). A MASE score > 1 indicates that the average model forecasts are worse than a random walk. Conversely, a MASE score of 0.5 indicates that the model forecasts twice as accurately as a naïve baseline prediction; thus, the model has prediction skill.
 
 <br> 
-HCxval is implemented for Stock Synthesis using function `SSplotHCxval()`to produce the novel HCxval diagnostic plot and computes the MASE scores for CPUE indices, mean lengths or mean ages that have observations falling within the hindcast evaluation period.
+HCxval is implemented using function `SSplotHCxval()`, which produces the novel HCxval diagnostic plot and computes the MASE scores for CPUE indices, mean lengths or mean ages that have observations falling within the hindcast evaluation period.
 <br> 
 
-Plotting HCxval for abudance indices requires the same step of summarizing the list of retrospective runs as for the retrospective analysis, which, of course, only needs be done once. Here, we summarize the retro runs for shortfin mako.
+Plotting HCxval for abundance indices requires the same step of summarizing the list of retrospective runs as for the retrospective analysis, which therefore only needs be done once. Below is a summary of the retrospective runs for shortfin mako.
 
 
 ```{r eval=TRUE}
@@ -283,7 +291,7 @@ retroI.sma <- r4ss::SSsummarize(retro.sma,verbose=F)
 ```
 
 
-```{r fig7, fig.height=5.5,fig.cap= "Hindcasting cross-validation (HCxval) results CPUE fits, showing observed (large points connected with dashed line), fitted (solid lines) and one-yearahead forecast values (small terminal points).HCxval was performed using one reference model (Ref) and five hindcast model runs (solid lines) relative to the expected CPUE. The observations used for crossvalidation are highlighted as color-coded solid circles with associated 95 \\% confidence intervals. The model reference year refers to the endpoints of each one-year-ahead forecast and the corresponding observation (i.e., year of peel + 1). The mean absolute scaled error (MASE) score associated with each CPUE"}
+```{r fig7, fig.height=5.5,fig.cap= "Hindcasting cross-validation (HCxval) results from CPUE fits, showing observed (large points connected with dashed line), fitted (solid lines) and one-yearahead forecast values (small terminal points).HCxval was performed using one reference model (Ref) and five hindcast model runs (solid lines) relative to the expected CPUE. The observations used for crossvalidation are highlighted as color-coded solid circles with associated 95 \\% confidence intervals. The model reference year refers to the endpoints of each one-year-ahead forecast and the corresponding observation (i.e., year of peel + 1). The mean absolute scaled error (MASE) score associated with each CPUE"}
 
 sspar(mfrow=c(3,2),plot.cex=0.8)
 hci = SSplotHCxval(retroI.sma,add=T,verbose=F,ylimAdj = 1.3,legendcex = 0.7)
@@ -291,7 +299,7 @@ hci = SSplotHCxval(retroI.sma,add=T,verbose=F,ylimAdj = 1.3,legendcex = 0.7)
 
 \newpage
 
-By comparison, the forecast length- and age-composition are somewhat hidden as "ghost files" of Stock Synthesis report.sso. To extract and summarize the composition in the form of oberved and expected mean lenghts and mean ages, respectively, `ss3diags` provides the function `SSretroComps()`.
+The forecast length- and age-composition are located in the Stock Synthesis report.sso as "ghost files". To extract and summarize the composition data in the form of observed and expected mean lengths and age `ss3diags` provides the function `SSretroComps()`.
 
 ```{r}
 retroC.sma = SSretroComps(retro.sma)
@@ -304,18 +312,18 @@ hcl = SSplotHCxval(retroC.sma,subplots="len",add=T,verbose=F,
 ylimAdj = 1.3,legendcex = 0.7,indexselect = c(1,2))
 ```
 
-Note that Figure 8, provides some additional, so called adjusted MASE values, in brackets. This gets invoked in cases where the inter-annual variation in the observed values is very small (default MAE < 0.1 for naive predictions log(y[t+1])-log(y[t])).
+The Figure above  provides some additional, so called adjusted MASE values, in brackets. This gets invoked in cases where the inter-annual variation in the observed values is very small (default MAE < 0.1 for naive predictions log(y[t+1])-log(y[t])).
 The reasoning is that prediction residuals must be already very accurate to fall below this threshold. The adjusted MASE essential keep the naive prediction MAE denominator of the MASE to a maximum. Below we show the effect of changing adjustment threshold from the default `MAE.base.adj = 0.1`
 
 
-```{r}
+```{r , linewidth=60}
 mase1 = SSmase(retroC.sma,quant="len",MAE.base.adj = 0.1,indexselect = c(1:2))
 mase1
 ```
 
 to a larger value `MAE.base.adj = 0.15`
 
-```{r}
+```{r, linewidth=60}
 SSmase(retroC.sma,quant="len",MAE.base.adj = 0.15,indexselect = c(1:2))
 ```
 
@@ -334,9 +342,9 @@ mase1$MAE.PR/pmax(mase1$MAE.base,0.1)
 mase1$MASE.adj
 ```
 
-Note that applying HCxval for composition data requires to correctly specify the composition data type that was fitted in the model. For example, age composition data need be specified as "age" in `SSplotHCxval` and `SSmase`, as shown below for the Pacific hake model.
+Applying HCxval for composition data requires correctly specifying the composition data type fitted in the model. For example, age composition data need to be specified as "age" in `SSplotHCxval` and `SSmase`, as shown below for the Pacific hake model.
 
-```{r fig9, fig.height=3,fig.cap= "Hindcasting cross-validation (HCxval) results for mean lengths. Note that MASE values in breakets are adjusted MASE values for cases where naive predictions have a Mean-Absolute-Error below 0.1"}
+```{r fig9, fig.height=3,fig.cap= "Hindcasting cross-validation (HCxval) results for mean lengths. Note that MASE values in brackets are adjusted MASE values for cases where naive predictions have a Mean-Absolute-Error below 0.1"}
 
 retroC.phk = SSretroComps(retro.phk) # summarize comps
 
@@ -351,12 +359,12 @@ SSmase(retroC.phk,quants="age")
 
 \newpage
 
-## Uncertainty with `ss3diags` 
+# Model uncertainty {#s3}
 
-The management advice frameworks increasingly require translating the estimated uncertainty about the stock status into probabilistic statements (Kell et al. 2016). A classical example is the Kobe framework that is use in tuna Regional Fisheries Management Organisations around the world. The key quantities of interest are typically the ratios $SSB/SSB_{MSY}$ and $F/F_{MSY}$. While is reasonably straight forward in Stock Synthesis to approximate uncertainty of individual quantities (e.g. $SSB$) from the asymptotic standard errors (SE) derived from the hessian matrix using the delta method, the joint distribution of $SSB/SSB_{MSY}$ and $F/F_{MSY}$   
-requires to adequately account for the covariance structure between these two derived quantities. Joint distributions were therefore typical constructed using bootstrap or Markov Chain Monte-Carlo (MCMC) methods. However, these methods can be computationally intense and time consuming in integrated assessments.  
+The management advice frameworks increasingly require translating the estimated uncertainty about the stock status into probabilistic statements (Kell et al. 2016). A classical example is the Kobe framework used in tuna Regional Fisheries Management Organisations (tRFMOs) around the world. The key quantities of interest are typically the ratios $SSB/SSB_{MSY}$ and $F/F_{MSY}$. It is reasonably straight forward in Stock Synthesis to approximate uncertainty of individual quantities (e.g. $SSB$) from the asymptotic standard errors (SE) derived from the Hessian matrix using the delta method. However, the joint distribution of $SSB/SSB_{MSY}$ and $F/F_{MSY}$   
+requires to adequately account for the covariance structure between these two derived quantities. Joint distributions were typically constructed using bootstrap or Markov Chain Monte-Carlo (MCMC) methods. However, these methods can be computationally intense and time-consuming in integrated assessments.  
 
-As an alternative, `ss3diags` implements a rapid delta-Multivariate lognormal approximation with `SSdeltaMVLN()` to generate joint error distributions for $SSB/SSB_{ref}$ and $F/F_{ref}$,where the $ref$ may refer to $MSY$, but also, e.g., $SSB_{40}$ and $F_{40}$. In Stock Synthesis, these ratios are determined by the derived quantaties  `Bratio` and `F`, where either can take the form of ratios (e.g. $F/F_{ref}$) or absolute value (e.g. `absF`) depending on settings in the `starter.ss` file.
+As an alternative, `ss3diags` implements a rapid delta-Multivariate lognormal approximation with `SSdeltaMVLN()` to generate joint error distributions for $SSB/SSB_{ref}$ and $F/F_{ref}$,where the $ref$ may refer to $MSY$, but also other reference points (e.g., $SSB_{40}$ and $F_{40}$). In Stock Synthesis, these ratios are determined by the derived quantities  `Bratio` and `F`, where either can take the form of ratios (e.g. $F/F_{ref}$) or absolute value (e.g. `absF`) depending on settings in the `starter.ss` file.
 
 Let `Bratio` be $u = SSB/SSB_{ref}$, `F` be $v = F$, and $w = F_{ref}$ be the F reference point of interest (e.g. $F_{MSY}$), with $x = \log(u)$, $y = \log(v)$ and $z = \log(w)$, then the variance-covariance matrix $VCM$ has the form:
 
@@ -369,7 +377,7 @@ VCM_{x,y,z} =
  \end{pmatrix}
 $$
 
-where, e.g., $\sigma^2_{x}$ is the variance of $x$ and $cov_{x,y}$ is the covariance of $x$ and $y$. Deriving those requires to conduct a few normal to lognormal transformations. First, we approximate the variances as:
+where, e.g., $\sigma^2_{x}$ is the variance of $x$ and $cov_{x,y}$ is the covariance of $x$ and $y$. Deriving those requires conducting a few normal to lognormal transformations. First, the variances are approximated as:
 
 $$
 \sigma^2_{x} = \log\left(1+\left(\frac{SE_u}{u}\right)^2\right)  
@@ -377,15 +385,15 @@ $$
 
 where $SE_{u}$, $SE_{v}$ and $SE_{z}$ are the asymptotic standard error estimates for $u = SSB/SSB_{ref}$, $v = F$ and $z = F_{ref}$. 
 
-The corresponding covariance for  x and y, can then be approximated on the log-scale by:
+The corresponding covariance for $x$ and $y$, can then be approximated on the log-scale by:
 
 $$
 COV_{x,y} = \log \left( {1+\rho_{u,v} \sqrt{\sigma^2_{x}\sigma^2_{y}}} \right) 
 $$
 
-where $rho_{u,v}$ denotes the correlation of u and v.
+where $rho_{u,v}$ denotes the correlation of $u$ and $v$.
 
-To generate a joint distribution of $\tilde{u}$ = $SSB/SSB_{ref}$, $\tilde{v}$ = $F$ and $\tilde{z}$ = $F_{ref}$, we use a multivariate random generator, available in the R package ‘mvtnorm’, to obtain a large number (e.g. nsim = 10,000) iterations, such that
+To generate a joint distribution of $\tilde{u}$ = $SSB/SSB_{ref}$, $\tilde{v}$ = $F$ and $\tilde{z}$ = $F_{ref}$, a multivariate random generator is used, which is available in the R package ‘mvtnorm’, to obtain a large number (e.g. nsim = 10,000) iterations, such that
 
 $$
 JD(\tilde{u},\tilde{v},\tilde{w}) = \exp(MVN(\mu_{x,y,z},VCM_{x,y,z}))
@@ -403,42 +411,34 @@ $$
 <br> 
  
 
-The type of reference points dependents on settings in the `starter.ss` file that determine the derived quanties `Bratio` and `Fvalue`. 
+The reference points depend on the settings in the `starter.ss` file that determine the derived quantities `Bratio` and `Fvalue`. 
 
-In the first example, we consider the `ss3sma` Stock Synthesis model, which was run with `starter.ss` settings that are commonly to produce target Kobe plot estimates of $SSB/SSB_{MSY}$ and $F/F_{MSY}$ in tRFMO assessments: 
+In the first example, we consider the `ss3sma` Stock Synthesis model, which was run with `starter.ss` settings that are common to produce target Kobe plot estimates of $SSB/SSB_{MSY}$ and $F/F_{MSY}$ in tRFMO assessments: 
 
 `2 # Depletion basis: 2=rel SPBmsy; 3=rel X*SPB_styr; 4=rel X*SPB_endyr`
 
 `2 # F_report_basis: 0=raw_F_report; 1=F/Fspr; 2=F/Fmsy ; 3=F/Fbtgt`
 
-We provide the the function `SSsettingsBratioF(ss3sma)` to the `starter.ss` settings:
+To generate a joint MVLN of $SSB/SSB_{MSY}$ and $F/F_{MSY}$, the default options can be used.
 
-```{r}
-SSsettingsBratioF(ss3sma)
-```
-\newpage
-
-This function is also inbuilt in the `SSdeltaMVLN()` to prevent misleading results. To generate a joint MVLN of $SSB/SSB_{MSY}$ and $F/F_{MSY}$, we can use the default options
-
-```{r fig10, fig.width=4,fig.cap="Kobe phase plots showing MVLN Kobe probability distributions of $SSB/SSB_{MSY}$ and $F/F_{MSY}$ for North Atlantic shortfin mako Stock model."}
+```{r fig10, fig.width=4,fig.cap="Kobe phase plot showing MVLN Kobe probability distributions of $SSB/SSB_{MSY}$ and $F/F_{MSY}$ for North Atlantic shortfin mako Stock model."}
 
 mvln = SSdeltaMVLN(ss3sma,run="SMA") 
 ```
 
-\newpage
+We provide the function `SSsettingsBratioF(ss3sma)` to the `starter.ss` settings:
 
-The `SSdeltaMVLN()` output include the maximum the maximum likelihood estimates (mles) and the MVLN monte-Carlo distributions `$kb` of $SSB/SSB_{MSY}$, $F/F_{MSY}$ and $F$. Note the additional quanties $SSB$ and $Rec$ are generated independely from lognormal distributions for practical reasons. These can be plotted by
+```{r}
+SSsettingsBratioF(ss3sma)
+```
+This function is also inbuilt in the `SSdeltaMVLN()` to prevent misleading results. The `SSdeltaMVLN()` output include the maximum likelihood estimates (mles) and the MVLN monte-Carlo distributions `$kb` of $SSB/SSB_{MSY}$, $F/F_{MSY}$ and $F$. Note the additional quantities $SSB$ and $Rec$ are generated independently from lognormal distributions for practical reasons. These can be plotted by
 
-```{r fig11, fig.height=6.5,fig.cap="Distributions for $SSB/SSB_{MSY}$ $F/F_{MSY}$, $SSB$, Recruitment and Catch trajectories for the North Atlantic shortfin mako SS3 model"}
+```{r fig11, fig.height=6.5,fig.cap="Distributions of $SSB/SSB_{MSY}$, $F/F_{MSY}$, $SSB$, $F$ ,Recruitment and Catch trajectories for the North Atlantic shortfin mako SS3 model"}
 sspar(mfrow=c(3,2),plot.cex = 0.7)
 SSplotEnsemble(mvln$kb,ylabs=mvln$labels,add=T,verbose=F) 
 ```
 
-The `SSdeltaMVLN()` provides the option to set alternative `Fref` values, but this is only possible for the recommended `starter.ss` option 0 for `F_report_basis`. For option 2, `SSdeltaMVLN()` get an error if `Fref` where to be changed.
-
-```{r error=TRUE}
-mvln = SSdeltaMVLN(ss3sma,run="SMA", Fref="Btgt") 
-```
+The `SSdeltaMVLN()` provides the option to set alternative `Fref` values, but this is only possible for the recommended `starter.ss` option 0 for `F_report_basis`. For option 2, `SSdeltaMVLN()` prompts an error if `Fref` is changed.
 
 By comparison, the Pacific Hake base case model `ss3phk` is run with settings that are common in NOAA assessments, with `Bratio` set $SSB/SSB_{0}$ and `F` is typically kept at absolute quantity.   
 
@@ -446,7 +446,7 @@ By comparison, the Pacific Hake base case model `ss3phk` is run with settings th
 
 `0 # F_report_basis: 0=raw_F_report; 1=F/Fspr; 2=F/Fmsy ; 3=F/Fbtgt`
 
-The management quantaties are in this case $SSB/SSB_{40}$ and $F/F_{spr40}$, where the target of 40\% is specified in the `forecast.ss` file.
+The management quantities in this case are $SSB/SSB_{40}$ and $F/F_{spr40}$, where the target of 40\% is specified in the `forecast.ss` file.
 
 `0.4 # SPR target (e.g. 0.40)`
 `0.4 # Biomass target (e.g. 0.40)`
@@ -459,18 +459,18 @@ mvln = SSdeltaMVLN(ss3phk,run="Pac.Hake", Fref="SPR",plot=TRUE)
 
 
 
-```{r fig14, fig.height=6.5,fig.cap="Distributions for $SSB/SSB_{40}$ $F/F_{SPR40}$, $SSB$, Recruitment and Catch trajectories for the Pacific Hake SS3 model"} 
+```{r fig14, fig.height=6.5,fig.cap="Distributions for $SSB/SSB_{40}$, $F/F_{SPR40}$, $SSB$, $F$, Recruitment and Catch trajectories for the Pacific Hake SS3 model"} 
 sspar(mfrow=c(3,2),plot.cex = 0.7)
 SSplotEnsemble(mvln$kb,ylabs=mvln$labels,add=T,verbose=F) 
 ```
 
 <br> 
 
-It is important to note that MVLN approximation differs notably from MCMC posterior for this model as has been documented in [Stewart et al. (2013)](https://www.sciencedirect.com/science/article/abs/pii/S0165783612002081) and [Taylor et al. (2021)](https://www.sciencedirect.com/science/article/abs/pii/S0165783621000527). Such differences may be more likely to occur in cases where key parameters such as steepness $h$ or natural $M$ are estimated using informative priors, which can result in left skewed (non-lognormal) distributions of the benchmarks $F_{ref}$ and $B_{ref}$. 
+It is important to note that MVLN approximation differs notably from MCMC posterior for this model as documented in [Stewart et al. (2013)](https://www.sciencedirect.com/science/article/abs/pii/S0165783612002081) and [Taylor et al. (2021)](https://www.sciencedirect.com/science/article/abs/pii/S0165783621000527). Such differences may be more likely to occur in cases where key parameters such as steepness $h$ or natural $M$ are estimated using informative priors, which can result in left skewed (non-lognormal) distributions of the benchmarks $F_{ref}$ and $B_{ref}$. 
 
-In other instances, mismatches between the`SSdeltaMVLN` and MCMC may also be caused by poor performance of the latter due to poor regularization [(Monnahan et al., 2019)](https://academic.oup.com/icesjms/article/76/6/1477/5475859?login=true).
+In other instances, mismatches between the`SSdeltaMVLN` and MCMC may also be caused by the latter's poor performance  due to poor regularization [(Monnahan et al., 2019)](https://academic.oup.com/icesjms/article/76/6/1477/5475859?login=true).
 
-To facilitate comparison between the `SSdeltaMLVN()` and MCMC outputs, we provide the function `SSdiagsMCMC()`, which we illustrate on the example of the Stock Synthesis model for the ICES Gulf of Bothian Herring stock [(ICES, 2021)](https://www.ices.dk/sites/pub/Publication%20Reports/Stock%20Annexes/2021/her.27.3031_SA.pdf). 
+To facilitate a comparison between the `SSdeltaMLVN()` and MCMC outputs, we provide the function `SSdiagsMCMC()`, which is illustrated on the example of the Stock Synthesis model for the ICES Gulf of Bothian Herring stock [(ICES, 2021)](https://www.ices.dk/sites/pub/Publication%20Reports/Stock%20Annexes/2021/her.27.3031_SA.pdf). 
 
 
 `SSdiagsMCMC()` requires loading both the `report.sso` and MCMC output in the `posterior.sso` file, where the MCMC was in this case run in the subfolder of the assessment file `/mcmc`. 
@@ -482,66 +482,64 @@ ss3her =  SS_output("gob_her")
 mcmc.her =  SSreadMCMC("gob_her/mcmc")
 ```
 
-The options and output of `SSdiagsMCMC()` is largely identical to `SSdeltaMVLN`. In this case, the `starter.ss` is the same as for `ss3phk`, only the we use Fref = "Btgt" for illustration with $SB_{50}$ and $F_{SB50}$ for this illustration.
+The options and output of `SSdiagsMCMC()` are largely identical to `SSdeltaMVLN`. In this case, the `starter.ss` is the same as for `ss3phk`, only we use Fref = "Btgt" for illustration with $SB_{50}$ and $F_{SB50}$ for this illustration.
 
-```{r}
+```{r, linewidth=60}
 mvln = SSdeltaMVLN(ss3her,Fref="Btgt",plot=F,run="mvln")
 mcmc = SSdiagsMCMC(mcmc.her,ss3her,Fref="Btgt",plot=F,run="mcmc")
 ```
+<br>
+Comparing delta-MVLN with MCMC simply requires combining the `$kb` outputs by, e.g.,
 
-Comparing detla-MVLN with MCMC simply requires combining the `$kb` outputs by, e.g.,
 
-
-```{r fig15, fig.height=3,fig.width=3.8,fig.cap="Kobe phase plot comparing MVLN and MCMC posterior distributions of $SSB/SSB_{50}$ and $F/F_{50}$  for the ICES Gulf of Bothia Herring SS3 model"} 
+```{r fig15, fig.height=3.3,fig.width=4,fig.cap="Kobe phase plot comparing MVLN and MCMC posterior distributions of $SSB/SSB_{50}$ and $F/F_{50}$  for the ICES Gulf of Bothia Herring SS3 model"} 
 sspar(mfrow=c(1,1),plot.cex = 0.8)
-SSplotKobe(rbind(mvln$kb,mcmc$kb),joint=F,xlab=mvln$labels[1],
-ylab=mvln$labels[2],fill=F)
+SSplotKobe(rbind(mvln$kb,mcmc$kb),joint=F,
+   xlab=mvln$labels[1],ylab=mvln$labels[2],fill=F)
 
 
 ```
 
 
 
-```{r fig16, fig.height=4.5,fig.cap="Comparison of MVLN and MCMC posterios for $SSB/SSB_{40}$ $F/F_{SB40}$, $SSB$ for the ICES Gulf of Bothia Herring SS3 model"} 
+```{r fig16, fig.height=4.5,fig.cap="Comparison of MVLN and MCMC posterior distributions for $SSB/SSB_{40}$, $F/F_{SB40}$, $SSB$ and $F$ for the ICES Gulf of Bothia Herring SS3 model"} 
 
 sspar(mfrow=c(2,2),plot.cex = 0.7)
-SSplotEnsemble(rbind(mvln$kb,mcmc$kb),ylabs=mvln$labels,
-add=T,subplots = c("stock", "harvest", "SSB", "F"),
-verbose=F)
+SSplotEnsemble(rbind(mvln$kb,mcmc$kb),ylabs=mvln$labels,add=T,subplots = c("stock", "harvest", "SSB", "F"),verbose=F)
 
 ```
+
 
 <br>
 This works equally for joining a model ensemble. 
 
 \newpage
 
-# Cookbook Recipies
+# Cookbook Recipies {#s4}
 
-## Retrospetive with hindcasts
+## Retrospectives with hindcasts {#r1}
 
-Retrospective analysis can be run for Stock Synthesis using the function `r4ss::SS_doRetro()` available in [r4ss](https://github.com/r4ss/r4ss). This setup of the retrospective analysis has the advantage that forecasts are conducted automatically given the catch. This makes in possible to apply retrospective forecasting and hindcast cross-validations of observations based on the same output.
+Retrospective analysis can be run for Stock Synthesis using the function `r4ss::SS_doRetro()` available in [r4ss](https://github.com/r4ss/r4ss). This setup of the retrospective analysis has the advantage that forecasts are conducted automatically given the catch. This makes it possible to apply retrospective forecasting and hindcast cross-validations of observations based on the same output.
 
 ```{r eval=TRUE}
 library(r4ss)
 ```
-In the following we provide a step-by-step cookbook recipe for retrospective analysis in Stock Synthesis.
+Below is a step-by-step cookbook recipe for retrospective analysis in Stock Synthesis.
 
 
-### Identify restrospective period
+### Step1: Identify restrospective period
 
 
-
-The first step is specifying the range pf peels that will then determine the  `end.yr.vec` of runs in `r4ss::SS_doRetro()`
+Specify the range pf peels that will then determine the  `end.yr.vec` of runs in `r4ss::SS_doRetro()`
 
 ```{r eval=TRUE}
 start.retro <- 0    # end year of reference year
 end.retro   <- 7    # number of years for retrospective e.g., 
 ```
 
-### Identify the base directory
+### Step 2: Identify the base directory
 
-The second step is to specify the path directory that holds the folder with the base case run. In this case the Pacific Hake folder with a model folder `Reference_Run" 
+Specify the path directory that holds the folder with the base case run. In this case the Pacific Hake folder with a model folder `Reference_Run" 
 
 <br>
 
@@ -555,9 +553,9 @@ model.run
 
 ```
 <br>
-### DAT and CONTROL files
+### Step 3: `DAT` and `CONTROL` files
 
-The third step is to specify the names of the data and control files.
+Specify the names of the data and control files.
 Note these files are named differently from the `DATA.ss` and `CONTROL.ss`. In this case  
 <br>
 
@@ -574,10 +572,10 @@ The names of the DAT and CONTROL are declared on the top of the 'starter.ss`, e.
 
 <br>
 
-### Create a subdirectory for the Retrospectives
+### Step 4: Create a subdirectory for the Retrospectives
 
-There are several ways to organise the retrospective output sturcture.
-Here we simpy create a new subfolder for the retrospective runs output
+There are several ways to organize the retrospective output structure.
+First create a new subfolder for the retrospective runs output
 <br>
 ```{r eval=FALSE}
 dir.retro <- paste0(dirname.base,'/Retro_',run)
@@ -586,16 +584,16 @@ dir.create(path=dir.retro, showWarnings = F)
 
 ```
 
-We also create a subdirectory for the retrospective model folders 
+Also create a subdirectory for the retrospective model folders 
 
 ```{r eval=FALSE}
 
-dir.create(path=file.path(dirname.Retrospective,"retros"), showWarnings = F)
+dir.create(path=file.path(dir.retro,"retros"), showWarnings = F)
 ```
 <br>
 
 
-### Copy model run files to new retrospective folder
+then copy model run files to the new retrospective folder
 <br>
 ```{r eval=FALSE}
 file.copy(file.path(model.run,"starter.ss_new"),  file.path(dir.retro,"starter.ss"))
@@ -618,7 +616,7 @@ file.path(dir.retro, "wtatage.ss"))
 ```
 
 
-### Modify Starter.ss file 
+### Step 5: Modify Starter.ss file 
 
 Modifying the Starter File helps to speed up model runs
 <br>
@@ -632,11 +630,11 @@ starter[linen] <- paste0( 1 , " # run display detail (0,1,2)" )
 write(starter, file.path(dir.retro, "starter.ss"))
 ```
 <br>
-### Execute retrospective runs  
+### Step 6: Execute retrospective runs  
 
-Now all is readt to run the retrospective analyses with r4SS function ` SS_doRetro`
+Run the retrospective analyses using r4SS function `r4ss::SS_doRetro`
 <br>
-Ideally, the runs should be done with Hessian to allow evaluating the retrospective trajectories with respect to confidence interval coverage of the reference model.
+Ideally, the runs should be done with Hessian to evaluate the retrospective trajectories with respect to the confidence interval coverage of the reference model.
 <br>
 ```{r eval=FALSE}
 r4ss::SS_doRetro(masterdir=dir.retro, oldsubdir="",
@@ -651,7 +649,7 @@ newsubdir="", years=start.retro:-end.retro,extras = "-nohess")
 ```
 <br>
 
-### Read `SS_doRetro()` output
+### Step 7: Read `SS_doRetro()` output
 <br>
 ```{r eval=FALSE}
 retro.phk <- r4ss::SSgetoutput(dirvec=file.path(dir.retro,
@@ -666,7 +664,7 @@ It is often useful to save the retro model runs as `.rdata` file for further pro
 save(retro.phk, file=file.path(dir.retro,"retro.phk.rdata"))
 ```
 
-### Quick Check
+### Step 8: Check
 
 
 ```{r eval=T}
@@ -677,6 +675,12 @@ sspar(mfrow=c(1,1))
 SSplotRetro(check.retro,forecast = T,add=T,legendcex = 0.7,legendloc = "topleft")
 
 ```
+## R0 profiling {#r2}
+
+## ASPM diagnostic {#r3}
+
+## Jittering {#r4}
+
 
 
 

@@ -1,6 +1,5 @@
 
 #' SSdiagsMCMC_ancient() 
-#' 
 #' RECOVERING OLD SS runs
 #' function to read mcmc file outputs for Kobe and SSplotEnsemble() plotting
 #'

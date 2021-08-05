@@ -1,112 +1,43 @@
-#' SSreadMCMC() 
+#' SSdeltaMVLN() 
 #'
-#' function to read mcmc file outputs
+#' function to generatbe kobe pdfs from a Multivariate Log-Normal Distribution
+#' including plotting option
 #'
-#' @param mcmcdir file path for folder with the derived_posteriors.sso file
-#' @return Stock Synthesis mcmc output file
-#' @author Henning Winker (JRC-EC) & Laurence Kell (Sea++)
-#' @export
-#' 
-SSreadMCMC <- function(mcmcdir){
-  
-  x = paste0(mcmcdir,"/derived_posteriors.sso")
-  hd = names(read.csv(x, sep = " ", nrows = 1, header = T))
-  res = read.csv(x, sep = " ")
-  mcmcdat = read.csv(file = x, colClasses = rep("double", length(hd)), 
-                     col.names = hd, sep = " ", skip = 2)
-  return(mcmcdat)  
-}
-
-
-
-#' SSdiagsMCMC() 
-#'
-#' function to read mcmc file outputs for Kobe and SSplotEnsemble() plotting
-#'
-#' @param mcmc file path for folder with the derived_posteriors.sso file
 #' @param ss3rep from r4ss::SS_output
-#' @param Fref  Choice of Fratio c("MSY","Btgt), correponding to F_MSY and F_Btgt                                                               
+#' @param Fref  Choice of Fratio c("MSY","Btgt"), correponding to F_MSY and F_Btgt                                                               
 #' @param years single year or vector of years for mvln   
+#' @param mc number of monte-carlo simulations   
+#' @param weight weighting option for model ensembles weight*mc 
 #' @param run qualifier for model run
-#' @param thin  option to use additional thinning
 #' @param plot option to show plot
 #' @param ymax ylim maximum
 #' @param xmax xlim maximum
 #' @param addprj include forecast years
 #' @param legendcex=1 Allows to adjust legend cex
+#' @param seed set seed to be consistent across years
 #' @param verbose Report progress to R GUI?
-#' @return output list of quant mcmc posteriors and mle's
-#' @author Henning Winker (JRC-EC), Massimiliano and Laurence Kell (Sea++)
+#' @return output list of quant posteriors and mle's
+#' @author Henning Winker (JRC-EC)
 #' @export
-
-SSdiagsMCMC = function(mcmc,ss3rep,Fref = NULL,years=NULL,run="MCMC",thin = 1,plot=TRUE,
-                       addprj=FALSE,ymax=NULL,xmax=NULL,legendcex=1,verbose=TRUE){
-  
-
-  dat = mcmc
-  
-  # check ss3 version
-  ssver = ifelse("annF_MSY"%in%ss3rep$derived_quants$Label,"new","old")
-  # Define refs
-  if(ssver=="new"){
-    refs = c("SSB_unfished","SSB_MSY","SSB_Btgt","SSB_SPR","SPR_MSY",
-             "annF_MSY","annF_SPR","annF_Btgt","Recr_unfished", "B_MSY.SSB_unfished",
-             "Dead_Catch_MSY", "Ret_Catch_MSY")  
-  } else {
-    refs = c("SSB_unfished","SSB_MSY","SSB_Btgt","SSB_SPR","SPR_MSY",
-           "Fstd_MSY","Fstd_SPR","Fstd_Btgt","Recr_unfished", "B_MSY.SSB_unfished",
-           "Dead_Catch_MSY", "Ret_Catch_MSY")  
-  }  
- 
-    # Some checks
-    nms = names(dat)
-    yrs = nms[substr(nms, 1, 3) == "Bra"]
-    yrs = as.numeric(substr(yrs, 8, nchar(yrs)))
-    pts = nms[substr(nms, 1, 3) == "For"]
-    pts = min(as.numeric(substr(pts, 11, nchar(pts)))) - 
-      1
-  Fs = paste("F", yrs, sep = "_")
-  Bs = paste("Bratio", yrs, sep = "_")
-  Rs = paste("Recr", yrs, sep = "_")
-  FCs = paste("ForeCatch", tail(yrs, n=3), sep = "_")
-  SSBs = paste("SSB", yrs, sep = "_")
-  
-  
-  ops = options()
-  options(warn = -1)
-  
-  res <- dat[, ]
-  rfs <- res[, c("Iter", refs)]
-  names(rfs)[1] = "iter"
-  res = res[, c("Iter", SSBs,Bs, Fs,Rs,FCs)]
-  res = res[seq(1, dim(res)[1], thin), ]
-  res = reshape2::melt(res[, c("Iter", SSBs,Bs, Fs,Rs,FCs)], id.vars = "Iter")
-  res$year = as.numeric(gsub("SSB_", "", as.character((res$variable))))
-  res$year[is.na(res$year)] = as.numeric(gsub("SSB_", "", 
-                                                as.character(res[is.na(res$year), "variable"])))
-  res$var = substr(res$variable, 1, 2)
-  options(ops)
-    res1 = data.frame(res[res$var == "SS", c("Iter", "year", 
-                                             "value")],stock =res[res$var == "Br", "value"] ,harvest = res[res$var == "F_", "value"], recr = res[res$var == "Re", "value"])
-    res2 = data.frame(res[res$var == "SS" & res$year %in% tail(yrs, n=3), c("Iter", "year", 
-                                                                            "value")], fcat =res[res$var == "Fo", "value"])
-    res = merge(res1,res2,all = TRUE)
-  
-  names(res)[c(1, 3)] = c("iter", "SSB")
-  resFc = res$fcat
-  res[is.na(res)] = 0
-  res$fcat =resFc
-  sims = merge(res, rfs, by = "iter")
+SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,mc=5000,weight=1,run="MVLN",plot=TRUE,
+                       addprj=FALSE,ymax=NULL,xmax=NULL,legendcex=1,seed=123,verbose=TRUE){
   
   status=c('Bratio','F')
   quants =c("SSB","Recr")
+  mc = round(weight*mc,0)
+  hat = ss3rep$derived_quants
+  cv = cv1 = ss3rep$CoVar
   
-  hat = ss3rep$derived_quants # from rep file
-  allyrs = yrs
-  if(is.null(years) & addprj==TRUE) yrs = allyrs 
+  
+  if(is.null(cv)) stop("CoVar from Hessian required")
+  # Get years
+  allyrs = unique(as.numeric(gsub(paste0(status[1],"_"),"",hat$Label[grep(paste0(status[1],"_"), hat$Label)])))[-1]
+  allyrs = allyrs[!is.na(allyrs)] 
+  
+  if(is.null(years) & addprj==TRUE) yrs = allyrs   
   if(is.null(years) & addprj==FALSE) yrs = allyrs[allyrs<=ss3rep$endyr]
   if(is.null(years)==FALSE) yrs = years[years%in%allyrs==TRUE]
- 
+  estimate = ifelse(yrs<=ss3rep$endyr,"fit","forecast")
   
   # brp checks for starter file setting
   refyr = max(yrs)
@@ -115,6 +46,8 @@ SSdiagsMCMC = function(mcmc,ss3rep,Fref = NULL,years=NULL,run="MCMC",thin = 1,pl
   btrg = hat[hat$Label==paste0("SSB_Btgt"),2]
   bmsy = hat[hat$Label==paste0("SSB_MSY"),2]
   bb.check = c(bt/b0,bt/bmsy,bt/btrg)
+  
+  
   
   # bratio definition
   bratio = hat[hat$Label==paste0("Bratio_",refyr),2]
@@ -125,7 +58,6 @@ SSdiagsMCMC = function(mcmc,ss3rep,Fref = NULL,years=NULL,run="MCMC",thin = 1,pl
   fbasis = strsplit(ss3rep$F_report_basis,";")[[1]][1]
   gettrg = strsplit(fbasis,"%")[[1]][1]
   gettrg = as.numeric(strsplit(gettrg,"B")[[1]][2])
-  
   if(fbasis%in%c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"),paste0("(F)/(F",ss3rep$btarg*100,"%SPR)"))){
     fb = which(c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"),
                  paste0("(F)/(F",ss3rep$btarg*100,"%SPR)"))%in%fbasis)
@@ -145,71 +77,134 @@ SSdiagsMCMC = function(mcmc,ss3rep,Fref = NULL,years=NULL,run="MCMC",thin = 1,pl
   if(fb%in%c(1,3) & Fref[1] =="Btgt") Fquant = "Btgt"
   if(fb%in%c(1,4) & Fref[1] =="SPR") Fquant = "SPR"
   
-  SSB = sims$SSB
-  if(bb==2) stock = sims$stock
-  if(bb==1) stock = sims$stock/bref
-  #if(Bref[1]=="B0") stock = SSB/sims$SSB_unfished 
-  Fout = sims$harvest
-  #if(Fstarter[1]=="_abs_F"){ Fabs = Fout} else if(Fstarter[1] == "(F)/(Fmsy)"){Fabs = Fout} else {Fabs = Fout*sims$Fstd_Btgt}
-  if(ssver=="new"){ # new version
-    if(fb==1) {Fabs=Fout}
-    if(fb==2) {Fabs=Fout*sims$annF_MSY}
-    if(fb==3) {Fabs=Fout*sims$annF_Btgt}
-    if(fb==4) {Fabs=Fout*sims$annF_SPR}
-    if(Fref[1]=="MSY"){harvest = Fabs/sims$annF_MSY}
-    if(Fref[1]=="Btgt"){harvest = Fabs/sims$annF_Btgt}
-    if(Fref[1]=="SPR"){harvest = Fabs/sims$annF_SPR}
-  } else { # Old version
-   if(fb==1) {Fabs=Fout}
-   if(fb==2) {Fabs=Fout*sims$Fstd_MSY}
-   if(fb==3) {Fabs=Fout*sims$Fstd_Btgt}
-   if(fb==4) {Fabs=Fout*sims$Fstd_SPR}
-   if(Fref[1]=="MSY"){harvest = Fabs/sims$Fstd_MSY}
-   if(Fref[1]=="Btgt"){harvest = Fabs/sims$Fstd_Btgt}
-   if(Fref[1]=="SPR"){harvest = Fabs/sims$Fstd_SPR}
+  
+  # check ss3 version
+  if("Fstd_MSY"%in%hat$Label){Fname = "Fstd_"} else {Fname="annF_"}
+  cv <- cv[cv$label.i %in% paste0(status,"_",yrs),]
+  cv1 = cv1[cv1$label.i%in%paste0(Fname,Fquant) & cv1$label.j%in%paste0(status,"_",yrs),]
+  fref = hat[hat$Label==paste0(Fname,Fquant),]
+  cv$label.j[cv$label.j=="_"] <- cv$label.i[cv$label.j=="_"]
+  
+  if(is.null(hat$Label)){ylabel = hat$LABEL} else {ylabel=hat$Label}
+  kb=mle = NULL
+  for(yi in 1:length(yrs)){ 
+    yr = yrs[yi]
+    x <- cv[cv$label.j %in% paste0(status[2],"_",c(yr-1,yr,yr+1)) & cv$label.i %in% paste0(status[1],"_",c(yr-1,yr,yr+1)),]
+    x1 = cv1[cv1$label.j %in% paste0(status[1],"_",c(yr-1,yr,yr+1)),] 
+    x2 = cv1[cv1$label.j %in% paste0(status[2],"_",c(yr-1,yr,yr+1)),] 
+    y = hat[ylabel %in% paste0(status,"_",yr),] # old version Label not LABEL
+    y$Value[1] = ifelse(y$Value[1]==0,0.001,y$Value[1])
+    varF = log(1+(y$StdDev[1]/y$Value[1])^2) # variance log(F/Fmsy)  
+    varB = log(1+(y$StdDev[2]/y$Value[2])^2) # variance log(SSB/SSBmsy)  
+    varFref = log(1+(fref$StdDev[1]/fref$Value)^2) # variance log(F/Fmsy)  
+    cov = log(1+mean(x$corr)*sqrt(varF*varB)) # covxy
+    cov1 = log(1+mean(x1$corr)*sqrt(varB*varFref)) # covxy
+    cov2 = log(1+mean(x2$corr)*sqrt(varF*varFref)) # covxy
+    # MVN means of SSB/SBBmsy, Fvalue and Fref (Ftgt or Fmsy) 
+    mvnmu = log(c(y$Value[2],y$Value[1],fref$Value)) # Assume order F_ then Bratio_ 
+    # Create MVN-cov-matrix
+    mvncov = matrix(NA,ncol=3,nrow=3)
+    diag(mvncov) = c(varB,varF,varFref)
+    mvncov[1,2] = mvncov[2,1] = cov 
+    mvncov[2,3] = mvncov[3,2] = cov1 
+    mvncov[1,3] = mvncov[3,1] = cov2 
+    set.seed(seed)
+    kb.temp = data.frame(year=yr,run=run,type=estimate[yi],iter=1:mc,exp(mvtnorm::rmvnorm(mc ,mean = mvnmu,sigma = mvncov,method=c( "svd")))) # random  MVN generator
+    colnames(kb.temp) = c("year","run","type","iter","stock","harvest","F")
+    if(length(quants)>0){
+    quant=NULL
+    for(qi in 1:length(quants)){
+        qy = hat[ylabel %in% paste0(quants[qi],"_",yr),]
+        qsd = sqrt(log(1+(qy$StdDev[1]/qy$Value[1])^2))
+        quant = cbind(quant,rlnorm(mc,log(qy$Value[1])-0.5*qsd*qsd,qsd))
+        }     
+    colnames(quant) = quants    
+    kb.temp = cbind(kb.temp,quant)
+    }
+    kb = rbind(kb,cbind(kb.temp))
+    mle = rbind(mle,data.frame(year=yr,run=run,type=estimate[yi],stock=y$Value[2],harvest=y$Value[1],F=fref$Value[1])) 
+  }
+  # add mle quants
+  qmles = NULL
+  for(qi in 1:length(quants)){
+    qmles = cbind(qmles, hat[ylabel %in% paste0(quants[qi],"_",yrs),]$Value)
+  } 
+   colnames(qmles) = quants    
+   mle = cbind(mle,qmles)
+  
+  mle = mle[,c(1:5,7,6,8)]
+  kb = kb[,c(1:6,8,7,9)]
+  
+  # Take ratios
+  if(bb==1){
+  kb[,"stock"] = kb[,"stock"]/bref  
+  mle[,"stock"] = mle[,"stock"]/bref
   }
   
-  simout = data.frame(sims[,1:2],run=run,SSB,Fabs,BB0 = SSB/sims$SSB_unfished,stock=stock,harvest=harvest,Recr=sims$recr,sims[,6:ncol(sims)])
-  
-  kb = data.frame(year=simout$year,run=run,type=ifelse(simout$year<=ss3rep$endyr,"fit","forecast"),
-                  iter=simout$iter,stock=simout$stock,harvest=simout$harvest,SSB=simout$SSB,
-                  F = simout$Fabs, Recr=simout$Recr)
-  
-  
-  kb = kb[kb$year%in%yrs,]
-  # Sort
-  kb = kb[order(kb$year, kb$iter),]
-  iter = nrow(kb[kb$year==yrs[1],])
-  kb$iter = rep(1:iter,length(yrs))
-  
-  
+   if(fb> 1){
+    kb[,"F"] = kb[,"F"]*kb[,"harvest"] 
+    mle[,"F"] = mle[,"F"]*mle[,"harvest"] 
+    
+  } else {
+  fi = kb[,"harvest"]
+  fm = mle[,"harvest"]
+  kb[,"harvest"] = kb[,"harvest"]/kb[,"F"]
+  kb[,"F"] = fi
+  mle[,"harvest"] = mle[,"harvest"]/mle[,"F"]
+  mle[,"F"] = fm
+}    
+
   
   # Add catch
   C_obs = aggregate(Obs~Yr,ss3rep$catch,sum)
+  #colnames(C_obs) = c("Yr","Obs")
   Cobs = C_obs[C_obs$Yr%in%yrs,]
   foreyrs = unique(as.numeric(gsub(paste0("ForeCatch_"),"",hat$Label[grep(paste0("ForeCatch_"), hat$Label)])))
   Cfore = data.frame(Yr=foreyrs,Obs=hat$Value[hat$Label%in%paste0("ForeCatch_",foreyrs)] )
   Catch = rbind(Cobs,Cfore)
   Catch = Catch[Catch$Yr%in%yrs,]
-  kb$Catch = rep(Catch$Obs,each=iter)
+  kb$Catch = rep(Catch$Obs,each=max(kb$iter))
+  mle$Catch = Catch$Obs
   trg =round(bref*100,0)
-  
-  # House keeping
   xlab = c(bquote("SSB/SSB"[.(trg)]),expression(SSB/SSB[MSY]))[bb] 
   ylab = c(expression(F/F[MSY]),
            bquote("F/F"[SB~.(trg)]),
            bquote("F/F"[SPR~.(trg)])
-           )[which(c("MSY","Btgt","SPR")%in%Fquant)] 
- 
-  labs = ifelse(quants=="Recr","Recruits",quants)
+  )[which(c("MSY","Btgt","SPR")%in%Fquant)] 
+  
   if(plot==TRUE){
-    sspar(mfrow=c(3,2),plot.cex = 0.7)
-    SSplotEnsemble(kb,add=T,legend = F,ylabs=c(xlab,ylab,labs[1],"F",labs[2],"Catch"))  
+    sh =c("stock","harvest")
+    if(is.null(xmax)) xmax= max(c(2,kb[kb$year==max(kb$year),sh[1]],mle[,sh[1]]))
+    if(is.null(ymax)) ymax = max(c(2,kb[kb$year==max(kb$year),sh[2]],mle[,sh[2]]))
+    stock = kb[kb$year==max(kb$year),sh[1]]
+    harvest = kb[kb$year==max(kb$year),sh[2]]
+    plot(kb[kb$year==max(kb$year),sh]  ,type="n",ylab=ylab,xlab=xlab,xlim=c(0,xmax),ylim=c(0,ymax),yaxs="i",xaxs="i")  
+    rect(1,0,100,1,col="green",border=0)
+    rect(0,0,1,1,col="yellow",border=0)
+    rect(0,1,1,100,col="red",border=0)
+    rect(1,1,100,100,col="orange",border=0)
+    points(kb[kb$year==max(kb$year),sh],pch=21,bg="grey",cex=0.7)
+    if(nrow(mle)>3){
+      lines(mle[,sh])  
+      points(mle[,sh],pch=21,cex=0.9,bg="white")
+      points(mle[1,sh],pch=24,bg="white",cex=1.7)
+      } 
+    points(mle[nrow(mle),sh],pch=21,bg="white",cex=2)
+    
+    # Get Propability
+    Pr.green = sum(ifelse(stock>1 & harvest<1,1,0))/length(stock)*100
+    Pr.red = sum(ifelse(stock<1 & harvest>1,1,0))/length(stock)*100
+    Pr.yellow = sum(ifelse(stock<1 & harvest<1,1,0))/length(stock)*100
+    Pr.orange = sum(ifelse(stock>1 & harvest>1,1,0))/length(stock)*100
+    ## Add legend
+    legend('topright',
+           c(paste0(round(c(Pr.red,Pr.yellow,Pr.orange,Pr.green),1),"%")),
+           pch=22,pt.bg=c("red","yellow","orange","green"),
+           col=1,cex=legendcex,pt.cex=2.2,bty="n")
   }
-  
   labs = ifelse(quants=="Recr","Recruits",quants)
-  return(list(kb=kb,quants=c("stock","harvest","SSB","F","Recr","Catch"),
-              labels=c(xlab,ylab,labs[1],"F",labs[2],"Catch"),iter=iter))
-  
-}
+  return(list(kb=kb,mle=mle,quants=c("stock","harvest","SSB","F","Recr","Catch"),
+                labels=c(xlab,ylab,labs[1],"F",labs[2],"Catch")))
+  }
+
 

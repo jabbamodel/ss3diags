@@ -12,7 +12,8 @@ SSmase(
   endyrvec = "default",
   indexselect = NULL,
   MAE.base.adj = 0.1,
-  verbose = TRUE
+  residuals = FALSE,
+  verbose = FALSE
 )
 }
 \arguments{

@@ -22,8 +22,8 @@
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 #' @export
 SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
-                        models="all",endyrvec="default",indexselect = NULL,MAE.base.adj=0.1,
-                        verbose=TRUE
+                        models="all",endyrvec="default",indexselect = NULL,MAE.base.adj=0.1,residuals=FALSE,
+                        verbose=FALSE
                         ){ 
   
   hcruns =retroSummary #added for now
@@ -191,30 +191,36 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
       
       mase=maepr/scaler
       mase.adj = maepr/max(scaler,MAE.base.adj) 
-      MASE.i = NULL
+      MASE.i = res.i = NULL
       MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=mase,MAE.PR=maepr,MAE.base=scaler,MASE.adj=mase.adj,n.eval=npe)
-    
+      res.i = data.frame(Index=rep(unique(indices2$Fleet_name)[1],length(pred.resid)),Season=rep(Season,length(pred.resid)),Year=yr.eval[pe.eval],Pred.Res=pred.resid,Native.Res=naive.eval,n.eval=npe)
       
       
     } else {
       if(verbose) cat(paste0("\n","No observations in evaluation years to compute prediction residuals for Index ",indices2$Fleet_name[1]),"\n")
-      MASE.i = NULL
+      MASE.i = res.i = NULL
       MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=NA,MAE.PR=NA,MAE.base=NA,MASE.adj=NA,n.eval=0)    }
-    return(list(MASE=MASE.i))
+   
+    out = list(MASE=MASE.i,Residuals=res.i)
+       
+    return(out)
   } # End of mase function  
   #------------------------------------------------------------
   
     # LOOP through fleets
     nfleets=length(unique(hcruns$indices$Fleet))
       
-      MASE = NULL
+      MASE =  Residuals = NULL
       for(fi in 1:nfleets){
         indexfleets = unique(hcruns$indices$Fleet)[fi] 
-        get_mase = mase(indexfleets)$MASE   
-        MASE = rbind(MASE,get_mase)
+        get_mase = mase(indexfleets)  
+        MASE = rbind(MASE,get_mase$MASE)
+        Residuals = rbind(Residuals,get_mase$Residuals)
       } # End of Fleet Loop
   
  if(verbose) cat(paste0("\n","MASE stats by Index:","\n"))
-  return(MASE)
+  ret = MASE
+  if(residuals) ret = list(MASE=MASE,Residuals=Residuals) 
+  return(ret)
 } # end of SSplotHCxal()
 #-----------------------------------------------------------------------------------------

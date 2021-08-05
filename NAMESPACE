@@ -3,6 +3,7 @@
 export(SScompsTA1.8)
 export(SSdeltaMVLN)
 export(SSdeltaMVLN_old)
+export(SSdeltaMVLNai)
 export(SSdiagsMCMC)
 export(SSdiagsMCMC_ancient)
 export(SSdiagsMCMC_old)

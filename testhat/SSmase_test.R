@@ -2,18 +2,28 @@
 library(ss3diags)
 # Tests 
 sma = r4ss::SSsummarize(retro.sma)
-sma = SSmase(sma,residuals = TRUE)
-mae = apply(sma$Residuals[sma$Residuals$Index=="CPUE_1",4:5],2,function(x)mean(abs(x)))
-# MASE
-mae[1]/mae[2]
-# compare
-sma$MASE[1,]
+# Check joint MASE for indice
+SSmase(sma)
+# select indices
+SSmase(sma,indexselect=c(1,3,4))
+# check for length comps
+smaL = ss3diags::SSretroComps(retro.sma)
+SSmase(smaL,quants="len")
 
-retroSummary = r4ss::SSsummarize(retro.phk)
-phk = SSmase(phk,residuals = TRUE)
-mae = apply(phk$Residuals[,4:5],2,function(x)mean(abs(x)))
+# check manually
+mase = SSmase(sma,residuals = T)
+# Joint mase from index 1, 3,4
+mae = apply(mase$Residuals[c("Pred.Res","Native.Res")],2,
+            function(x)mean(abs(x)))
 # MASE
 mae[1]/mae[2]
 # compare
-phk$MASE[1,]
+SSmase(sma)
+
+# Check hake
+phk= r4ss::SSsummarize(retro.phk)
+SSmase(phk,verbose=T)
+# check for age comps
+phkA = ss3diags::SSretroComps(retro.phk)
+SSmase(phkA,quants="age")
 

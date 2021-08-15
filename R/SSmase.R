@@ -148,7 +148,7 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
     yr.eval <- c(endyrvec)
     yr.eval <- (sort(yr.eval))
     yr.obs <- yr.eval%in%yr
-    pe.eval = which(yr.eval%in%yr)[-1]
+    pe.eval = which(yr.eval%in%yr)
     
     if(length(which(yr.eval%in%yr))-length(pe.eval)<1){
       pe.eval = pe.eval[-1]
@@ -156,6 +156,7 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
     npe <- length(pe.eval)  # number of prection errors
     obs.eval <- rep(NA,length(yr.eval))
     obs.eval[yr.eval%in%yr] = obs[subset][yr[subset] %in%yr.eval]
+    #if(length(obs.eval)>length(pe.eval)) obs.eval=obs.eval[-1] # first non NA = NA
     nhc = length(endyrvec)-1
     
     
@@ -182,6 +183,7 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
         
       #}
       
+      if(length(pred.resid)>length(pe.eval)) pred.resid=pred.resid[-1]
       maepr =  mean(abs(pred.resid))
       #nhc = length(endyrvec)-1
       #naive.eval = log(obs.eval[1:nhc])-log(obs.eval[2:(nhc+1)]) # add log for v1.1   
@@ -217,10 +219,18 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
         MASE = rbind(MASE,get_mase$MASE)
         Residuals = rbind(Residuals,get_mase$Residuals)
       } # End of Fleet Loop
-  
+      
+    # Add new joint MASE  
+    jstats = apply(abs(Residuals[c("Pred.Res","Native.Res")]),2,mean)
+    joint = data.frame(Index="joint",Season="",
+                       MASE=jstats[1]/jstats[2],MAE.PR=jstats[1],MAE.base=jstats[2],
+                       MASE.adj=jstats[1]/max(jstats[2],MAE.base.adj),n.eval=nrow(Residuals))  
+    MASE = rbind(MASE,joint)
+    rownames(MASE) = 1:nrow(MASE)
+    
  if(verbose) cat(paste0("\n","MASE stats by Index:","\n"))
   ret = MASE
   if(residuals) ret = list(MASE=MASE,Residuals=Residuals) 
   return(ret)
-} # end of SSplotHCxal()
+} # end of SSmase()
 #-----------------------------------------------------------------------------------------

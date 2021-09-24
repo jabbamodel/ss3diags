@@ -1,0 +1,245 @@
+---
+title: "ss3diags Unit Testing"
+author: "Meg Oshima"
+date: "9/20/2021"
+output: 
+  html_document:
+    theme: simplex  
+    toc: true
+    toc_depth: 4
+    toc_float: true 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Basics of Unit Testing  
+
+Unit testing verifies that a function is precise and correct when returning the expected value of _y_ for a specific value of _x_ in the function. It is an automated, formal testing of code that is beneficial because there are fewer bugs in your code, better code structure (less redundancy, and smaller separate functions vs fewer complicated ones), and more robust code (less likely to break with big changes).
+
+## Workflow  
+
+### First Time  
+When first creating test files, use the `usethis` package and run the function `usethis::use_testthat()` to:    
+
+  *   create a tests/testthat directory   
+  *   add `testthat` to the `Suggests` field in the `DESCRIPTION` of the package    
+  *   create a file `tests/testthat.R` that automatically runs all tests when you run `R CMD check`.    
+  
+### Routine Workflow    
+After the first time, the workflow should look something like:    
+
+  *   use `testthat::use_test("name-of-function")` to create a test template file in the correct directory. It will be named `test-name-of-function.R`   
+  *   follow the template structure and modify the code as needed to test functions   
+  *   one script can be used for multiple functions, but don't want to make the files too large (consider best ways to organize the functions within scripts)    
+  *   need to know the function you want to test and what the expected outcome should be    
+  *   use `testthat::test_file("./tests/testthat/test-name-of-function.R")` to run the single file to see if the test passed or failed   
+  *   as you add or modify code, continue testing     
+  *   once everything is good, use `devtools::test()` to test the entire package and ensure everything passes   
+  
+### Test file structure   
+
+Tests should be organized hierarchically: *expectations* --> *tests* --> *test.R files*
+
+
+```{r eval=FALSE}
+
+
+## library any other packages you may need
+## include any general code you may need, ie setting environment path
+## Generalized structure of test functions 
+test_that("description of test", {
+  
+  # an expect statement with the function being tested and the expected outcome
+  expect_equal((2+2), 4)
+  expect_equal((3+2), 4)
+  
+})
+
+
+```
+
+
+## ss3diags Tests  
+
+To test the functions in ss3daigs I am creating individual scripts for each function and testing the outputs of those functions for Pacific Hake, Shortfin Mako, and GOB Herring. Test scripts include:  
+
+- [x] runs-test (SSrunstest, SSplotRunstest)    
+  - [x] cpue (mako, hake, herring)
+  - [x] length (mako)  
+  - [x] age (hake, herring)
+- [ ] residuals (SSplotJABBAres)
+- [ ] retrospective and forecast bias (SSplotRetro, SShcbias)
+- [ ] hindcast cross-validataion and prediction skills (SSretroComps, SSplotHCxval, SSmase)
+- [ ] model uncertainty (SSplotEnsemble, SSdiagsMCMC, SSplotKobe)
+- [ ] utils (SSsettingsBratioF)
+
+### Example code  
+#### SSrunstest for CPUE data
+```{r eval = FALSE}
+
+test_that("runs test works with shortfin mako", {
+  
+  ## Load in data
+  load(file.path(test_example_path, "natl.sma.rdata"))
+  
+  ## pull out cpue obs and est values for the first fleet
+  test.resids <- ss3sma$cpue[which(ss3sma$cpue$Fleet_name == "CPUE_1"), c("Fleet_name", "Yr", "Obs", "Exp")]
+  ## calculate residuals 
+  test.resids$residuals = log(test.resids$Obs) - log(test.resids$Exp)
+  
+  ## calculate lower and upper confidence levels (code copied from SSrunstest script)
+  mu <- 0 
+  mr <- abs(diff(test.resids$residuals - mu))
+  amr <- mean(mr, na.rm = TRUE)
+  ulmr <- 3.267 * amr
+  mr  <- mr[mr < ulmr]
+  amr <- mean(mr, na.rm = TRUE)
+  stdev <- amr / 1.128
+  lcl <- mu - 3 * stdev
+  ucl <- mu + 3 * stdev
+  ## use randtests:: runs.test to calculate p-value
+  runstest <- randtests::runs.test(test.resids$residuals, 
+                                   threshold = 0, 
+                                   alternative = "left.sided")
+  test.p <- round(runstest$p.value, 3)
+  
+  ## for cpue
+  n.cpue <- length(unique(ss3sma$cpue$Fleet))
+  run_cpue <- SSrunstest(ss3sma, quants = "cpue")
+  
+  ## testing structure of dataframe
+  expect_match(run_cpue$Index[1], "CPUE_1")
+  expect_equal(nrow(run_cpue), n.cpue)
+  ## testing values in the first row
+  expect_equal(run_cpue$runs.p[1], test.p)
+  expect_equal(run_cpue$sigma3.lo[1], lcl)
+  expect_equal(run_cpue$sigma3.hi[1], ucl)
+  
+  ## checking structure of dataframe if cpue index specified
+  run_cpue <- SSrunstest(ss3sma, quants = "cpue", indexselect = 4)
+  expect_match(run_cpue$Index, "CPUE_4")
+  run_cpue <- SSrunstest(ss3sma, quants = "cpue", indexselect = 3:5)
+  expect_equal(run_cpue$Index, c("CPUE_3", "CPUE_4", "CPUE_5"))
+})
+
+```
+  
+<br>    
+
+#### SSrunstest for Length Comp data      
+```{r eval = FALSE}
+
+## for length comp
+## get length comp data for first fishery
+  len.test.resids <- ss3sma$lendbase[which(ss3sma$lendbase$Fleet == 1),]
+## create index column
+  len.test.resids$indx = paste(len.test.resids$Fleet, len.test.resids$Yr, len.test.resids$Seas)
+  
+  uind <- unique(len.test.resids$indx)
+  pldat <- matrix(0,length(uind),13,
+                  dimnames=list(uind,
+                                c('Obsmn',
+                                  'Obslo',
+                                  'Obshi',
+                                  'semn',
+                                  'Expmn',
+                                  'Like',
+                                  'Std.res',
+                                  'ObsloAdj',
+                                  'ObshiAdj',
+                                  'Fleet',
+                                  'Yr',
+                                  'Time',
+                                  'Seas')))
+  
+  ## create subdataframes and then calculate variables (copied from SSrunstest script)
+  for(i in 1:length(uind)){  
+    subdbase <- len.test.resids[which(len.test.resids$indx == uind[i]),]
+     
+    if(is.null(subdbase$Nsamp_adj)) subdbase$Nsamp_adj = subdbase$N 
+    xvar <- subdbase$Bin
+    pldat[i,'Obsmn'] <- sum(subdbase$Obs*xvar)/sum(subdbase$Obs)
+    pldat[i,'Expmn'] <- sum(subdbase$Exp*xvar)/sum(subdbase$Exp)
+    pldat[i,'semn'] <- sqrt((sum(subdbase$Exp*xvar^2)/sum(subdbase$Exp)-
+                               pldat[i,'Expmn']^2)/mean(subdbase$Nsamp_adj))
+    pldat[i,'Obslo'] <- pldat[i,'Obsmn']-2*pldat[i,'semn']
+    pldat[i,'Obshi'] <- pldat[i,'Obsmn']+2*pldat[i,'semn']
+    pldat[i,'Std.res'] <- (pldat[i,'Obsmn']-pldat[i,'Expmn'])/pldat[i,'semn']
+    pldat[i,'Fleet'] <- mean(subdbase$Fleet)
+    pldat[i,'Yr'] <- mean(subdbase$Yr) 
+    pldat[i,'Time'] <- mean(subdbase$Time)
+    pldat[i,'Seas'] <- mean(subdbase$Seas)
+    pldat[i,'Like'] <- mean(subdbase$Like)
+    
+  }
+  
+  Nmult <- 1/var(pldat[,'Std.res'],na.rm=TRUE)
+  
+  for(i in 1:length(uind)){
+    pldat[i,'ObsloAdj'] <- pldat[i,'Obsmn']-2*pldat[i,'semn']/sqrt(Nmult)
+    pldat[i,'ObshiAdj'] <- pldat[i,'Obsmn']+2*pldat[i,'semn']/sqrt(Nmult)
+  }
+  
+  pldat <- data.frame(pldat)
+  yrs <- pldat$Yr
+  
+  ## create dataframe used for running the runs test
+  runs_dat <- data.frame(Fleet=pldat$Fleet,
+                         Fleet_name=ss3sma$FleetNames[pldat$Fleet],
+                         Yr=yrs,
+                         Time=pldat$Time,
+                         Seas=pldat$Seas,
+                         Obs=pldat$Obsmn,
+                         Exp=pldat$Expmn,
+                         SE=((pldat$Obsmn-pldat$ObsloAdj)/1.96)/pldat$ObsloAdj,
+                         Like=pldat$Like)
+
+  ## add column for residuals
+  ## run similar tests as for CPUE, checking structure and values for correctness
+```
+
+<br>    
+
+#### SSplotRunstest  
+
+```{r eval=FALSE}
+
+## SMA
+test_that("snapshot of sma_cpue", {
+  
+  ## save plot as a png in a temporary directory (path)
+  SSplotRunstest(ss3sma, 
+                 png = TRUE, 
+                 print = T, 
+                 subplots = "cpue", 
+                 indexselect = 3, 
+                 plotdir = path, 
+                 filenameprefix = "sma_")
+  
+  ## check that there is a file with the expected name in the temporary directory
+  expect_true(file.exists(file.path(path, "sma_residruns_CPUE_3.png")))
+  
+})
+```
+
+## Continuous Integration with Github Actions  
+
+Workflows can be setup to automate certain processes when a specifed event occurs. Events could include things such as an issue being opened, a push to the repo, or a pull request. When one of these events happens, it triggers one or more actions automatically. An example workflow would be: commit new code --> run test automatically --> build new package --> deploy new version of package.  
+
+Currently, I set up the workflow for the first two steps; every time a new commit is made to the repo, it runs the R CMD check function and checks all of the test.R scripts. The workflow file is stored in `.github/workflows/R-CMD-check.yml`.
+
+
+## Troubleshooting and Issues  
+
+| Problem     | Solution      |   
+|-------------|---------------|  
+| Opening .Rdata files from package folder | Created a new sub-folder `inst` and `extdata` and copied .Rdata files into there then used `system.file("extdata", package = "ss3diags")` as the testing path. |  
+| For checking plots, need to be able to save the plot as an object but right now it can't, only the runs test table is returned as an object by the function. | Currently just saving the plot as a .png and checking to see if the file exists. Maybe consider adding the plot in the return() portion of the function so that the object can be saved as well as the table in the environment. |
+
+## Questions  
+
+  *   Do I only need to test structure of outputs (e.g. nrow = 4, ncol = 6, class, etc.)?  
+  *   Should I use the actual numbers from output or calculate it so that if the rdata files change, the numbers will change with it? Using actual numbers will tell you if something is wrong with the file/code you currently have but if the models are going to be updated at some point, it is easier to write the code so that it is flexible.  
+

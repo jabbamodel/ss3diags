@@ -1,5 +1,5 @@
-library(ss3diags)
-library(testthat)
+#library(ss3diags)
+#library(testthat)
 
 #test_example_path <- system.file("extdata", package = "ss3diags")
 

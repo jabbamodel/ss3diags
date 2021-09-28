@@ -123,6 +123,8 @@ which is represented in the summary input object.}
 
 \item{legendncol}{Number of columns for the legend.}
 
+\item{legendcex}{Allows to adjust legend cex}
+
 \item{legendsp}{Space between legend labels}
 
 \item{legendindex}{Allows to add lengend for selected indices (plots)}
@@ -164,8 +166,6 @@ It will be separated from default name by an underscore.}
 \item{indexfleets}{CHECK IF NEEDED or how to adjust indexfleets}
 
 \item{plot}{plot to active plot device?}
-
-\item{legendcex=1}{Allows to adjust legend cex}
 
 \item{shadecol1}{uncertainty shading of early years not affected by hindcast}
 }

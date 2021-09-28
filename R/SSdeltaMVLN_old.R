@@ -14,7 +14,7 @@
 #' @param plot option to show plot
 #' @param ymax ylim maximum
 #' @param xmax xlim maximum
-#' @param legendcex=1 Allows to adjust legend cex
+#' @param legendcex Allows to adjust legend cex
 #' @param verbose Report progress to R GUI?
 #' @return output list of kobe objects and mle's
 #' @author Henning Winker (JRC-EC)

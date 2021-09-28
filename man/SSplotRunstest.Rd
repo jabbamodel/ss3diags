@@ -80,6 +80,8 @@ top of lines)}
 
 \item{legendloc}{Location of legend. Either a string like "topleft" or a vector}
 
+\item{legendcex}{Allows to adjust legend cex}
+
 \item{pwidth}{Width of plot}
 
 \item{pheight}{Height of plot}
@@ -105,8 +107,6 @@ It will be separated from default name by an underscore.}
 \item{new}{Create new empty plot window}
 
 \item{add}{surpresses par() to create multiplot figs}
-
-\item{legendcex=1}{Allows to adjust legend cex}
 }
 \value{
 Runs Test p-values and sig3 limits

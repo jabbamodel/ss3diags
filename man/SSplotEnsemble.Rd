@@ -107,6 +107,8 @@ which is represented in the summary input object.}
 
 \item{legendncol}{Number of columns for the legend.}
 
+\item{legendcex}{Allows to adjust legend cex}
+
 \item{legendsp}{Space between legend labels}
 
 \item{pwidth}{Width of plot}
@@ -138,8 +140,6 @@ It will be separated from default name by an underscore.}
 \item{new}{Create new empty plot window}
 
 \item{add}{surpresses par() to create multiplot figs}
-
-\item{legendcex=1}{Allows to adjust legend cex}
 
 \item{legendindex}{Allows to add lengend for selected indices (plots)}
 }

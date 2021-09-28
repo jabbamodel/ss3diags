@@ -61,7 +61,7 @@ ssruns_sig3 <- function(x,type=NULL,mixing="less") {
 #' top of lines)
 #' @param legend Add a legend?
 #' @param legendloc Location of legend. Either a string like "topleft" or a vector
-#' @param legendcex=1 Allows to adjust legend cex
+#' @param legendcex Allows to adjust legend cex
 #' @param pwidth Width of plot
 #' @param pheight Height of plot
 #' @param punits Units for PNG file

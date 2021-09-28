@@ -33,7 +33,7 @@ SSreadMCMC <- function(mcmcdir){
 #' @param ymax ylim maximum
 #' @param xmax xlim maximum
 #' @param addprj include forecast years
-#' @param legendcex=1 Allows to adjust legend cex
+#' @param legendcex Allows to adjust legend cex
 #' @param verbose Report progress to R GUI?
 #' @return output list of quant mcmc posteriors and mle's
 #' @author Henning Winker (JRC-EC), Massimiliano and Laurence Kell (Sea++)

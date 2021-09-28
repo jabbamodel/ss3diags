@@ -32,7 +32,7 @@
 #' the legend display the model names in an order that is different than that
 #' which is represented in the summary input object.
 #' @param legendncol Number of columns for the legend.
-#' @param legendcex=1 Allows to adjust legend cex
+#' @param legendcex Allows to adjust legend cex
 #' @param legendsp Space between legend labels
 #' @param legendindex Allows to add lengend for selected indices (plots)
 #' @param pwidth Width of plot

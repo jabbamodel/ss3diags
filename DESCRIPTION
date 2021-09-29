@@ -33,7 +33,7 @@ Imports:
       gplots
 License: EUPL
 Encoding: UTF-8
-LazyData: true
+LazyData: True
 RoxygenNote: 7.1.2
 Suggests:
   testthat (>= 3.0.0),

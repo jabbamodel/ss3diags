@@ -6,6 +6,7 @@
 \usage{
 SSplotEnsemble(
   kb,
+  summaryoutput,
   subplots = c("stock", "harvest", "SSB", "F", "Recr", "Catch"),
   models = "all",
   quantiles = c(0.025, 0.975),
@@ -50,11 +51,14 @@ SSplotEnsemble(
   add = FALSE,
   mcmcVec = FALSE,
   indexQlabel = TRUE,
-  indexQdigits = 4
+  indexQdigits = 4,
+  legendindex = NULL
 )
 }
 \arguments{
 \item{kb}{SSdeltaMVLN $kb type output}
+
+\item{summaryoutput}{List created by r4ss::SSummarize(). TODO: Verify}
 
 \item{subplots}{option to "Bratio","Fvalue","SSB", "F", "Recr","Catch"}
 

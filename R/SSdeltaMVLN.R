@@ -15,8 +15,14 @@
 #' @param addprj include forecast years
 #' @param legendcex Allows to adjust legend cex
 #' @param verbose Report progress to R GUI?
+#' 
 #' @return output list of quant posteriors and mle's
+#' 
 #' @author Henning Winker (JRC-EC)
+#' 
+#' @importFrom stats rlnorm aggregate
+#' @importFrom graphics rect points lines legend
+#' 
 #' @export
 SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,mc=5000,weight=1,run="MVLN",plot=TRUE,
                        addprj=FALSE,ymax=NULL,xmax=NULL,legendcex=1,verbose=TRUE){

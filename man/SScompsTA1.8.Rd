@@ -26,6 +26,8 @@ to all fleets combined)}
 \item{plotit}{if TRUE, make an illustrative plot like one or more
 panels of Fig. 4 in Francis (2011).}
 
+\item{maxpanel}{maxpanel. Default 1000}
+
 \item{printit}{if TRUE, print results to R console.}
 }
 \value{

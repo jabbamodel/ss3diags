@@ -4,7 +4,6 @@
 #' Stock Synthesis (V3.30.14) base-case run, list of retrospective runs,
 #' and list of base-case and aspm runs.
 #' @docType data
-#' @usage pac.hke
 #' @format Individual list objects generated using \pkg{r4ss}:
 #' \describe{
 #'  \item{ss3phk}{output from Stock Synthesis as read by \code{\link[r4ss]{SS_output}()}}
@@ -14,6 +13,7 @@
 #' @source 2020 Pacific hake/whiting Stock Synthesis assessment. Joint Technical Committee of the U.S. and Canada Pacific Hake/Whiting
 #' Agreement, National Marine Fisheries Service and Fisheries and Oceans Canada
 #' @author Grandin, C.J., K.F. Johnson, A.M. Edwards, and A.M. Berger. (2020). Status of the Pacific Hake (whiting) stock in U.S. and Canadian waters in 2020. Prepared by the Joint Technical Committee of the U.S. and Canada Pacific Hake/Whiting Agreement, National Marine Fisheries Service and Fisheries and Oceans Canada. 273 p.
+#' 
 #' @examples
 #' \dontrun{
 #' data(pac.hke, package = "ss3diags")
@@ -30,7 +30,6 @@ NULL
 #' Stock Synthesis (V3.30.15) reference run 3, list of retrospective runs,
 #' and list of reference run 3 and aspm runs.
 #' @docType data
-#' @usage natl.sma
 #' @format Individual list objects generated using \pkg{r4ss}
 #' \describe{
 #'  \item{ss3sma}{output from Stock Synthesis as read by \code{\link[r4ss]{SS_output}()}}

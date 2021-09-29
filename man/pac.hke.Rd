@@ -16,9 +16,6 @@ Individual list objects generated using \pkg{r4ss}:
 2020 Pacific hake/whiting Stock Synthesis assessment. Joint Technical Committee of the U.S. and Canada Pacific Hake/Whiting
 Agreement, National Marine Fisheries Service and Fisheries and Oceans Canada
 }
-\usage{
-pac.hke
-}
 \description{
 Information relevant to Pacific Hake (HKE) example, including
 Stock Synthesis (V3.30.14) base-case run, list of retrospective runs,

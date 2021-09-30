@@ -47,7 +47,13 @@
 #' @param boxcol color boxes 
 #' @param new Create new empty plot window
 #' @param add surpresses par() to create multiplot figs
+#' 
 #' @author Henning Winker (JRC-EC)
+#' 
+#' @importFrom grDevices grey
+#' @importFrom graphics boxplot 
+#' @importFrom stats predict loess runif
+#' 
 #' @export
 SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","len","age")[1],
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,

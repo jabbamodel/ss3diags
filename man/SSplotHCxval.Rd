@@ -51,6 +51,7 @@ SSplotHCxval(
   verbose = TRUE,
   shadecol = grey(0.5, 0.4),
   shadecol2 = grey(0.5, 0.4),
+  shadealpha = 0.3,
   new = TRUE,
   add = FALSE,
   mcmcVec = FALSE,
@@ -152,6 +153,8 @@ It will be separated from default name by an underscore.}
 \item{verbose}{Report progress to R GUI?}
 
 \item{shadecol}{uncertainty shading of hcxval horizon}
+
+\item{shadealpha}{Transparancy adjustment used to make default shadecol. TODO: verify}
 
 \item{new}{Create new empty plot window}
 

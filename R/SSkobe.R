@@ -20,6 +20,7 @@
 #' @param verbose 
 #' @return Kobe Quadrant percentages
 #' @export
+#' @importFrom gplots ci2d
 
 SSplotKobe <- function(kb,joint = TRUE,year = NULL,
                        posterior = c("points","kernel"),

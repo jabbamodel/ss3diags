@@ -51,32 +51,63 @@
 #' @param shadealpha Transparency adjustment used to make default shadecol
 #' @param new Create new empty plot window
 #' @param add surpresses par() to create multiplot figs
+#' @param summaryoutput List created by r4ss::SSummarize(). TODO: Verify
+#' 
+#' @importFrom grDevices graphics.off rgb adjustcolor dev.new dev.off 
+#' @importFrom graphics polygon abline axis box
+#' @importFrom stats dnorm 
+#' 
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
+#' 
+#' 
 #' @export
-SSplotEnsemble<- function(kb,
+SSplotEnsemble<- function(kb, summaryoutput,
                         subplots=c("stock","harvest","SSB","F","Recr","Catch"),
                         models = "all", 
                         quantiles = c(0.025,0.975),
                         ylabs = NULL,
                         endyrvec="default",
-                        plot=TRUE,print=FALSE,png=print,pdf=FALSE,
+                        plot=TRUE,
+                        print=FALSE,
+                        png=print,
+                        pdf=FALSE,
                         col=NULL, 
-                        pch=NULL, lty=1, lwd=2,
+                        pch=NULL,
+                        lty=1, 
+                        lwd=2,
                         tickEndYr=FALSE,
-                        xlim=NULL, ylimAdj=1.05,
-                        xaxs="i", yaxs="i",
+                        xlim=NULL, 
+                        ylimAdj=1.05,
+                        xaxs="i", 
+                        yaxs="i",
                         xylabs=TRUE,
-                        type="l", uncertainty=TRUE, 
-                        legend=TRUE, legendlabels="default", legendloc="topright",
-                        legendorder="default",legendncol=1,legendcex=1,legendsp=0.9,
-                        pwidth=6.5,pheight=5.0,punits="in",res=300,ptsize=10,cex.main=1,
+                        type="l", 
+                        uncertainty=TRUE, 
+                        legend=TRUE, 
+                        legendlabels="default", 
+                        legendloc="topright",
+                        legendorder="default",
+                        legendncol=1,
+                        legendcex=1,
+                        legendsp=0.9,
+                        pwidth=6.5,
+                        pheight=5.0,
+                        punits="in",
+                        res=300,
+                        ptsize=10,
+                        cex.main=1,
                         plotdir=NULL,
                         filenameprefix="",
                         par=list(mar=c(5,4,1,1)+.1),
                         verbose=TRUE,
-                        shadecol = NULL, shadealpha=0.3,new=TRUE,
-                        add=FALSE,mcmcVec=FALSE,indexQlabel=TRUE,
-                        indexQdigits=4
+                        shadecol = NULL, 
+                        shadealpha=0.3,
+                        new=TRUE,
+                        add=FALSE,
+                        mcmcVec=FALSE,
+                        indexQlabel=TRUE,
+                        indexQdigits=4,
+                        legendindex=NULL
                         ){ # plot different fits to a single index of abundance
   #------------------------------------------
   # r4ss plotting functions

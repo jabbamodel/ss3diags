@@ -24,6 +24,7 @@
 #' }
 NULL
 
+
 #' @name natl.sma
 #' @title ICCAT 2017 North Atlantic Shortfin Mako Stock Synthesis model run 3
 #' @description Information relevant to North Atlantic Shortfin Mako (SMA), including
@@ -46,3 +47,76 @@ NULL
 #' ls(pattern = "sma")
 #' }
 NULL
+
+
+#' ICCAT 2017 North Atlantic Shortfin Mako ASPM Stock Synthesis model summarization
+#' 
+#' List of Stock Synthesis reference run #3 and aspm created with \code{\link[r4ss]{SSsummarize}()}
+#' 
+#' @docType data
+#' 
+#' @format Large list of 54 objects generated using \pkg{r4ss}
+#' \describe{
+#'  \item{n}{n}
+#'  \item{npars}{number of pars}
+#'  \item{modelnames}{modelnames}
+#'  \item{maxgrad}{maxgrad} 
+#'  \item{nsexes}{nsexes} 
+#'  \item{startyrs}{startyrs} 
+#'  \item{endyrs}{endyrs} 
+#'  \item{pars}{pars} 
+#'  \item{parsSD}{parsSD} 
+#'  \item{parphases}{parphases} 
+#'  \item{quants}{quants} 
+#'  \item{quantsSD}{quantsSD} 
+#'  \item{likelihoods}{likelihoods} 
+#'  \item{likelambdas}{likelambdas} 
+#'  \item{likelihoods_by_fleet}{likelihoods_by_fleet} 
+#'  \item{SpawnBio}{SpawnBio} 
+#'  \item{SpawnBioSD}{SpawnBioSD} 
+#'  \item{SpawnBioLower}{SpawnBioLower} 
+#'  \item{SpawnBioUpper}{SpawnBioUpper} 
+#'  \item{Bratio}{Bratio} 
+#'  \item{BratioSD}{BratioSD} 
+#'  \item{BratioLower}{BratioLower} 
+#'  \item{BratioUpper}{BratioUpper} 
+#'  \item{SPRratio}{SPRratio} 
+#'  \item{SPRratioSD}{SPRratioSD} 
+#'  \item{SPRratioLower}{SPRratioLower} 
+#'  \item{SPRratioUpper}{SPRratioUpper} 
+#'  \item{SPRratioLabels}{SPRratioLabels} 
+#'  \item{Fvalue}{Fvalue} 
+#'  \item{FvalueSD}{FvalueSD} 
+#'  \item{FvalueLower}{FvalueLower} 
+#'  \item{FvalueUpper}{FvalueUpper} 
+#'  \item{FvalueLabels}{FvalueLabels} 
+#'  \item{sprtargs}{sprtargs} 
+#'  \item{btargs}{btargs} 
+#'  \item{minbthreshs}{minbthreshs} 
+#'  \item{recruits}{recruits} 
+#'  \item{recruitsSD}{recruitsSD} 
+#'  \item{recruitsLower}{recruitsLower} 
+#'  \item{recruitsUpper}{recruitsUpper} 
+#'  \item{recdevs}{recdevs} 
+#'  \item{recdevsSD}{recdevsSD} 
+#'  \item{recdevsLower}{recdevsLower} 
+#'  \item{recdevsUpper}{recdevsUpper} 
+#'  \item{growth}{growth} 
+#'  \item{sizesel}{sizesel} 
+#'  \item{agesel}{agesel} 
+#'  \item{indices}{indices} 
+#'  \item{InitAgeYrs}{InitAgeYrs} 
+#'  \item{lowerCI}{lowerCI} 
+#'  \item{upperCI}{upperCI} 
+#'  \item{SpawnOutputUnits}{SpawnOutputUnits} 
+#'  \item{FleetNames}{FleetNames}
+#'  \item{mcmc}{mcmc}
+#' }
+#' 
+#' @source ICCAT 2017. Report of the 2017 Shortfin Mako Assessment Meeting (Madrid, Spain 12–16 June 2017).Collect. Vol. Sci. Pap.
+#'
+#' @author Courtney, C., D., Carvalho, C. Winker, H., and LT Kell. (2020). Examples of Stock Synthesis diagnostic methods and results implemented for previously completed North Atlantic shortfin mako Stock Synthesis model runs. Collect. Vol. Sci. Pap. ICCAT, 76(10): 173-234.
+#' 
+#'
+"aspm.phk" 
+

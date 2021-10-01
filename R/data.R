@@ -443,7 +443,7 @@ NULL
 #' @author Courtney, C., D., Carvalho, C. Winker, H., and LT Kell. (2020). Examples of Stock Synthesis diagnostic methods and results implemented for previously completed North Atlantic shortfin mako Stock Synthesis model runs. Collect. Vol. Sci. Pap. ICCAT, 76(10): 173-234.
 #' 
 #'
-"aspm.phk" 
+"aspm.sma" 
 
 
 #' ICCAT 2017 North Atlantic Shortfin Mako retrospective runs

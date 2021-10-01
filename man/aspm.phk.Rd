@@ -3,8 +3,67 @@
 \docType{data}
 \name{aspm.phk}
 \alias{aspm.phk}
-\title{ICCAT 2017 North Atlantic Shortfin Mako ASPM Stock Synthesis model summarization}
+\title{2020 Pacific Hake ASPM Stock Synthesis Summation}
 \format{
+List of 54 objects generated using \pkg{r4ss}:
+
+\describe{
+ \item{n}{n}
+ \item{npars}{npars}
+ \item{modelnames}{modelnames}
+ \item{maxgrad}{maxgrad}
+ \item{nsexes}{nsexes}
+ \item{startyrs}{startyrs}
+ \item{endyrs}{endyrs}
+ \item{pars}{pars}
+ \item{parsSD}{parsSD}
+ \item{parphases}{parphases}
+ \item{quants}{quants}
+ \item{quantsSD}{quantsSD}
+ \item{likelihoods}{likelihoods}
+ \item{likelambdas}{likelambdas}
+ \item{likelihoods_by_fleet}{likelihoods_by_fleet}
+ \item{SpawnBio}{SpawnBio}
+ \item{SpawnBioSD}{SpawnBioSD}
+ \item{SpawnBioLower}{SpawnBioLower}
+ \item{SpawnBioUpper}{SpawnBioUpper}
+ \item{Bratio}{Bratio}
+ \item{BratioSD}{BratioSD}
+ \item{BratioLower}{BratioLower}
+ \item{BratioUpper}{BratioUpper}
+ \item{SPRratio}{SPRratio}
+ \item{SPRratioSD}{SPRratioSD}
+ \item{SPRratioLower}{SPRratioLower}
+ \item{SPRratioUpper}{SPRratioUpper}
+ \item{SPRratioLabels}{SPRratioLabels}
+ \item{Fvalue}{Fvalue}
+ \item{FvalueSD}{FvalueSD}
+ \item{FvalueLower}{FvalueLower}
+ \item{FvalueUpper}{FvalueUpper}
+ \item{FvalueLabels}{FvalueLabels}
+ \item{sprtargs}{sprtargs}
+ \item{btargs}{btargs}
+ \item{minbthreshs}{minbthreshs}
+ \item{recruits}{recruits}
+ \item{recruitsSD}{recruitsSD}
+ \item{recruitsLower}{recruitsLower}
+ \item{recruitsUpper}{recruitsUpper}
+ \item{recdevs}{recdevs}
+ \item{recdevsSD}{recdevsSD}
+ \item{recdevsLower}{recdevsLower}
+ \item{recdevsUpper}{recdevsUpper}
+ \item{growth}{growth}
+ \item{sizesel}{sizesel}
+ \item{agesel}{agesel}
+ \item{indices}{indices}
+ \item{InitAgeYrs}{InitAgeYrs}
+ \item{lowerCI}{lowerCI}
+ \item{upperCI}{upperCI}
+ \item{SpawnOutputUnits}{SpawnOutputUnits}
+ \item{FleetNames}{FleetNames}
+ \item{mcmc}{mcmc} 
+}
+
 Large list of 54 objects generated using \pkg{r4ss}
 \describe{
  \item{n}{n}
@@ -64,15 +123,29 @@ Large list of 54 objects generated using \pkg{r4ss}
 }
 }
 \source{
+2020 Pacific hake/whiting Stock Synthesis assessment. Joint Technical 
+Committee of the U.S. and Canada Pacific Hake/Whiting Agreement, 
+National Marine Fisheries Service and Fisheries and Oceans Canada
+
 ICCAT 2017. Report of the 2017 Shortfin Mako Assessment Meeting (Madrid, Spain 12–16 June 2017).Collect. Vol. Sci. Pap.
 }
 \usage{
 aspm.phk
+
+aspm.phk
 }
 \description{
+List of Stock Synthesis references and aspm created with \code{\link[r4ss]{SSsummarize}()}
+
 List of Stock Synthesis reference run #3 and aspm created with \code{\link[r4ss]{SSsummarize}()}
 }
 \author{
+Grandin, C.J., K.F. Johnson, A.M. Edwards, and A.M. Berger. (2020). 
+Status of the Pacific Hake (whiting) stock in U.S. and Canadian waters in 2020. 
+Prepared by the Joint Technical Committee of the U.S. and Canada 
+Pacific Hake/Whiting Agreement, National Marine Fisheries Service and 
+Fisheries and Oceans Canada. 273 p.
+
 Courtney, C., D., Carvalho, C. Winker, H., and LT Kell. (2020). Examples of Stock Synthesis diagnostic methods and results implemented for previously completed North Atlantic shortfin mako Stock Synthesis model runs. Collect. Vol. Sci. Pap. ICCAT, 76(10): 173-234.
 }
 \keyword{datasets}

@@ -24,8 +24,10 @@ and list of base-case and aspm runs.
 \examples{
 \dontrun{
 data(pac.hke, package = "ss3diags")
+
 # List the three objects returned by the line above
 ls(pattern = "phk")
+
 # The list of retrospective runs, which contains 8 lists, one for each peel
 str(retro.phk, max.level = 1)
 }

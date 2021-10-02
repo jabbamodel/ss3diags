@@ -6,6 +6,7 @@
 #' @return Stock Synthesis mcmc output file
 #' @author Henning Winker (JRC-EC) & Laurence Kell (Sea++)
 #' @export
+#' @importFrom utils read.csv
 #' 
 SSreadMCMC <- function(mcmcdir){
   

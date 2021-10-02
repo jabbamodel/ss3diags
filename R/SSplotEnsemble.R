@@ -52,10 +52,17 @@
 #' @param new Create new empty plot window
 #' @param add surpresses par() to create multiplot figs
 #' @param summaryoutput List created by r4ss::SSummarize(). TODO: Verify
+#' @param quantiles quantile TODO TODO. Default is (.025,.075)
+#' @param png png TODO TODO Default is prinf ??
+#' @param xylabs xylabs X asis and Y axis labels TODO TODO. Default in NULL !
+#' @param uncertainty uncertainty TODO TODO. Default is TRUE
+#' @param mcmcVec mcmc vector TODO TODO. Default is FALSE
+#' @param indexQlabel indexQlabel TODO TODO. Default is TRUE
+#' @param indexQdigits indexQdigits TODO TODO. Default is 4
 #' 
 #' @importFrom grDevices graphics.off rgb adjustcolor dev.new dev.off 
 #' @importFrom graphics polygon abline axis box
-#' @importFrom stats dnorm 
+#' @importFrom stats dnorm
 #' 
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 #' 

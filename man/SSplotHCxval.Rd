@@ -56,7 +56,10 @@ SSplotHCxval(
   add = FALSE,
   mcmcVec = FALSE,
   indexQlabel = TRUE,
-  indexQdigits = 4
+  indexQdigits = 4,
+  indexfleets = 1,
+  plot = TRUE,
+  shadecol1 = grey(0.5, 0.4)
 )
 }
 \arguments{
@@ -67,6 +70,8 @@ SSplotHCxval(
 \item{Season}{option to specify Season - Default uses first available, i.e. usual Seas = 1}
 
 \item{print}{print to PNG files?}
+
+\item{png}{png TODO TODO. Default is FALSE}
 
 \item{pdf}{not tested for TRUE}
 
@@ -99,6 +104,8 @@ ending year specified in each model.}
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
 
+\item{xlim}{xlim TODO TODO.}
+
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
 \item{ylim}{will over-write ylimAdj if specified}
@@ -107,8 +114,12 @@ year in timeseries plots.}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
 
+\item{xylabs}{x-axis and y-axis labels ?? Default is TRUE}
+
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
+
+\item{uncertainty}{uncertainty TODO TODO. Default is TRUE}
 
 \item{legend}{Add a legend?}
 
@@ -153,6 +164,8 @@ It will be separated from default name by an underscore.}
 \item{verbose}{Report progress to R GUI?}
 
 \item{shadecol}{uncertainty shading of hcxval horizon}
+
+\item{shadecol2}{shadecol2 TODO TODO.}
 
 \item{shadealpha}{Transparancy adjustment used to make default shadecol. TODO: verify}
 

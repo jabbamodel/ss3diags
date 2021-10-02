@@ -67,6 +67,11 @@
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
 #' @param indexQdigits Number of significant digits for catchability in legend
 #' @param shadealpha Transparancy adjustment used to make default shadecol. TODO: verify 
+#' @param png png TODO TODO. Default is FALSE
+#' @param xlim xlim TODO TODO. 
+#' @param xylabs x-axis and y-axis labels ?? Default is TRUE
+#' @param uncertainty uncertainty TODO TODO. Default is TRUE
+#' @param shadecol2 shadecol2 TODO TODO. 
 #' 
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 #' 
@@ -124,7 +129,10 @@ SSplotHCxval<- function(retroSummary,
                         new=TRUE,
                         add=FALSE,mcmcVec=FALSE,
                         indexQlabel=TRUE,
-                        indexQdigits=4
+                        indexQdigits=4,
+                        indexfleets=1,
+                        plot=TRUE,
+                        shadecol1=grey(0.5,0.4)
                         ){ # plot different fits to a single index of abundance
   #------------------------------------------
   # r4ss plotting functions

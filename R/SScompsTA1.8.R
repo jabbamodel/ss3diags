@@ -14,7 +14,6 @@
 #' to all fleets combined)
 #' @param plotit if TRUE, make an illustrative plot like one or more
 #' panels of Fig. 4 in Francis (2011).
-#' @param printit if TRUE, print results to R console.
 #' @param maxpanel maxpanel. Default 1000
 #' 
 #' @author Chris Francis, Andre Punt, Ian Taylor (modified by Henning Winker)

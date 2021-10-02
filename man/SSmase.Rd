@@ -13,7 +13,8 @@ SSmase(
   indexselect = NULL,
   MAE.base.adj = 0.1,
   residuals = FALSE,
-  verbose = FALSE
+  verbose = FALSE,
+  indexfleets = 1
 )
 }
 \arguments{
@@ -35,9 +36,11 @@ ending year specified in each model.}
 
 \item{MAE.base.adj}{minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)}
 
+\item{residuals}{TODO! Default is FALSE.}
+
 \item{verbose}{Report progress to R GUI?}
 
-\item{indexfleets}{CHECK IF NEEDED or how to adjust indexfleets}
+\item{indexfleets}{CHECK IF NEEDED or how to adjust indexfleets. TODO: Clarifications? -ef}
 }
 \value{
 MASE and hcxval statistic

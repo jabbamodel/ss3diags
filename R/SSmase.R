@@ -15,15 +15,16 @@
 #' final year of values to show for each model. By default it is set to the
 #' ending year specified in each model.
 #' @param indexselect = Vector of fleet numbers for each model for which to compare
-#' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets
+#' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets. TODO: Clarifications? -ef
 #' @param MAE.base.adj minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)   
 #' @param verbose Report progress to R GUI?
+#' @param residuals TODO! Default is FALSE.
 #' @return MASE and hcxval statistic
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 #' @export
 SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
                         models="all",endyrvec="default",indexselect = NULL,MAE.base.adj=0.1,residuals=FALSE,
-                        verbose=FALSE
+                        verbose=FALSE, indexfleets=1
                         ){ 
   
   hcruns =retroSummary #added for now

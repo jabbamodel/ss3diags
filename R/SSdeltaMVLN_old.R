@@ -16,6 +16,7 @@
 #' @param xmax xlim maximum
 #' @param legendcex Allows to adjust legend cex
 #' @param verbose Report progress to R GUI?
+#' @param addtrj TODO! Default is TRUE
 #' 
 #' @return output list of kobe objects and mle's
 #' 

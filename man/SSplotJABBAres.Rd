@@ -56,6 +56,8 @@ SSplotJABBAres(
 
 \item{print}{print to PNG files?}
 
+\item{png}{png TODO TODO, Default is FALSE}
+
 \item{pdf}{not tested for TRUE}
 
 \item{indexselect}{Vector of fleet numbers for each model for which to compare}
@@ -73,11 +75,15 @@ SSplotJABBAres(
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
 
+\item{xlim}{xlim TODO TODO,}
+
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
 \item{xaxs}{Choice of xaxs parameter (see ?par for more info)}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
+
+\item{xylabs}{xylabs TODO TODO. Default is TRUE}
 
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}

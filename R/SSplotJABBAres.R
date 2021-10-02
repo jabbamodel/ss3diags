@@ -47,6 +47,9 @@
 #' @param boxcol color boxes 
 #' @param new Create new empty plot window
 #' @param add surpresses par() to create multiplot figs
+#' @param png png TODO TODO, Default is FALSE
+#' @param xlim xlim TODO TODO, 
+#' @param xylabs xylabs TODO TODO. Default is TRUE
 #' 
 #' @author Henning Winker (JRC-EC)
 #' 

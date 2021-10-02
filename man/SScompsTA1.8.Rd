@@ -27,8 +27,6 @@ to all fleets combined)}
 panels of Fig. 4 in Francis (2011).}
 
 \item{maxpanel}{maxpanel. Default 1000}
-
-\item{printit}{if TRUE, print results to R console.}
 }
 \value{
 data.frame of observed, predicted mean length/age and residuals

@@ -40,6 +40,8 @@ SSdeltaMVLN_old(
 
 \item{plot}{option to show plot}
 
+\item{addtrj}{TODO! Default is TRUE}
+
 \item{ymax}{ylim maximum}
 
 \item{xmax}{xlim maximum}

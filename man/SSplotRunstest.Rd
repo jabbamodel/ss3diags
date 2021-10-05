@@ -52,6 +52,8 @@ SSplotRunstest(
 
 \item{print}{print to PNG files?}
 
+\item{png}{png TODO TODO Defaults to print value}
+
 \item{pdf}{not tested for TRUE}
 
 \item{indexselect}{Vector of fleet numbers for each model for which to compare}
@@ -67,11 +69,15 @@ SSplotRunstest(
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
 
+\item{xlim}{xlim TODO TODO}
+
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
 \item{xaxs}{Choice of xaxs parameter (see ?par for more info)}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
+
+\item{xylabs}{draw x-axis and y-axis TODO TODO}
 
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}

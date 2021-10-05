@@ -56,7 +56,8 @@ SSplotModelcomp(
   add = FALSE,
   mcmcVec = FALSE,
   indexQlabel = TRUE,
-  indexQdigits = 4
+  indexQdigits = 4,
+  indexfleets = 1
 )
 }
 \arguments{
@@ -65,6 +66,8 @@ SSplotModelcomp(
 \item{plot}{plot to active plot device?}
 
 \item{print}{print to PNG files?}
+
+\item{png}{png TODO TODO Defaults to print value}
 
 \item{pdf}{not tested for TRUE}
 
@@ -100,14 +103,20 @@ final year of values to show for each model. By default it is set to the}
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
 
+\item{xlim}{xlim TODO TODO}
+
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
 \item{xaxs}{Choice of xaxs parameter (see ?par for more info)}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
 
+\item{xylabs}{draw x-axis and y-axis TODO TODO}
+
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
+
+\item{uncertainty}{uncertainty TODO TODO. Deafults to TRUE}
 
 \item{legend}{Add a legend?}
 

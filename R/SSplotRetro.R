@@ -65,6 +65,7 @@
 #' @param showrho showrho TODO TODO. Defaults to TRUE
 #' @param xylabs Draw x and y axis lables (?) TODO TODO. Defaults to TRUE
 #' @param uncertainty uncertainty TODO TODO. Defaults to TRUE.
+#' @param shadealpha shadealpha TODO TODO. Defalut to 0.3
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @export
 SSplotRetro<- function(summaryoutput, 
@@ -118,7 +119,8 @@ SSplotRetro<- function(summaryoutput,
                        #documented params not in usage -ef
                        shadecol1=grey(0.5,0.4),
                        indexQlabel = TRUE,
-                       indexQdigits = 4
+                       indexQdigits = 4,
+                       shadealpha=0.3
 ){ 
   #------------------------------------------
   # r4ss plotting functions

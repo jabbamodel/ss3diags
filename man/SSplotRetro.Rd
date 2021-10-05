@@ -55,7 +55,8 @@ SSplotRetro(
   mcmcVec = FALSE,
   shadecol1 = grey(0.5, 0.4),
   indexQlabel = TRUE,
-  indexQdigits = 4
+  indexQdigits = 4,
+  shadealpha = 0.3
 )
 }
 \arguments{
@@ -172,6 +173,8 @@ It will be separated from default name by an underscore.}
 \item{indexQlabel}{Add catchability to legend in plot of index fits (TRUE/FALSE)?}
 
 \item{indexQdigits}{Number of significant digits for catchability in legend}
+
+\item{shadealpha}{shadealpha TODO TODO. Defalut to 0.3}
 }
 \description{
 Plots retrospective pattern, including (optional) one-step ahead forecast and computes Mohn's Rho

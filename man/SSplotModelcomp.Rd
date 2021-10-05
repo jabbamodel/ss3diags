@@ -5,7 +5,7 @@
 \title{SSplotHCxal() for one-step ahead hindcasting cross-validations of indices}
 \usage{
 SSplotModelcomp(
-  summaryoutput = aspm.sma,
+  summaryoutput = ss3diags::aspm.sma,
   plot = TRUE,
   print = FALSE,
   png = print,

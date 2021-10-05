@@ -5,7 +5,7 @@
 \title{SSplotJABBAres()}
 \usage{
 SSplotJABBAres(
-  ss3rep = ss3sma,
+  ss3rep = ss3diags::ss3sma,
   subplots = c("cpue", "len", "age")[1],
   plot = TRUE,
   print = FALSE,

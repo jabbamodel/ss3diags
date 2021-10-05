@@ -67,7 +67,7 @@
 #' @param uncertainty uncertainty TODO TODO. Deafults to TRUE
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 #' @export
-SSplotModelcomp<- function(summaryoutput=aspm.sma,
+SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
                         plot=TRUE,
                         print=FALSE,
                         png=print,

@@ -83,25 +83,40 @@ ssruns_sig3 <- function(x,type=NULL,mixing="less") {
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @export
 
-SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","age")[1],
-                             plot=TRUE,print=FALSE,png=print,pdf=FALSE,
-                             indexselect = NULL,
-                             miny = 1,
-                             pch=21, lty=1, lwd=2,
-                             tickEndYr=FALSE,
-                             xlim="default", ylimAdj=1.4,
-                             xaxs="i", yaxs="i",
-                             xylabs=TRUE,
-                             type="o", 
-                             legend=TRUE, legendloc="top",
-                             legendcex=1,
-                             pwidth=6.5,pheight=5.0,punits="in",res=300,ptsize=10,cex.main=1,
-                             plotdir=NULL,
-                             filenameprefix="",
-                             par=list(mar=c(5,4,1,1)+.1),
-                             verbose=TRUE,
-                             new=TRUE,
-                             add=FALSE){
+SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
+                           mixing="less",
+                           subplots=c("cpue","len","age")[1],
+                           plot=TRUE,
+                           print=FALSE,
+                           png=print,
+                           pdf=FALSE,
+                           indexselect = NULL,
+                           miny = 1,
+                           pch=21, 
+                           lty=1, 
+                           lwd=2,
+                           tickEndYr=FALSE,
+                           xlim="default", 
+                           ylimAdj=1.4,
+                           xaxs="i", 
+                           yaxs="i",
+                           xylabs=TRUE,
+                           type="o", 
+                           legend=TRUE, 
+                           legendloc="top",
+                           legendcex=1,
+                           pwidth=6.5,
+                           pheight=5.0,
+                           punits="in",
+                           res=300,
+                           ptsize=10,
+                           cex.main=1,
+                           plotdir=NULL,
+                           filenameprefix="",
+                           par=list(mar=c(5,4,1,1)+.1),
+                           verbose=TRUE,
+                           new=TRUE,
+                           add=FALSE){
   
     #-------------------------------------------
     # r4ss plotting functions and coding style
@@ -302,9 +317,11 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @export
 
-SSrunstest <- function(ss3rep=ss3sma,mixing="less",quants=c("cpue","len","age")[1],
-                           indexselect = NULL,
-                           verbose=TRUE){
+SSrunstest <- function(ss3rep=ss3diags::ss3sma,
+                       mixing="less",
+                       quants=c("cpue","len","age")[1],
+                       indexselect = NULL,
+                       verbose=TRUE){
   
   
   datatypes= c("Index","Mean length","Mean age")

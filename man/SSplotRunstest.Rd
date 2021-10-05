@@ -5,7 +5,7 @@
 \title{plot function for runs test plot}
 \usage{
 SSplotRunstest(
-  ss3rep = ss3sma,
+  ss3rep = ss3diags::ss3sma,
   mixing = "less",
   subplots = c("cpue", "len", "age")[1],
   plot = TRUE,

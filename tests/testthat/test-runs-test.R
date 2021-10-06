@@ -406,7 +406,7 @@ path <- file.path(tempdir(), "test_runs")
 dir.create(path, showWarnings = FALSE)
 
 ## SMA
-test_that("snapshot of sma_cpue", {
+test_that("file of sma_cpue_residruns plot exists", {
   
   SSplotRunstest(ss3sma, 
                  png = TRUE, 
@@ -421,7 +421,7 @@ test_that("snapshot of sma_cpue", {
 })
 
 
-test_that("snapshot of sma_len", {
+test_that("file of sma_len_residruns plot exists", {
   
   SSplotRunstest(ss3sma, 
                  png = TRUE, 
@@ -437,7 +437,7 @@ test_that("snapshot of sma_len", {
 })
 
 ## PHK
-test_that("snapshot of phk_cpue", {
+test_that("file of phk_cpue_residruns plot exists", {
   
   SSplotRunstest(ss3phk, 
                  png = TRUE, 
@@ -450,7 +450,7 @@ test_that("snapshot of phk_cpue", {
   
 })
 
-test_that("snapshot of phk_age", {
+test_that("file of phk_age_residruns plot exists", {
   
   SSplotRunstest(ss3phk, 
                  png = TRUE, 
@@ -465,7 +465,7 @@ test_that("snapshot of phk_age", {
 })
 
 ## HER
-test_that("snapshot of her_cpue", {
+test_that("file of her_cpue_residruns plot exists", {
   
   SSplotRunstest(ss3her, 
                  png = TRUE, 
@@ -479,7 +479,7 @@ test_that("snapshot of her_cpue", {
   
 })
 
-test_that("snapshot of her_age", {
+test_that("file of her_age_residruns plot exists", {
   
   SSplotRunstest(ss3her, 
                  png = TRUE, 

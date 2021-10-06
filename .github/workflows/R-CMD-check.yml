@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - dev_mo
   pull_request:
     branches:
       - master

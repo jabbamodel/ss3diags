@@ -2,13 +2,13 @@
 library(ss3diags)
 # Tests 
 sma = r4ss::SSsummarize(retro.sma)
-# Check joint MASE for indice
+# Check joint MASE for indices
 SSmase(sma)
 # select indices
-SSmase(sma,indexselect=c(1,3,4))
+SSmase(sma,indexselect=c(4))
 # check for length comps
 smaL = ss3diags::SSretroComps(retro.sma)
-SSmase(smaL,quants="len")
+SSmase(smaL,quants="len",indexselect = 2:4)
 
 # check manually
 mase = SSmase(sma,residuals = T)
@@ -22,7 +22,7 @@ SSmase(sma)
 
 # Check hake
 phk= r4ss::SSsummarize(retro.phk)
-SSmase(phk,verbose=T)
+SSmase(phk,verbose=T,indexselect = 1)
 # check for age comps
 phkA = ss3diags::SSretroComps(retro.phk)
 SSmase(phkA,quants="age")

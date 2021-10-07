@@ -195,7 +195,7 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
       mase.adj = maepr/max(scaler,MAE.base.adj) 
       MASE.i = res.i = NULL
       MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=mase,MAE.PR=maepr,MAE.base=scaler,MASE.adj=mase.adj,n.eval=npe)
-      res.i = data.frame(Index=rep(unique(indices2$Fleet_name)[1],length(pred.resid)),Season=rep(Season,length(pred.resid)),Year=yr.eval[pe.eval],Pred.Res=pred.resid,Native.Res=naive.eval,n.eval=npe)
+      res.i = data.frame(Index=rep(unique(indices2$Fleet_name)[1],length(pred.resid)),Season=rep(Season,length(pred.resid)),Year=yr.eval[pe.eval],Pred.Res=pred.resid,Naive.Res=naive.eval,n.eval=npe)
       
       
     } else {

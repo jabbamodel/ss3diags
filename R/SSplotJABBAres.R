@@ -260,7 +260,7 @@ SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","len","age")[1],
     RMSE = round(100*sqrt(mean(Resids^2,na.rm =TRUE)),1)
     rmse.i =  ni = NULL
     for(i in 1:n.indices){
-      res.i =sum(Resids[1,]^2,na.rm =TRUE)
+      res.i =sum(Resids[i,]^2,na.rm =TRUE)
       ni[i] =length(as.numeric(Resids[i,])[is.na(as.numeric(Resids[i,]))==FALSE])
       rmse.i[i] = round(100*sqrt(res.i/ni[i]),1)
     }

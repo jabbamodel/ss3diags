@@ -54,7 +54,7 @@ SSplotKobe(
 
 \item{yr.int}{= year interval along trajectory}
 
-\item{verbose}{}
+\item{verbose}{Output to R console. Default is TRUE}
 }
 \value{
 Kobe Quadrant percentages

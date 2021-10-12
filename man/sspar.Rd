@@ -19,8 +19,11 @@ sspar(
 
 \item{mai}{graphical par for plot margins}
 
+\item{omi}{Outer margins in lines of text.}
+
 \item{labs}{if TRUE margins are narrow}
 }
 \description{
-Set the par() to options suitable for ss3diags multi plots
+Set the par() to options suitable for ss3diags multi plots. See \link[graphics]{par} 
+for more details on each parameter.
 }

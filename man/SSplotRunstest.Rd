@@ -5,7 +5,7 @@
 \title{plot function for runs test plot}
 \usage{
 SSplotRunstest(
-  ss3rep = ss3sma,
+  ss3rep = ss3diags::ss3sma,
   mixing = "less",
   subplots = c("cpue", "len", "age")[1],
   plot = TRUE,
@@ -52,6 +52,8 @@ SSplotRunstest(
 
 \item{print}{print to PNG files?}
 
+\item{png}{png TODO TODO Defaults to print value}
+
 \item{pdf}{not tested for TRUE}
 
 \item{indexselect}{Vector of fleet numbers for each model for which to compare}
@@ -67,11 +69,15 @@ SSplotRunstest(
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
 
+\item{xlim}{xlim TODO TODO}
+
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
 \item{xaxs}{Choice of xaxs parameter (see ?par for more info)}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
+
+\item{xylabs}{draw x-axis and y-axis TODO TODO}
 
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
@@ -79,6 +85,8 @@ top of lines)}
 \item{legend}{Add a legend?}
 
 \item{legendloc}{Location of legend. Either a string like "topleft" or a vector}
+
+\item{legendcex}{Allows to adjust legend cex}
 
 \item{pwidth}{Width of plot}
 
@@ -105,8 +113,6 @@ It will be separated from default name by an underscore.}
 \item{new}{Create new empty plot window}
 
 \item{add}{surpresses par() to create multiplot figs}
-
-\item{legendcex=1}{Allows to adjust legend cex}
 }
 \value{
 Runs Test p-values and sig3 limits

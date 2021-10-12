@@ -39,7 +39,7 @@
 #' the legend display the model names in an order that is different than that
 #' which is represented in the summary input object.
 #' @param legendncol Number of columns for the legend.
-#' @param legendcex=1 Allows to adjust legend cex
+#' @param legendcex Allows to adjust legend cex
 #' @param legendsp Space between legend labels
 #' @param legendindex Allows to add lengend for selected indices (plots)
 #' @param pwidth Width of plot
@@ -61,10 +61,17 @@
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
 #' @param indexQdigits Number of significant digits for catchability in legend
+#' @param png png TODO TODO Defaults to print value
+#' @param xlim xlim TODO TODO
+#' @param xylabs draw x-axis and y-axis TODO TODO
+#' @param uncertainty uncertainty TODO TODO. Deafults to TRUE
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 #' @export
-SSplotModelcomp<- function(summaryoutput=aspm.sma,
-                        plot=TRUE,print=FALSE,png=print,pdf=FALSE,
+SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
+                        plot=TRUE,
+                        print=FALSE,
+                        png=print,
+                        pdf=FALSE,
                         models="all",
                         subplots=c("SSB","Bratio","Fvalue","Recruits","Index","RecDevs"),
                         brp = c("msy","btargs"),
@@ -75,22 +82,42 @@ SSplotModelcomp<- function(summaryoutput=aspm.sma,
                         indexselect = NULL,
                         indexUncertainty=TRUE,
                         col=NULL, 
-                        pch=NULL, lty=1, lwd=2,
+                        pch=NULL, 
+                        lty=1, 
+                        lwd=2,
                         tickEndYr=FALSE,
                         xlim="default", ylimAdj=1.05,
-                        xaxs="i", yaxs="i",
+                        xaxs="i",
+                        yaxs="i",
                         xylabs=TRUE,
-                        type="l", uncertainty=TRUE, 
-                        legend=TRUE, legendlabels="default", legendloc="topright",
-                        legendorder="default",legendncol=1,legendcex=1,legendsp=0.9,legendindex = NULL,
-                        pwidth=6.5,pheight=5.0,punits="in",res=300,ptsize=10,cex.main=1,
+                        type="l", 
+                        uncertainty=TRUE, 
+                        legend=TRUE, 
+                        legendlabels="default", 
+                        legendloc="topright",
+                        legendorder="default",
+                        legendncol=1,
+                        legendcex=1,
+                        legendsp=0.9,
+                        legendindex = NULL,
+                        pwidth=6.5,
+                        pheight=5.0,
+                        punits="in",
+                        res=300,
+                        ptsize=10,
+                        cex.main=1,
                         plotdir=NULL,
                         filenameprefix="",
                         par=list(mar=c(5,4,1,1)+.1),
                         verbose=TRUE,
-                        shadecol = NULL, shadealpha=0.3,new=TRUE,
-                        add=FALSE,mcmcVec=FALSE,indexQlabel=TRUE,
-                        indexQdigits=4
+                        shadecol = NULL, 
+                        shadealpha=0.3,
+                        new=TRUE,
+                        add=FALSE,
+                        mcmcVec=FALSE,
+                        indexQlabel=TRUE,
+                        indexQdigits=4,
+                        indexfleets=1
                         ){ # plot different fits to a single index of abundance
   #------------------------------------------
   # r4ss plotting functions

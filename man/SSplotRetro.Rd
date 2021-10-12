@@ -52,7 +52,11 @@ SSplotRetro(
   shadecol = grey(0.4, 0.6),
   new = TRUE,
   add = FALSE,
-  mcmcVec = FALSE
+  mcmcVec = FALSE,
+  shadecol1 = grey(0.5, 0.4),
+  indexQlabel = TRUE,
+  indexQdigits = 4,
+  shadealpha = 0.3
 )
 }
 \arguments{
@@ -63,6 +67,8 @@ SSplotRetro(
 \item{plot}{plot to active plot device?}
 
 \item{print}{print to PNG files?}
+
+\item{png}{png TODO TOO. Defaults to FALSE}
 
 \item{pdf}{not tested for TRUE}
 
@@ -86,6 +92,8 @@ ending year specified in each model.}
 
 \item{forecastrho}{if true one-step ahead forecast rho value is denoted in plot}
 
+\item{showrho}{showrho TODO TODO. Defaults to TRUE}
+
 \item{col}{Optional vector of colors to be used for lines. Input NULL}
 
 \item{pch}{Optional vector of plot character values}
@@ -103,8 +111,12 @@ year in timeseries plots.}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
 
+\item{xylabs}{Draw x and y axis lables (?) TODO TODO. Defaults to TRUE}
+
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
+
+\item{uncertainty}{uncertainty TODO TODO. Defaults to TRUE.}
 
 \item{legend}{Add a legend?}
 
@@ -119,6 +131,8 @@ the legend display the model names in an order that is different than that
 which is represented in the summary input object.}
 
 \item{legendncol}{Number of columns for the legend.}
+
+\item{legendcex}{Allows to adjust legend cex}
 
 \item{legendsp}{Space between legend labels}
 
@@ -154,13 +168,13 @@ It will be separated from default name by an underscore.}
 
 \item{mcmcVec}{NOT TESTED Vector of TRUE/FALSE values (or single value) indicating}
 
-\item{legendcex=1}{Allows to adjust legend cex}
-
 \item{shadecol1}{uncertainty shading of early years not affected by hindcast}
 
 \item{indexQlabel}{Add catchability to legend in plot of index fits (TRUE/FALSE)?}
 
 \item{indexQdigits}{Number of significant digits for catchability in legend}
+
+\item{shadealpha}{shadealpha TODO TODO. Defalut to 0.3}
 }
 \description{
 Plots retrospective pattern, including (optional) one-step ahead forecast and computes Mohn's Rho

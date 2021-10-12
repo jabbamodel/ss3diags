@@ -44,7 +44,7 @@
 #' the legend display the model names in an order that is different than that
 #' which is represented in the summary input object.
 #' @param legendncol Number of columns for the legend.
-#' @param legendcex=1 Allows to adjust legend cex
+#' @param legendcex Allows to adjust legend cex
 #' @param legendsp Space between legend labels
 #' @param legendindex Allows to add lengend for selected indices (plots)
 #' @param pwidth Width of plot
@@ -66,10 +66,25 @@
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
 #' @param indexQdigits Number of significant digits for catchability in legend
+#' @param shadealpha Transparancy adjustment used to make default shadecol. TODO: verify 
+#' @param png png TODO TODO. Default is FALSE
+#' @param xlim xlim TODO TODO. 
+#' @param xylabs x-axis and y-axis labels ?? Default is TRUE
+#' @param uncertainty uncertainty TODO TODO. Default is TRUE
+#' @param shadecol2 shadecol2 TODO TODO. 
+#' 
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
+#' 
+#' @importFrom grDevices grey 
+#' @importFrom stats qnorm qlnorm
+#' 
 #' @export
-SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="default",
-                        print=FALSE,png=print,pdf=FALSE,
+SSplotHCxval<- function(retroSummary,
+                        subplots=c("cpue","len","age"),
+                        Season="default",
+                        print=FALSE,
+                        png=print,
+                        pdf=FALSE,
                         models="all",
                         endyrvec="default",
                         xmin = NULL,
@@ -78,23 +93,46 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
                         show.mase.adj = TRUE,
                         indexUncertainty=TRUE,
                         col=NULL, 
-                        pch=NULL, lty=1, lwd=2,
+                        pch=NULL, 
+                        lty=1, 
+                        lwd=2,
                         tickEndYr=TRUE,
                         xlim="default", 
-                        ylimAdj=1.15,ylim=NULL,
-                        xaxs="i", yaxs="i",
+                        ylimAdj=1.15,
+                        ylim=NULL,
+                        xaxs="i", 
+                        yaxs="i",
                         xylabs=TRUE,
-                        type="o", uncertainty=TRUE, 
-                        legend=TRUE, legendlabels="default", legendloc="topright",
-                        legendorder="default",legendncol=1,legendcex=1,legendsp=0.9,legendindex = NULL,
-                        pwidth=6.5,pheight=5.0,punits="in",res=300,ptsize=10,cex.main=1,
+                        type="o", 
+                        uncertainty=TRUE, 
+                        legend=TRUE, 
+                        legendlabels="default", 
+                        legendloc="topright",
+                        legendorder="default",
+                        legendncol=1,
+                        legendcex=1,
+                        legendsp=0.9,
+                        legendindex = NULL,
+                        pwidth=6.5,
+                        pheight=5.0,
+                        punits="in",
+                        res=300,
+                        ptsize=10,
+                        cex.main=1,
                         plotdir=NULL,
                         filenameprefix="",
                         par=list(mar=c(5,4,1,1)+.1),
                         verbose=TRUE,
-                        shadecol = grey(0.5,0.4),shadecol2=grey(0.5,0.4),new=TRUE,
-                        add=FALSE,mcmcVec=FALSE,indexQlabel=TRUE,
-                        indexQdigits=4
+                        shadecol = grey(0.5,0.4),
+                        shadecol2=grey(0.5,0.4),
+                        shadealpha=0.3,
+                        new=TRUE,
+                        add=FALSE,mcmcVec=FALSE,
+                        indexQlabel=TRUE,
+                        indexQdigits=4,
+                        indexfleets=1,
+                        plot=TRUE,
+                        shadecol1=grey(0.5,0.4)
                         ){ # plot different fits to a single index of abundance
   #------------------------------------------
   # r4ss plotting functions

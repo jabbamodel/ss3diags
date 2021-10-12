@@ -20,18 +20,23 @@ Authors@R:
            email = "laurie@seaplusplus.co.uk")
            )
 Maintainer: Henning Winker <Henning.Winker@gmail.com>
-Description: Compilation of diagnostic functions for Stock Synthesis 
-            models, which we developed for the MS 
-            "Using Model Diagnostics in Integrated Stock Assessments"
+Description: Compilation of diagnostic functions for Stock Synthesis models, which
+  developed for the MS "Using Model Diagnostics in Integrated Stock Assessments".
 Depends:
-    R (>= 3.5)
+  R (>= 3.5)
 Imports:
-      reshape2,
-      mvtnorm,
-      randtests,
-      r4ss,
-      gplots
+  reshape2,
+  mvtnorm,
+  randtests,
+  r4ss,
+  gplots
 License: EUPL
 Encoding: UTF-8
-LazyData: true
+LazyData: True
+LazyDataCompression: gzip
 RoxygenNote: 7.1.2
+Suggests:
+  testthat (>= 3.0.0),
+  knitr,
+  rmarkdown,
+  markdown

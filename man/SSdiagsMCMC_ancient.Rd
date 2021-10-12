@@ -42,9 +42,9 @@ SSdiagsMCMC_ancient(
 
 \item{xmax}{xlim maximum}
 
-\item{verbose}{Report progress to R GUI?}
+\item{legendcex}{Allows to adjust legend cex}
 
-\item{legendcex=1}{Allows to adjust legend cex}
+\item{verbose}{Report progress to R GUI?}
 }
 \value{
 output list of quant mcmc posteriors and mle's

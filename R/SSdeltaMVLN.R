@@ -1,4 +1,4 @@
-#' SSdeltaMVLN() 
+#' Delta Multivariate Log-normal Distribution
 #'
 #' function to generatbe kobe pdfs from a Multivariate Log-Normal Distribution
 #' including plotting option

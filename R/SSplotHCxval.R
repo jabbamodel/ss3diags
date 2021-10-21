@@ -180,7 +180,7 @@ SSplotHCxval<- function(retroSummary,
   }
   
   
-  log=FALSE #(no option to plot on log scale)
+  
   if(is.null(legendindex))  legendindex= 1:hcruns$n
   if(!legend) legendindex=10000
   
@@ -361,13 +361,8 @@ SSplotHCxval<- function(retroSummary,
     exp <- indices2$Exp
     imodel <- indices2$imodel
     Q <- indices2$Calc_Q
-    if(log){
-      obs <- log(obs)
-      exp <- log(exp)
-      ylab=labels[3]
-    }else{
-      ylab=labels[2]
-    }
+ 
+    ylab=labels[2]
     
     # get uncertainty intervals if requested
     if(indexUncertainty){
@@ -375,13 +370,9 @@ SSplotHCxval<- function(retroSummary,
       subset <- indices2$imodel==models[1]&indices2$Use==1
       indexSEvec <- indices2$SE[subset]
       y <- obs[subset]
-      if(log){
-        uppers <- qnorm(.975,mean=y,sd=indexSEvec)
-        lower <- qnorm(.025,mean=y,sd=indexSEvec)
-      }else{
-        upper <- qlnorm(.975,meanlog=log(y),sdlog=indexSEvec)
-        lower <- qlnorm(.025,meanlog=log(y),sdlog=indexSEvec)
-      }
+      upper <- qlnorm(.975,meanlog=log(y),sdlog=indexSEvec)
+      lower <- qlnorm(.025,meanlog=log(y),sdlog=indexSEvec)
+
       
     }else{
       upper <- NULL
@@ -410,10 +401,10 @@ SSplotHCxval<- function(retroSummary,
       ylim <- ylimAdj*range(exp, obs, lower, upper, na.rm=TRUE)
     }
     
-    if(!log){
-      # 0 included if not in log space
-      ylim <- range(0,ylim*1.1,na.rm = T)
-    }
+    
+    # 0 included if not in log space
+    ylim <- range(0,ylim*1.1,na.rm = T)
+    
     }
     
     
@@ -443,7 +434,7 @@ SSplotHCxval<- function(retroSummary,
         plot(0, type = "n", xlim = c(max(min(yr),xmin),min(c(max(yr),max(endyrvec)))), yaxs = yaxs, 
              ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylab,""), axes = FALSE)
       
-      if(!log & yaxs != "i"){
+      if(yaxs != "i"){
         abline(h = 0, col = "grey")
       }
       Qtext <- rep("(Q =", nlines)

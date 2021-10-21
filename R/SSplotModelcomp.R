@@ -311,9 +311,10 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     se <- indices2$SE
     Q <- indices2$Calc_Q
     if(log){
-      obs <- log(obs)
-      exp <- log(exp)
-      ylab=labels[3]
+      stop("no option to plot on log scale")
+      #obs <- log(obs)
+      #exp <- log(exp)
+      #ylab=labels[3]
     }else{
       ylab=labels[2]
     }
@@ -323,8 +324,9 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
       
       indexSEvec <- indices2$SE
       if(log){
-        uppers <- qnorm(.975,mean=y,sd=indexSEvec)
-        lower <- qnorm(.025,mean=y,sd=indexSEvec)
+        stop("No option to plot on log scale")
+        #uppers <- qnorm(.975,mean=y,sd=indexSEvec)
+        #lower <- qnorm(.025,mean=y,sd=indexSEvec)
       }else{
         upper <- qlnorm(.975,meanlog=log(obs),sdlog=indexSEvec)
         lower <- qlnorm(.025,meanlog=log(obs),sdlog=indexSEvec)

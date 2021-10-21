@@ -343,8 +343,11 @@ SSplotHCxval<- function(retroSummary,
     
     # Subset by month
     if(Season=="default"){
-                       Season = unique(indices2$Seas)[1]  
-                       if(verbose & length(unique(indices2$Seas))>1){cat("Taking Season",Season,"by default for Index",unique(indices2$Fleet_name))}
+                       
+      Season = unique(indices2$Seas)[1]                 
+      if(verbose & length(unique(indices2$Seas))>1){
+        cat("Taking Season",Season,"by default for Index",unique(indices2$Fleet_name))
+      }
                        
     } else {
       Season = as.numeric(Season)[1]
@@ -381,9 +384,10 @@ SSplotHCxval<- function(retroSummary,
     
     
     if(is.null(xmin)){
-      xmin = min(endyrvec)-5} else {
-        xmin = min(xmin,min(endyrvec)-3)  
-      }
+      xmin = min(endyrvec)-5
+    } else {
+      xmin = min(xmin,min(endyrvec)-3)  
+    }
     
     meanQ <- rep(NA,nlines)
     imodel <- models[which(endyrvec==max(endyrvec))[1]]
@@ -394,16 +398,16 @@ SSplotHCxval<- function(retroSummary,
     # calculate ylim (excluding dummy observations from observed but not expected)
     sub <- !is.na(indices2$Like) & yr>= xmin
     
-    if(is.null(ylim)){
-    ylim <- ylimAdj*range(c(exp[sub], obs[sub], lower[sub], upper[sub]), na.rm=TRUE)
-    # if no values included in subset, then set ylim based on all values
-    if(!any(sub)){
-      ylim <- ylimAdj*range(exp, obs, lower, upper, na.rm=TRUE)
-    }
-    
-    
-    # 0 included if not in log space
-    ylim <- range(0,ylim*1.1,na.rm = T)
+    if(is.null(ylim)){+1
+
+      ylim <- ylimAdj*range(c(exp[sub], obs[sub], lower[sub], upper[sub]), na.rm=TRUE)
+      # if no values included in subset, then set ylim based on all values
+      if(!any(sub)){
+        ylim <- ylimAdj*range(exp, obs, lower, upper, na.rm=TRUE)
+      }
+      
+      # 0 included if not in log space
+      ylim <- range(0,ylim*1.1,na.rm = T)
     
     }
     
@@ -474,13 +478,12 @@ SSplotHCxval<- function(retroSummary,
           lines(x[(length(x)-1):(length(x))], y[(length(x)-1):(length(x))], lwd=2,
                 col=1,lty=2)
           
-            points(x[length(x)], y[length(y)],pch=21,
+          points(x[length(x)], y[length(y)],pch=21,
                  bg=col[iline],col=1, type="p",cex=0.9)
         }  
-        }
         
-      #}
-      
+      } #end for
+        
       maepr =  mean(abs(pred.resid))
       #nhc = length(endyrvec)-1
       #naive.eval = log(obs.eval[1:nhc])-log(obs.eval[2:(nhc+1)]) # add log for v1.1   

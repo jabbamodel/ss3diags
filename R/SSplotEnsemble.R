@@ -241,20 +241,20 @@ SSplotEnsemble<- function(kb, summaryoutput,
     startyrs      <- min(kb$year)
     endyrs        <- max(kb$year)
     years         <- unique(kb$year)
-    y = kb[,quant]   
-    run = kb$run
-    year = kb$year
+    y <- kb[,quant]   
+    run <- kb$run
+    year <- kb$year
     
-    exp      <- aggregate(y~year+run,kb,mean)
-    lower    <- aggregate(y~year+run,kb,quantile,quantiles[1])
+    exp <- aggregate(y~year+run,kb,mean)
+    lower <- aggregate(y~year+run,kb,quantile,quantiles[1])
     upper <- aggregate(y~year+run,kb,quantile,quantiles[2])
-    exp$Yr = exp$year
-    lower$Yr = lower$year
-    upper$Yr = upper$year
+    exp$Yr <- exp$year
+    lower$Yr <- lower$year
+    upper$Yr <- upper$year
     
     if(models[1]=="all") models <- 1:n    
     nlines <- length(models) 
-    runs = unique(kb$run)[models]
+    runs <- unique(kb$run)[models]
     
     
     # setup colors, points, and line types
@@ -288,12 +288,13 @@ SSplotEnsemble<- function(kb, summaryoutput,
     yr <- years
     
     if(is.null(xlim)) xlim = c(max(min(yr)),max(yr)) 
-    xmin = min(xlim)
+    xmin <- min(xlim)
     ylim <- c(0,max(ifelse(uncertainty,max(upper[upper$Yr>=xmin,"y"])*ylimAdj, ylimAdj*max(exp[exp$Yr>=xmin,"y"])*1.05)))
     
     if(ylab.default){
-    ylab = ylabs[which(refquants%in%quant)]} else {
-    ylab = ylabs[which(subplots%in%quant)]  
+      ylab = ylabs[which(refquants%in%quant)]
+    } else {
+      ylab = ylabs[which(subplots%in%quant)]  
     }
     
     
@@ -301,16 +302,19 @@ SSplotEnsemble<- function(kb, summaryoutput,
          ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylab,""), axes = FALSE)
     
     if(uncertainty & quant!="Catch"){
-    for(iline in nlines:1){
-      
-    if(quant%in%c("SSB","stock","harvest","F")){  
-       polygon(c(yr,rev(yr)),c(lower[lower$run == runs[iline],"y"],rev(upper[upper$run == runs[iline],"y"])),col=shadecol[iline],border=shadecol)
-    } else {
-      adj <- 0.2*iline/nlines - 0.1
-      arrows(x0=yr+adj, y0=lower[lower$run == runs[iline],"y"],
-      x1=yr+adj, y1=upper[upper$run == runs[iline],"y"],
-      length=0.02, angle=90, code=3, col=col[iline])
-    }}
+      for(iline in nlines:1){
+        
+        if(quant%in%c("SSB","stock","harvest","F")){  
+           polygon(c(yr,rev(yr)),
+                   c(lower[lower$run == runs[iline],"y"],rev(upper[upper$run == runs[iline],"y"])),
+                   col=shadecol[iline],border=shadecol)
+        } else {
+            adj <- 0.2*iline/nlines - 0.1
+            arrows(x0=yr+adj, y0=lower[lower$run == runs[iline],"y"],
+            x1=yr+adj, y1=upper[upper$run == runs[iline],"y"],
+            length=0.02, angle=90, code=3, col=col[iline])
+        }
+      }
     }
     
     for(iline in 1:nlines){
@@ -326,7 +330,6 @@ SSplotEnsemble<- function(kb, summaryoutput,
     
     if(legend){
       # add legend if requested
-      
       legendfun(legendlabels)
     }
     
@@ -338,39 +341,41 @@ SSplotEnsemble<- function(kb, summaryoutput,
     axis(2)
     box()
   } # End of plot_quant function  
+  
   legend.temp = legend  
+  
   # Do plotting
   if(plot){ 
-    # subplots
-    for(s in 1:length(subplots)){
-    if(print){
-    quant=subplots[s]
-    par(par)
-    pngfun(paste0("ModelComp_",quant,".png",sep=""))
-    plot_quants(quant)
-    dev.off()
-    }
-    }
-    # subplots
-    for(s in 1:length(subplots)){
-      if(verbose) cat(paste0("\n","Plot Comparison of ",subplots[s],"\n"))
-    if(subplots[s]!="Index"){  
-    if(!add)par(par)
-    quant=subplots[s]
-    plot_quants(quant)   
-    }else{  
-       nfleets=length(unique(summaryoutput$indices$Fleet))
-      
+      # subplots
+      for(s in 1:length(subplots)){
+        if(print){
+          quant=subplots[s]
+          par(par)
+          pngfun(paste0("ModelComp_",quant,".png",sep=""))
+          plot_quants(quant)
+          dev.off()
+        }
+      }
+      # subplots
+      for(s in 1:length(subplots)){
+        if(verbose) cat(paste0("\n","Plot Comparison of ",subplots[s],"\n"))
+      if(subplots[s]!="Index"){  
+      if(!add)par(par)
+      quant=subplots[s]
+      plot_quants(quant)   
+      }else{  
+        nfleets=length(unique(summaryoutput$indices$Fleet))
+        
         for(fi in 1:nfleets){
-        legend=F
-        if(fi%in%legendindex) legend=TRUE
-        indexfleets = unique(summaryoutput$indices$Fleet)[fi] 
-        if(!add)par(par)
-        plot_index(indexfleets)   
-        legend = legend.temp 
-      } # End of Fleet Loop
-    }
-  }  
+          legend=F
+          if(fi%in%legendindex) legend=TRUE
+          indexfleets = unique(summaryoutput$indices$Fleet)[fi] 
+          if(!add)par(par)
+          plot_index(indexfleets)   
+          legend = legend.temp 
+        } # End of Fleet Loop
+      }
+    }  
   } # endplot
 
 } # end of SSplotModelcomp()

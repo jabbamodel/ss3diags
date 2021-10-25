@@ -170,7 +170,9 @@ SSplotEnsemble<- function(kb, summaryoutput,
                          paste0(filenameprefix, "SSplotComparisons_",
                                 format(Sys.time(), '%d-%b-%Y_%H.%M' ), ".pdf"))
     pdf(file=pdffile, width=pwidth, height=pheight)
-    if(verbose) cat("PDF file with plots will be:",pdffile,'\n')
+    if(verbose){
+      message("PDF file with plots will be:",pdffile)
+    }
     par(par)
   }
   
@@ -193,7 +195,9 @@ SSplotEnsemble<- function(kb, summaryoutput,
                            paste0(filenameprefix, "SSplotComparisons_",
                                   format(Sys.time(), '%d-%b-%Y_%H.%M' ), ".pdf"))
       pdf(file=pdffile, width=pwidth, height=pheight)
-      if(verbose) cat("PDF file with plots will be:",pdffile,'\n')
+      if(verbose) {
+        message("PDF file with plots will be:",pdffile,'\n')
+      }
       par(par)
     }
     
@@ -358,7 +362,9 @@ SSplotEnsemble<- function(kb, summaryoutput,
       }
       # subplots
       for(s in 1:length(subplots)){
-        if(verbose) cat(paste0("\n","Plot Comparison of ",subplots[s],"\n"))
+        if(verbose){ 
+          message("Plot Comparison of ",subplots[s])
+        }
       if(subplots[s]!="Index"){  
       if(!add)par(par)
       quant=subplots[s]

@@ -155,7 +155,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
   }
   
   
-  log=FALSE #(no option to plot on log scale)
+  # NOTE: 'log scale' option is not used -ef 
   if(is.null(legendindex))  legendindex=1:summaryoutput$n
   if(!legend) legendindex=10000
   
@@ -311,27 +311,15 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     imodel <- indices2[["imodel"]]
     se <- indices2[["SE"]]
     Q <- indices2[["Calc_Q"]]
-    if(log){
-      stop("no option to plot on log scale")
-      #obs <- log(obs)
-      #exp <- log(exp)
-      #ylab=labels[3]
-    }else{
-      ylab=labels[2]
-    }
+    ylab=labels[2]
+
     
     # get uncertainty intervals if requested
     if(indexUncertainty){
       
       indexSEvec <- indices2[["SE"]]
-      if(log){
-        stop("No option to plot on log scale")
-        #uppers <- qnorm(.975,mean=y,sd=indexSEvec)
-        #lower <- qnorm(.025,mean=y,sd=indexSEvec)
-      }else{
-        upper <- qlnorm(.975,meanlog=log(obs),sdlog=indexSEvec)
-        lower <- qlnorm(.025,meanlog=log(obs),sdlog=indexSEvec)
-      }
+      upper <- qlnorm(.975,meanlog=log(obs),sdlog=indexSEvec)
+      lower <- qlnorm(.025,meanlog=log(obs),sdlog=indexSEvec)
     }else{
       upper <- NULL
       lower <- NULL
@@ -347,10 +335,10 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     if(!any(sub)){
       ylim <- ylimAdj*range(exp, obs, lower, upper, na.rm=TRUE)
     }
-    if(!log){
-      # 0 included if not in log space
-      ylim <- range(0,ylim*1.1)
-    }
+    # 0 included if not in log space
+    # NOTE: 'log scale' option is not used -ef 
+    ylim <- range(0,ylim*1.1)
+    
     
     if(is.null(xmin)){
       xmin = min(startyrs)
@@ -362,7 +350,8 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
          yaxs = yaxs, ylim = ylim, xlab = ifelse(xylabs,"Year",""), 
          ylab = ifelse(xylabs,ylab,""), axes = FALSE)
       
-    if(!log & yaxs != "i"){
+    # NOTE: 'log scale' option is not used -ef 
+    if(yaxs != "i"){
         abline(h = 0, col = "grey")
     }
     Qtext <- rep("(Q =", nlines)

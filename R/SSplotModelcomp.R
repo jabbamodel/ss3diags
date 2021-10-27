@@ -142,7 +142,11 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     file <- paste0(filenameprefix, file)
     # open png file
     png(filename=file.path(plotdir,file),
-        width=pwidth,height=pheight,units=punits,res=res,pointsize=ptsize)
+        width=pwidth,
+        height=pheight,
+        units=punits,
+        res=res,
+        pointsize=ptsize)
     # change graphics parameters to input value
     par(par)
   }
@@ -150,7 +154,9 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
   # subset if indexselect is specified
   if(is.null(indexselect) ==F & is.numeric(indexselect)){
     iname =  unique(summaryoutput$indices$Fleet_name)[indexselect]
-    if(TRUE %in% is.na(iname)) stop("One or more index numbers exceed number of available indices")
+    if(TRUE %in% is.na(iname)) {
+      stop("One or more index numbers exceed number of available indices")
+    }
     summaryoutput$indices = summaryoutput$indices[summaryoutput$indices$Fleet_name%in%iname,]
   }
   
@@ -202,9 +208,18 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
       if(type=="l"){
         legend.pch <- rep(NA,length(pch))
       }
-      legend(legendloc, legend=legendlabels[legendorder],
-             col=col[legendorder], lty=lty[legendorder],seg.len = 2,
-             lwd=lwd[legendorder], pch=legend.pch[legendorder], bty="n", ncol=legendncol,pt.cex=0.7,cex=legendcex,y.intersp = legendsp)
+      legend(legendloc, 
+             legend=legendlabels[legendorder],
+             col=col[legendorder], 
+             lty=lty[legendorder],
+             seg.len = 2,
+             lwd=lwd[legendorder], 
+             pch=legend.pch[legendorder], 
+             bty="n", 
+             ncol=legendncol,
+             pt.cex=0.7,
+             cex=legendcex,
+             y.intersp = legendsp)
     }
     
     # r4ss Colors
@@ -272,16 +287,18 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     if(length(lty) < nlines) lty <- rep(lty,nlines)[1:nlines]
     if(length(lwd) < nlines) lwd <- rep(lwd,nlines)[1:nlines]
     
-    if(!is.expression(legendlabels[1]) &&
-       legendlabels[1]=="default") legendlabels <- paste("model",1:nlines)
+    if(!is.expression(legendlabels[1]) 
+       && legendlabels[1]=="default") {
+      legendlabels <- paste("model",1:nlines)
+    }
     if(legendorder[1]=="default") legendorder <- 1:nlines
     
     # open new window if requested
     if(plot & use_png==FALSE){
-      if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
-      
+      if(!add) {
+        dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
+      }
     } else {
-      
       if(!add) par(par)
     }
     
@@ -346,9 +363,14 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     
     meanQ <- rep(NA,nlines)
     
-    plot(0, type = "n", xlim = c(max(min(yr),xmin),min(c(max(yr),max(endyrvec)))), 
-         yaxs = yaxs, ylim = ylim, xlab = ifelse(xylabs,"Year",""), 
-         ylab = ifelse(xylabs,ylab,""), axes = FALSE)
+    plot(0, 
+         type = "n", 
+         xlim = c(max(min(yr),xmin),min(c(max(yr),max(endyrvec)))), 
+         yaxs = yaxs, 
+         ylim = ylim, 
+         xlab = ifelse(xylabs,"Year",""), 
+         ylab = ifelse(xylabs,ylab,""), 
+         axes = FALSE)
       
     # NOTE: 'log scale' option is not used -ef 
     if(yaxs != "i"){
@@ -441,9 +463,18 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
       if(type=="l"){
         legend.pch <- rep(NA,length(pch))
       }
-      legend(legendloc, legend=legendlabels[legendorder],
-             col=col[legendorder], lty=lty[legendorder],seg.len = 2,
-             lwd=lwd[legendorder], pch=legend.pch[legendorder], bty="n", ncol=legendncol,pt.cex=0.7,cex=legendcex,y.intersp = legendsp)
+      legend(legendloc, 
+             legend=legendlabels[legendorder],
+             col=col[legendorder], 
+             lty=lty[legendorder],
+             seg.len = 2,
+             lwd=lwd[legendorder], 
+             pch=legend.pch[legendorder], 
+             bty="n", 
+             ncol=legendncol,
+             pt.cex=0.7,
+             cex=legendcex,
+             y.intersp = legendsp)
     }
     
     # r4ss Colors
@@ -582,20 +613,29 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
       ylim = c(-ylims,ylims) 
     }
     
-    plot(0, type = "n", xlim = c(max(min(yr),xmin),max(yr)), yaxs = yaxs, 
-         ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylabs[which(refplots%in%quant)],""), axes = FALSE)
+    plot(0, 
+         type = "n", 
+         xlim = c(max(min(yr),xmin),max(yr)), 
+         yaxs = yaxs, 
+         ylim = ylim, 
+         xlab = ifelse(xylabs,"Year",""), 
+         ylab = ifelse(xylabs,ylabs[which(refplots%in%quant)],""), 
+         axes = FALSE)
     
     if(uncertainty){
-    for(iline in 1:nlines){
+      for(iline in 1:nlines){
       
-    if(quant%in%c("SSB","Fvalue","Bratio")){  
-       polygon(c(yr,rev(yr)),c(lower[,iline],rev(upper[,iline])),col=shadecol[iline],border=shadecol[iline])
-    } else {
-      adj <- 0.2*iline/nlines - 0.1
-      arrows(x0=yr+adj, y0=lower[,iline],
-      x1=yr+adj, y1=upper[,iline],
-      length=0.02, angle=90, code=3, col=col[iline])
-    }}
+        if(quant%in%c("SSB","Fvalue","Bratio")){  
+          polygon(c(yr,rev(yr)),
+                  c(lower[,iline],rev(upper[,iline])),
+                  col=shadecol[iline],border=shadecol[iline])
+        } else {
+          adj <- 0.2*iline/nlines - 0.1
+          arrows(x0=yr+adj, y0=lower[,iline],
+          x1=yr+adj, y1=upper[,iline],
+          length=0.02, angle=90, code=3, col=col[iline])
+        }
+      }
     }
     
     for(iline in 1:nlines){
@@ -628,47 +668,51 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
   if(plot){ 
     # subplots
     for(s in 1:length(subplots)){
-    if(print_plot){
-    if(subplots[s]!="index"){  
-    quant=subplots[s]
-    par(par)
-    pngfun(paste0("ModelComp_",quant,".png",sep=""))
-    plot_quants(quant)
-    dev.off()
-    }else{  
-      if(subplots[s]=="index") nfleets=length(unique(summaryoutput$indices$Fleet))
-      for(fi in 1:nfleets){
-        legend=F
-        if(fi%in%legendindex) legend=TRUE
-        indexfleets = unique(summaryoutput$indices$Fleet)[fi] 
-        pngfun(paste0("FitsIndex_",unique(summaryoutput$indices$Fleet)[fi],".png",sep=""))
-        par(par)
-        plot_index(indexfleets)   
-        dev.off()
-        legend = legend.temp 
-      } # End of Fleet Loop
-    }}
+      if(print_plot){
+        if(subplots[s]!="index"){  
+          quant=subplots[s]
+          par(par)
+          pngfun(paste0("ModelComp_",quant,".png",sep=""))
+          plot_quants(quant)
+          dev.off()
+        }else{  
+          if(subplots[s]=="index") {
+            nfleets=length(unique(summaryoutput$indices$Fleet))
+          }
+          for(fi in 1:nfleets){
+            legend=F
+            if(fi%in%legendindex) legend=TRUE
+            indexfleets = unique(summaryoutput$indices$Fleet)[fi] 
+            pngfun(paste0("FitsIndex_",unique(summaryoutput$indices$Fleet)[fi],".png",sep=""))
+            par(par)
+            plot_index(indexfleets)   
+            dev.off()
+            legend = legend.temp 
+          } # End of Fleet Loop
+        } #End index ifelse
+      } #End print_plot 
     }
+    
     # subplots
     for(s in 1:length(subplots)){
       if(verbose) cat(paste0("\n","Plot Comparison of ",subplots[s],"\n"))
-    if(subplots[s]!="Index"){  
-    if(!add)par(par)
-    quant=subplots[s]
-    plot_quants(quant)   
-    }else{  
-       nfleets=length(unique(summaryoutput$indices$Fleet))
+      if(subplots[s]!="Index"){  
+        if(!add)par(par)
+        quant=subplots[s]
+        plot_quants(quant)   
+      }else{  
+        nfleets=length(unique(summaryoutput$indices$Fleet))
       
         for(fi in 1:nfleets){
-        legend=F
-        if(fi%in%legendindex) legend=TRUE
-        indexfleets = unique(summaryoutput$indices$Fleet)[fi] 
-        if(!add)par(par)
-        plot_index(indexfleets)   
-        legend = legend.temp 
-      } # End of Fleet Loop
-    }
-  }  
+          legend=F
+          if(fi%in%legendindex) legend=TRUE
+          indexfleets = unique(summaryoutput$indices$Fleet)[fi] 
+          if(!add)par(par)
+          plot_index(indexfleets)   
+          legend = legend.temp 
+        } # End of Fleet Loop
+      }
+    }  
   } # endplot
 
 } # end of SSplotModelcomp()

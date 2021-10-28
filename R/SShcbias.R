@@ -19,7 +19,6 @@ SShcbias<- function(summaryoutput, quants=c("SSB","F"),
                         verbose=TRUE
 ){ 
   
-  log=FALSE #(no option to plot on log scale)
   
   # get stuff from summary output (minimized)
   n             <- summaryoutput$n

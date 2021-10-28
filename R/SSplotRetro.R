@@ -140,7 +140,6 @@ SSplotRetro<- function(summaryoutput,
   }
   
   
-  log=FALSE #(no option to plot on log scale)
   if(is.null(legendindex))  legendindex=1:summaryoutput$n
   if(!legend) legendindex=10000
   

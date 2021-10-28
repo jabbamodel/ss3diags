@@ -55,7 +55,6 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
     if(TRUE %in% is.na(iname)) stop("One or more index numbers exceed number of available indices")
     hcruns$indices = hcruns$indices[hcruns$indices$Fleet_name%in%iname,]
   }
-  log=FALSE #(no option to plot on log scale)
   
   mase <- function(indexfleets=1){  
     #-------------------------------------------------------------

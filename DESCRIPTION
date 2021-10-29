@@ -1,6 +1,6 @@
 Package: ss3diags
 Title: What the Package Does (One Line, Title Case)
-Version: 1.0.8.9000
+Version: 1.0.8.9001
 Authors@R: 
     c(person(given = "Henning",
            family = "Winker",
@@ -29,7 +29,8 @@ Imports:
   mvtnorm,
   randtests,
   r4ss,
-  gplots
+  gplots,
+  lifecycle
 License: EUPL
 Encoding: UTF-8
 LazyData: True

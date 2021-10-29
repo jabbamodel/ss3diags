@@ -71,13 +71,14 @@
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 #' @export
 #' @importFrom grDevices pdf
+#' @importFrom lifecycle deprecated
 SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
                         plot=TRUE,
-                        print=FALSE,
+                        print=deprecated(),
                         print_plot=FALSE,
-                        png=print,
+                        png=deprecated(),
                         use_png=print_plot,
-                        pdf=FALSE,
+                        pdf=deprecated(),
                         use_pdf=FALSE,
                         models="all",
                         subplots=c("SSB","Bratio","Fvalue","Recruits","Index","RecDevs"),
@@ -128,21 +129,18 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
                         ){ # plot different fits to a single index of abundance
   
   #Parameter DEPRECATION checks 
-  if (!missing("print")){
-    warning("Argument deprecated, use 'print_plot' instead.
-            Parameter 'print' is set to parameter 'print_plot'")
+  if (lifecycle::is_present(print)){
+    lifecycle::deprecate_warn("1.0.8","SSplotModelcomp(print)","SSplotModelcomp(print_plot)")
     print_plot <- print
   }
   
-  if(!missing("png")){
-    warning("Argument deprecated, use 'use_png' instead.
-            Parameter 'png' is set to parameter 'use_png'")
+  if(lifecycle::is_present("png")){
+    lifecycle::deprecate_warn("1.0.8", "SSplotModelcomp(png)","SSplotModelcomp(use_png)")
     use_png <- png
   }
   
-  if(!missing("pdf")){
-    warning("Argument deprecated, use 'use_pdf' instead.
-            Parameter 'pdf' is set to parameter 'use_pdf'")
+  if(lifecycle::is_present("pdf")){
+    lifecycle::deprecate_warn("1.0.8", "SSplotModelcomp(pdf)","SSplotModelcomp(use_pdf)")
     use_pdf <- pdf
   }
   

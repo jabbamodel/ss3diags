@@ -17,8 +17,10 @@
 #' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets
 #' @param indexUncertainty Show fixed uncertainty intervals on index (not estimated)
 #' @param plot plot to active plot device?
+#' @param print print to PNG. Deprecated.
 #' @param print_plot print to PNG files?
-#' @param use_pdf not tested for TRUE
+#' @param pdf draw in PDF(not tested for TRUE). Deprecated
+#' @param use_pdf option for pdf plots (not tested for TRUE)
 #' @param col Optional vector of colors to be used for lines. Input NULL
 #' @param pch Optional vector of plot character values
 #' @param lty Optional vector of line types
@@ -61,6 +63,7 @@
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
 #' @param indexQdigits Number of significant digits for catchability in legend
+#' @param png draws to png files. Deprecated.
 #' @param use_png png TODO TODO Defaults to print value
 #' @param xlim xlim TODO TODO
 #' @param xylabs draw x-axis and y-axis TODO TODO
@@ -70,8 +73,11 @@
 #' @importFrom grDevices pdf
 SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
                         plot=TRUE,
+                        print=FALSE,
                         print_plot=FALSE,
+                        png=print,
                         use_png=print_plot,
+                        pdf=FALSE,
                         use_pdf=FALSE,
                         models="all",
                         subplots=c("SSB","Bratio","Fvalue","Recruits","Index","RecDevs"),
@@ -120,6 +126,27 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
                         indexQdigits=4,
                         indexfleets=1
                         ){ # plot different fits to a single index of abundance
+  
+  #Parameter DEPRECATION checks 
+  if (!missing("print")){
+    warning("Argument deprecated, use 'print_plot' instead.
+            Parameter 'print' is set to parameter 'print_plot'")
+    print_plot <- print
+  }
+  
+  if(!missing("png")){
+    warning("Argument deprecated, use 'use_png' instead.
+            Parameter 'png' is set to parameter 'use_png'")
+    use_png <- png
+  }
+  
+  if(!missing("pdf")){
+    warning("Argument deprecated, use 'use_pdf' instead.
+            Parameter 'pdf' is set to parameter 'use_pdf'")
+    use_pdf <- pdf
+  }
+  
+  
   #------------------------------------------
   # r4ss plotting functions
   #------------------------------------------
@@ -717,3 +744,5 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
 
 } # end of SSplotModelcomp()
 #-----------------------------------------------------------------------------------------
+
+

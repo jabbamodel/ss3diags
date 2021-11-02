@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSdeltaMVLN.R
 \name{SSdeltaMVLN}
 \alias{SSdeltaMVLN}
-\title{SSdeltaMVLN()}
+\title{Delta Multivariate Log-normal Distribution}
 \usage{
 SSdeltaMVLN(
   ss3rep,

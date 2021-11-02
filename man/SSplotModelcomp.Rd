@@ -7,9 +7,12 @@
 SSplotModelcomp(
   summaryoutput = ss3diags::aspm.sma,
   plot = TRUE,
-  print = FALSE,
-  png = print,
-  pdf = FALSE,
+  print = deprecated(),
+  print_plot = FALSE,
+  png = deprecated(),
+  use_png = print_plot,
+  pdf = deprecated(),
+  use_pdf = FALSE,
   models = "all",
   subplots = c("SSB", "Bratio", "Fvalue", "Recruits", "Index", "RecDevs"),
   brp = c("msy", "btargs"),
@@ -65,11 +68,17 @@ SSplotModelcomp(
 
 \item{plot}{plot to active plot device?}
 
-\item{print}{print to PNG files?}
+\item{print}{print to PNG. Deprecated.}
 
-\item{png}{png TODO TODO Defaults to print value}
+\item{print_plot}{print to PNG files?}
 
-\item{pdf}{not tested for TRUE}
+\item{png}{draws to png files. Deprecated.}
+
+\item{use_png}{png TODO TODO Defaults to print value}
+
+\item{pdf}{draw in PDF(not tested for TRUE). Deprecated}
+
+\item{use_pdf}{option for pdf plots (not tested for TRUE)}
 
 \item{models}{Optional subset of the models described in
 r4ss function summaryoutput().  Either "all" or a vector of numbers indicating

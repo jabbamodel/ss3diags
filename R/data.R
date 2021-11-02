@@ -669,3 +669,25 @@ NULL
 #' @author Courtney, C., D., Carvalho, C. Winker, H., and LT Kell. (2020). Examples of Stock Synthesis diagnostic methods and results implemented for previously completed North Atlantic shortfin mako Stock Synthesis model runs. Collect. Vol. Sci. Pap. ICCAT, 76(10): 173-234.
 #' 
 "ss3sma"
+
+#' MCMC Gob Herring
+#'
+#' MCMC Gob Herring
+#' 
+#' @docType data
+#' 
+#' @format 4997 iterations of 328 variables
+#'
+"mcmc.her"
+
+#' GOB Herring Synthesis model output
+#'
+#' Stock Synthesis output read by \code{\link[r4ss]{SS_output}()}
+#' 
+#' @docType data
+#' 
+#' @format List of 188
+#'
+"ss3her"
+
+

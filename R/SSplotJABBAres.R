@@ -156,8 +156,6 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
   series = 1:n.indices
   yr = unique(round(resids$Time))
   
-  
-  log=FALSE #(no option to plot on log scale)
   if(is.null(legendindex))  legendindex=series
   if(!legend) legendindex=10000
   

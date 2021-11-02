@@ -180,7 +180,7 @@ SSplotHCxval<- function(retroSummary,
   }
   
   
-  log=FALSE #(no option to plot on log scale)
+  
   if(is.null(legendindex))  legendindex= 1:hcruns$n
   if(!legend) legendindex=10000
   
@@ -343,8 +343,11 @@ SSplotHCxval<- function(retroSummary,
     
     # Subset by month
     if(Season=="default"){
-                       Season = unique(indices2$Seas)[1]  
-                       if(verbose & length(unique(indices2$Seas))>1){cat("Taking Season",Season,"by default for Index",unique(indices2$Fleet_name))}
+                       
+      Season = unique(indices2$Seas)[1]                 
+      if(verbose & length(unique(indices2$Seas))>1){
+        cat("Taking Season",Season,"by default for Index",unique(indices2$Fleet_name))
+      }
                        
     } else {
       Season = as.numeric(Season)[1]
@@ -361,13 +364,8 @@ SSplotHCxval<- function(retroSummary,
     exp <- indices2$Exp
     imodel <- indices2$imodel
     Q <- indices2$Calc_Q
-    if(log){
-      obs <- log(obs)
-      exp <- log(exp)
-      ylab=labels[3]
-    }else{
-      ylab=labels[2]
-    }
+ 
+    ylab=labels[2]
     
     # get uncertainty intervals if requested
     if(indexUncertainty){
@@ -375,13 +373,9 @@ SSplotHCxval<- function(retroSummary,
       subset <- indices2$imodel==models[1]&indices2$Use==1
       indexSEvec <- indices2$SE[subset]
       y <- obs[subset]
-      if(log){
-        uppers <- qnorm(.975,mean=y,sd=indexSEvec)
-        lower <- qnorm(.025,mean=y,sd=indexSEvec)
-      }else{
-        upper <- qlnorm(.975,meanlog=log(y),sdlog=indexSEvec)
-        lower <- qlnorm(.025,meanlog=log(y),sdlog=indexSEvec)
-      }
+      upper <- qlnorm(.975,meanlog=log(y),sdlog=indexSEvec)
+      lower <- qlnorm(.025,meanlog=log(y),sdlog=indexSEvec)
+
       
     }else{
       upper <- NULL
@@ -390,9 +384,10 @@ SSplotHCxval<- function(retroSummary,
     
     
     if(is.null(xmin)){
-      xmin = min(endyrvec)-5} else {
-        xmin = min(xmin,min(endyrvec)-3)  
-      }
+      xmin = min(endyrvec)-5
+    } else {
+      xmin = min(xmin,min(endyrvec)-3)  
+    }
     
     meanQ <- rep(NA,nlines)
     imodel <- models[which(endyrvec==max(endyrvec))[1]]
@@ -403,17 +398,17 @@ SSplotHCxval<- function(retroSummary,
     # calculate ylim (excluding dummy observations from observed but not expected)
     sub <- !is.na(indices2$Like) & yr>= xmin
     
-    if(is.null(ylim)){
-    ylim <- ylimAdj*range(c(exp[sub], obs[sub], lower[sub], upper[sub]), na.rm=TRUE)
-    # if no values included in subset, then set ylim based on all values
-    if(!any(sub)){
-      ylim <- ylimAdj*range(exp, obs, lower, upper, na.rm=TRUE)
-    }
-    
-    if(!log){
+    if(is.null(ylim)){+1
+
+      ylim <- ylimAdj*range(c(exp[sub], obs[sub], lower[sub], upper[sub]), na.rm=TRUE)
+      # if no values included in subset, then set ylim based on all values
+      if(!any(sub)){
+        ylim <- ylimAdj*range(exp, obs, lower, upper, na.rm=TRUE)
+      }
+      
       # 0 included if not in log space
       ylim <- range(0,ylim*1.1,na.rm = T)
-    }
+    
     }
     
     
@@ -443,7 +438,7 @@ SSplotHCxval<- function(retroSummary,
         plot(0, type = "n", xlim = c(max(min(yr),xmin),min(c(max(yr),max(endyrvec)))), yaxs = yaxs, 
              ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylab,""), axes = FALSE)
       
-      if(!log & yaxs != "i"){
+      if(yaxs != "i"){
         abline(h = 0, col = "grey")
       }
       Qtext <- rep("(Q =", nlines)
@@ -483,13 +478,12 @@ SSplotHCxval<- function(retroSummary,
           lines(x[(length(x)-1):(length(x))], y[(length(x)-1):(length(x))], lwd=2,
                 col=1,lty=2)
           
-            points(x[length(x)], y[length(y)],pch=21,
+          points(x[length(x)], y[length(y)],pch=21,
                  bg=col[iline],col=1, type="p",cex=0.9)
         }  
-        }
         
-      #}
-      
+      } #end for
+        
       maepr =  mean(abs(pred.resid))
       #nhc = length(endyrvec)-1
       #naive.eval = log(obs.eval[1:nhc])-log(obs.eval[2:(nhc+1)]) # add log for v1.1   

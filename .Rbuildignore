@@ -6,3 +6,4 @@
 data-raw
 testing.html
 testing.rmd
+^data-raw$

@@ -1,7 +1,7 @@
 library(ss3diags)
 library(testthat)
 
-#test_example_path <- system.file("extdata", package = "ss3diags")
+test_example_path <- system.file("extdata", package = "ss3diags")
 
 #### Shortfin Mako Model ###############################################################
 ########################################################################################

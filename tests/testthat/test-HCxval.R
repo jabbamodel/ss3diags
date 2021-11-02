@@ -3,7 +3,7 @@ library(ss3diags)
 
 
 ss3diags::retro.sma
-retroI.sma <- r4ss::SSsummarize(retro.sma, verbose = FALSE)
+retroI.sma <- r4ss::SSsummarize(retro.sma)
 
 path <- file.path(tempdir(), "test_runs")
 dir.create(path, showWarnings = FALSE)
@@ -43,7 +43,7 @@ test_that("Hindcast plot is created for sma indices", {
 
 
 ss3diags::retro.phk
-retrosum.phk <- r4ss::SSsummarize(retro.phk, verbose = FALSE)
+retrosum.phk <- r4ss::SSsummarize(retro.phk)
 
 
 test_that("Hindcast plot is created for phk index", {

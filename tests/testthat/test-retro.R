@@ -8,7 +8,7 @@ path <- file.path(tempdir(), "test_runs")
 dir.create(path, showWarnings = FALSE)
 
 ss3diags::retro.phk
-retrosum.phk <- r4ss::SSsummarize(retro.phk, verbose = FALSE)
+retrosum.phk <- r4ss::SSsummarize(retro.phk)
 
 ## SSB
 test_that("Retrospective plot is created for SSB", {

@@ -69,3 +69,37 @@ test_that("Hindcast plot is created for phk index", {
 
 ## Test that MASE table is correct 
 
+test_that("MASE table gives expected values for sma", {
+  
+  mase <- SSplotHCxval(retroI.sma, add = T, verbose = F)
+  
+  expect_match(mase$Index[1], "CPUE_1")
+  expect_equal(round(mase$MASE[1], 7), 0.8905631)
+  expect_equal(round(mase$MAE.PR[1], 8), 0.09920418)
+
+  
+})
+
+test_that("MASE table gives expected values for phk", {
+  
+  mase <- SSplotHCxval(retrosum.phk, add = T, verbose = F)
+  
+  expect_match(mase$Index[1], "Acoustic_Survey")
+  expect_equal(round(mase$MASE[1], 6), 1.064745)
+  expect_equal(round(mase$MAE.PR[1], 7), 0.3022749)
+  
+  
+  
+})
+
+
+test_that("SSretroComps returns the correct comp data for sma", {
+  
+  retro_comps <- SSretroComps(retro.sma)
+  
+  expect_equal(retro_comps$n, 6)
+  expect_equal(retro_comps$startyrs, rep(1950, 6))
+  expect_equal(retro_comps$endyrs, rep(2015, 6))
+  expect_equal(round(retro_comps$len$Obs[1], 4), 121.3780)
+  
+})

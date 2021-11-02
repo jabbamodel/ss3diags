@@ -8,7 +8,7 @@ dir.create(path, showWarnings = FALSE)
 
 # load(file.path(test_example_path, "natl.sma.rdata"))
 # load(file.path(test_example_path, "pac.hke.rdata"))
-load(file.path(test_example_path, "gob.her.rdata"))
+#load(file.path(test_example_path, "gob.her.rdata"))
 
 ss3diags::ss3sma
 ss3diags::ss3phk
@@ -82,34 +82,34 @@ test_that("file of phk_age_jabbaresiduals plot exists", {
 })
 
 ## HER
-test_that("file of her_cpue_jabbaresiduals plot exists", {
-  
-  SSplotJABBAres(ss3her, 
-                 png = TRUE, 
-                 print = T, 
-                 subplots = "cpue", 
-                 indexselect = 2,
-                 plotdir = path, 
-                 filenameprefix = "her_cpue_")
-  
-  expect_true(file.exists(file.path(path, "her_cpue_jabbaresidual.png")))
-  
-})
-
-test_that("file of her_age_jabbaresiduals plot exists", {
-  
-  SSplotJABBAres(ss3her, 
-                 png = TRUE, 
-                 print = T, 
-                 subplots = "age", 
-                 indexselect = 2,
-                 plotdir = path, 
-                 filenameprefix = "her_age_")
-  
-  expect_true(file.exists(file.path(path, "her_age_jabbaresidual.png")))
-  
-})
-
+# test_that("file of her_cpue_jabbaresiduals plot exists", {
+#   
+#   SSplotJABBAres(ss3her, 
+#                  png = TRUE, 
+#                  print = T, 
+#                  subplots = "cpue", 
+#                  indexselect = 2,
+#                  plotdir = path, 
+#                  filenameprefix = "her_cpue_")
+#   
+#   expect_true(file.exists(file.path(path, "her_cpue_jabbaresidual.png")))
+#   
+# })
+# 
+# test_that("file of her_age_jabbaresiduals plot exists", {
+#   
+#   SSplotJABBAres(ss3her, 
+#                  png = TRUE, 
+#                  print = T, 
+#                  subplots = "age", 
+#                  indexselect = 2,
+#                  plotdir = path, 
+#                  filenameprefix = "her_age_")
+#   
+#   expect_true(file.exists(file.path(path, "her_age_jabbaresidual.png")))
+#   
+# })
+# 
 
 
 

@@ -1,14 +1,18 @@
 library(testthat)
 library(ss3diags)
 
-test_example_path <- system.file("extdata", package = "ss3diags")
+ test_example_path <- system.file("extdata", package = "ss3diags")
 
 path <- file.path(tempdir(), "test_runs")
 dir.create(path, showWarnings = FALSE)
 
-load(file.path(test_example_path, "natl.sma.rdata"))
-load(file.path(test_example_path, "pac.hke.rdata"))
+# load(file.path(test_example_path, "natl.sma.rdata"))
+# load(file.path(test_example_path, "pac.hke.rdata"))
 load(file.path(test_example_path, "gob.her.rdata"))
+
+ss3diags::ss3sma
+ss3diags::ss3phk
+#ss3diags::ss3her
 
 ## SMA
 test_that("file of sma_cpue_jabbaresiduals plot exists", {

@@ -34,11 +34,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up R ${{ matrix.r-version }}
-        uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
+
+      - uses: r-lib/actions/setup-r@master
         with:
-          r-version: ${{ matrix.r-version }}
-       - name: Query dependencies
+          r-version: ${{ matrix.config.r }}
+          
+      - uses: r-lib/actions/setup-pandoc@master
+      
+      - name: Query dependencies
         run: |
           install.packages('remotes')
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
@@ -68,3 +71,7 @@ jobs:
       - name: Check
         run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error", check_dir = "check")
         shell: Rscript {0}
+      - name: Show testthat output
+        if: always()
+        run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash

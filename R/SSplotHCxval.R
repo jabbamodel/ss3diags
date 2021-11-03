@@ -44,7 +44,7 @@
 #' the legend display the model names in an order that is different than that
 #' which is represented in the summary input object.
 #' @param legendncol Number of columns for the legend.
-#' @param legendcex=1 Allows to adjust legend cex
+#' @param legendcex Allows to adjust legend cex
 #' @param legendsp Space between legend labels
 #' @param legendindex Allows to add legend for selected indices (plots)
 #' @param pwidth Width of plot
@@ -66,10 +66,25 @@
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
 #' @param indexQdigits Number of significant digits for catchability in legend
+#' @param shadealpha Transparancy adjustment used to make default shadecol. TODO: verify 
+#' @param png png TODO TODO. Default is FALSE
+#' @param xlim xlim TODO TODO. 
+#' @param xylabs x-axis and y-axis labels ?? Default is TRUE
+#' @param uncertainty uncertainty TODO TODO. Default is TRUE
+#' @param shadecol2 shadecol2 TODO TODO. 
+#' 
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
+#' 
+#' @importFrom grDevices grey 
+#' @importFrom stats qnorm qlnorm
+#' 
 #' @export
-SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="default",
-                        print=FALSE,png=print,pdf=FALSE,
+SSplotHCxval<- function(retroSummary,
+                        subplots=c("cpue","len","age"),
+                        Season="default",
+                        print=FALSE,
+                        png=print,
+                        pdf=FALSE,
                         models="all",
                         endyrvec="default",
                         xmin = NULL,
@@ -78,23 +93,46 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
                         show.mase.adj = TRUE,
                         indexUncertainty=TRUE,
                         col=NULL, 
-                        pch=NULL, lty=1, lwd=2,
+                        pch=NULL, 
+                        lty=1, 
+                        lwd=2,
                         tickEndYr=TRUE,
                         xlim="default", 
-                        ylimAdj=1.15,ylim=NULL,
-                        xaxs="i", yaxs="i",
+                        ylimAdj=1.15,
+                        ylim=NULL,
+                        xaxs="i", 
+                        yaxs="i",
                         xylabs=TRUE,
-                        type="o", uncertainty=TRUE, 
-                        legend=TRUE, legendlabels="default", legendloc="topright",
-                        legendorder="default",legendncol=1,legendcex=1,legendsp=0.9,legendindex = NULL,
-                        pwidth=6.5,pheight=5.0,punits="in",res=300,ptsize=10,cex.main=1,
+                        type="o", 
+                        uncertainty=TRUE, 
+                        legend=TRUE, 
+                        legendlabels="default", 
+                        legendloc="topright",
+                        legendorder="default",
+                        legendncol=1,
+                        legendcex=1,
+                        legendsp=0.9,
+                        legendindex = NULL,
+                        pwidth=6.5,
+                        pheight=5.0,
+                        punits="in",
+                        res=300,
+                        ptsize=10,
+                        cex.main=1,
                         plotdir=NULL,
                         filenameprefix="",
                         par=list(mar=c(5,4,1,1)+.1),
                         verbose=TRUE,
-                        shadecol = grey(0.5,0.4),shadecol2=grey(0.5,0.4),new=TRUE,
-                        add=FALSE,mcmcVec=FALSE,indexQlabel=TRUE,
-                        indexQdigits=4
+                        shadecol = grey(0.5,0.4),
+                        shadecol2=grey(0.5,0.4),
+                        shadealpha=0.3,
+                        new=TRUE,
+                        add=FALSE,mcmcVec=FALSE,
+                        indexQlabel=TRUE,
+                        indexQdigits=4,
+                        indexfleets=1,
+                        plot=TRUE,
+                        shadecol1=grey(0.5,0.4)
                         ){ # plot different fits to a single index of abundance
   #------------------------------------------
   # r4ss plotting functions
@@ -142,7 +180,7 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
   }
   
   
-  log=FALSE #(no option to plot on log scale)
+  
   if(is.null(legendindex))  legendindex= 1:hcruns$n
   if(!legend) legendindex=10000
   
@@ -305,8 +343,11 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
     
     # Subset by month
     if(Season=="default"){
-                       Season = unique(indices2$Seas)[1]  
-                       if(verbose & length(unique(indices2$Seas))>1){cat("Taking Season",Season,"by default for Index",unique(indices2$Fleet_name))}
+                       
+      Season = unique(indices2$Seas)[1]                 
+      if(verbose & length(unique(indices2$Seas))>1){
+        cat("Taking Season",Season,"by default for Index",unique(indices2$Fleet_name))
+      }
                        
     } else {
       Season = as.numeric(Season)[1]
@@ -323,13 +364,8 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
     exp <- indices2$Exp
     imodel <- indices2$imodel
     Q <- indices2$Calc_Q
-    if(log){
-      obs <- log(obs)
-      exp <- log(exp)
-      ylab=labels[3]
-    }else{
-      ylab=labels[2]
-    }
+ 
+    ylab=labels[2]
     
     # get uncertainty intervals if requested
     if(indexUncertainty){
@@ -337,13 +373,9 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
       subset <- indices2$imodel==models[1]&indices2$Use==1
       indexSEvec <- indices2$SE[subset]
       y <- obs[subset]
-      if(log){
-        uppers <- qnorm(.975,mean=y,sd=indexSEvec)
-        lower <- qnorm(.025,mean=y,sd=indexSEvec)
-      }else{
-        upper <- qlnorm(.975,meanlog=log(y),sdlog=indexSEvec)
-        lower <- qlnorm(.025,meanlog=log(y),sdlog=indexSEvec)
-      }
+      upper <- qlnorm(.975,meanlog=log(y),sdlog=indexSEvec)
+      lower <- qlnorm(.025,meanlog=log(y),sdlog=indexSEvec)
+
       
     }else{
       upper <- NULL
@@ -352,9 +384,10 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
     
     
     if(is.null(xmin)){
-      xmin = min(endyrvec)-5} else {
-        xmin = min(xmin,min(endyrvec)-3)  
-      }
+      xmin = min(endyrvec)-5
+    } else {
+      xmin = min(xmin,min(endyrvec)-3)  
+    }
     
     meanQ <- rep(NA,nlines)
     imodel <- models[which(endyrvec==max(endyrvec))[1]]
@@ -365,17 +398,17 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
     # calculate ylim (excluding dummy observations from observed but not expected)
     sub <- !is.na(indices2$Like) & yr>= xmin
     
-    if(is.null(ylim)){
-    ylim <- ylimAdj*range(c(exp[sub], obs[sub], lower[sub], upper[sub]), na.rm=TRUE)
-    # if no values included in subset, then set ylim based on all values
-    if(!any(sub)){
-      ylim <- ylimAdj*range(exp, obs, lower, upper, na.rm=TRUE)
-    }
-    
-    if(!log){
+    if(is.null(ylim)){+1
+
+      ylim <- ylimAdj*range(c(exp[sub], obs[sub], lower[sub], upper[sub]), na.rm=TRUE)
+      # if no values included in subset, then set ylim based on all values
+      if(!any(sub)){
+        ylim <- ylimAdj*range(exp, obs, lower, upper, na.rm=TRUE)
+      }
+      
       # 0 included if not in log space
       ylim <- range(0,ylim*1.1,na.rm = T)
-    }
+    
     }
     
     
@@ -405,7 +438,7 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
         plot(0, type = "n", xlim = c(max(min(yr),xmin),min(c(max(yr),max(endyrvec)))), yaxs = yaxs, 
              ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylab,""), axes = FALSE)
       
-      if(!log & yaxs != "i"){
+      if(yaxs != "i"){
         abline(h = 0, col = "grey")
       }
       Qtext <- rep("(Q =", nlines)
@@ -445,13 +478,12 @@ SSplotHCxval<- function(retroSummary,subplots=c("cpue","len","age"),Season="defa
           lines(x[(length(x)-1):(length(x))], y[(length(x)-1):(length(x))], lwd=2,
                 col=1,lty=2)
           
-            points(x[length(x)], y[length(y)],pch=21,
+          points(x[length(x)], y[length(y)],pch=21,
                  bg=col[iline],col=1, type="p",cex=0.9)
         }  
-        }
         
-      #}
-      
+      } #end for
+        
       maepr =  mean(abs(pred.resid))
       #nhc = length(endyrvec)-1
       #naive.eval = log(obs.eval[1:nhc])-log(obs.eval[2:(nhc+1)]) # add log for v1.1   

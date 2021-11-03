@@ -6,6 +6,7 @@
 \usage{
 SSplotEnsemble(
   kb,
+  summaryoutput,
   subplots = c("stock", "harvest", "SSB", "F", "Recr", "Catch"),
   models = "all",
   quantiles = c(0.025, 0.975),
@@ -50,15 +51,20 @@ SSplotEnsemble(
   add = FALSE,
   mcmcVec = FALSE,
   indexQlabel = TRUE,
-  indexQdigits = 4
+  indexQdigits = 4,
+  legendindex = NULL
 )
 }
 \arguments{
 \item{kb}{SSdeltaMVLN $kb type output}
 
+\item{summaryoutput}{List created by r4ss::SSummarize(). TODO: Verify}
+
 \item{subplots}{option to "Bratio","Fvalue","SSB", "F", "Recr","Catch"}
 
 \item{models}{option to manually subset the models in kb$run}
+
+\item{quantiles}{quantile TODO TODO. Default is (.025,.075)}
 
 \item{ylabs}{yaxis labels for quants
 final year of values to show for each model. By default it is set to the}
@@ -68,6 +74,8 @@ final year of values to show for each model. By default it is set to the}
 \item{plot}{plot to active plot device?}
 
 \item{print}{print to PNG files?}
+
+\item{png}{png TODO TODO Default is prinf ??}
 
 \item{pdf}{not tested for TRUE}
 
@@ -90,8 +98,12 @@ year in timeseries plots.}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
 
+\item{xylabs}{xylabs X asis and Y axis labels TODO TODO. Default in NULL !}
+
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
+
+\item{uncertainty}{uncertainty TODO TODO. Default is TRUE}
 
 \item{legend}{Add a legend?}
 
@@ -106,6 +118,8 @@ the legend display the model names in an order that is different than that
 which is represented in the summary input object.}
 
 \item{legendncol}{Number of columns for the legend.}
+
+\item{legendcex}{Allows to adjust legend cex}
 
 \item{legendsp}{Space between legend labels}
 
@@ -139,7 +153,11 @@ It will be separated from default name by an underscore.}
 
 \item{add}{surpresses par() to create multiplot figs}
 
-\item{legendcex=1}{Allows to adjust legend cex}
+\item{mcmcVec}{mcmc vector TODO TODO. Default is FALSE}
+
+\item{indexQlabel}{indexQlabel TODO TODO. Default is TRUE}
+
+\item{indexQdigits}{indexQdigits TODO TODO. Default is 4}
 
 \item{legendindex}{Allows to add lengend for selected indices (plots)}
 }

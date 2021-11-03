@@ -15,15 +15,16 @@
 #' final year of values to show for each model. By default it is set to the
 #' ending year specified in each model.
 #' @param indexselect = Vector of fleet numbers for each model for which to compare
-#' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets
+#' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets. TODO: Clarifications? -ef
 #' @param MAE.base.adj minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)   
 #' @param verbose Report progress to R GUI?
+#' @param residuals TODO! Default is FALSE.
 #' @return MASE and hcxval statistic
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 #' @export
 SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
                         models="all",endyrvec="default",indexselect = NULL,MAE.base.adj=0.1,residuals=FALSE,
-                        verbose=FALSE
+                        verbose=FALSE, indexfleets=1
                         ){ 
   
   hcruns =retroSummary #added for now
@@ -54,7 +55,6 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
     if(TRUE %in% is.na(iname)) stop("One or more index numbers exceed number of available indices")
     hcruns$indices = hcruns$indices[hcruns$indices$Fleet_name%in%iname,]
   }
-  log=FALSE #(no option to plot on log scale)
   
   mase <- function(indexfleets=1){  
     #-------------------------------------------------------------
@@ -195,7 +195,7 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
       mase.adj = maepr/max(scaler,MAE.base.adj) 
       MASE.i = res.i = NULL
       MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=mase,MAE.PR=maepr,MAE.base=scaler,MASE.adj=mase.adj,n.eval=npe)
-      res.i = data.frame(Index=rep(unique(indices2$Fleet_name)[1],length(pred.resid)),Season=rep(Season,length(pred.resid)),Year=yr.eval[pe.eval],Pred.Res=pred.resid,Native.Res=naive.eval,n.eval=npe)
+      res.i = data.frame(Index=rep(unique(indices2$Fleet_name)[1],length(pred.resid)),Season=rep(Season,length(pred.resid)),Year=yr.eval[pe.eval],Pred.Res=pred.resid,Naive.Res=naive.eval,n.eval=npe)
       
       
     } else {

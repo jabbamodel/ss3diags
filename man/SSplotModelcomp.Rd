@@ -5,11 +5,14 @@
 \title{SSplotHCxal() for one-step ahead hindcasting cross-validations of indices}
 \usage{
 SSplotModelcomp(
-  summaryoutput = aspm.sma,
+  summaryoutput = ss3diags::aspm.sma,
   plot = TRUE,
-  print = FALSE,
-  png = print,
-  pdf = FALSE,
+  print = deprecated(),
+  print_plot = FALSE,
+  png = deprecated(),
+  use_png = print_plot,
+  pdf = deprecated(),
+  use_pdf = FALSE,
   models = "all",
   subplots = c("SSB", "Bratio", "Fvalue", "Recruits", "Index", "RecDevs"),
   brp = c("msy", "btargs"),
@@ -56,7 +59,8 @@ SSplotModelcomp(
   add = FALSE,
   mcmcVec = FALSE,
   indexQlabel = TRUE,
-  indexQdigits = 4
+  indexQdigits = 4,
+  indexfleets = 1
 )
 }
 \arguments{
@@ -64,9 +68,17 @@ SSplotModelcomp(
 
 \item{plot}{plot to active plot device?}
 
-\item{print}{print to PNG files?}
+\item{print}{print to PNG. Deprecated.}
 
-\item{pdf}{not tested for TRUE}
+\item{print_plot}{print to PNG files?}
+
+\item{png}{draws to png files. Deprecated.}
+
+\item{use_png}{png TODO TODO Defaults to print value}
+
+\item{pdf}{draw in PDF(not tested for TRUE). Deprecated}
+
+\item{use_pdf}{option for pdf plots (not tested for TRUE)}
 
 \item{models}{Optional subset of the models described in
 r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
@@ -100,14 +112,20 @@ final year of values to show for each model. By default it is set to the}
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
 
+\item{xlim}{xlim TODO TODO}
+
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
 \item{xaxs}{Choice of xaxs parameter (see ?par for more info)}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
 
+\item{xylabs}{draw x-axis and y-axis TODO TODO}
+
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
+
+\item{uncertainty}{uncertainty TODO TODO. Deafults to TRUE}
 
 \item{legend}{Add a legend?}
 
@@ -122,6 +140,8 @@ the legend display the model names in an order that is different than that
 which is represented in the summary input object.}
 
 \item{legendncol}{Number of columns for the legend.}
+
+\item{legendcex}{Allows to adjust legend cex}
 
 \item{legendsp}{Space between legend labels}
 
@@ -164,8 +184,6 @@ It will be separated from default name by an underscore.}
 \item{indexQdigits}{Number of significant digits for catchability in legend}
 
 \item{indexfleets}{CHECK IF NEEDED or how to adjust indexfleets}
-
-\item{legendcex=1}{Allows to adjust legend cex}
 }
 \description{
 Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals

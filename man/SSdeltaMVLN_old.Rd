@@ -40,13 +40,15 @@ SSdeltaMVLN_old(
 
 \item{plot}{option to show plot}
 
+\item{addtrj}{TODO! Default is TRUE}
+
 \item{ymax}{ylim maximum}
 
 \item{xmax}{xlim maximum}
 
-\item{verbose}{Report progress to R GUI?}
+\item{legendcex}{Allows to adjust legend cex}
 
-\item{legendcex=1}{Allows to adjust legend cex}
+\item{verbose}{Report progress to R GUI?}
 }
 \value{
 output list of kobe objects and mle's

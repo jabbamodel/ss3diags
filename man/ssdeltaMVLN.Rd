@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSdeltaMVLN.R
 \name{SSdeltaMVLN}
 \alias{SSdeltaMVLN}
-\title{SSdeltaMVLN()}
+\title{Delta Multivariate Log-normal Distribution}
 \usage{
 SSdeltaMVLN(
   ss3rep,
@@ -40,9 +40,9 @@ SSdeltaMVLN(
 
 \item{xmax}{xlim maximum}
 
-\item{verbose}{Report progress to R GUI?}
+\item{legendcex}{Allows to adjust legend cex}
 
-\item{legendcex=1}{Allows to adjust legend cex}
+\item{verbose}{Report progress to R GUI?}
 }
 \value{
 output list of quant posteriors and mle's

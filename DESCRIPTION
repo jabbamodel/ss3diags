@@ -1,6 +1,6 @@
 Package: ss3diags
 Title: What the Package Does (One Line, Title Case)
-Version: 1.0.8
+Version: 1.0.8.9001
 Authors@R: 
     c(person(given = "Henning",
            family = "Winker",
@@ -20,18 +20,24 @@ Authors@R:
            email = "laurie@seaplusplus.co.uk")
            )
 Maintainer: Henning Winker <Henning.Winker@gmail.com>
-Description: Compilation of diagnostic functions for Stock Synthesis 
-            models, which we developed for the MS 
-            "Using Model Diagnostics in Integrated Stock Assessments"
+Description: Compilation of diagnostic functions for Stock Synthesis models, which
+  developed for the MS "Using Model Diagnostics in Integrated Stock Assessments".
 Depends:
-    R (>= 3.5)
+  R (>= 3.5)
 Imports:
-      reshape2,
-      mvtnorm,
-      randtests,
-      r4ss,
-      gplots
+  reshape2,
+  mvtnorm,
+  randtests,
+  r4ss,
+  gplots,
+  lifecycle
 License: EUPL
 Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.1.1
+LazyData: True
+LazyDataCompression: gzip
+RoxygenNote: 7.1.2
+Suggests:
+  testthat (>= 3.0.0),
+  knitr,
+  rmarkdown,
+  markdown

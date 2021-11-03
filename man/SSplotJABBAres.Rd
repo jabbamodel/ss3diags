@@ -5,7 +5,7 @@
 \title{SSplotJABBAres()}
 \usage{
 SSplotJABBAres(
-  ss3rep = ss3sma,
+  ss3rep = ss3diags::ss3sma,
   subplots = c("cpue", "len", "age")[1],
   plot = TRUE,
   print = FALSE,
@@ -56,6 +56,8 @@ SSplotJABBAres(
 
 \item{print}{print to PNG files?}
 
+\item{png}{png TODO TODO, Default is FALSE}
+
 \item{pdf}{not tested for TRUE}
 
 \item{indexselect}{Vector of fleet numbers for each model for which to compare}
@@ -73,11 +75,15 @@ SSplotJABBAres(
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
 
+\item{xlim}{xlim TODO TODO,}
+
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
 \item{xaxs}{Choice of xaxs parameter (see ?par for more info)}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
+
+\item{xylabs}{xylabs TODO TODO. Default is TRUE}
 
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
@@ -95,6 +101,8 @@ the legend display the model names in an order that is different than that
 which is represented in the summary input object.}
 
 \item{legendncol}{Number of columns for the legend.}
+
+\item{legendcex}{Allows to adjust legend cex}
 
 \item{legendsp}{Space between legend labels}
 
@@ -127,8 +135,6 @@ It will be separated from default name by an underscore.}
 \item{new}{Create new empty plot window}
 
 \item{add}{surpresses par() to create multiplot figs}
-
-\item{legendcex=1}{Allows to adjust legend cex}
 }
 \description{
 plots residuals for all indices as boxplot with a loess showing systematic trends

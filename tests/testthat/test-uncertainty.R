@@ -1,5 +1,6 @@
 library(ss3diags)
 library(testthat)
+library(dplyr)
 
 ss3diags::ss3sma
 

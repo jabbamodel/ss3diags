@@ -39,7 +39,7 @@
 #' the legend display the model names in an order that is different than that
 #' which is represented in the summary input object.
 #' @param legendncol Number of columns for the legend.
-#' @param legendcex=1 Allows to adjust legend cex
+#' @param legendcex Allows to adjust legend cex
 #' @param legendsp Space between legend labels
 #' @param legendindex Allows to add lengend for selected indices (plots)
 #' @param pwidth Width of plot
@@ -61,36 +61,66 @@
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
 #' @param indexQdigits Number of significant digits for catchability in legend
+#' @param png png TODO TOO. Defaults to FALSE
+#' @param showrho showrho TODO TODO. Defaults to TRUE
+#' @param xylabs Draw x and y axis lables (?) TODO TODO. Defaults to TRUE
+#' @param uncertainty uncertainty TODO TODO. Defaults to TRUE.
+#' @param shadealpha shadealpha TODO TODO. Defalut to 0.3
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @export
-SSplotRetro<- function(summaryoutput, subplots=c("SSB","F"),
-                        plot=TRUE,print=FALSE,png=print,pdf=FALSE,
-                        models="all",
-                        endyrvec="default",
-                        xlim = NULL,
-                        xmin = NULL,
-                        labels =NULL,       
-                        ylim = NULL,
-                        forecast = TRUE,
-                        forecastrho = TRUE,
-                        showrho  = TRUE,
-                        col=NULL, 
-                        pch=NULL, lty=1, lwd=2,
-                        tickEndYr=TRUE,
-                        ylimAdj=1.05,
-                        xaxs="i", yaxs="i",
-                        xylabs=TRUE,
-                        type="o", uncertainty=TRUE, 
-                        legend=TRUE, legendlabels="default", legendloc="topright",
-                        legendorder="default",legendncol=1,legendcex=1,legendsp=0.7,legendindex = NULL,
-                        pwidth=6.5,pheight=5.0,punits="in",res=300,ptsize=10,cex.main=1,
-                        plotdir=NULL,
-                        filenameprefix="",
-                        par=list(mar=c(5,4,1,1)+.1),
-                        verbose=TRUE,
-                        shadecol = grey(0.4,0.6),new=TRUE,
-                        add=FALSE,mcmcVec=FALSE
-
+SSplotRetro<- function(summaryoutput, 
+                       subplots=c("SSB","F"),
+                       plot=TRUE,
+                       print=FALSE,
+                       png=print,
+                       pdf=FALSE,
+                       models="all",
+                       endyrvec="default",
+                       xlim = NULL,
+                       xmin = NULL,
+                       labels =NULL,       
+                       ylim = NULL,
+                       forecast = TRUE,
+                       forecastrho = TRUE,
+                       showrho  = TRUE,
+                       col=NULL, 
+                       pch=NULL, 
+                       lty=1, 
+                       lwd=2,
+                       tickEndYr=TRUE,
+                       ylimAdj=1.05,
+                       xaxs="i",
+                       yaxs="i",
+                       xylabs=TRUE,
+                       type="o", 
+                       uncertainty=TRUE, 
+                       legend=TRUE, 
+                       legendlabels="default", 
+                       legendloc="topright",
+                       legendorder="default",
+                       legendncol=1,
+                       legendcex=1,
+                       legendsp=0.7,
+                       legendindex = NULL,
+                       pwidth=6.5,
+                       pheight=5.0,
+                       punits="in",
+                       res=300,
+                       ptsize=10,
+                       cex.main=1,
+                       plotdir=NULL,
+                       filenameprefix="",
+                       par=list(mar=c(5,4,1,1)+.1),
+                       verbose=TRUE,
+                       shadecol = grey(0.4,0.6),
+                       new=TRUE,
+                       add=FALSE,
+                       mcmcVec=FALSE,
+                       #documented params not in usage -ef
+                       shadecol1=grey(0.5,0.4),
+                       indexQlabel = TRUE,
+                       indexQdigits = 4,
+                       shadealpha=0.3
 ){ 
   #------------------------------------------
   # r4ss plotting functions
@@ -110,7 +140,6 @@ SSplotRetro<- function(summaryoutput, subplots=c("SSB","F"),
   }
   
   
-  log=FALSE #(no option to plot on log scale)
   if(is.null(legendindex))  legendindex=1:summaryoutput$n
   if(!legend) legendindex=10000
   

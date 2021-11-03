@@ -29,7 +29,7 @@
 #' the legend display the model names in an order that is different than that
 #' which is represented in the summary input object.
 #' @param legendncol Number of columns for the legend.
-#' @param legendcex=1 Allows to adjust legend cex
+#' @param legendcex Allows to adjust legend cex
 #' @param legendsp Space between legend labels
 #' @param legendindex Allows to add lengend for selected indices (plots)
 #' @param pwidth Width of plot
@@ -47,28 +47,57 @@
 #' @param boxcol color boxes 
 #' @param new Create new empty plot window
 #' @param add surpresses par() to create multiplot figs
+#' @param png png TODO TODO, Default is FALSE
+#' @param xlim xlim TODO TODO, 
+#' @param xylabs xylabs TODO TODO. Default is TRUE
+#' 
 #' @author Henning Winker (JRC-EC)
+#' 
+#' @importFrom grDevices grey
+#' @importFrom graphics boxplot 
+#' @importFrom stats predict loess runif
+#' 
 #' @export
-SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","len","age")[1],
-                        plot=TRUE,print=FALSE,png=print,pdf=FALSE,
-                        indexselect=NULL,
-                        miny = 3,
-                        col=NULL, 
-                        pch=21, lty=1, lwd=2,
-                        tickEndYr=TRUE,
-                        xlim="default", ylimAdj=1.1,
-                        xaxs="i", yaxs="i",
-                        xylabs=TRUE,
-                        type="o", 
-                        legend=TRUE, legendlabels="default", legendloc="bottomleft",
-                        legendorder="default",legendncol=1,legendcex=1,legendsp=0.9,legendindex = NULL,
-                        pwidth=6.5,pheight=5.0,punits="in",res=300,ptsize=10,cex.main=1,
-                        plotdir=NULL,
-                        filenameprefix="",
-                        par=list(mar=c(5,4,1,1)+.1),
-                        verbose=TRUE,
-                        boxcol =  grey(0.8,0.5),new=TRUE,
-                        add=FALSE){ 
+SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
+                          subplots=c("cpue","len","age")[1],
+                          plot=TRUE,
+                          print=FALSE,
+                          png=print,
+                          pdf=FALSE,
+                          indexselect=NULL,
+                          miny = 3,
+                          col=NULL, 
+                          pch=21, 
+                          lty=1,
+                          lwd=2,
+                          tickEndYr=TRUE,
+                          xlim="default", 
+                          ylimAdj=1.1,
+                          xaxs="i", 
+                          yaxs="i",
+                          xylabs=TRUE,
+                          type="o", 
+                          legend=TRUE, 
+                          legendlabels="default", 
+                          legendloc="bottomleft",
+                          legendorder="default",
+                          legendncol=1,
+                          legendcex=1,
+                          legendsp=0.9,
+                          legendindex = NULL,
+                          pwidth=6.5,
+                          pheight=5.0,
+                          punits="in",
+                          res=300,
+                          ptsize=10,
+                          cex.main=1,
+                          plotdir=NULL,
+                          filenameprefix="",
+                          par=list(mar=c(5,4,1,1)+.1),
+                          verbose=TRUE,
+                          boxcol =  grey(0.8,0.5),
+                          new=TRUE,
+                          add=FALSE){ 
   #------------------------------------------
   # r4ss plotting functions
   #------------------------------------------
@@ -127,8 +156,6 @@ SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","len","age")[1],
   series = 1:n.indices
   yr = unique(round(resids$Time))
   
-  
-  log=FALSE #(no option to plot on log scale)
   if(is.null(legendindex))  legendindex=series
   if(!legend) legendindex=10000
   

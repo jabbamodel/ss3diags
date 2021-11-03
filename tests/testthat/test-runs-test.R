@@ -1,5 +1,5 @@
-library(ss3diags)
-library(testthat)
+#library(ss3diags)
+#library(testthat)
 
 ss3diags::ss3sma
 ss3diags::ss3phk
@@ -251,6 +251,7 @@ test_that("runs test works with pacific hake", {
 #### GOB Herring Model #################################################################
 ########################################################################################
 
+
 ## SSrunstest function
 test_that("runs test works with GOB Herring", {
   
@@ -365,6 +366,7 @@ test_that("runs test works with GOB Herring", {
   expect_equal(run_fish$sigma3.hi[3], ucl)
   
 })
+
 
 
 #### Snapshot plots for all 3 stocks ###################################################

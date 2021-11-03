@@ -17,9 +17,12 @@
 #' @param legendruns show legend for run lables
 #' @param yr.label show year along trajectory
 #' @param yr.int = year interval along trajectory
-#' @param verbose 
+#' @param verbose Output to R console. Default is TRUE 
 #' @return Kobe Quadrant percentages
 #' @export
+#' @importFrom gplots ci2d
+#' @importFrom graphics text
+#' @importFrom stats median 
 
 SSplotKobe <- function(kb,joint = TRUE,year = NULL,
                        posterior = c("points","kernel"),

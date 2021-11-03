@@ -5,7 +5,7 @@
 \title{runs test}
 \usage{
 SSrunstest(
-  ss3rep = ss3sma,
+  ss3rep = ss3diags::ss3sma,
   mixing = "less",
   quants = c("cpue", "len", "age")[1],
   indexselect = NULL,

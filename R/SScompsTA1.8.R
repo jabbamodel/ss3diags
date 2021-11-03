@@ -4,6 +4,7 @@
 #' stage-2 weighting of composition data from a Stock Synthesis model.
 #' The main purpose is to create obs, exp and residuals of mean L/age 
 #' Please see r4ss::SSMethod.TA1.8 for full set of intended options
+#' 
 #' @param ss3rep Stock Synthesis output as read by r4SS function SS_output
 #' @param type either 'len' (for length composition data), 'size' (for
 #' generalized size composition data), 'age' (for age composition data),
@@ -13,13 +14,20 @@
 #' to all fleets combined)
 #' @param plotit if TRUE, make an illustrative plot like one or more
 #' panels of Fig. 4 in Francis (2011).
-#' @param printit if TRUE, print results to R console.
+#' @param maxpanel maxpanel. Default 1000
+#' 
 #' @author Chris Francis, Andre Punt, Ian Taylor (modified by Henning Winker)
+#' 
 #' @return data.frame of observed, predicted mean length/age and residuals
-#' @export
+#' 
 #' @references Francis, R.I.C.C. (2011). Data weighting in statistical
 #' fisheries stock assessment models. Canadian Journal of
 #' Fisheries and Aquatic Sciences 68: 1124-1138.
+#' 
+#' @importFrom graphics par segments arrows points lines mtext 
+#' @importFrom stats var quantile 
+#' 
+#' @export
 
 SScompsTA1.8 <- function(ss3rep,type=c('len','age','size','con')[1],fleet=NULL,
                               plotit = FALSE,maxpanel = 1000){

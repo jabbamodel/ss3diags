@@ -14,10 +14,17 @@
 #' @param plot option to show plot
 #' @param ymax ylim maximum
 #' @param xmax xlim maximum
-#' @param legendcex=1 Allows to adjust legend cex
+#' @param legendcex Allows to adjust legend cex
 #' @param verbose Report progress to R GUI?
+#' @param addtrj TODO! Default is TRUE
+#' 
 #' @return output list of kobe objects and mle's
+#' 
 #' @author Henning Winker (JRC-EC)
+#' 
+#' @importFrom graphics rect points lines legend
+#' @importFrom utils tail 
+#' 
 #' @export
 SSdeltaMVLN_old = function(ss3rep,status=c('Bratio','F'),quants =c("SSB","Recr"),Fref = c("MSY","Ftrg"),years=NULL,mc=5000,weight=1,run="MVLN",plot=TRUE,
                        addtrj=TRUE,ymax=NULL,xmax=NULL,legendcex=1,verbose=TRUE){

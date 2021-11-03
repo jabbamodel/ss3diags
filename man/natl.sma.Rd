@@ -15,9 +15,6 @@ Individual list objects generated using \pkg{r4ss}
 \source{
 ICCAT 2017. Report of the 2017 Shortfin Mako Assessment Meeting (Madrid, Spain 12–16 June 2017).Collect. Vol. Sci. Pap.
 }
-\usage{
-natl.sma
-}
 \description{
 Information relevant to North Atlantic Shortfin Mako (SMA), including
 Stock Synthesis (V3.30.15) reference run 3, list of retrospective runs,

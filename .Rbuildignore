@@ -1,2 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.github$
+^\Cookbook$
+^\Vignette$
+data-raw
+testing.html
+testing.rmd
+^data-raw$

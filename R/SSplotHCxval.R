@@ -1,9 +1,9 @@
-#' SSplotHCxal() for one-step ahead hindcasting cross-validations of indices
+#' SSplotHCxval() for one-step ahead hindcasting cross-validations of indices
 #'
-#' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
-#' MASE is calculated the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and Naive Predictions (MAE.base)
+#' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction residuals. 
+#' MASE is calculated as the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and naive predictions (MAE.base)
 #' MASE.adj sets the MAE.base to a minimum MAE.base.adj (default=0.1)
-#' MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate if obs show very little annaual variation   
+#' MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate if obs show very little annual variation   
 #'
 #' @param retroSummary List created by r4ss::SSsummarize() or ss3diags::SSretroComps() 
 #' @param subplots optional use of c("cpue","len","age"), yet to be tested for age.
@@ -15,7 +15,7 @@
 #' final year of values to show for each model. By default it is set to the
 #' ending year specified in each model.
 #' @param indexselect = Vector of fleet numbers for each model for which to compare
-#' @param MAE.base.adj minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)   
+#' @param MAE.base.adj minimum MASE denominator (naive predictions) for MASE.adj (default = 0.1)   
 #' @param show.mase.adj if TRUE it show mase.adj in () in plot
 #' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets
 #' @param xmin optional number first year shown in plot (if available)  
@@ -46,7 +46,7 @@
 #' @param legendncol Number of columns for the legend.
 #' @param legendcex Allows to adjust legend cex
 #' @param legendsp Space between legend labels
-#' @param legendindex Allows to add lengend for selected indices (plots)
+#' @param legendindex Allows to add legend for selected indices (plots)
 #' @param pwidth Width of plot
 #' @param pheight Height of plot
 #' @param punits Units for PNG file
@@ -62,7 +62,7 @@
 #' @param shadecol uncertainty shading of hcxval horizon
 #' @param shadecol1 uncertainty shading of early years not affected by hindcast
 #' @param new Create new empty plot window
-#' @param add surpresses par() to create multiplot figs
+#' @param add suppresses par() to create multiplot figs
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
 #' @param indexQdigits Number of significant digits for catchability in legend

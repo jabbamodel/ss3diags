@@ -1,24 +1,18 @@
 library(ss3diags)
 library(testthat)
 
-test_example_path <- system.file("extdata", package = "ss3diags")
+ss3diags::ss3sma
+ss3diags::ss3phk
+#ss3diags::ss3her
 
+test_example_path <- system.file("extdata", package = "ss3diags")
+load(file.path(test_example_path, "gob.her.rdata"))
 #### Shortfin Mako Model ###############################################################
 ########################################################################################
 
-## First test to make sure 3 objects load with the data files
-test_that("sma.Rdata has correct files", {
-  
-  load(file.path(test_example_path, "natl.sma.rdata"))
-  expect_equal(length(ls(pattern = "sma")), 3)
-  expect_match(ls(pattern = "sma"), c("ss3|aspm|retro"))
-  
-})
 
 ## SSrunstest function
 test_that("runs test works with shortfin mako", {
-  
-  load(file.path(test_example_path, "natl.sma.rdata"))
   
   test.resids <- ss3sma$cpue[which(ss3sma$cpue$Fleet_name == "CPUE_1"), c("Fleet_name", "Yr", "Obs", "Exp")]
   test.resids$residuals = log(test.resids$Obs) - log(test.resids$Exp)
@@ -139,21 +133,10 @@ test_that("runs test works with shortfin mako", {
 #### Pacific Hake ######################################################################
 ########################################################################################
 
-## First test to make sure 3 objects load with the data files
-test_that("pac.hke.Rdata has correct files", {
-  
-  load(file.path(test_example_path, "pac.hke.rdata"))
-  expect_equal(length(ls(pattern = "phk")), 3)
-  expect_match(ls(pattern = "phk"), c("ss3|aspm|retro"))
-  
-})
 
 ## SSrunstest function
 test_that("runs test works with pacific hake", {
   
-  load(file.path(test_example_path, "pac.hke.rdata"))
-  
- 
   test.resids <- ss3phk$cpue[,c("Fleet_name", "Yr", "Obs", "Exp", "Like")]
   test.resids$residuals <- ifelse(is.na(test.resids$Obs) | is.na(test.resids$Like),NA, log(test.resids$Obs)-log(test.resids$Exp))
   
@@ -268,19 +251,8 @@ test_that("runs test works with pacific hake", {
 #### GOB Herring Model #################################################################
 ########################################################################################
 
-## First test to make sure 3 objects load with the data files
-test_that("gob.her.Rdata has correct files", {
-  
-  load(file.path(test_example_path, "gob.her.rdata"))
-  expect_equal(length(ls(pattern = "her")), 2)
-  expect_match(ls(pattern = "her"), c("ss3|mcmc"))
-  
-})
-
 ## SSrunstest function
 test_that("runs test works with GOB Herring", {
-  
-  load(file.path(test_example_path, "gob.her.rdata"))
   
   test.resids <- ss3her$cpue[which(ss3her$cpue$Fleet_name == "Acoustics"), c("Fleet_name", "Yr", "Obs", "Exp")]
   test.resids$residuals = log(test.resids$Obs) - log(test.resids$Exp)

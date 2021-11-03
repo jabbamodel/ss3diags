@@ -68,6 +68,7 @@ test_that("Hindcast plot is created for phk index", {
 })
 
 ## Test that MASE table is correct 
+#### note: function was too complicated to replicate in the test script so used values directly from running the function. If code for calculations changes, the values will change and it will error or if the SS3 input files change, the values will be different and it will error. 
 
 test_that("MASE table gives expected values for sma", {
   
@@ -103,3 +104,13 @@ test_that("SSretroComps returns the correct comp data for sma", {
   expect_equal(round(retro_comps$len$Obs[1], 4), 121.3780)
   
 })
+
+
+test_that("SSmase base.adj changes", {
+  
+  ssmase <- SSmase(retroI.sma, MAE.base.adj = 0.15)
+  
+  expect_equal(round(ssmase$MASE.adj[1], 7), 0.6613612)
+  
+})
+

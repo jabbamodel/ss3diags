@@ -173,7 +173,7 @@ It will be separated from default name by an underscore.}
 
 \item{shadealpha}{Transparency adjustment used to make default shadecol}
 
-\item{new}{Create new empty plot window}
+\item{new}{Create new empty plot window. Deprecated.}
 
 \item{add}{surpresses par() to create multiplot figs}
 

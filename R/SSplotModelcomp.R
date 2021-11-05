@@ -58,7 +58,7 @@
 #' @param verbose Report progress to R GUI?
 #' @param shadecol uncertainty shading of hcxval horizon
 #' @param shadealpha Transparency adjustment used to make default shadecol
-#' @param new Create new empty plot window
+#' @param new Create new empty plot window. Deprecated.
 #' @param add surpresses par() to create multiplot figs
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
@@ -142,6 +142,14 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
   if(lifecycle::is_present("pdf")){
     lifecycle::deprecate_warn("1.0.8", "SSplotModelcomp(pdf)","SSplotModelcomp(use_pdf)")
     use_pdf <- pdf
+  }
+  
+  if(!isTRUE(new)){
+    lifecycle::deprecate_warn(
+      when = "1.0.8",
+      what = "SSplotModelcomp(new)",
+      details = "This parameter is not used in this function, and will be removed in a future version"
+    )
   }
   
   

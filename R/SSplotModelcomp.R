@@ -419,9 +419,14 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
       subexp <- indices2[["imodel"]]==imodel & yr>= xmin
       if(iline==1){
         if(indexUncertainty){
-          arrows(x0=yr[subset], y0=lower[subset], 
-                 x1=yr[subset], y1=upper[subset],
-                 length=0.02, angle=90, code=3, col=1)
+          arrows(x0=yr[subset], 
+                 y0=lower[subset], 
+                 x1=yr[subset], 
+                 y1=upper[subset],
+                 length=0.02, 
+                 angle=90, 
+                 code=3, 
+                 col=1)
           }
         points(yr[subset],obs[subset],pch=21,cex=1,bg="white")
       }
@@ -621,7 +626,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     
     # Check if uncertainty is measured
     if(uncertainty ==TRUE & sum(exp[,1]-lower[,1])==0){
-      if(verbose) cat("No uncertainty estimates available from the provided")
+      if(verbose) message("No uncertainty estimates available from the provided")
       uncertainty=FALSE
     }
     
@@ -664,9 +669,14 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
                   col=shadecol[iline],border=shadecol[iline])
         } else {
           adj <- 0.2*iline/nlines - 0.1
-          arrows(x0=yr+adj, y0=lower[,iline],
-          x1=yr+adj, y1=upper[,iline],
-          length=0.02, angle=90, code=3, col=col[iline])
+          arrows(x0=yr+adj, 
+                 y0=lower[,iline],
+                 x1=yr+adj, 
+                 y1=upper[,iline],
+                 length=0.02, 
+                 angle=90, 
+                 code=3, 
+                 col=col[iline])
         }
       }
     }
@@ -728,7 +738,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     
     # subplots
     for(s in 1:length(subplots)){
-      if(verbose) cat(paste0("\n","Plot Comparison of ",subplots[s],"\n"))
+      if(verbose) message(paste0("Plot Comparison of ",subplots[s]))
       if(subplots[s]!="Index"){  
         if(!add)par(par)
         quant=subplots[s]

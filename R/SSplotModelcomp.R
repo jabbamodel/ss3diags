@@ -16,7 +16,8 @@
 #' @param indexselect = Vector of fleet numbers for each model for which to compare
 #' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets
 #' @param indexUncertainty Show fixed uncertainty intervals on index (not estimated)
-#' @param plot plot to active plot device?
+#' @param plot plot to active plot device? Deprecated.
+#' @param show_plot Option to draw subplots and plot in the interface.
 #' @param print print to PNG. Deprecated.
 #' @param print_plot print to PNG files?
 #' @param pdf draw in PDF(not tested for TRUE). Deprecated
@@ -73,7 +74,8 @@
 #' @importFrom grDevices pdf
 #' @importFrom lifecycle deprecated
 SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
-                        plot=TRUE,
+                        plot=deprecated(),
+                        show_plot=TRUE,
                         print=deprecated(),
                         print_plot=FALSE,
                         png=deprecated(),
@@ -130,26 +132,31 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
   
   #Parameter DEPRECATION checks 
   if (lifecycle::is_present(print)){
-    lifecycle::deprecate_warn("1.0.8","SSplotModelcomp(print)","SSplotModelcomp(print_plot)")
+    lifecycle::deprecate_warn("1.0.9","SSplotModelcomp(print)","SSplotModelcomp(print_plot)")
     print_plot <- print
   }
   
   if(lifecycle::is_present("png")){
-    lifecycle::deprecate_warn("1.0.8", "SSplotModelcomp(png)","SSplotModelcomp(use_png)")
+    lifecycle::deprecate_warn("1.0.9", "SSplotModelcomp(png)","SSplotModelcomp(use_png)")
     use_png <- png
   }
   
   if(lifecycle::is_present("pdf")){
-    lifecycle::deprecate_warn("1.0.8", "SSplotModelcomp(pdf)","SSplotModelcomp(use_pdf)")
+    lifecycle::deprecate_warn("1.0.9", "SSplotModelcomp(pdf)","SSplotModelcomp(use_pdf)")
     use_pdf <- pdf
   }
   
   if(!isTRUE(new)){
     lifecycle::deprecate_warn(
-      when = "1.0.8",
+      when = "1.0.9",
       what = "SSplotModelcomp(new)",
       details = "This parameter is not used in this function, and will be removed in a future version"
     )
+  }
+  
+  if(lifecycle::is_present("plot")){
+    lifecycle::deprecate_warn("1.0.9","SSplotModelcomp(plot)","SSplotModelcomp(show_plot)")
+    show_plot <- plot
   }
   
   
@@ -327,7 +334,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     if(legendorder[1]=="default") legendorder <- 1:nlines
     
     # open new window if requested
-    if(plot & use_png==FALSE){
+    if(show_plot & use_png==FALSE){
       if(!add) {
         dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       }
@@ -615,7 +622,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     if(legendorder[1]=="default") legendorder <- 1:(nlines)
     
     # open new window if requested
-    if(plot & use_png==FALSE){
+    if(show_plot & use_png==FALSE){
       if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       
     } else {
@@ -708,7 +715,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
   } # End of plot_quant function  
   legend.temp = legend  
   # Do plotting
-  if(plot){ 
+  if(show_plot){ 
     # subplots
     for(s in 1:length(subplots)){
       if(print_plot){

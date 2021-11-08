@@ -136,12 +136,12 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     print_plot <- print
   }
   
-  if(lifecycle::is_present("png")){
+  if(lifecycle::is_present(png)){
     lifecycle::deprecate_warn("1.0.9", "SSplotModelcomp(png)","SSplotModelcomp(use_png)")
     use_png <- png
   }
   
-  if(lifecycle::is_present("pdf")){
+  if(lifecycle::is_present(pdf)){
     lifecycle::deprecate_warn("1.0.9", "SSplotModelcomp(pdf)","SSplotModelcomp(use_pdf)")
     use_pdf <- pdf
   }
@@ -154,7 +154,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     )
   }
   
-  if(lifecycle::is_present("plot")){
+  if(lifecycle::is_present(plot)){
     lifecycle::deprecate_warn("1.0.9","SSplotModelcomp(plot)","SSplotModelcomp(show_plot)")
     show_plot <- plot
   }

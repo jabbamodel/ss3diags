@@ -171,7 +171,7 @@ SSplotHCxval<- function(retroSummary,
     lifecycle::deprecate_warn(
       when = "1.0.9",
       what = "SSplotHCxval(new)",
-      details = "This ability to explicitly disable new plot windows is unused and will be removed in a future version"
+      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
     )
   }
   

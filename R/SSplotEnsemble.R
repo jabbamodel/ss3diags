@@ -151,7 +151,7 @@ SSplotEnsemble<- function(kb, summaryoutput,
     lifecycle::deprecate_warn(
       when = "1.0.9",
       what = "SSplotModelcomp(new)",
-      details = "This parameter is not used in this function, and will be removed in a future version"
+      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
     )
   }
   

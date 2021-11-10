@@ -4,9 +4,13 @@
 #' 
 #' @param ss3rep from r4ss::SS_output
 #' @param subplots optional use of cpue and comp data (only tested for length) 
-#' @param plot plot to active plot device?
-#' @param print print to PNG files?
-#' @param pdf not tested for TRUE
+#' @param plot plot to active plot device? Deprecated.
+#' @param print print to PNG files? Deprecated. Please use print_plot.
+#' @param print_plot Option to print to PNG files
+#' @param png png plots. Deprecated, please use use_png
+#' @param use_png Draw plots in PNG format
+#' @param pdf PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.
+#' @param use_pdf option for pdf plots (not tested for TRUE)
 #' @param indexselect Vector of fleet numbers for each model for which to compare
 #' @param miny  minimum abs values of ylim
 #' @param col Optional vector of colors to be used for lines. Input NULL
@@ -45,9 +49,8 @@
 #' @param par list of graphics parameter values passed to par() function
 #' @param verbose Report progress to R GUI?
 #' @param boxcol color boxes 
-#' @param new Create new empty plot window
+#' @param new Create new empty plot window. Deprecated.
 #' @param add surpresses par() to create multiplot figs
-#' @param png png TODO TODO, Default is FALSE
 #' @param xlim xlim TODO TODO, 
 #' @param xylabs xylabs TODO TODO. Default is TRUE
 #' 
@@ -56,14 +59,18 @@
 #' @importFrom grDevices grey
 #' @importFrom graphics boxplot 
 #' @importFrom stats predict loess runif
+#' @importFrom lifecycle deprecated
 #' 
 #' @export
 SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
                           subplots=c("cpue","len","age")[1],
                           plot=TRUE,
-                          print=FALSE,
-                          png=print,
-                          pdf=FALSE,
+                          print=deprecated(),
+                          print_plot=FALSE,
+                          png=deprecated(),
+                          use_png=print_plot,
+                          pdf=deprecated(),
+                          use_pdf=FALSE,
                           indexselect=NULL,
                           miny = 3,
                           col=NULL, 
@@ -95,17 +102,52 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
                           filenameprefix="",
                           par=list(mar=c(5,4,1,1)+.1),
                           verbose=TRUE,
-                          boxcol =  grey(0.8,0.5),
+                          boxcol = grey(0.8,0.5),
                           new=TRUE,
                           add=FALSE){ 
+  
+  
+  #Parameter DEPRECATION checks 
+  if (lifecycle::is_present(print)){
+    lifecycle::deprecate_warn("1.0.9","SSplotJABBAres(print)","SSplotJABBAres(print_plot)")
+    print_plot <- print
+  }
+  
+  if(lifecycle::is_present(png)){
+    lifecycle::deprecate_warn("1.0.9", "SSplotJABBAres(png)","SSplotJABBAres(use_png)")
+    use_png <- png
+  }
+  
+  if(lifecycle::is_present(pdf)){
+    lifecycle::deprecate_warn("1.0.9", "SSplotJABBAres(pdf)","SSplotJABBAres(use_pdf)")
+    use_pdf <- pdf
+  }
+  
+  if(!isTRUE(plot)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotJABBAres(new)",
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
+    )
+  }
+  
+  if(!isTRUE(new)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotJABBAres(new)",
+      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
+    )
+  }
+  
+  
   #------------------------------------------
   # r4ss plotting functions
   #------------------------------------------
   # subfunction to write png files
   if(!add) graphics.off()
   if(add){
-    print=F
-    png=F
+    print_plot=F
+    use_png=F
   }
   
   subplots = subplots[1]
@@ -159,15 +201,15 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
   if(is.null(legendindex))  legendindex=series
   if(!legend) legendindex=10000
   
-  if(png) print <- TRUE
-  if(png & is.null(plotdir))
-    stop("to print PNG files, you must supply a directory as 'plotdir'")
+  if(use_png) print_plot <- TRUE
+  if(use_png & is.null(plotdir))
+    stop("to print_plot PNG files, you must supply a directory as 'plotdir'")
   
   # check for internal consistency
-  if(pdf & png){
-    stop("To use 'pdf', set 'print' or 'png' to FALSE.")
+  if(use_pdf & use_png){
+    stop("To use 'use_pdf', set 'print_plot' or 'use_png' to FALSE.")
   }
-  if(pdf){
+  if(use_pdf){
     if(is.null(plotdir)){
       stop("to write to a PDF, you must supply a directory as 'plotdir'")
     }
@@ -223,7 +265,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
              "Residuals")         #2
                
     # open new window if requested
-    if(plot & png==FALSE){
+    if(plot & use_png==FALSE){
       if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       
     } else {
@@ -250,7 +292,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     if(legendorder[1]=="default") legendorder <- 1:(n.indices+1)
     
     # open new window if requested
-    if(plot & png==FALSE){
+    if(plot & use_png==FALSE){
       if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       
     } else {
@@ -305,7 +347,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
   
   if(verbose) cat("Plotting JABBA residual plot \n")
   if(plot){ 
-    if(print){
+    if(print_plot){
       
          pngfun(paste0("jabbaresidual.png",sep=""))
          par(par)

@@ -9,9 +9,12 @@ SSplotRunstest(
   mixing = "less",
   subplots = c("cpue", "len", "age")[1],
   plot = TRUE,
-  print = FALSE,
-  png = print,
-  pdf = FALSE,
+  print = deprecated(),
+  print_plot = FALSE,
+  png = deprecated(),
+  use_png = print_plot,
+  pdf = deprecated(),
+  use_pdf = FALSE,
   indexselect = NULL,
   miny = 1,
   pch = 21,
@@ -50,11 +53,17 @@ SSplotRunstest(
 
 \item{plot}{plot to active plot device?}
 
-\item{print}{print to PNG files?}
+\item{print}{print to PNG files? Deprecated. Please use print_plot.}
 
-\item{png}{png TODO TODO Defaults to print value}
+\item{print_plot}{Option to print to PNG files}
 
-\item{pdf}{not tested for TRUE}
+\item{png}{png plots. Deprecated, please use use_png}
+
+\item{use_png}{Draw plots in PNG format}
+
+\item{pdf}{PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.}
+
+\item{use_pdf}{option for pdf plots (not tested for TRUE)}
 
 \item{indexselect}{Vector of fleet numbers for each model for which to compare}
 

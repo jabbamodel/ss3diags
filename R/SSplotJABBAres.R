@@ -126,7 +126,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
   if(!isTRUE(plot)){
     lifecycle::deprecate_warn(
       when = "1.0.9",
-      what = "SSplotJABBAres(new)",
+      what = "SSplotJABBAres(plot)",
       details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
     )
   }

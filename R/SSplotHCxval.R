@@ -162,7 +162,7 @@ SSplotHCxval<- function(retroSummary,
   if(!isTRUE(plot)){
     lifecycle::deprecate_warn(
       when = "1.0.9",
-      what = "SSplotHCxval(new)",
+      what = "SSplotHCxval(plot)",
       details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
     )
   }

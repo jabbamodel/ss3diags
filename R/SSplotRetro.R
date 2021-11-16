@@ -10,9 +10,13 @@
 #' final year of values to show for each model. By default it is set to the
 #' ending year specified in each model.
 #' @param subplots Vector of subplots to be created
-#' @param plot plot to active plot device?
-#' @param print print to PNG files?
-#' @param pdf not tested for TRUE
+#' @param plot Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.
+#' @param print print to PNG files? Deprecated. Please use print_plot.
+#' @param print_plot Option to print to PNG files
+#' @param png png plots. Deprecated, please use use_png
+#' @param use_png Draw plots in PNG format
+#' @param pdf PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.
+#' @param use_pdf option for pdf plots (not tested for TRUE)
 #' @param xlim  optional xlim, which overwrites xmin   
 #' @param xmin  optional minimum year shown in plot (default first yr)   
 #' @param labels yaxis lable for biomass (bony fish and sharks) 
@@ -56,24 +60,27 @@
 #' @param verbose Report progress to R GUI?
 #' @param shadecol uncertainty shading of hcxval horizon
 #' @param shadecol1 uncertainty shading of early years not affected by hindcast
-#' @param new Create new empty plot window
+#' @param new Create new empty plot window. Deprecated.
 #' @param add surpresses par() to create multiplot figs
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
 #' @param indexQdigits Number of significant digits for catchability in legend
-#' @param png png TODO TOO. Defaults to FALSE
 #' @param showrho showrho TODO TODO. Defaults to TRUE
 #' @param xylabs Draw x and y axis lables (?) TODO TODO. Defaults to TRUE
 #' @param uncertainty uncertainty TODO TODO. Defaults to TRUE.
 #' @param shadealpha shadealpha TODO TODO. Defalut to 0.3
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' @importFrom lifecycle deprecated
 #' @export
 SSplotRetro<- function(summaryoutput, 
                        subplots=c("SSB","F"),
                        plot=TRUE,
-                       print=FALSE,
-                       png=print,
-                       pdf=FALSE,
+                       print=deprecated(),
+                       print_plot=FALSE,
+                       png=deprecated(),
+                       use_png=print_plot,
+                       pdf=deprecated(),
+                       use_pdf=FALSE,
                        models="all",
                        endyrvec="default",
                        xlim = NULL,
@@ -122,6 +129,39 @@ SSplotRetro<- function(summaryoutput,
                        indexQdigits = 4,
                        shadealpha=0.3
 ){ 
+  
+  # Parameter Deprecation Checks
+  if(lifecycle::is_present(print)){
+    lifecycle::deprecate_warn("1.0.9","SSplotRetro(print)","SSplotRetro(print_plot)")
+    print_plot <- print
+  }
+  
+  if(lifecycle::is_present(pdf)){
+    lifecycle::deprecate_warn("1.0.9","SSplotRetro(pdf)","SSplorRetro(use_pdf)")
+    use_pdf <- pdf
+  }
+  
+  if(lifecycle::is_present(png)) {
+    lifecycle::deprecate_warn("1.0.9","SSplotRetro(png)","SSplotRetro(use_png)")
+    use_png <- png
+  }
+
+  if(!isTRUE(plot)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotRetro(plot)",
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
+    )
+  }
+  
+  if(!isTRUE(new)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotRetro(new)",
+      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
+    )
+  }
+  
   #------------------------------------------
   # r4ss plotting functions
   #------------------------------------------
@@ -148,15 +188,15 @@ SSplotRetro<- function(summaryoutput,
   #------------------------------------------------------------------
   plot_retro <- function(quant=quant){  
     
-    if(png) print <- TRUE
-    if(png & is.null(plotdir))
+    if(use_png) print_plot <- TRUE
+    if(use_png & is.null(plotdir))
       stop("to print PNG files, you must supply a directory as 'plotdir'")
     
     # check for internal consistency
-    if(pdf & png){
-      stop("To use 'pdf', set 'print' or 'png' to FALSE.")
+    if(use_pdf & use_png){
+      stop("To use 'use_pdf', set 'print_plot' or 'use_png' to FALSE.")
     }
-    if(pdf){
+    if(use_pdf){
       if(is.null(plotdir)){
         stop("to write to a PDF, you must supply a directory as 'plotdir'")
       }
@@ -278,7 +318,7 @@ SSplotRetro<- function(summaryoutput,
     if(legendorder[1]=="default") legendorder <- 1:(nlines)
     
     # open new window if requested
-    if(plot & png==FALSE){
+    if(plot & use_png==FALSE){
       if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       
     } else {
@@ -388,7 +428,7 @@ SSplotRetro<- function(summaryoutput,
   
   if(verbose) cat("Plotting Retrospective pattern \n")
   if(plot){ 
-    if(print){
+    if(print_plot){
       
         pngfun(paste0("retro_",quant,".png",sep=""))
         par(par)

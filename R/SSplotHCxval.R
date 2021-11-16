@@ -20,9 +20,13 @@
 #' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets
 #' @param xmin optional number first year shown in plot (if available)  
 #' @param indexUncertainty Show fixed uncertainty intervals on index (not estimated)
-#' @param plot plot to active plot device?
-#' @param print print to PNG files?
-#' @param pdf not tested for TRUE
+#' @param plot plot to active plot device? Deprecated. 
+#' @param print print to PNG files? Deprecated. Please use print_plot.
+#' @param print_plot Option to print to PNG files
+#' @param png png plots. Deprecated, please use use_png
+#' @param use_png Draw plots in PNG format
+#' @param pdf PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.
+#' @param use_pdf option for pdf plots (not tested for TRUE)
 #' @param col Optional vector of colors to be used for lines. Input NULL
 #' @param pch Optional vector of plot character values
 #' @param lty Optional vector of line types
@@ -67,7 +71,6 @@
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
 #' @param indexQdigits Number of significant digits for catchability in legend
 #' @param shadealpha Transparancy adjustment used to make default shadecol. TODO: verify 
-#' @param png png TODO TODO. Default is FALSE
 #' @param xlim xlim TODO TODO. 
 #' @param xylabs x-axis and y-axis labels ?? Default is TRUE
 #' @param uncertainty uncertainty TODO TODO. Default is TRUE
@@ -77,14 +80,18 @@
 #' 
 #' @importFrom grDevices grey 
 #' @importFrom stats qnorm qlnorm
+#' @importFrom lifecycle deprecated
 #' 
 #' @export
 SSplotHCxval<- function(retroSummary,
                         subplots=c("cpue","len","age"),
                         Season="default",
-                        print=FALSE,
-                        png=print,
-                        pdf=FALSE,
+                        print=deprecated(),
+                        print_plot=FALSE,
+                        png=deprecated(),
+                        use_png=print_plot,
+                        pdf=deprecated(),
+                        use_pdf=FALSE,
                         models="all",
                         endyrvec="default",
                         xmin = NULL,
@@ -127,13 +134,49 @@ SSplotHCxval<- function(retroSummary,
                         shadecol2=grey(0.5,0.4),
                         shadealpha=0.3,
                         new=TRUE,
-                        add=FALSE,mcmcVec=FALSE,
+                        add=FALSE,
+                        mcmcVec=FALSE,
                         indexQlabel=TRUE,
                         indexQdigits=4,
                         indexfleets=1,
                         plot=TRUE,
                         shadecol1=grey(0.5,0.4)
                         ){ # plot different fits to a single index of abundance
+  
+  #Parameter DEPRECATION checks 
+  if (lifecycle::is_present(print)){
+    lifecycle::deprecate_warn("1.0.9","SSplotHCxval(print)","SSplotHCxcval(print_plot)")
+    print_plot <- print
+  }
+  
+  if(lifecycle::is_present(png)){
+    lifecycle::deprecate_warn("1.0.9", "SSplotHCxval(png)","SSplotHCxcval(use_png)")
+    use_png <- png
+  }
+  
+  if(lifecycle::is_present(pdf)){
+    lifecycle::deprecate_warn("1.0.9", "SSplotHCxval(pdf)","SSplotHCxval(use_pdf)")
+    use_pdf <- pdf
+  }
+  
+  if(!isTRUE(plot)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotHCxval(plot)",
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
+    )
+  }
+  
+  if(!isTRUE(new)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotHCxval(new)",
+      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
+    )
+  }
+  
+  
+  
   #------------------------------------------
   # r4ss plotting functions
   #------------------------------------------
@@ -189,15 +232,15 @@ SSplotHCxval<- function(retroSummary,
   
    
     
-    if(png) print <- TRUE
-    if(png & is.null(plotdir))
+    if(use_png) print_plot <- TRUE
+    if(use_png & is.null(plotdir))
       stop("to print PNG files, you must supply a directory as 'plotdir'")
     
     # check for internal consistency
-    if(pdf & png){
-      stop("To use 'pdf', set 'print' or 'png' to FALSE.")
+    if(use_pdf & use_png){
+      stop("To use 'use_pdf', set 'print_plot' or 'use_png' to FALSE.")
     }
-    if(pdf){
+    if(use_pdf){
       if(is.null(plotdir)){
         stop("to write to a PDF, you must supply a directory as 'plotdir'")
       }
@@ -305,7 +348,7 @@ SSplotHCxval<- function(retroSummary,
     if(legendorder[1]=="default") legendorder <- 1:nlines
     
     # open new window if requested
-    if(plot & png==FALSE){
+    if(plot & use_png==FALSE){
       if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       
     } else {
@@ -521,7 +564,7 @@ SSplotHCxval<- function(retroSummary,
       if(verbose) cat(paste0("\n","No observations in evaluation years to compute prediction residuals for Index ",indices2$Fleet_name[1]),"\n")
       MASE.i = NULL
       MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=NA,MAE.PR=NA,MAE.base=NA,MASE.adj=NA,n.eval=0)
-      if(png==FALSE & add==FALSE) dev.off()
+      if(use_png==FALSE & add==FALSE) dev.off()
     }
     return(list(MASE=MASE.i))
   } # End of plot_hcxval function  
@@ -531,7 +574,7 @@ SSplotHCxval<- function(retroSummary,
   if(plot){ 
     # LOOP through fleets
     nfleets=length(unique(hcruns$indices$Fleet))
-    if(print){
+    if(print_plot){
       
       MASE = NULL
       for(fi in 1:nfleets){

@@ -8,9 +8,12 @@ SSplotJABBAres(
   ss3rep = ss3diags::ss3sma,
   subplots = c("cpue", "len", "age")[1],
   plot = TRUE,
-  print = FALSE,
-  png = print,
-  pdf = FALSE,
+  print = deprecated(),
+  print_plot = FALSE,
+  png = deprecated(),
+  use_png = print_plot,
+  pdf = deprecated(),
+  use_pdf = FALSE,
   indexselect = NULL,
   miny = 3,
   col = NULL,
@@ -52,13 +55,19 @@ SSplotJABBAres(
 
 \item{subplots}{optional use of cpue and comp data (only tested for length)}
 
-\item{plot}{plot to active plot device?}
+\item{plot}{plot to active plot device? Deprecated.}
 
-\item{print}{print to PNG files?}
+\item{print}{print to PNG files? Deprecated. Please use print_plot.}
 
-\item{png}{png TODO TODO, Default is FALSE}
+\item{print_plot}{Option to print to PNG files}
 
-\item{pdf}{not tested for TRUE}
+\item{png}{png plots. Deprecated, please use use_png}
+
+\item{use_png}{Draw plots in PNG format}
+
+\item{pdf}{PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.}
+
+\item{use_pdf}{option for pdf plots (not tested for TRUE)}
 
 \item{indexselect}{Vector of fleet numbers for each model for which to compare}
 
@@ -132,7 +141,7 @@ It will be separated from default name by an underscore.}
 
 \item{boxcol}{color boxes}
 
-\item{new}{Create new empty plot window}
+\item{new}{Create new empty plot window. Deprecated.}
 
 \item{add}{surpresses par() to create multiplot figs}
 }

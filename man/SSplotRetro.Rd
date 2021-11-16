@@ -8,9 +8,12 @@ SSplotRetro(
   summaryoutput,
   subplots = c("SSB", "F"),
   plot = TRUE,
-  print = FALSE,
-  png = print,
-  pdf = FALSE,
+  print = deprecated(),
+  print_plot = FALSE,
+  png = deprecated(),
+  use_png = print_plot,
+  pdf = deprecated(),
+  use_pdf = FALSE,
   models = "all",
   endyrvec = "default",
   xlim = NULL,
@@ -64,13 +67,19 @@ SSplotRetro(
 
 \item{subplots}{Vector of subplots to be created}
 
-\item{plot}{plot to active plot device?}
+\item{plot}{Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.}
 
-\item{print}{print to PNG files?}
+\item{print}{print to PNG files? Deprecated. Please use print_plot.}
 
-\item{png}{png TODO TOO. Defaults to FALSE}
+\item{print_plot}{Option to print to PNG files}
 
-\item{pdf}{not tested for TRUE}
+\item{png}{png plots. Deprecated, please use use_png}
+
+\item{use_png}{Draw plots in PNG format}
+
+\item{pdf}{PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.}
+
+\item{use_pdf}{option for pdf plots (not tested for TRUE)}
 
 \item{models}{Optional subset of the models described in
 r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
@@ -162,7 +171,7 @@ It will be separated from default name by an underscore.}
 
 \item{shadecol}{uncertainty shading of hcxval horizon}
 
-\item{new}{Create new empty plot window}
+\item{new}{Create new empty plot window. Deprecated.}
 
 \item{add}{surpresses par() to create multiplot figs}
 

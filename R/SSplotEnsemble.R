@@ -8,9 +8,13 @@
 #' @param ylabs yaxis labels for quants
 #' final year of values to show for each model. By default it is set to the
 #' @param endyrvec ending year specified in each model.
-#' @param plot plot to active plot device?
-#' @param print print to PNG files?
-#' @param pdf not tested for TRUE
+#' @param plot Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.
+#' @param print print to PNG files? Deprecated. Please use print_plot. 
+#' @param print_plot print to PNG files?
+#' @param pdf not tested for TRUE. Deprecated. Please use use_pdf.
+#' @param use_pdf option for pdf plots (not tested for TRUE)
+#' @param png output in PNG format. Deprecated. Please use use_png.
+#' @param use_png Draw plots in PNG format
 #' @param col Optional vector of colors to be used for lines. Input NULL
 #' @param pch Optional vector of plot character values
 #' @param lty Optional vector of line types
@@ -49,11 +53,10 @@
 #' @param verbose Report progress to R GUI?
 #' @param shadecol uncertainty shading of hcxval horizon
 #' @param shadealpha Transparency adjustment used to make default shadecol
-#' @param new Create new empty plot window
+#' @param new Create new empty plot window. Deprecated.
 #' @param add surpresses par() to create multiplot figs
 #' @param summaryoutput List created by r4ss::SSummarize(). TODO: Verify
 #' @param quantiles quantile TODO TODO. Default is (.025,.075)
-#' @param png png TODO TODO Default is prinf ??
 #' @param xylabs xylabs X asis and Y axis labels TODO TODO. Default in NULL !
 #' @param uncertainty uncertainty TODO TODO. Default is TRUE
 #' @param mcmcVec mcmc vector TODO TODO. Default is FALSE
@@ -63,6 +66,7 @@
 #' @importFrom grDevices graphics.off rgb adjustcolor dev.new dev.off 
 #' @importFrom graphics polygon abline axis box
 #' @importFrom stats dnorm
+#' @importFrom lifecycle deprecated
 #' 
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 #' 
@@ -75,9 +79,12 @@ SSplotEnsemble<- function(kb, summaryoutput,
                         ylabs = NULL,
                         endyrvec="default",
                         plot=TRUE,
-                        print=FALSE,
-                        png=print,
+                        print=deprecated(),
+                        print_plot=FALSE,
+                        png=deprecated(),
+                        use_png=print_plot,
                         pdf=FALSE,
+                        use_pdf=FALSE,
                         col=NULL, 
                         pch=NULL,
                         lty=1, 
@@ -116,14 +123,47 @@ SSplotEnsemble<- function(kb, summaryoutput,
                         indexQdigits=4,
                         legendindex=NULL
                         ){ # plot different fits to a single index of abundance
+  
+  #Parameter DEPRECATION checks 
+  if (lifecycle::is_present(print)){
+    lifecycle::deprecate_warn("1.0.9","SSplotEnsemble(print)","SSplotEnsemble(print_plot)")
+    print_plot <- print
+  }
+  
+  if(lifecycle::is_present(png)){
+    lifecycle::deprecate_warn("1.0.9", "SSplotEnsemble(png)","SSplotEnsemble(use_png)")
+    use_png <- png
+  }
+  
+  if(lifecycle::is_present(pdf)){
+    lifecycle::deprecate_warn("1.0.9", "SSplotEnsemble(pdf)","SSplotEnsemble(use_pdf)")
+    use_pdf <- pdf
+  }
+  
+  if(!isTRUE(plot)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotEnsemble(plot)",
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
+    )
+  }
+    
+  if(!isTRUE(new)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotEnsemble(new)",
+      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
+    )
+  }
+  
   #------------------------------------------
   # r4ss plotting functions
   #------------------------------------------
   # subfunction to write png files
   if(!add) graphics.off()
   if(add){
-    print=F
-    png=F
+    print_plot=F
+    use_png=F
   }
   
   if(is.null(ylabs)){
@@ -154,15 +194,15 @@ SSplotEnsemble<- function(kb, summaryoutput,
   }
   
 
-  if(png) print <- TRUE
-  if(png & is.null(plotdir))
+  if(use_png) print_plot <- TRUE
+  if(use_png & is.null(plotdir))
     stop("to print PNG files, you must supply a directory as 'plotdir'")
   
   # check for internal consistency
-  if(pdf & png){
-    stop("To use 'pdf', set 'print' or 'png' to FALSE.")
+  if(use_pdf & use_png){
+    stop("To use 'use_pdf', set 'print_plot' or 'use_png' to FALSE.")
   }
-  if(pdf){
+  if(use_pdf){
     if(is.null(plotdir)){
       stop("to write to a PDF, you must supply a directory as 'plotdir'")
     }
@@ -179,15 +219,15 @@ SSplotEnsemble<- function(kb, summaryoutput,
   
   plot_quants <- function(quant="SSB"){  
     
-    if(png) print <- TRUE
-    if(png & is.null(plotdir))
+    if(use_png) print_plot <- TRUE
+    if(use_png & is.null(plotdir))
       stop("to print PNG files, you must supply a directory as 'plotdir'")
     
     # check for internal consistency
-    if(pdf & png){
-      stop("To use 'pdf', set 'print' or 'png' to FALSE.")
+    if(use_pdf & use_png){
+      stop("To use 'use_pdf', set 'print_plot' or 'use_png' to FALSE.")
     }
-    if(pdf){
+    if(use_pdf){
       if(is.null(plotdir)){
         stop("to write to a PDF, you must supply a directory as 'plotdir'")
       }
@@ -281,7 +321,7 @@ SSplotEnsemble<- function(kb, summaryoutput,
     if(legendorder[1]=="default") legendorder <- 1:(nlines)
     
     # open new window if requested
-    if(plot & png==FALSE){
+    if(plot & use_png==FALSE){
       if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       
     } else {
@@ -352,7 +392,7 @@ SSplotEnsemble<- function(kb, summaryoutput,
   if(plot){ 
       # subplots
       for(s in 1:length(subplots)){
-        if(print){
+        if(print_plot){
           quant=subplots[s]
           par(par)
           pngfun(paste0("ModelComp_",quant,".png",sep=""))
@@ -383,7 +423,7 @@ SSplotEnsemble<- function(kb, summaryoutput,
             legendcex = legendcex,
             legendsp = legendsp,
             shadealpha = shadealpha,
-            use_png = png,
+            use_png = use_png,
             pheight = pheight,
             ptsize = ptsize,
             ylimAdj = ylimAdj,
@@ -391,7 +431,8 @@ SSplotEnsemble<- function(kb, summaryoutput,
             xylabs = xylabs,
             quant_s = quant,
             indexQdigits = indexQdigits,
-            tickEndYr = tickEndYr
+            tickEndYr = tickEndYr,
+            show_plot_window = plot
           )
           ensemble_plot_index(summaryoutput, varlist_fleet_plot_index, indexfleets, verbose)   
           legend = legend.temp 
@@ -509,7 +550,7 @@ ensemble_plot_index <- function(summaryoutput, varlist, indexfleets=1, verbose=T
   if(legendorder[1]=="default") legendorder <- 1:nlines
   
   # open new window if requested
-  if(plot & varlist[["use_png"]]==FALSE){
+  if(varlist[["show_plot_window"]] & varlist[["use_png"]]==FALSE){
     # "Add" param does not pass through this function, negating its check.
     dev.new(width=varlist[["pwidth"]],
             height=varlist[["pheight"]],

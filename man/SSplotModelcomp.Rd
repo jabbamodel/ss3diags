@@ -66,7 +66,7 @@ SSplotModelcomp(
 \arguments{
 \item{summaryoutput}{List created by r4ss::SSsummarize()}
 
-\item{plot}{plot to active plot device?}
+\item{plot}{Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.}
 
 \item{print}{print to PNG. Deprecated.}
 
@@ -173,7 +173,7 @@ It will be separated from default name by an underscore.}
 
 \item{shadealpha}{Transparency adjustment used to make default shadecol}
 
-\item{new}{Create new empty plot window}
+\item{new}{Create new empty plot window. Deprecated.}
 
 \item{add}{surpresses par() to create multiplot figs}
 

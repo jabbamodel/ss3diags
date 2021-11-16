@@ -11,12 +11,13 @@ ss3diags::retro.phk
 retrosum.phk <- r4ss::SSsummarize(retro.phk)
 
 ## SSB
-test_that("Retrospective plot is created for SSB", {
+test_that("Retrospective plot is created for SSB (w/ deprecated parameters)", {
   
   SSplotRetro(retrosum.phk, 
               subplots = "SSB", 
               png = TRUE, 
-              print = T,
+              print = TRUE,
+              plot = TRUE,
               plotdir = path)
   
   expect_true(file.exists(file.path(path, "retro_SSB.png")))
@@ -24,13 +25,14 @@ test_that("Retrospective plot is created for SSB", {
   })
 
 ## F
-test_that("Retrospective plot is created for F", {
+test_that("Retrospective plot is created for F (w/ deprecated parameters)", {
   
 
   SSplotRetro(retrosum.phk, 
               subplots = "F", 
               png = TRUE, 
-              print = T,
+              print = TRUE,
+              plot = TRUE,
               plotdir = path)
   
   expect_true(file.exists(file.path(path, "retro_F.png")))

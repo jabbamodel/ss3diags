@@ -16,7 +16,7 @@
 #' @param indexselect = Vector of fleet numbers for each model for which to compare
 #' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets
 #' @param indexUncertainty Show fixed uncertainty intervals on index (not estimated)
-#' @param plot plot to active plot device?
+#' @param plot Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.
 #' @param print print to PNG. Deprecated.
 #' @param print_plot print to PNG files?
 #' @param pdf draw in PDF(not tested for TRUE). Deprecated
@@ -58,7 +58,7 @@
 #' @param verbose Report progress to R GUI?
 #' @param shadecol uncertainty shading of hcxval horizon
 #' @param shadealpha Transparency adjustment used to make default shadecol
-#' @param new Create new empty plot window
+#' @param new Create new empty plot window. Deprecated.
 #' @param add surpresses par() to create multiplot figs
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
@@ -130,20 +130,35 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
   
   #Parameter DEPRECATION checks 
   if (lifecycle::is_present(print)){
-    lifecycle::deprecate_warn("1.0.8","SSplotModelcomp(print)","SSplotModelcomp(print_plot)")
+    lifecycle::deprecate_warn("1.0.9","SSplotModelcomp(print)","SSplotModelcomp(print_plot)")
     print_plot <- print
   }
   
-  if(lifecycle::is_present("png")){
-    lifecycle::deprecate_warn("1.0.8", "SSplotModelcomp(png)","SSplotModelcomp(use_png)")
+  if(lifecycle::is_present(png)){
+    lifecycle::deprecate_warn("1.0.9", "SSplotModelcomp(png)","SSplotModelcomp(use_png)")
     use_png <- png
   }
   
-  if(lifecycle::is_present("pdf")){
-    lifecycle::deprecate_warn("1.0.8", "SSplotModelcomp(pdf)","SSplotModelcomp(use_pdf)")
+  if(lifecycle::is_present(pdf)){
+    lifecycle::deprecate_warn("1.0.9", "SSplotModelcomp(pdf)","SSplotModelcomp(use_pdf)")
     use_pdf <- pdf
   }
+
+  if(!isTRUE(plot)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotModelcomp(plot)",
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
+    )
+  }
   
+  if(!isTRUE(new)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotModelcomp(new)",
+      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
+    )
+  }
   
   #------------------------------------------
   # r4ss plotting functions
@@ -411,9 +426,14 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
       subexp <- indices2[["imodel"]]==imodel & yr>= xmin
       if(iline==1){
         if(indexUncertainty){
-          arrows(x0=yr[subset], y0=lower[subset], 
-                 x1=yr[subset], y1=upper[subset],
-                 length=0.02, angle=90, code=3, col=1)
+          arrows(x0=yr[subset], 
+                 y0=lower[subset], 
+                 x1=yr[subset], 
+                 y1=upper[subset],
+                 length=0.02, 
+                 angle=90, 
+                 code=3, 
+                 col=1)
           }
         points(yr[subset],obs[subset],pch=21,cex=1,bg="white")
       }
@@ -613,7 +633,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     
     # Check if uncertainty is measured
     if(uncertainty ==TRUE & sum(exp[,1]-lower[,1])==0){
-      if(verbose) cat("No uncertainty estimates available from the provided")
+      if(verbose) message("No uncertainty estimates available from the provided")
       uncertainty=FALSE
     }
     
@@ -656,9 +676,14 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
                   col=shadecol[iline],border=shadecol[iline])
         } else {
           adj <- 0.2*iline/nlines - 0.1
-          arrows(x0=yr+adj, y0=lower[,iline],
-          x1=yr+adj, y1=upper[,iline],
-          length=0.02, angle=90, code=3, col=col[iline])
+          arrows(x0=yr+adj, 
+                 y0=lower[,iline],
+                 x1=yr+adj, 
+                 y1=upper[,iline],
+                 length=0.02, 
+                 angle=90, 
+                 code=3, 
+                 col=col[iline])
         }
       }
     }
@@ -720,7 +745,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     
     # subplots
     for(s in 1:length(subplots)){
-      if(verbose) cat(paste0("\n","Plot Comparison of ",subplots[s],"\n"))
+      if(verbose) message(paste0("Plot Comparison of ",subplots[s]))
       if(subplots[s]!="Index"){  
         if(!add)par(par)
         quant=subplots[s]

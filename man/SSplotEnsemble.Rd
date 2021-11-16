@@ -12,8 +12,7 @@ SSplotEnsemble(
   quantiles = c(0.025, 0.975),
   ylabs = NULL,
   endyrvec = "default",
-  plot = deprecated(),
-  show_plot = TRUE,
+  plot = TRUE,
   print = deprecated(),
   print_plot = FALSE,
   png = deprecated(),
@@ -75,9 +74,7 @@ final year of values to show for each model. By default it is set to the}
 
 \item{endyrvec}{ending year specified in each model.}
 
-\item{plot}{plot to active plot device? Deprecated. Please use show_plot.}
-
-\item{show_plot}{Option to draw subplots and plot in the interface.}
+\item{plot}{Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.}
 
 \item{print}{print to PNG files? Deprecated. Please use print_plot.}
 

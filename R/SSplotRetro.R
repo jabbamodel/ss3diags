@@ -10,8 +10,7 @@
 #' final year of values to show for each model. By default it is set to the
 #' ending year specified in each model.
 #' @param subplots Vector of subplots to be created
-#' @param plot plot to active plot device? Deprecated, please use show_plot.
-#' @param show_plot Option to draw subplots and plot in the interface.
+#' @param plot Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.
 #' @param print print to PNG files? Deprecated. Please use print_plot.
 #' @param print_plot Option to print to PNG files
 #' @param png png plots. Deprecated, please use use_png
@@ -75,8 +74,7 @@
 #' @export
 SSplotRetro<- function(summaryoutput, 
                        subplots=c("SSB","F"),
-                       plot=deprecated(),
-                       show_plot=TRUE,
+                       plot=TRUE,
                        print=deprecated(),
                        print_plot=FALSE,
                        png=deprecated(),
@@ -147,10 +145,13 @@ SSplotRetro<- function(summaryoutput,
     lifecycle::deprecate_warn("1.0.9","SSplotRetro(png)","SSplotRetro(use_png)")
     use_png <- png
   }
-  
-  if(lifecycle::is_present(plot)){
-    lifecycle::deprecate_warn("1.0.9","SSplotRetro(plot)","SSplotRetro(show_plot)")
-    show_plot <- plot
+
+  if(!isTRUE(plot)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotRetro(plot)",
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
+    )
   }
   
   if(!isTRUE(new)){
@@ -317,7 +318,7 @@ SSplotRetro<- function(summaryoutput,
     if(legendorder[1]=="default") legendorder <- 1:(nlines)
     
     # open new window if requested
-    if(show_plot & use_png==FALSE){
+    if(plot & use_png==FALSE){
       if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       
     } else {
@@ -426,7 +427,7 @@ SSplotRetro<- function(summaryoutput,
   #------------------------------------------------------------
   
   if(verbose) cat("Plotting Retrospective pattern \n")
-  if(show_plot){ 
+  if(plot){ 
     if(print_plot){
       
         pngfun(paste0("retro_",quant,".png",sep=""))

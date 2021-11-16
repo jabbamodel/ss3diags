@@ -16,8 +16,7 @@
 #' @param indexselect = Vector of fleet numbers for each model for which to compare
 #' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets
 #' @param indexUncertainty Show fixed uncertainty intervals on index (not estimated)
-#' @param plot plot to active plot device? Deprecated.
-#' @param show_plot Option to draw subplots and plot in the interface.
+#' @param plot Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.
 #' @param print print to PNG. Deprecated.
 #' @param print_plot print to PNG files?
 #' @param pdf draw in PDF(not tested for TRUE). Deprecated
@@ -74,8 +73,7 @@
 #' @importFrom grDevices pdf
 #' @importFrom lifecycle deprecated
 SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
-                        plot=deprecated(),
-                        show_plot=TRUE,
+                        plot=TRUE,
                         print=deprecated(),
                         print_plot=FALSE,
                         png=deprecated(),
@@ -145,6 +143,14 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     lifecycle::deprecate_warn("1.0.9", "SSplotModelcomp(pdf)","SSplotModelcomp(use_pdf)")
     use_pdf <- pdf
   }
+
+  if(!isTRUE(plot)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotModelcomp(plot)",
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
+    )
+  }
   
   if(!isTRUE(new)){
     lifecycle::deprecate_warn(
@@ -153,12 +159,6 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
       details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
     )
   }
-  
-  if(lifecycle::is_present(plot)){
-    lifecycle::deprecate_warn("1.0.9","SSplotModelcomp(plot)","SSplotModelcomp(show_plot)")
-    show_plot <- plot
-  }
-  
   
   #------------------------------------------
   # r4ss plotting functions
@@ -334,7 +334,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     if(legendorder[1]=="default") legendorder <- 1:nlines
     
     # open new window if requested
-    if(show_plot & use_png==FALSE){
+    if(plot & use_png==FALSE){
       if(!add) {
         dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       }
@@ -622,7 +622,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     if(legendorder[1]=="default") legendorder <- 1:(nlines)
     
     # open new window if requested
-    if(show_plot & use_png==FALSE){
+    if(plot & use_png==FALSE){
       if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       
     } else {
@@ -715,7 +715,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
   } # End of plot_quant function  
   legend.temp = legend  
   # Do plotting
-  if(show_plot){ 
+  if(plot){ 
     # subplots
     for(s in 1:length(subplots)){
       if(print_plot){

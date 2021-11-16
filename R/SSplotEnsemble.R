@@ -8,8 +8,7 @@
 #' @param ylabs yaxis labels for quants
 #' final year of values to show for each model. By default it is set to the
 #' @param endyrvec ending year specified in each model.
-#' @param plot plot to active plot device? Deprecated. Please use show_plot.
-#' @param show_plot Option to draw subplots and plot in the interface.
+#' @param plot Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.
 #' @param print print to PNG files? Deprecated. Please use print_plot. 
 #' @param print_plot print to PNG files?
 #' @param pdf not tested for TRUE. Deprecated. Please use use_pdf.
@@ -79,8 +78,7 @@ SSplotEnsemble<- function(kb, summaryoutput,
                         quantiles = c(0.025,0.975),
                         ylabs = NULL,
                         endyrvec="default",
-                        plot=deprecated(),
-                        show_plot=TRUE,
+                        plot=TRUE,
                         print=deprecated(),
                         print_plot=FALSE,
                         png=deprecated(),
@@ -142,15 +140,18 @@ SSplotEnsemble<- function(kb, summaryoutput,
     use_pdf <- pdf
   }
   
-  if(lifecycle::is_present(plot)){
-    lifecycle::deprecate_warn("1.0.9","SSplotModelcomp(plot)","SSplotModelcomp(show_plot)")
-    show_plot <- plot
+  if(!isTRUE(plot)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotEnsemble(plot)",
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
+    )
   }
-  
+    
   if(!isTRUE(new)){
     lifecycle::deprecate_warn(
       when = "1.0.9",
-      what = "SSplotModelcomp(new)",
+      what = "SSplotEnsemble(new)",
       details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
     )
   }
@@ -320,7 +321,7 @@ SSplotEnsemble<- function(kb, summaryoutput,
     if(legendorder[1]=="default") legendorder <- 1:(nlines)
     
     # open new window if requested
-    if(show_plot & use_png==FALSE){
+    if(plot & use_png==FALSE){
       if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       
     } else {
@@ -388,7 +389,7 @@ SSplotEnsemble<- function(kb, summaryoutput,
   legend.temp = legend  
   
   # Do plotting
-  if(show_plot){ 
+  if(plot){ 
       # subplots
       for(s in 1:length(subplots)){
         if(print_plot){
@@ -431,7 +432,7 @@ SSplotEnsemble<- function(kb, summaryoutput,
             quant_s = quant,
             indexQdigits = indexQdigits,
             tickEndYr = tickEndYr,
-            show_plot_window = show_plot
+            show_plot_window = plot
           )
           ensemble_plot_index(summaryoutput, varlist_fleet_plot_index, indexfleets, verbose)   
           legend = legend.temp 

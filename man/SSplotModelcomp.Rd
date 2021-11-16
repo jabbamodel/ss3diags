@@ -6,8 +6,7 @@
 \usage{
 SSplotModelcomp(
   summaryoutput = ss3diags::aspm.sma,
-  plot = deprecated(),
-  show_plot = TRUE,
+  plot = TRUE,
   print = deprecated(),
   print_plot = FALSE,
   png = deprecated(),
@@ -67,9 +66,7 @@ SSplotModelcomp(
 \arguments{
 \item{summaryoutput}{List created by r4ss::SSsummarize()}
 
-\item{plot}{plot to active plot device? Deprecated.}
-
-\item{show_plot}{Option to draw subplots and plot in the interface.}
+\item{plot}{Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.}
 
 \item{print}{print to PNG. Deprecated.}
 

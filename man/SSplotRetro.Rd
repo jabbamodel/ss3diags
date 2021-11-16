@@ -7,8 +7,7 @@
 SSplotRetro(
   summaryoutput,
   subplots = c("SSB", "F"),
-  plot = deprecated(),
-  show_plot = TRUE,
+  plot = TRUE,
   print = deprecated(),
   print_plot = FALSE,
   png = deprecated(),
@@ -68,9 +67,7 @@ SSplotRetro(
 
 \item{subplots}{Vector of subplots to be created}
 
-\item{plot}{plot to active plot device? Deprecated, please use show_plot.}
-
-\item{show_plot}{Option to draw subplots and plot in the interface.}
+\item{plot}{Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.}
 
 \item{print}{print to PNG files? Deprecated. Please use print_plot.}
 

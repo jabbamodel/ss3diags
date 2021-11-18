@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSplotEnsemble.R
 \name{SSplotEnsemble}
 \alias{SSplotEnsemble}
-\title{SSplotHCxal() for one-step ahead hindcasting cross-validations of indices}
+\title{Multivariate lognormal (MVLN) Monte-Carlo distribution ensemble plot}
 \usage{
 SSplotEnsemble(
   kb,
@@ -171,7 +171,7 @@ It will be separated from default name by an underscore.}
 \item{legendindex}{Allows to add lengend for selected indices (plots)}
 }
 \description{
-Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals
+Plots the Distributions for SSB/SSB40, F/FSPR40, SSB, F, Recruitment and Catch trajectories for the target model.
 }
 \author{
 Mostly adopted from r4ss::SSplotComparisons by Taylor et al

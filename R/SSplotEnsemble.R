@@ -1,6 +1,6 @@
-#' SSplotHCxal() for one-step ahead hindcasting cross-validations of indices
-#'
-#' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
+#' Multivariate lognormal (MVLN) Monte-Carlo distribution ensemble plot
+#' 
+#' Plots the Distributions for SSB/SSB40, F/FSPR40, SSB, F, Recruitment and Catch trajectories for the target model. 
 #' 
 #' @param kb SSdeltaMVLN $kb type output    
 #' @param subplots option to "Bratio","Fvalue","SSB", "F", "Recr","Catch" 

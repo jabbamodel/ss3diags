@@ -1,4 +1,5 @@
 
+# Load ss3diags data
 ss3diags::ss3sma
 ss3diags::ss3phk
 ss3diags::ss3her

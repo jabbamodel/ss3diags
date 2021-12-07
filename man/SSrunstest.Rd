@@ -32,3 +32,5 @@ Residual diagnostics with runs test p-value and 3xsigma limits for Indices, mean
 \author{
 Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 }
+\keyword{diags}
+\keyword{runsTest}

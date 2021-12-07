@@ -5,6 +5,7 @@
 #' @param type only c("resid","observations")
 #' @param mixing c("less","greater","two.sided"). Default less is checking for postive autocorrelation only    
 #' @return runs p value and 3 x sigma limits
+#' @keywords diags runsTest
 #' @export
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 ssruns_sig3 <- function(x,type=NULL,mixing="less") {
@@ -84,6 +85,7 @@ ssruns_sig3 <- function(x,type=NULL,mixing="less") {
 #' @param xylabs draw x-axis and y-axis TODO TODO
 #' @return Runs Test p-values and sig3 limits
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' @keywords ssplot runsTest
 #' @importFrom lifecycle deprecated
 #' @export
 
@@ -355,6 +357,7 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
 #' @param verbose Report progress to R GUI?
 #' @return Runs Test p-values and sig3 limits
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' @keywords diags runsTest
 #' @export
 
 SSrunstest <- function(ss3rep=ss3diags::ss3sma,

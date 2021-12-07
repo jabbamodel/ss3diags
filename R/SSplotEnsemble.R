@@ -70,6 +70,7 @@
 #' 
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 #' 
+#' @keywords ssplot
 #' 
 #' @export
 SSplotEnsemble<- function(kb, summaryoutput,
@@ -452,6 +453,8 @@ SSplotEnsemble<- function(kb, summaryoutput,
 #' @param varlist variable list
 #' @param indexfleets Fleet vector index
 #' @param verbose Option to output messages to Rconsole
+#' 
+#' @keywords internal ssplot
 #' 
 #' @importFrom grDevices png
 #'

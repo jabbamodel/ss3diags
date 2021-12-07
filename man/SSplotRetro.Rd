@@ -191,3 +191,5 @@ Plots retrospective pattern, including (optional) one-step ahead forecast and co
 \author{
 Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 }
+\keyword{retro}
+\keyword{ssplot}

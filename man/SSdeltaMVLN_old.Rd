@@ -60,3 +60,6 @@ including plotting option
 \author{
 Henning Winker (JRC-EC)
 }
+\keyword{diags}
+\keyword{kobe}
+\keyword{lognormal}

@@ -7,6 +7,7 @@
 #' @param mai graphical par for plot margins
 #' @param labs if TRUE margins are narrow 
 #' @param omi Outer margins in lines of text.  
+#' @keywords ssplot utils
 #' @export
 sspar <- function(mfrow=c(1,1),plot.cex=1,mai=c(0.55,0.6,0.1,.1),omi = c(0.,0.,0.,0)+ 0.1,labs=TRUE){
   if(labs==F){
@@ -22,6 +23,7 @@ sspar <- function(mfrow=c(1,1),plot.cex=1,mai=c(0.55,0.6,0.1,.1),omi = c(0.,0.,0
 #' @param time.steps  time steps behind yrs e.g. 0.25 for quarterly 
 #' @param end.time last time step e.g. 2018.75 with a cpue observation
 #' @return Reformatted Rep file outputs
+#' @keywords utils rep retro retrocomps
 #' @export
 SSdiagsTime2Year = function(ss3out,time.steps=0.25,end.time){
   if(is.null(ss3out$len)==F | is.null(ss3out$len)==F){
@@ -81,6 +83,7 @@ SSdiagsTime2Year = function(ss3out,time.steps=0.25,end.time){
 #' @param n number of colors
 #' @param alpha transluscency 
 #' @return vector of color codes
+#' @keywords ssplot utils
 #' @export
 rc <- function(n,alpha=1){
   # a subset of rich.colors by Arni Magnusson from the gregmisc package
@@ -100,6 +103,7 @@ rc <- function(n,alpha=1){
 #' @param n number of colors
 #' @param alpha transluscency 
 #' @return vector of color codes
+#' @keywords ssplot utils
 #' @export
 sscol <- function(n,alpha=1){
 if(n>3) col <- rc(n+1)[-1]

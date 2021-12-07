@@ -54,3 +54,6 @@ MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate, when obs show
 \author{
 Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 }
+\keyword{MASE}
+\keyword{diags}
+\keyword{hindcasting}

@@ -21,6 +21,7 @@
 #' @param residuals TODO! Default is FALSE.
 #' @return MASE and hcxval statistic
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
+#' @keywords diags MASE hindcasting
 #' @export
 SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
                         models="all",endyrvec="default",indexselect = NULL,MAE.base.adj=0.1,residuals=FALSE,

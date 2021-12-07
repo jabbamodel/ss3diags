@@ -203,3 +203,5 @@ MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate if obs show ve
 \author{
 Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 }
+\keyword{hindcasting}
+\keyword{ssplot}

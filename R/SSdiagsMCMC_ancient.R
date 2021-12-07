@@ -17,6 +17,7 @@
 #' @param verbose Report progress to R GUI?
 #' @return output list of quant mcmc posteriors and mle's
 #' @author Henning Winker (JRC-EC), Massimiliano and Laurence Kell (Sea++)
+#' @keywords diags MCMC
 #' @export
 
 SSdiagsMCMC_ancient = function(mcmc,ss3rep,Fref = NULL,years=NULL,run="MCMC",thin = 1,plot=TRUE,

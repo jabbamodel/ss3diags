@@ -27,3 +27,5 @@ sspar(
 Set the par() to options suitable for ss3diags multi plots. See \link[graphics]{par} 
 for more details on each parameter.
 }
+\keyword{ssplot}
+\keyword{utils}

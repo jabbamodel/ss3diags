@@ -176,3 +176,4 @@ Plots the Distributions for SSB/SSB40, F/FSPR40, SSB, F, Recruitment and Catch t
 \author{
 Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 }
+\keyword{ssplot}

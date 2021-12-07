@@ -56,6 +56,8 @@
 #' 
 #' @author Henning Winker (JRC-EC)
 #' 
+#' @keywords ssplot
+#' 
 #' @importFrom grDevices grey
 #' @importFrom graphics boxplot 
 #' @importFrom stats predict loess runif

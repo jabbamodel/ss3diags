@@ -78,6 +78,8 @@
 #' 
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 #' 
+#' @keywords ssplot hindcasting
+#' 
 #' @importFrom grDevices grey 
 #' @importFrom stats qnorm qlnorm
 #' @importFrom lifecycle deprecated

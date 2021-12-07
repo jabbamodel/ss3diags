@@ -70,6 +70,7 @@
 #' @param uncertainty uncertainty TODO TODO. Defaults to TRUE.
 #' @param shadealpha shadealpha TODO TODO. Defalut to 0.3
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' @keywords ssplot retro
 #' @importFrom lifecycle deprecated
 #' @export
 SSplotRetro<- function(summaryoutput, 

@@ -7,6 +7,7 @@
 #' @param verbose Report progress to R GUI?
 #' @return output list with Bratio and F settings
 #' @author Henning Winker (JRC-EC)
+#' @keywords diags
 #' @export
 
 SSsettingsBratioF = function(ss3rep,status=c('Bratio','F'),verbose=TRUE){

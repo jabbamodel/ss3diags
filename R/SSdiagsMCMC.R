@@ -6,6 +6,7 @@
 #' @return Stock Synthesis mcmc output file
 #' @author Henning Winker (JRC-EC) & Laurence Kell (Sea++)
 #' @export
+#' @keywords utils MCMC
 #' @importFrom utils read.csv
 #' 
 SSreadMCMC <- function(mcmcdir){
@@ -38,6 +39,7 @@ SSreadMCMC <- function(mcmcdir){
 #' @param verbose Report progress to R GUI?
 #' @return output list of quant mcmc posteriors and mle's
 #' @author Henning Winker (JRC-EC), Massimiliano and Laurence Kell (Sea++)
+#' @keywords diags MCMC
 #' @export
 
 SSdiagsMCMC = function(mcmc,ss3rep,Fref = NULL,years=NULL,run="MCMC",thin = 1,plot=TRUE,

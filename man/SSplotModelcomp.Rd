@@ -191,3 +191,5 @@ Plots one-step ahead hindcasting cross-validations and computes MASE from predic
 \author{
 Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 }
+\keyword{hindcasting}
+\keyword{ssplot}

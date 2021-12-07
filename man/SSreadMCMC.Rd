@@ -18,3 +18,5 @@ function to read mcmc file outputs
 \author{
 Henning Winker (JRC-EC) & Laurence Kell (Sea++)
 }
+\keyword{MCMC}
+\keyword{utils}

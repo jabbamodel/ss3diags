@@ -69,6 +69,7 @@
 #' @param xylabs draw x-axis and y-axis TODO TODO
 #' @param uncertainty uncertainty TODO TODO. Deafults to TRUE
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
+#' @keywords ssplot hindcasting
 #' @export
 #' @importFrom grDevices pdf
 #' @importFrom lifecycle deprecated

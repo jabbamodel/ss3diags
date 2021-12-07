@@ -1,6 +1,6 @@
 #' KOBE phase plot
 #'
-#' plots the stock status uncertaint over SSB/SSBmsy and F/Fmsy
+#' plots the stock status uncertainty over SSB/SSBmsy and F/Fmsy
 #'
 #' @param kb output from SSdeltaMVLN()$kb
 #' @param joint option FALSE shows individual runs
@@ -20,6 +20,7 @@
 #' @param verbose Output to R console. Default is TRUE 
 #' @return Kobe Quadrant percentages
 #' @export
+#' @keywords ssplot kobe
 #' @importFrom gplots ci2d
 #' @importFrom graphics text
 #' @importFrom stats median 

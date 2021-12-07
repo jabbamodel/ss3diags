@@ -22,3 +22,5 @@ runs test is conducted with library(randtests)
 \author{
 Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 }
+\keyword{diags}
+\keyword{runsTest}

@@ -151,3 +151,4 @@ plots residuals for all indices as boxplot with a loess showing systematic trend
 \author{
 Henning Winker (JRC-EC)
 }
+\keyword{ssplot}

@@ -60,5 +60,7 @@ SSplotKobe(
 Kobe Quadrant percentages
 }
 \description{
-plots the stock status uncertaint over SSB/SSBmsy and F/Fmsy
+plots the stock status uncertainty over SSB/SSBmsy and F/Fmsy
 }
+\keyword{kobe}
+\keyword{ssplot}

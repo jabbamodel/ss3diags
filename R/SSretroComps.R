@@ -1,4 +1,4 @@
-#' SSretroComps
+#' Multi Model Length/age comp
 #' 
 #' Wrapper to get observed and expected mean length/age from multiple Stock Synthesis models.
 #' 

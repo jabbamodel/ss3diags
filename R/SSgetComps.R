@@ -1,4 +1,4 @@
-#' SSretroComps
+#' SSretroComps get
 #' 
 #' Get observed and expected mean length/age from multiple Stock Synthesis models.
 #' Wrapper that uses r4ss::SSgetoutput() and SScompsTA1.8()

@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSgetComps.R, R/SSretroComps.R
 \name{SSretroComps}
 \alias{SSretroComps}
-\title{SSretroComps}
+\title{SSretroComps get}
 \usage{
 SSretroComps(retroModels)
 

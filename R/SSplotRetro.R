@@ -1,4 +1,4 @@
-#' SSplotRetro() Retrospective-Forecast with one-step ahead hindcasting 
+#' Retrospective-Forecast with one-step ahead hindcasting 
 #'
 #' Plots retrospective pattern, including (optional) one-step ahead forecast and computes Mohn's Rho 
 #' 
@@ -69,9 +69,13 @@
 #' @param xylabs Draw x and y axis lables (?) TODO TODO. Defaults to TRUE
 #' @param uncertainty uncertainty TODO TODO. Defaults to TRUE.
 #' @param shadealpha shadealpha TODO TODO. Defalut to 0.3
+#' 
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' 
 #' @keywords ssplot retro
+#' 
 #' @importFrom lifecycle deprecated
+#' 
 #' @export
 SSplotRetro<- function(summaryoutput, 
                        subplots=c("SSB","F"),

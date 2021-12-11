@@ -1,12 +1,17 @@
-#' SSreadMCMC() 
+#' Reads in Stock Synthesis MCMC file  
 #'
-#' function to read mcmc file outputs
+#' Imports the Stock Synthesis derived posteriors output file for MCMC data.
 #'
 #' @param mcmcdir file path for folder with the derived_posteriors.sso file
+#' 
 #' @return Stock Synthesis mcmc output file
+#' 
 #' @author Henning Winker (JRC-EC) & Laurence Kell (Sea++)
+#' 
 #' @export
+#' 
 #' @keywords utils MCMC
+#' 
 #' @importFrom utils read.csv
 #' 
 SSreadMCMC <- function(mcmcdir){
@@ -23,7 +28,7 @@ SSreadMCMC <- function(mcmcdir){
 
 #' SSdiagsMCMC() 
 #'
-#' function to read mcmc file outputs for Kobe and SSplotEnsemble() plotting
+#' Read mcmc file outputs for Kobe and SSplotEnsemble() plotting
 #'
 #' @param mcmc file path for folder with the derived_posteriors.sso file
 #' @param ss3rep from r4ss::SS_output
@@ -37,9 +42,13 @@ SSreadMCMC <- function(mcmcdir){
 #' @param addprj include forecast years
 #' @param legendcex Allows to adjust legend cex
 #' @param verbose Report progress to R GUI?
+#' 
 #' @return output list of quant mcmc posteriors and mle's
+#' 
 #' @author Henning Winker (JRC-EC), Massimiliano and Laurence Kell (Sea++)
+#' 
 #' @keywords diags MCMC
+#' 
 #' @export
 
 SSdiagsMCMC = function(mcmc,ss3rep,Fref = NULL,years=NULL,run="MCMC",thin = 1,plot=TRUE,

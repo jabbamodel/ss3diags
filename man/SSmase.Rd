@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSmase.R
 \name{SSmase}
 \alias{SSmase}
-\title{SSmase() computes MASE for one-step ahead hindcasting cross-validations of indices}
+\title{Computes MASE for one-step ahead hindcasting cross-validations of indices}
 \usage{
 SSmase(
   retroSummary,

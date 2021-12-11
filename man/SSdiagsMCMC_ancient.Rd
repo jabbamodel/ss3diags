@@ -2,9 +2,7 @@
 % Please edit documentation in R/SSdiagsMCMC_ancient.R
 \name{SSdiagsMCMC_ancient}
 \alias{SSdiagsMCMC_ancient}
-\title{SSdiagsMCMC_ancient() 
-RECOVERING OLD SS runs
-function to read mcmc file outputs for Kobe and SSplotEnsemble() plotting}
+\title{SSdiagsMCMC_ancient()}
 \usage{
 SSdiagsMCMC_ancient(
   mcmc,
@@ -50,9 +48,7 @@ SSdiagsMCMC_ancient(
 output list of quant mcmc posteriors and mle's
 }
 \description{
-SSdiagsMCMC_ancient() 
-RECOVERING OLD SS runs
-function to read mcmc file outputs for Kobe and SSplotEnsemble() plotting
+RECOVERING OLD SS runs function to read mcmc file outputs for Kobe and SSplotEnsemble() plotting
 }
 \author{
 Henning Winker (JRC-EC), Massimiliano and Laurence Kell (Sea++)

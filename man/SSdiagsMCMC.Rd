@@ -48,7 +48,7 @@ SSdiagsMCMC(
 output list of quant mcmc posteriors and mle's
 }
 \description{
-function to read mcmc file outputs for Kobe and SSplotEnsemble() plotting
+Read mcmc file outputs for Kobe and SSplotEnsemble() plotting
 }
 \author{
 Henning Winker (JRC-EC), Massimiliano and Laurence Kell (Sea++)

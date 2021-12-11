@@ -1,4 +1,4 @@
-#' SSmase() computes MASE for one-step ahead hindcasting cross-validations of indices
+#' Computes MASE for one-step ahead hindcasting cross-validations of indices
 #'
 #' MASE for one-step ahead hindcasting cross-validations and computes MASE from prediction residuals. 
 #' MASE is calculated the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and Naive Predictions (MAE.base)
@@ -19,9 +19,13 @@
 #' @param MAE.base.adj minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)   
 #' @param verbose Report progress to R GUI?
 #' @param residuals TODO! Default is FALSE.
+#' 
 #' @return MASE and hcxval statistic
+#' 
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
+#' 
 #' @keywords diags MASE hindcasting
+#' 
 #' @export
 SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
                         models="all",endyrvec="default",indexselect = NULL,MAE.base.adj=0.1,residuals=FALSE,

@@ -1,4 +1,4 @@
-#' SSplotHCxval() for one-step ahead hindcasting cross-validations of indices
+#' One-step ahead hindcasting cross-validations
 #'
 #' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction residuals. 
 #' MASE is calculated as the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and naive predictions (MAE.base)
@@ -39,7 +39,7 @@
 #' @param yaxs Choice of yaxs parameter (see ?par for more info)
 #' @param type Type parameter passed to points (default 'o' overplots points on
 #' top of lines)
-#' @param legend Add a legend?
+#' @param legend Option to add a legend. TRUE by default.
 #' @param legendlabels Optional vector of labels to include in legend.
 #' @param legendloc Location of legend. Either a string like "topleft" or a vector
 #' of two numeric values representing the fraction of the maximum in the x and y

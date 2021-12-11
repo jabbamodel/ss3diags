@@ -1,6 +1,6 @@
 #' Delta Multivariate Log-normal Distribution
 #'
-#' function to generatbe kobe pdfs from a Multivariate Log-Normal Distribution
+#' Generatbe kobe pdfs from a Multivariate Log-Normal Distribution
 #' including plotting option
 #'
 #' @param ss3rep from r4ss::SS_output

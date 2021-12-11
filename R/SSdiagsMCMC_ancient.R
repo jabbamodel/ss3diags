@@ -1,7 +1,7 @@
 
 #' SSdiagsMCMC_ancient() 
-#' RECOVERING OLD SS runs
-#' function to read mcmc file outputs for Kobe and SSplotEnsemble() plotting
+#' 
+#' RECOVERING OLD SS runs function to read mcmc file outputs for Kobe and SSplotEnsemble() plotting
 #'
 #' @param mcmc file path for folder with the derived_posteriors.sso file
 #' @param ss3rep from r4ss::SS_output
@@ -15,9 +15,13 @@
 #' @param addprj include forecast years
 #' @param legendcex Allows to adjust legend cex
 #' @param verbose Report progress to R GUI?
+#' 
 #' @return output list of quant mcmc posteriors and mle's
+#' 
 #' @author Henning Winker (JRC-EC), Massimiliano and Laurence Kell (Sea++)
+#' 
 #' @keywords diags MCMC
+#' 
 #' @export
 
 SSdiagsMCMC_ancient = function(mcmc,ss3rep,Fref = NULL,years=NULL,run="MCMC",thin = 1,plot=TRUE,

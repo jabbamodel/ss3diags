@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSplotRetro.R
 \name{SSplotRetro}
 \alias{SSplotRetro}
-\title{SSplotRetro() Retrospective-Forecast with one-step ahead hindcasting}
+\title{Retrospective-Forecast with one-step ahead hindcasting}
 \usage{
 SSplotRetro(
   summaryoutput,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSplotHCxval.R
 \name{SSplotHCxval}
 \alias{SSplotHCxval}
-\title{SSplotHCxval() for one-step ahead hindcasting cross-validations of indices}
+\title{One-step ahead hindcasting cross-validations}
 \usage{
 SSplotHCxval(
   retroSummary,
@@ -130,7 +130,7 @@ top of lines)}
 
 \item{uncertainty}{uncertainty TODO TODO. Default is TRUE}
 
-\item{legend}{Add a legend?}
+\item{legend}{Option to add a legend. TRUE by default.}
 
 \item{legendlabels}{Optional vector of labels to include in legend.}
 

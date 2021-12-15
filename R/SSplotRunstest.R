@@ -47,8 +47,12 @@ ssruns_sig3 <- function(x, type=NULL, mixing="less") {
 #' @param indexselect Vector of fleet numbers for each model for which to compare
 #' @param miny  minimum abs values of ylim
 #' @param plot plot to active plot device?
-#' @param print print to PNG files?
-#' @param pdf not tested for TRUE
+#' @param print print to PNG files? Deprecated. Please use print_plot.
+#' @param print_plot Option to print to PNG files
+#' @param png png plots. Deprecated, please use use_png
+#' @param use_png Draw plots in PNG format
+#' @param pdf PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.
+#' @param use_pdf option for pdf plots (not tested for TRUE)
 #' @param pch Optional vector of plot character values
 #' @param lty Optional vector of line types
 #' @param lwd Optional vector of line widths
@@ -76,20 +80,23 @@ ssruns_sig3 <- function(x, type=NULL, mixing="less") {
 #' @param verbose TRUE or FALSE, should the progress be reported to R GUI?
 #' @param new Create new empty plot window (TRUE or FALSE)
 #' @param add suppresses par() to create multiplot figs
-#' @param png png TODO TODO Defaults to print value
 #' @param xlim xlim TODO TODO
 #' @param xylabs draw x-axis and y-axis TODO TODO
 #' @return a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet. Note, runs test passed if p-value > 0.05 (residuals are random) and failed if p-value < 0.5 (residuals are not random)
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' @importFrom lifecycle deprecated
 #' @export
 
 SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
                            mixing="less",
                            subplots=c("cpue","len","age", "con")[1], 
                            plot=TRUE,
-                           print=FALSE,
-                           png=print,
-                           pdf=FALSE,
+                           print=deprecated(),
+                           print_plot=FALSE,
+                           png=deprecated(),
+                           use_png=print_plot,
+                           pdf=deprecated(),
+                           use_pdf=FALSE,
                            indexselect = NULL,
                            miny = 1,
                            pch=21, 
@@ -117,15 +124,48 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
                            verbose=TRUE,
                            new=TRUE,
                            add=FALSE){
+
+  #Parameter DEPRECATION checks 
+  if (lifecycle::is_present(print)){
+    lifecycle::deprecate_warn("1.0.9","SSplotRunstest(print)","SSplotRunstest(print_plot)")
+    print_plot <- print
+  }
   
+  if(lifecycle::is_present(png)){
+    lifecycle::deprecate_warn("1.0.9", "SSplotRunstest(png)","SSplotRunstest(use_png)")
+    use_png <- png
+  }
+  
+  if(lifecycle::is_present(pdf)){
+    lifecycle::deprecate_warn("1.0.9", "SSplotRunstest(pdf)","SSplotRunstest(use_pdf)")
+    use_pdf <- pdf
+  }
+  
+  if(!isTRUE(plot)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotRunsTest(plot)",
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
+    )
+  }
+  
+  if(!isTRUE(new)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotJABBAres(new)",
+      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
+    )
+  }
+  
+    
     #-------------------------------------------
     # r4ss plotting functions and coding style
     #-------------------------------------------
     # subfunction to write png files
     if(!add) graphics.off()
     if(add){
-      print=F
-      png=F
+      print_plot=F
+      use_png=F
     }
   
     subplots = subplots[1]
@@ -181,15 +221,15 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
     
     
     
-    if(png) print <- TRUE
-    if(png & is.null(plotdir))
+    if(use_png) print_plot <- TRUE
+    if(use_png & is.null(plotdir))
       stop("to print PNG files, you must supply a directory as 'plotdir'")
     
     # check for internal consistency
-    if(pdf & png){
-      stop("To use 'pdf', set 'print' or 'png' to FALSE.")
+    if(use_pdf & use_png){
+      stop("To use 'use_pdf', set 'print_plot' or 'use_png' to FALSE.")
     }
-    if(pdf){
+    if(use_pdf){
       if(is.null(plotdir)){
         stop("to write to a PDF, you must supply a directory as 'plotdir'")
       }
@@ -215,7 +255,7 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
       
     
       # open new window if requested
-      if(plot & png==FALSE){
+      if(plot & use_png==FALSE){
         if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
         
       } else {
@@ -273,7 +313,8 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
     if(plot){ 
       # LOOP through fleets
       nfleets=n.indices
-      if(print){ #TODO: change this to makePNG
+
+      if(print_plot){  #TODO: change this to makePNG
         
         runs = NULL
         for(fi in 1:nfleets){

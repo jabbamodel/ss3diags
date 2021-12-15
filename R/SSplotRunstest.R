@@ -1,13 +1,12 @@
-#' Function to do runs.test and 3 x sigma limits
+#' This function uses randtests::runs.test to do perform a runs test on residuals to determine if they are randomly distributed. It also calculates the 3 x sigma limits
 #'
-#' runs test is conducted with library(randtests)
 #' @param x residuals from CPUE fits
-#' @param type only c("resid","observations")
-#' @param mixing c("less","greater","two.sided"). Default less is checking for postive autocorrelation only    
-#' @return runs p value and 3 x sigma limits
+#' @param type either "resid","observations". If NULL, defaults to "resid"
+#' @param mixing c("less","greater","two.sided"). Default less (corresponds to left.sided in runs.test function) is checking for positive autocorrelation only    
+#' @return a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet.
 #' @export
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
-ssruns_sig3 <- function(x,type=NULL,mixing="less") {
+ssruns_sig3 <- function(x, type=NULL, mixing="less") {
   if(is.null(type)) type="resid"
   if(type=="resid"){
     mu = 0}else{mu = mean(x, na.rm = TRUE)}
@@ -37,13 +36,14 @@ ssruns_sig3 <- function(x,type=NULL,mixing="less") {
 }
 
 
-#' plot function for runs test plot 
+#' Function for residual diagnostics. Plots residuals and 3x sigma limits for indices or mean age or length and outputs a runs test table. Note, if you do not want to plot the residuals, use function ss3diags::SSrunstest.
 #'
-#' Residual diagnostics with runs test p-value and 3xsigma limits for Indices and meanL
-#'
-#' @param ss3rep from r4ss::SSgetoutput()$replist1
-#' @param mixing c("less","greater","two.sided"). Default less is checking for postive autocorrelation only    
-#' @param subplots optional use of c("cpue","len","age"), yet to be tested for age.
+#' 
+#' @param ss3rep Stock Synthesis output as read by r4SS function SS_output
+#' @param mixing c("less","greater","two.sided"). Default less is checking for positive autocorrelation only    
+#' @param subplots optional 'cpue' for index data, 'len' for length composition data, 'size' for
+#' generalized size composition data, 'age' for age composition data,
+#' or 'con' for conditional age at length data
 #' @param indexselect Vector of fleet numbers for each model for which to compare
 #' @param miny  minimum abs values of ylim
 #' @param plot plot to active plot device?
@@ -77,19 +77,19 @@ ssruns_sig3 <- function(x,type=NULL,mixing="less") {
 #' @param filenameprefix Additional text to append to PNG or PDF file names.
 #' It will be separated from default name by an underscore.
 #' @param par list of graphics parameter values passed to par() function
-#' @param verbose Report progress to R GUI?
-#' @param new Create new empty plot window
-#' @param add surpresses par() to create multiplot figs
+#' @param verbose TRUE or FALSE, should the progress be reported to R GUI?
+#' @param new Create new empty plot window (TRUE or FALSE)
+#' @param add suppresses par() to create multiplot figs
 #' @param xlim xlim TODO TODO
 #' @param xylabs draw x-axis and y-axis TODO TODO
-#' @return Runs Test p-values and sig3 limits
+#' @return a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet. Note, runs test passed if p-value > 0.05 (residuals are random) and failed if p-value < 0.5 (residuals are not random)
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @importFrom lifecycle deprecated
 #' @export
 
 SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
                            mixing="less",
-                           subplots=c("cpue","len","age")[1],
+                           subplots=c("cpue","len","age", "con")[1], 
                            plot=TRUE,
                            print=deprecated(),
                            print_plot=FALSE,
@@ -169,9 +169,9 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
     }
   
     subplots = subplots[1]
-    datatypes= c("Index","Mean length","Mean age")
-    ylabel = datatypes[which(c("cpue","len","age")%in%subplots)]
-    if(verbose) cat('\n',"Running Runs Test Diagnosics for",datatypes[which(c("cpue","len","age")%in%subplots)],'\n')
+    datatypes= c("Index","Mean length","Mean age", "Conditional age-at-length")
+    ylabel = datatypes[which(c("cpue","len","age", "con")%in%subplots)]
+    if(verbose) cat('\n',"Running Runs Test Diagnosics for",datatypes[which(c("cpue","len","age", "con")%in%subplots)],'\n')
     if(subplots=="cpue"){
     cpue = ss3rep$cpue
     cpue$residuals = ifelse(is.na(cpue$Obs) | is.na(cpue$Like),NA,log(cpue$Obs)-log(cpue$Exp))
@@ -189,6 +189,14 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
       Res = comps
     }  
       
+    if(subplots=="con"){
+      cond = SScompsTA1.8(ss3rep,fleet=NULL,type=subplots,plotit = FALSE)$runs_dat
+      cond$residuals = ifelse(is.na(cond$Obs),NA,log(cond$Obs)-log(cond$Exp))
+      if(is.null(cond$Fleet_name)){ # Deal with Version control
+        cond$Fleet_name = cond$Name}
+      Res = cond
+    }
+    
     pngfun <- function(file){
     # if extra text requested, add it before extention in file name
     file <- paste0(filenameprefix, file)
@@ -200,7 +208,7 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
   }
   
   # subset if indexselect is specified
-  if(is.null(indexselect) ==F & is.numeric(indexselect)){
+  if(is.null(indexselect) == F & is.numeric(indexselect)){
     iname =  unique(Res$Fleet_name)[indexselect]
     if(TRUE %in% is.na(iname)) stop("One or more index numbers exceed number of available indices")
     Res = Res[Res$Fleet_name%in%iname,]
@@ -305,7 +313,8 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
     if(plot){ 
       # LOOP through fleets
       nfleets=n.indices
-      if(print_plot){
+
+      if(print_plot){  #TODO: change this to makePNG
         
         runs = NULL
         for(fi in 1:nfleets){
@@ -339,35 +348,34 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
     
     runstable = data.frame(Index=indices,runs.p=as.matrix(runs)[,1],Test=ifelse(is.na(as.matrix(runs)[,1]),"Excluded",ifelse(as.matrix(runs)[,1]<0.05,"Failed","Passed")),sigma3.lo=as.matrix(runs)[,2],sigma3.hi=as.matrix(runs)[,3],type=subplots) 
     colnames(runstable) = c("Index","runs.p","test","sigma3.lo","sigma3.hi","type")
-    if(verbose) cat(paste0("\n","Runs Test stats by ",datatypes[which(c("cpue","len","age")%in%subplots)],":","\n"))
+    if(verbose) cat(paste0("\n","Runs Test stats by ",datatypes[which(c("cpue","len","age","con")%in%subplots)],":","\n"))
     return(runstable)
 } # end of SSplotRuns()
 #-----------------------------------------------------------------------------------------
 
-#' runs test  
+#' Function for residual diagnostics. Outputs a runs test table that gives runs test p-values, if the runs test passed (p-value > 0.05, residuals are random) or failed (p-value < 0.05, residuals are not random), the 3x sigma limits for indices or mean age or length and the type of input data (cpue, length comp, age comp, size comp, or conditional age-at-length).  
 #'
-#' Residual diagnostics with runs test p-value and 3xsigma limits for Indices, mean length and mean age
 #'
-#' @param ss3rep from r4ss::SSgetoutput()$replist1
-#' @param mixing c("less","greater","two.sided"). Default less is checking for postive autocorrelation only    
-#' @param quants optional use of c("cpue","len","age"), yet to be tested for age.
+#' @param ss3rep Stock Synthesis output as read by r4SS function SS_output
+#' @param mixing c("less","greater","two.sided"). Default less is checking for positive autocorrelation only    
+#' @param quants optional use of c("cpue","len","age","con"), default uses CPUE.
 #' @param indexselect Vector of fleet numbers for each model for which to compare
 #' @param verbose Report progress to R GUI?
-#' @return Runs Test p-values and sig3 limits
+#' @return a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet. Note, runs test passed if p-value > 0.05 (residuals are random) and failed if p-value < 0.5 (residuals are not random)
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @export
 
 SSrunstest <- function(ss3rep=ss3diags::ss3sma,
                        mixing="less",
-                       quants=c("cpue","len","age")[1],
+                       quants=c("cpue","len","age","con")[1],
                        indexselect = NULL,
                        verbose=TRUE){
   
   
-  datatypes= c("Index","Mean length","Mean age")
+  datatypes= c("Index","Mean length","Mean age","Conditional age-at-length")
   subplots = quants
-  ylabel = datatypes[which(c("cpue","len","age")%in%subplots)]
-  if(verbose) cat('\n',"Running Runs Test Diagnosics for",datatypes[which(c("cpue","len","age")%in%subplots)],'\n')
+  ylabel = datatypes[which(c("cpue","len","age","con")%in%subplots)]
+  if(verbose) cat('\n',"Running Runs Test Diagnosics for",datatypes[which(c("cpue","len","age","con")%in%subplots)],'\n')
   if(subplots=="cpue"){
     cpue = ss3rep$cpue
     cpue$residuals = ifelse(is.na(cpue$Obs) | is.na(cpue$Like),NA,log(cpue$Obs)-log(cpue$Exp))
@@ -385,7 +393,13 @@ SSrunstest <- function(ss3rep=ss3diags::ss3sma,
     Res = comps
   }  
   
-  
+  if(subplots=="con"){
+    cond = SScompsTA1.8(ss3rep,fleet=NULL,type=subplots,plotit = FALSE)$runs_dat
+    cond$residuals = ifelse(is.na(cond$Obs),NA,log(cond$Obs)-log(cond$Exp))
+    if(is.null(cond$Fleet_name)){ # Deal with Version control
+      cond$Fleet_name = cond$Name}
+    Res = cond
+  }  
   # subset if indexselect is specified
   if(is.null(indexselect) ==F & is.numeric(indexselect)){
     iname =  unique(Res$Fleet_name)[indexselect]
@@ -440,7 +454,7 @@ SSrunstest <- function(ss3rep=ss3diags::ss3sma,
   
   runstable = data.frame(Index=indices,runs.p=as.matrix(runs)[,1],Test=ifelse(is.na(as.matrix(runs)[,1]),"Excluded",ifelse(as.matrix(runs)[,1]<0.05,"Failed","Passed")),sigma3.lo=as.matrix(runs)[,2],sigma3.hi=as.matrix(runs)[,3],type=subplots) 
   colnames(runstable) = c("Index","runs.p","test","sigma3.lo","sigma3.hi","type")
-  if(verbose) cat(paste0("\n","Runs Test stats by ",datatypes[which(c("cpue","len","age")%in%subplots)],":","\n"))
+  if(verbose) cat(paste0("\n","Runs Test stats by ",datatypes[which(c("cpue","len","age","con")%in%subplots)],":","\n"))
   return(runstable)
 } # end of SSplotRuns()
 #-----------------------------------------------------------------------------------------

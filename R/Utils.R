@@ -2,13 +2,17 @@
 #'
 #' Set the par() to options suitable for ss3diags multi plots. See \link[graphics]{par} 
 #' for more details on each parameter.
+#' 
 #' @param mfrow determines plot frame set up
 #' @param plot.cex cex graphic option
 #' @param mai graphical par for plot margins
 #' @param labs if TRUE margins are narrow 
 #' @param omi Outer margins in lines of text.  
+#' 
 #' @keywords ssplot utils
+#' 
 #' @export
+#' 
 sspar <- function(mfrow=c(1,1),plot.cex=1,mai=c(0.55,0.6,0.1,.1),omi = c(0.,0.,0.,0)+ 0.1,labs=TRUE){
   if(labs==F){
     mai=c(0.25,0.25,0.15,.15)
@@ -19,12 +23,17 @@ sspar <- function(mfrow=c(1,1),plot.cex=1,mai=c(0.55,0.6,0.1,.1),omi = c(0.,0.,0
 #' SSdiagsTime2Year()
 #'
 #' Function to convert non-annual into annual time-steps for retros and cpue residuals   
+#' 
 #' @param ss3out outputs from r4ss::SS_output() or r4ss::SSsummarize()
 #' @param time.steps  time steps behind yrs e.g. 0.25 for quarterly 
 #' @param end.time last time step e.g. 2018.75 with a cpue observation
+#' 
 #' @return Reformatted Rep file outputs
+#' 
 #' @keywords utils rep retro retrocomps
+#' 
 #' @export
+#' 
 SSdiagsTime2Year = function(ss3out,time.steps=0.25,end.time){
   if(is.null(ss3out$len)==F | is.null(ss3out$len)==F){
   type = "retrocomps"} else {  

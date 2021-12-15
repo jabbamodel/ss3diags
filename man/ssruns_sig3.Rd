@@ -11,7 +11,7 @@ ssruns_sig3(x, type = NULL, mixing = "less")
 
 \item{type}{only c("resid","observations")}
 
-\item{mixing}{c("less","greater","two.sided"). Default less is checking for postive autocorrelation only}
+\item{mixing}{c("less","greater","two.sided"). Default less is checking for positive autocorrelation only}
 }
 \value{
 runs p value and 3 x sigma limits

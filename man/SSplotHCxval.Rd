@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSplotHCxval.R
 \name{SSplotHCxval}
 \alias{SSplotHCxval}
-\title{SSplotHCxal() for one-step ahead hindcasting cross-validations of indices}
+\title{SSplotHCxval() for one-step ahead hindcasting cross-validations of indices}
 \usage{
 SSplotHCxval(
   retroSummary,
@@ -87,7 +87,7 @@ ending year specified in each model.}
 
 \item{indexselect}{= Vector of fleet numbers for each model for which to compare}
 
-\item{MAE.base.adj}{minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)}
+\item{MAE.base.adj}{minimum MASE denominator (naive predictions) for MASE.adj (default = 0.1)}
 
 \item{show.mase.adj}{if TRUE it show mase.adj in () in plot}
 
@@ -139,7 +139,7 @@ which is represented in the summary input object.}
 
 \item{legendsp}{Space between legend labels}
 
-\item{legendindex}{Allows to add lengend for selected indices (plots)}
+\item{legendindex}{Allows to add legend for selected indices (plots)}
 
 \item{pwidth}{Width of plot}
 
@@ -171,7 +171,7 @@ It will be separated from default name by an underscore.}
 
 \item{new}{Create new empty plot window}
 
-\item{add}{surpresses par() to create multiplot figs}
+\item{add}{suppresses par() to create multiplot figs}
 
 \item{mcmcVec}{NOT TESTED Vector of TRUE/FALSE values (or single value) indicating}
 
@@ -186,10 +186,10 @@ It will be separated from default name by an underscore.}
 \item{shadecol1}{uncertainty shading of early years not affected by hindcast}
 }
 \description{
-Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
-MASE is calculated the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and Naive Predictions (MAE.base)
+Plots one-step ahead hindcasting cross-validations and computes MASE from prediction residuals. 
+MASE is calculated as the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and naive predictions (MAE.base)
 MASE.adj sets the MAE.base to a minimum MAE.base.adj (default=0.1)
-MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate if obs show very little annaual variation
+MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate if obs show very little annual variation
 }
 \author{
 Henning Winker (JRC-EC) and Laurence Kell (Sea++)

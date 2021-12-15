@@ -2,12 +2,12 @@
 % Please edit documentation in R/SSplotRunstest.R
 \name{SSplotRunstest}
 \alias{SSplotRunstest}
-\title{plot function for runs test plot}
+\title{Function for residual diagnostics. Plots residuals and 3x sigma limits for indices or mean age or length and outputs a runs test table. Note, if you do not want to plot the residuals, use function ss3diags::SSrunstest.}
 \usage{
 SSplotRunstest(
   ss3rep = ss3diags::ss3sma,
   mixing = "less",
-  subplots = c("cpue", "len", "age")[1],
+  subplots = c("cpue", "len", "age", "con")[1],
   plot = TRUE,
   print = FALSE,
   png = print,
@@ -42,11 +42,13 @@ SSplotRunstest(
 )
 }
 \arguments{
-\item{ss3rep}{from r4ss::SSgetoutput()$replist1}
+\item{ss3rep}{Stock Synthesis output as read by r4SS function SS_output}
 
-\item{mixing}{c("less","greater","two.sided"). Default less is checking for postive autocorrelation only}
+\item{mixing}{c("less","greater","two.sided"). Default less is checking for positive autocorrelation only}
 
-\item{subplots}{optional use of c("cpue","len","age"), yet to be tested for age.}
+\item{subplots}{optional 'cpue' for index data, 'len' for length composition data, 'size' for
+generalized size composition data, 'age' for age composition data,
+or 'con' for conditional age at length data}
 
 \item{plot}{plot to active plot device?}
 
@@ -108,17 +110,17 @@ It will be separated from default name by an underscore.}
 
 \item{par}{list of graphics parameter values passed to par() function}
 
-\item{verbose}{Report progress to R GUI?}
+\item{verbose}{TRUE or FALSE, should the progress be reported to R GUI?}
 
-\item{new}{Create new empty plot window}
+\item{new}{Create new empty plot window (TRUE or FALSE)}
 
-\item{add}{surpresses par() to create multiplot figs}
+\item{add}{suppresses par() to create multiplot figs}
 }
 \value{
-Runs Test p-values and sig3 limits
+a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet. Note, runs test passed if p-value > 0.05 (residuals are random) and failed if p-value < 0.5 (residuals are not random)
 }
 \description{
-Residual diagnostics with runs test p-value and 3xsigma limits for Indices and meanL
+Function for residual diagnostics. Plots residuals and 3x sigma limits for indices or mean age or length and outputs a runs test table. Note, if you do not want to plot the residuals, use function ss3diags::SSrunstest.
 }
 \author{
 Henning Winker (JRC-EC) and Laurance Kell (Sea++)

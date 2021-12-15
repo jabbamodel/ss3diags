@@ -2,22 +2,22 @@
 % Please edit documentation in R/SSplotRunstest.R
 \name{ssruns_sig3}
 \alias{ssruns_sig3}
-\title{Function to do runs.test and 3 x sigma limits}
+\title{This function uses randtests::runs.test to do perform a runs test on residuals to determine if they are randomly distributed. It also calculates the 3 x sigma limits}
 \usage{
 ssruns_sig3(x, type = NULL, mixing = "less")
 }
 \arguments{
 \item{x}{residuals from CPUE fits}
 
-\item{type}{only c("resid","observations")}
+\item{type}{either "resid","observations". If NULL, defaults to "resid"}
 
-\item{mixing}{c("less","greater","two.sided"). Default less is checking for postive autocorrelation only}
+\item{mixing}{c("less","greater","two.sided"). Default less (corresponds to left.sided in runs.test function) is checking for positive autocorrelation only}
 }
 \value{
-runs p value and 3 x sigma limits
+a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet.
 }
 \description{
-runs test is conducted with library(randtests)
+This function uses randtests::runs.test to do perform a runs test on residuals to determine if they are randomly distributed. It also calculates the 3 x sigma limits
 }
 \author{
 Henning Winker (JRC-EC) and Laurence Kell (Sea++)

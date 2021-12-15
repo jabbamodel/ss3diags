@@ -46,7 +46,7 @@ ending year specified in each model.}
 MASE and hcxval statistic
 }
 \description{
-MASE for one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals. 
+MASE for one-step ahead hindcasting cross-validations and computes MASE from prediction residuals. 
 MASE is calculated the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and Naive Predictions (MAE.base)
 MASE.adj sets the MAE.base to a minimum MAE.base.adj (default=0.1)
 MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate, when obs show extremely little variation

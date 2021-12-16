@@ -45,3 +45,4 @@ Fisheries and Aquatic Sciences 68: 1124-1138.
 \author{
 Chris Francis, Andre Punt, Ian Taylor (modified by Henning Winker)
 }
+\keyword{diags}

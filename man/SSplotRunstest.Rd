@@ -91,7 +91,7 @@ year in timeseries plots.}
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
 
-\item{legend}{Add a legend?}
+\item{legend}{Option to add a legend. TRUE by default.}
 
 \item{legendloc}{Location of legend. Either a string like "topleft" or a vector}
 
@@ -132,3 +132,5 @@ Residual diagnostics with runs test p-value and 3xsigma limits for Indices and m
 \author{
 Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 }
+\keyword{runsTest}
+\keyword{ssplot}

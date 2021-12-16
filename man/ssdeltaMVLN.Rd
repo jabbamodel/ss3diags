@@ -48,9 +48,12 @@ SSdeltaMVLN(
 output list of quant posteriors and mle's
 }
 \description{
-function to generatbe kobe pdfs from a Multivariate Log-Normal Distribution
+Generatbe kobe pdfs from a Multivariate Log-Normal Distribution
 including plotting option
 }
 \author{
 Henning Winker (JRC-EC)
 }
+\keyword{diags}
+\keyword{kobe}
+\keyword{lognormal}

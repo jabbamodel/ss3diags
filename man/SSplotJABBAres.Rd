@@ -97,7 +97,7 @@ year in timeseries plots.}
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
 
-\item{legend}{Add a legend?}
+\item{legend}{Option to add a legend. TRUE by default.}
 
 \item{legendlabels}{Optional vector of labels to include in legend.}
 
@@ -151,3 +151,4 @@ plots residuals for all indices as boxplot with a loess showing systematic trend
 \author{
 Henning Winker (JRC-EC)
 }
+\keyword{ssplot}

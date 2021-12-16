@@ -23,6 +23,7 @@
 #' # The list of retrospective runs, which contains 8 lists, one for each peel
 #' str(retro.phk, max.level = 1)
 #' }
+#' @noRd
 NULL
 
 
@@ -48,6 +49,7 @@ NULL
 #' # List the three objects returned by the line above
 #' ls(pattern = "sma")
 #' }
+#' @noRd
 NULL
 
 

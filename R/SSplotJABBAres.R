@@ -24,7 +24,7 @@
 #' @param yaxs Choice of yaxs parameter (see ?par for more info)
 #' @param type Type parameter passed to points (default 'o' overplots points on
 #' top of lines)
-#' @param legend Add a legend?
+#' @param legend Option to add a legend. TRUE by default.
 #' @param legendlabels Optional vector of labels to include in legend.
 #' @param legendloc Location of legend. Either a string like "topleft" or a vector
 #' of two numeric values representing the fraction of the maximum in the x and y
@@ -55,6 +55,8 @@
 #' @param xylabs xylabs TODO TODO. Default is TRUE
 #' 
 #' @author Henning Winker (JRC-EC)
+#' 
+#' @keywords ssplot
 #' 
 #' @importFrom grDevices grey
 #' @importFrom graphics boxplot 

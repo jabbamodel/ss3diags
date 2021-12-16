@@ -21,6 +21,8 @@
 #' @param print_plot print to PNG files?
 #' @param pdf draw in PDF(not tested for TRUE). Deprecated
 #' @param use_pdf option for pdf plots (not tested for TRUE)
+#' @param png draws to png files. Deprecated.
+#' @param use_png png TODO TODO Defaults to print value
 #' @param col Optional vector of colors to be used for lines. Input NULL
 #' @param pch Optional vector of plot character values
 #' @param lty Optional vector of line types
@@ -32,7 +34,7 @@
 #' @param yaxs Choice of yaxs parameter (see ?par for more info)
 #' @param type Type parameter passed to points (default 'o' overplots points on
 #' top of lines)
-#' @param legend Add a legend?
+#' @param legend Option to add a legend. TRUE by default.
 #' @param legendlabels Optional vector of labels to include in legend.
 #' @param legendloc Location of legend. Either a string like "topleft" or a vector
 #' of two numeric values representing the fraction of the maximum in the x and y
@@ -63,15 +65,19 @@
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
 #' @param indexQdigits Number of significant digits for catchability in legend
-#' @param png draws to png files. Deprecated.
-#' @param use_png png TODO TODO Defaults to print value
 #' @param xlim xlim TODO TODO
 #' @param xylabs draw x-axis and y-axis TODO TODO
 #' @param uncertainty uncertainty TODO TODO. Deafults to TRUE
-#' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
-#' @export
+#' 
 #' @importFrom grDevices pdf
 #' @importFrom lifecycle deprecated
+#' 
+#' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
+#' 
+#' @keywords ssplot hindcasting
+#' 
+#' @export
+#' 
 SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
                         plot=TRUE,
                         print=deprecated(),

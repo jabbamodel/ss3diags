@@ -127,7 +127,7 @@ top of lines)}
 
 \item{uncertainty}{uncertainty TODO TODO. Deafults to TRUE}
 
-\item{legend}{Add a legend?}
+\item{legend}{Option to add a legend. TRUE by default.}
 
 \item{legendlabels}{Optional vector of labels to include in legend.}
 
@@ -191,3 +191,5 @@ Plots one-step ahead hindcasting cross-validations and computes MASE from predic
 \author{
 Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 }
+\keyword{hindcasting}
+\keyword{ssplot}

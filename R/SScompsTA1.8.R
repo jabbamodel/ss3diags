@@ -24,6 +24,8 @@
 #' fisheries stock assessment models. Canadian Journal of
 #' Fisheries and Aquatic Sciences 68: 1124-1138.
 #' 
+#' @keywords diags 
+#' 
 #' @importFrom graphics par segments arrows points lines mtext 
 #' @importFrom stats var quantile 
 #' 

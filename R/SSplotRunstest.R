@@ -1,12 +1,19 @@
 #' Function to do runs.test and 3 x sigma limits
 #'
 #' runs test is conducted with library(randtests)
+#' 
 #' @param x residuals from CPUE fits
 #' @param type only c("resid","observations")
-#' @param mixing c("less","greater","two.sided"). Default less is checking for postive autocorrelation only    
+#' @param mixing c("less","greater","two.sided"). Default less is checking for positive autocorrelation only    
+#' 
 #' @return runs p value and 3 x sigma limits
+#' 
+#' @keywords diags runsTest
+#' 
 #' @export
+#' 
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
+#' 
 ssruns_sig3 <- function(x,type=NULL,mixing="less") {
   if(is.null(type)) type="resid"
   if(type=="resid"){
@@ -63,7 +70,7 @@ ssruns_sig3 <- function(x,type=NULL,mixing="less") {
 #' @param yaxs Choice of yaxs parameter (see ?par for more info)
 #' @param type Type parameter passed to points (default 'o' overplots points on
 #' top of lines)
-#' @param legend Add a legend?
+#' @param legend Option to add a legend. TRUE by default.
 #' @param legendloc Location of legend. Either a string like "topleft" or a vector
 #' @param legendcex Allows to adjust legend cex
 #' @param pwidth Width of plot
@@ -84,6 +91,7 @@ ssruns_sig3 <- function(x,type=NULL,mixing="less") {
 #' @param xylabs draw x-axis and y-axis TODO TODO
 #' @return Runs Test p-values and sig3 limits
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' @keywords ssplot runsTest
 #' @importFrom lifecycle deprecated
 #' @export
 
@@ -353,8 +361,13 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
 #' @param quants optional use of c("cpue","len","age"), yet to be tested for age.
 #' @param indexselect Vector of fleet numbers for each model for which to compare
 #' @param verbose Report progress to R GUI?
+#' 
 #' @return Runs Test p-values and sig3 limits
+#' 
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' 
+#' @keywords diags runsTest
+#' 
 #' @export
 
 SSrunstest <- function(ss3rep=ss3diags::ss3sma,

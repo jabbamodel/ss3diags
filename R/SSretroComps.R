@@ -1,10 +1,11 @@
-#' SSretroComps
+#' Multi Model Length/age comp
 #' 
 #' Wrapper to get observed and expected mean length/age from multiple Stock Synthesis models.
 #' 
 #' @param retroModels object list of replists from r4ss::SSgetoutput() 
 #' @author Henning Winker
 #' @return list of observed and expected mean Length/age comps (c.f. ss3rep$cpue)
+#' @keywords diags retrocomps
 #' @export
 
 SSretroComps <- function(retroModels){

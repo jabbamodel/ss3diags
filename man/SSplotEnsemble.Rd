@@ -99,7 +99,7 @@ final year of values to show for each model. By default it is set to the}
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
 
-\item{xlim}{= NULL range of years}
+\item{xlim}{Range of years. Optional parameter. NULL by default.}
 
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
@@ -114,7 +114,7 @@ top of lines)}
 
 \item{uncertainty}{uncertainty TODO TODO. Default is TRUE}
 
-\item{legend}{Add a legend?}
+\item{legend}{Add a legend to plot. TRUE by default.}
 
 \item{legendlabels}{Optional vector of labels to include in legend.}
 
@@ -176,3 +176,4 @@ Plots the Distributions for SSB/SSB40, F/FSPR40, SSB, F, Recruitment and Catch t
 \author{
 Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 }
+\keyword{ssplot}

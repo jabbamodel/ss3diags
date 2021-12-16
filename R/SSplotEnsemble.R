@@ -22,12 +22,12 @@
 #' @param tickEndYr TRUE/FALSE switch to turn on/off extra axis mark at final
 #' year in timeseries plots.
 #' @param ylimAdj Multiplier for ylim parameter. Allows additional white space
-#' @param xlim = NULL range of years
+#' @param xlim Range of years. Optional parameter. NULL by default. 
 #' @param xaxs Choice of xaxs parameter (see ?par for more info)
 #' @param yaxs Choice of yaxs parameter (see ?par for more info)
 #' @param type Type parameter passed to points (default 'o' overplots points on
 #' top of lines)
-#' @param legend Add a legend?
+#' @param legend Add a legend to plot. TRUE by default.
 #' @param legendlabels Optional vector of labels to include in legend.
 #' @param legendloc Location of legend. Either a string like "topleft" or a vector
 #' of two numeric values representing the fraction of the maximum in the x and y
@@ -70,6 +70,7 @@
 #' 
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 #' 
+#' @keywords ssplot
 #' 
 #' @export
 SSplotEnsemble<- function(kb, summaryoutput,
@@ -452,6 +453,8 @@ SSplotEnsemble<- function(kb, summaryoutput,
 #' @param varlist variable list
 #' @param indexfleets Fleet vector index
 #' @param verbose Option to output messages to Rconsole
+#' 
+#' @keywords internal ssplot
 #' 
 #' @importFrom grDevices png
 #'

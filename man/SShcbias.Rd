@@ -33,3 +33,5 @@ Computes Mohn's Rho and one step ahead forecast bias (forecastrho)
 \author{
 Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 }
+\keyword{diags}
+\keyword{hindcasting}

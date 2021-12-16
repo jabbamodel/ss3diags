@@ -1,0 +1,19 @@
+url: ~
+
+reference: 
+- title: Functions
+  contents:
+    - has_keyword("diags")
+    - has_keyword("ssplot")
+    - has_keyword("utils")
+
+- title: Datasets
+  desc: >
+     Example stock synthesis runs from the 2020 Pacific Hake (HKE) assessment, 
+     the ICCAT 2017 North Atlantic Shortfin Mako (SMA) assessment, and the 
+     Gulf of Bothia Herring (HER) assessment. Each assessment includes a
+     Stock Synthesis (V3.30.14) base-case run, list of retrospective runs,
+     and list of base-case and aspm runs.
+
+  contents:
+    - has_keyword("datasets")

@@ -1,12 +1,17 @@
 #' SSsettingsBratioF 
 #'
-#' function to get Bratio and F settings
+#' Function to get Bratio and F settings
 #'
 #' @param ss3rep from r4ss::SSgetoutput()
 #' @param status covarying stock status quantaties to extract from Hessian
 #' @param verbose Report progress to R GUI?
+#' 
 #' @return output list with Bratio and F settings
+#' 
 #' @author Henning Winker (JRC-EC)
+#' 
+#' @keywords diags
+#' 
 #' @export
 
 SSsettingsBratioF = function(ss3rep,status=c('Bratio','F'),verbose=TRUE){

@@ -42,17 +42,17 @@ SSplotKobe(
 
 \item{fill}{shows color-coded quadrants}
 
-\item{legend}{graphic parameter}
+\item{legend}{option for legend. TRUE by default.}
 
 \item{legendpos}{legend position}
 
-\item{legendcex}{lengend size}
+\item{legendcex}{legend size}
 
-\item{legendruns}{show legend for run lables}
+\item{legendruns}{show legend for run labels}
 
 \item{yr.label}{show year along trajectory}
 
-\item{yr.int}{= year interval along trajectory}
+\item{yr.int}{year intervals along trajectory}
 
 \item{verbose}{Output to R console. Default is TRUE}
 }
@@ -60,5 +60,7 @@ SSplotKobe(
 Kobe Quadrant percentages
 }
 \description{
-plots the stock status uncertaint over SSB/SSBmsy and F/Fmsy
+Generates a Kobe plot or phase plot illustrating the stock status uncertainty over SSB/SSBmsy and F/Fmsy
 }
+\keyword{kobe}
+\keyword{ssplot}

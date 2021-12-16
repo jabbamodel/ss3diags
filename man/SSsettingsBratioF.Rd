@@ -17,8 +17,9 @@ SSsettingsBratioF(ss3rep, status = c("Bratio", "F"), verbose = TRUE)
 output list with Bratio and F settings
 }
 \description{
-function to get Bratio and F settings
+Function to get Bratio and F settings
 }
 \author{
 Henning Winker (JRC-EC)
 }
+\keyword{diags}

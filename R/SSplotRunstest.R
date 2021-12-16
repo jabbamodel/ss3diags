@@ -313,16 +313,8 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
     if(plot){ 
       # LOOP through fleets
       nfleets=n.indices
-<<<<<<< HEAD
-<<<<<<< HEAD
-      if(print){ #TODO: change this to makePNG
-=======
-      if(print_plot){
->>>>>>> origin/dev
-=======
 
-      if(print_plot){  #TODO: change this to makePNG
->>>>>>> b653a65ef02abdf4675809b7aa59f8b350040000
+      if(print_plot){  
         
         runs = NULL
         for(fi in 1:nfleets){
@@ -330,9 +322,9 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
           pngfun(paste0("residruns_",indices[fi],".png",sep=""))
           par(par)
           if(nrow(resid)>3 & (max(resid$Time)-min(resid$Time))>3){
-          get_runs = plot_runs(resid)    
-          dev.off()
-          runs = rbind(runs,c(get_runs$p.runs,get_runs$sig3lim))
+            get_runs = plot_runs(resid)    
+            dev.off()
+            runs = rbind(runs,c(get_runs$p.runs,get_runs$sig3lim))
           } else {
             runs = rbind(runs,c(NA,NA,NA))}
           

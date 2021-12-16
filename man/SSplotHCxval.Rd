@@ -8,9 +8,12 @@ SSplotHCxval(
   retroSummary,
   subplots = c("cpue", "len", "age"),
   Season = "default",
-  print = FALSE,
-  png = print,
-  pdf = FALSE,
+  print = deprecated(),
+  print_plot = FALSE,
+  png = deprecated(),
+  use_png = print_plot,
+  pdf = deprecated(),
+  use_pdf = FALSE,
   models = "all",
   endyrvec = "default",
   xmin = NULL,
@@ -69,11 +72,17 @@ SSplotHCxval(
 
 \item{Season}{option to specify Season - Default uses first available, i.e. usual Seas = 1}
 
-\item{print}{print to PNG files?}
+\item{print}{print to PNG files? Deprecated. Please use print_plot.}
 
-\item{png}{png TODO TODO. Default is FALSE}
+\item{print_plot}{Option to print to PNG files}
 
-\item{pdf}{not tested for TRUE}
+\item{png}{png plots. Deprecated, please use use_png}
+
+\item{use_png}{Draw plots in PNG format}
+
+\item{pdf}{PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.}
+
+\item{use_pdf}{option for pdf plots (not tested for TRUE)}
 
 \item{models}{Optional subset of the models described in
 r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
@@ -181,7 +190,7 @@ It will be separated from default name by an underscore.}
 
 \item{indexfleets}{CHECK IF NEEDED or how to adjust indexfleets}
 
-\item{plot}{plot to active plot device?}
+\item{plot}{plot to active plot device? Deprecated.}
 
 \item{shadecol1}{uncertainty shading of early years not affected by hindcast}
 }

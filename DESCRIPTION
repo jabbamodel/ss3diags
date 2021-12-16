@@ -1,6 +1,6 @@
 Package: ss3diags
-Title: What the Package Does (One Line, Title Case)
-Version: 1.0.8.9001
+Title: Stock Synthesis Model Diagnostics for Intergated Stock Assessments
+Version: 1.0.8.9002
 Authors@R: 
     c(person(given = "Henning",
            family = "Winker",

@@ -77,16 +77,9 @@ ssruns_sig3 <- function(x, type=NULL, mixing="less") {
 #' @param filenameprefix Additional text to append to PNG or PDF file names.
 #' It will be separated from default name by an underscore.
 #' @param par list of graphics parameter values passed to par() function
-<<<<<<< HEAD
 #' @param verbose TRUE or FALSE, should the progress be reported to R GUI?
 #' @param new Create new empty plot window (TRUE or FALSE)
 #' @param add suppresses par() to create multiplot figs
-#' @param png png TODO TODO Defaults to print value
-=======
-#' @param verbose Report progress to R GUI?
-#' @param new Create new empty plot window
-#' @param add surpresses par() to create multiplot figs
->>>>>>> origin/dev
 #' @param xlim xlim TODO TODO
 #' @param xylabs draw x-axis and y-axis TODO TODO
 #' @return a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet. Note, runs test passed if p-value > 0.05 (residuals are random) and failed if p-value < 0.5 (residuals are not random)
@@ -321,10 +314,15 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
       # LOOP through fleets
       nfleets=n.indices
 <<<<<<< HEAD
+<<<<<<< HEAD
       if(print){ #TODO: change this to makePNG
 =======
       if(print_plot){
 >>>>>>> origin/dev
+=======
+
+      if(print_plot){  #TODO: change this to makePNG
+>>>>>>> b653a65ef02abdf4675809b7aa59f8b350040000
         
         runs = NULL
         for(fi in 1:nfleets){

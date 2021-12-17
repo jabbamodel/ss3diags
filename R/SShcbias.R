@@ -9,7 +9,7 @@
 #' @param endyrvec Optional single year or vector of years representing the
 #' final year of values to show for each model. By default it is set to the
 #' ending year specified in each model.
-#' @param quants SSB or F quantaty
+#' @param quants SSB or F quantity
 #' @param verbose Report progress to R GUI?
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @export

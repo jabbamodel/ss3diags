@@ -74,17 +74,18 @@ final year of values to show for each model. By default it is set to the}
 
 \item{endyrvec}{ending year specified in each model.}
 
-\item{plot}{Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.}
+\item{plot}{Deprecated. Plots (and subplots) are drawn to the active plot device 
+by default (TRUE), and the option to disable this, via FALSE, is unused.}
 
-\item{print}{print to PNG files? Deprecated. Please use print_plot.}
+\item{print}{Deprecated. Please use 'print_plot'.}
 
 \item{print_plot}{print to PNG files?}
 
-\item{png}{output in PNG format. Deprecated. Please use use_png.}
+\item{png}{Deprecated. Please use 'use_png'.}
 
 \item{use_png}{Draw plots in PNG format}
 
-\item{pdf}{not tested for TRUE. Deprecated. Please use use_pdf.}
+\item{pdf}{Deprecated. Please use 'use_pdf'.}
 
 \item{use_pdf}{option for pdf plots (not tested for TRUE)}
 
@@ -158,7 +159,8 @@ It will be separated from default name by an underscore.}
 
 \item{shadealpha}{Transparency adjustment used to make default shadecol}
 
-\item{new}{Create new empty plot window. Deprecated.}
+\item{new}{Deprecated. New plot windows are created by default (TRUE), and the 
+option to disable this, via FALSE, is unused.}
 
 \item{add}{surpresses par() to create multiplot figs}
 

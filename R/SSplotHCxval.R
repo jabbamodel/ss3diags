@@ -20,12 +20,13 @@
 #' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets
 #' @param xmin optional number first year shown in plot (if available)  
 #' @param indexUncertainty Show fixed uncertainty intervals on index (not estimated)
-#' @param plot plot to active plot device? Deprecated. 
-#' @param print print to PNG files? Deprecated. Please use print_plot.
+#' @param plot Deprecated. Plots (and subplots) are drawn to the active plot device 
+#' by default (TRUE), and the option to disable this, via FALSE, is unused.
+#' @param print Deprecated. Please use 'print_plot'.
 #' @param print_plot Option to print to PNG files
-#' @param png png plots. Deprecated, please use use_png
+#' @param png Deprecated, please use 'use_png'.
 #' @param use_png Draw plots in PNG format
-#' @param pdf PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.
+#' @param pdf Deprecated. Please use 'use_pdf'.
 #' @param use_pdf option for pdf plots (not tested for TRUE)
 #' @param col Optional vector of colors to be used for lines. Input NULL
 #' @param pch Optional vector of plot character values
@@ -65,7 +66,8 @@
 #' @param verbose Report progress to R GUI?
 #' @param shadecol uncertainty shading of hcxval horizon
 #' @param shadecol1 uncertainty shading of early years not affected by hindcast
-#' @param new Create new empty plot window
+#' @param new Deprecated. New plot windows are created by default (TRUE), and the 
+#' option to disable this, via FALSE, is unused.
 #' @param add suppresses par() to create multiplot figs
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
@@ -165,7 +167,7 @@ SSplotHCxval<- function(retroSummary,
     lifecycle::deprecate_warn(
       when = "1.0.9",
       what = "SSplotHCxval(plot)",
-      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be defunct in a future version"
     )
   }
   
@@ -173,7 +175,7 @@ SSplotHCxval<- function(retroSummary,
     lifecycle::deprecate_warn(
       when = "1.0.9",
       what = "SSplotHCxval(new)",
-      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
+      details = "The ability to explicitly disable new plot windows is unused and will be defunct in a future version"
     )
   }
   

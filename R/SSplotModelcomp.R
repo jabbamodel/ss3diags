@@ -16,12 +16,13 @@
 #' @param indexselect = Vector of fleet numbers for each model for which to compare
 #' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets
 #' @param indexUncertainty Show fixed uncertainty intervals on index (not estimated)
-#' @param plot Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.
-#' @param print print to PNG. Deprecated.
+#' @param plot Deprecated. Plots (and subplots) are drawn to the active plot device 
+#' by default (TRUE), the option to disable this via FALSE, is unused here. 
+#' @param print Deprecated. Please use 'print_plot'.
 #' @param print_plot print to PNG files?
-#' @param pdf draw in PDF(not tested for TRUE). Deprecated
+#' @param pdf Deprecated. Please use 'use_png'.
 #' @param use_pdf option for pdf plots (not tested for TRUE)
-#' @param png draws to png files. Deprecated.
+#' @param png Deprecated. Please use 'use_png'.
 #' @param use_png png TODO TODO Defaults to print value
 #' @param col Optional vector of colors to be used for lines. Input NULL
 #' @param pch Optional vector of plot character values
@@ -60,7 +61,8 @@
 #' @param verbose Report progress to R GUI?
 #' @param shadecol uncertainty shading of hcxval horizon
 #' @param shadealpha Transparency adjustment used to make default shadecol
-#' @param new Create new empty plot window. Deprecated.
+#' @param new Deprecated. New plot windows are created by default (TRUE), and the 
+#' option to disable this, via FALSE, is unused.
 #' @param add surpresses par() to create multiplot figs
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
@@ -154,7 +156,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     lifecycle::deprecate_warn(
       when = "1.0.9",
       what = "SSplotModelcomp(plot)",
-      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be defunct in a future version"
     )
   }
   
@@ -162,7 +164,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     lifecycle::deprecate_warn(
       when = "1.0.9",
       what = "SSplotModelcomp(new)",
-      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
+      details = "The ability to explicitly disable new plot windows is unused and will be defunct in a future version"
     )
   }
   

@@ -4,12 +4,13 @@
 #' 
 #' @param ss3rep from r4ss::SS_output
 #' @param subplots optional use of cpue and comp data (only tested for length) 
-#' @param plot plot to active plot device? Deprecated.
-#' @param print print to PNG files? Deprecated. Please use print_plot.
+#' @param plot Deprecated. Plots (and subplots) are drawn to the active plot device 
+#' by default (TRUE), and the option to disable this, via FALSE, is unused.
+#' @param print Deprecated. Please use 'print_plot'.
 #' @param print_plot Option to print to PNG files
-#' @param png png plots. Deprecated, please use use_png
+#' @param png Deprecated. please use 'use_png'.
 #' @param use_png Draw plots in PNG format
-#' @param pdf PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.
+#' @param pdf Deprecated. Please use 'use_pdf'.
 #' @param use_pdf option for pdf plots (not tested for TRUE)
 #' @param indexselect Vector of fleet numbers for each model for which to compare
 #' @param miny  minimum abs values of ylim
@@ -49,7 +50,8 @@
 #' @param par list of graphics parameter values passed to par() function
 #' @param verbose Report progress to R GUI?
 #' @param boxcol color boxes 
-#' @param new Create new empty plot window. Deprecated.
+#' @param new Deprecated. New plot windows are created by default (TRUE), and the 
+#' option to disable this, via FALSE, is unused.
 #' @param add surpresses par() to create multiplot figs
 #' @param xlim xlim TODO TODO, 
 #' @param xylabs xylabs TODO TODO. Default is TRUE
@@ -129,7 +131,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     lifecycle::deprecate_warn(
       when = "1.0.9",
       what = "SSplotJABBAres(plot)",
-      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be defunct in a future version"
     )
   }
   
@@ -137,7 +139,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     lifecycle::deprecate_warn(
       when = "1.0.9",
       what = "SSplotJABBAres(new)",
-      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
+      details = "The ability to explicitly disable new plot windows is unused and will be defunct in a future version"
     )
   }
   

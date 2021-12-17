@@ -80,8 +80,8 @@ ssruns_sig3 <- function(x, type=NULL, mixing="less") {
 #' @param verbose TRUE or FALSE, should the progress be reported to R GUI?
 #' @param new Create new empty plot window (TRUE or FALSE)
 #' @param add suppresses par() to create multiplot figs
-#' @param xlim xlim TODO TODO
-#' @param xylabs draw x-axis and y-axis TODO TODO
+#' @param xlim Optional, values for x-axis range of years to display on plot. Default = "default" displays all years of available data.
+#' @param xylabs TRUE or FALSE, include x- and y-axis labels
 #' @return a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet. Note, runs test passed if p-value > 0.05 (residuals are random) and failed if p-value < 0.5 (residuals are not random)
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @importFrom lifecycle deprecated

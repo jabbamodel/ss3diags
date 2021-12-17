@@ -3,14 +3,14 @@
 #' The plot includes boxplots to show the spread of residuals of across indicies with data in a given year. A loess regression line is fit to the residuals to show systematic trends.
 #' 
 #' @param ss3rep from r4ss::SS_output
-#' @param subplots optional use of cpue and comp data (only tested for length) 
+#' @param subplots optional specify use of "cpue" for index data, "len" for length composition data, or "age" for age composition data 
 #' @param plot plot to active plot device? Deprecated.
 #' @param print print to PNG files? Deprecated. Please use print_plot.
 #' @param print_plot Option to print to PNG files
 #' @param png png plots. Deprecated, please use use_png
 #' @param use_png Draw plots in PNG format
-#' @param pdf PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.
-#' @param use_pdf option for pdf plots (not tested for TRUE)
+#' @param pdf PDF plots (currently does not work for TRUE). Deprecated. Please use use_pdf.
+#' @param use_pdf option for pdf plots (currently does not work for TRUE)
 #' @param indexselect Vector of fleet numbers for each model for which to compare, if NULL all fleets will be used
 #' @param miny  minimum abs values of ylim
 #' @param col Optional vector of colors to be used for lines. If NULL, colors will be generated automatically depending on the number of fleets.

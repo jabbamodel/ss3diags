@@ -1,6 +1,6 @@
-#' SShcbias() 
+#' A function to computes Mohn's Rho and one step ahead forecast bias (forecastrho)
 #'
-#' Computes Mohn's Rho and one step ahead forecast bias (forecastrho)  
+#' This function produces the statistics from retrospective analysis (Mohn's rho and forecast bias). To visualize the retrospective forecasts from a Stock Synthesis model, use SSplotRetro().
 #' 
 #' @param summaryoutput List created by r4ss::SSsummarize() 
 #' @param models Optional subset of the models described in
@@ -13,6 +13,7 @@
 #' @param verbose Report progress to R GUI?
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @export
+#' @seealso [SSplotRetro()]
 SShcbias<- function(summaryoutput, quants=c("SSB","F"),
                         models="all",
                         endyrvec="default",

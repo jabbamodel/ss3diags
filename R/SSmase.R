@@ -1,4 +1,4 @@
-#' SSmase() computes MASE for one-step ahead hindcasting cross-validations of indices
+#' SSmase() computes mean absolute scaled error (MASE) for one-step ahead hindcasting cross-validations of indices
 #'
 #' MASE for one-step ahead hindcasting cross-validations and computes MASE from prediction residuals. 
 #' MASE is calculated the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and Naive Predictions (MAE.base)
@@ -6,7 +6,7 @@
 #' MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate, when obs show extremely little variation   
 #'
 #' @param retroSummary List created by r4ss::SSsummarize() 
-#' @param quants data type c("cpue","len","age)
+#' @param quants data type, either "cpue" for index data, "len" for length composition data, or "age" for age composition data. Note, if using "age" or "len", use SSretroComps() to extract and summarize the composition data first and use that as the retroSummary object.
 #' @param models Optional subset of the models described in
 #' r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
 #' columns in summary tables.
@@ -14,14 +14,26 @@
 #' @param endyrvec Optional single year or vector of years representing the
 #' final year of values to show for each model. By default it is set to the
 #' ending year specified in each model.
-#' @param indexselect = Vector of fleet numbers for each model for which to compare
-#' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets. TODO: Clarifications? -ef
+#' @param indexselect Vector of fleet numbers for each model for which to compare
+#' @param indexfleets Single value or vector of length n = number of models in summary object of the fleet number(s) for the index to compare. 
 #' @param MAE.base.adj minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)   
 #' @param verbose Report progress to R GUI?
-#' @param residuals TODO! Default is FALSE.
+#' @param residuals If true, includes a dataframe in the output of the prediction residuals and naive prediction residuals. Default is FALSE.
 #' @return MASE and hcxval statistic
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 #' @export
+#' @seealso [SSretroComps()] [r4ss::SSsummarize()]
+#' @examples
+#' \dontrun{
+#' #get retroSummary object
+#' retroI.sma <- r4ss::SSsummarize(retro.sma, verbose = F)
+#' # calculate MASE for CPUE indices only for fleets 1 and 2
+#' SSmase(retroC.sma, quant = "cpue", indexselect = c(1:2))
+#' #for length/age comp data use:
+#' retroI.sma <- SSretroComps(retro.sma)
+#' SSmase(retroC.sma, quant = "len", indexselect = c(1:2))
+#' 
+#' }
 SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
                         models="all",endyrvec="default",indexselect = NULL,MAE.base.adj=0.1,residuals=FALSE,
                         verbose=FALSE, indexfleets=1

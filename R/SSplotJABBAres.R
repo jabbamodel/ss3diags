@@ -1,6 +1,6 @@
-#' SSplotJABBAres() 
+#' A function to plot the residuals for all indices over the time series.  
 #'
-#' plots residuals for all indices as boxplot with a loess showing systematic trends
+#' The plot includes boxplots to show the spread of residuals of across indicies with data in a given year. A loess regression line is fit to the residuals to show systematic trends.
 #' 
 #' @param ss3rep from r4ss::SS_output
 #' @param subplots optional use of cpue and comp data (only tested for length) 
@@ -11,9 +11,9 @@
 #' @param use_png Draw plots in PNG format
 #' @param pdf PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.
 #' @param use_pdf option for pdf plots (not tested for TRUE)
-#' @param indexselect Vector of fleet numbers for each model for which to compare
+#' @param indexselect Vector of fleet numbers for each model for which to compare, if NULL all fleets will be used
 #' @param miny  minimum abs values of ylim
-#' @param col Optional vector of colors to be used for lines. Input NULL
+#' @param col Optional vector of colors to be used for lines. If NULL, colors will be generated automatically depending on the number of fleets.
 #' @param pch Optional vector of plot character values
 #' @param lty Optional vector of line types
 #' @param lwd Optional vector of line widths
@@ -35,7 +35,7 @@
 #' @param legendncol Number of columns for the legend.
 #' @param legendcex Allows to adjust legend cex
 #' @param legendsp Space between legend labels
-#' @param legendindex Allows to add lengend for selected indices (plots)
+#' @param legendindex Creates the legend for selected indices. NULL will automatically use the selected index's number
 #' @param pwidth Width of plot
 #' @param pheight Height of plot
 #' @param punits Units for PNG file
@@ -51,8 +51,8 @@
 #' @param boxcol color boxes 
 #' @param new Create new empty plot window. Deprecated.
 #' @param add surpresses par() to create multiplot figs
-#' @param xlim xlim TODO TODO, 
-#' @param xylabs xylabs TODO TODO. Default is TRUE
+#' @param xlim Optional, values for x-axis range of years to display on plot. Default = "default" displays all years of available data. 
+#' @param xylabs TRUE or FALSE, include x- and y-axis labels. Default is TRUE.
 #' 
 #' @author Henning Winker (JRC-EC)
 #' 

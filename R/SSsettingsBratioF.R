@@ -1,5 +1,3 @@
-#' SSsettingsBratioF 
-#'
 #' function to get Bratio and F settings
 #'
 #' @param ss3rep from r4ss::SSgetoutput()

@@ -9,8 +9,8 @@
 #' @param print_plot Option to print to PNG files
 #' @param png png plots. Deprecated, please use use_png
 #' @param use_png Draw plots in PNG format
-#' @param pdf PDF plots (currently does not work for TRUE). Deprecated. Please use use_pdf.
-#' @param use_pdf option for pdf plots (currently does not work for TRUE)
+#' @param pdf PDF plots Deprecated. Please use use_pdf.
+#' @param use_pdf option for pdf plots 
 #' @param indexselect Vector of fleet numbers for each model for which to compare, if NULL all fleets will be used
 #' @param miny  minimum abs values of ylim
 #' @param col Optional vector of colors to be used for lines. If NULL, colors will be generated automatically depending on the number of fleets.
@@ -62,6 +62,12 @@
 #' @importFrom lifecycle deprecated
 #' 
 #' @export
+#' @example 
+#' \dontrun{
+#' #save plot as a PDF file
+#' SSplotJABBAres(ss3phk, subplots = "age", add = TRUE, use_pdf = TRUE, plotdir = getwd(), pdf = TRUE)
+#' dev.off()
+#' }
 SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
                           subplots=c("cpue","len","age")[1],
                           plot=TRUE,

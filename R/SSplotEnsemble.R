@@ -70,7 +70,14 @@
 #' 
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 #' 
+#' @example 
+#'  \dontrun{
+#'
+#' mvln = SSdeltaMVLN(ss3sma, run = "SMA")
+#' sspar(mfrow = c(3, 2), plot.cex = 0.7)
+#' SSplotEnsemble(mvln$kb, ylabs = mvln$labels, add = T, verbose = F)
 #' 
+#' }
 #' @export
 SSplotEnsemble<- function(kb, summaryoutput,
                         subplots=c("stock","harvest","SSB","F","Recr","Catch"),

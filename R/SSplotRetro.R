@@ -9,14 +9,14 @@
 #' @param endyrvec Optional single year or vector of years representing the
 #' final year of values to show for each model. By default it is set to the
 #' ending year specified in each model.
-#' @param subplots Vector of subplots to be created
+#' @param subplots Optional vector of subplots to be created, "SSB", "Bratio", "Fvalue", "Recruits", "Index" 
 #' @param plot Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.
 #' @param print print to PNG files? Deprecated. Please use print_plot.
 #' @param print_plot Option to print to PNG files
 #' @param png png plots. Deprecated, please use use_png
 #' @param use_png Draw plots in PNG format
 #' @param pdf PDF plots. Deprecated. Please use use_pdf.
-#' @param use_pdf option for pdf plots 
+#' @param use_pdf option for pdf plots (currently does not work when subplots specified)
 #' @param xlim  optional xlim, which overwrites xmin   
 #' @param xmin  optional minimum year shown in plot (default first yr)   
 #' @param labels yaxis lable for biomass (bony fish and sharks) 

@@ -65,7 +65,7 @@
 #' @param indexQdigits Number of significant digits for catchability in legend
 #' @param png draws to png files. Deprecated.
 #' @param use_png Draw plots in PNG format, defaults to 'print_plot' value
-#' @param xlim Optional, values for x-axis range of years to display on plot. Default = "default" displays all years of available data.
+#' @param xlim Optional, values for x-axis range of years to display on plot. Default = "default" displays all years of available data. (currently not used)
 #' @param xylabs TRUE or FALSE, include x- and y-axis labels
 #' @param uncertainty TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al

@@ -1,4 +1,4 @@
-#' SSplotRetro() Retrospective-Forecast with one-step ahead hindcasting 
+#' Retrospective-Forecast with one-step ahead hindcasting 
 #'
 #' Plots retrospective pattern, including (optional) one-step ahead forecast and computes Mohn's Rho 
 #' 
@@ -15,8 +15,8 @@
 #' @param print_plot Option to print to PNG files
 #' @param png png plots. Deprecated, please use use_png
 #' @param use_png Draw plots in PNG format
-#' @param pdf PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.
-#' @param use_pdf option for pdf plots (not tested for TRUE)
+#' @param pdf PDF plots. Deprecated. Please use use_pdf.
+#' @param use_pdf option for pdf plots 
 #' @param xlim  optional xlim, which overwrites xmin   
 #' @param xmin  optional minimum year shown in plot (default first yr)   
 #' @param labels yaxis lable for biomass (bony fish and sharks) 
@@ -62,13 +62,13 @@
 #' @param shadecol1 uncertainty shading of early years not affected by hindcast
 #' @param new Create new empty plot window. Deprecated.
 #' @param add surpresses par() to create multiplot figs
-#' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
-#' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
+#' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating mcmc values are used
+#' @param indexQlabel TRUE/FALSE, if TRUE add catchability to legend in plot of index fits (currently not used)
 #' @param indexQdigits Number of significant digits for catchability in legend
-#' @param showrho showrho TODO TODO. Defaults to TRUE
-#' @param xylabs Draw x and y axis lables (?) TODO TODO. Defaults to TRUE
-#' @param uncertainty uncertainty TODO TODO. Defaults to TRUE.
-#' @param shadealpha shadealpha TODO TODO. Defalut to 0.3
+#' @param showrho TRUE/FALSE include Mohn's rho value? Defaults to TRUE
+#' @param xylabs TRUE or FALSE, include x- and y-axis labels. Defaults to TRUE
+#' @param uncertainty TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.
+#' @param shadealpha set the transparency level (alpha) of the area of uncertainty. Defalut to 0.3 (currently not used)
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @importFrom lifecycle deprecated
 #' @export

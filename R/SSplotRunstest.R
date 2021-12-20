@@ -152,7 +152,7 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
   if(!isTRUE(new)){
     lifecycle::deprecate_warn(
       when = "1.0.9",
-      what = "SSplotJABBAres(new)",
+      what = "SSplotRunsTest(new)",
       details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
     )
   }

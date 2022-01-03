@@ -1,4 +1,4 @@
-#' SSplotHCxal() for one-step ahead hindcasting cross-validations of indices
+#' Hindcasting Cross-Validations 
 #'
 #' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
 #' 

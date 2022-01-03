@@ -1,6 +1,6 @@
-#' A function to plot SSB, B-ratio, F, Recruits, and/or Index of Abundance fits from multiple SS models.
+#' Compare Multiple SS Model Estimates
 #'
-#' This function uses an object of multiple SS models summarized with r4ss:SSsummarize().
+#' A function to plot SSB, B-ratio, F, Recruits, and/or Index of Abundance fits from multiple SS models. This function uses an object of multiple SS models summarized with r4ss:SSsummarize().
 #' 
 #' @param summaryoutput List created by r4ss::SSsummarize() 
 #' @param models Optional subset of the models described in

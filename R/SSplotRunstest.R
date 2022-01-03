@@ -1,3 +1,5 @@
+#' Runs Test for Residuals
+#' 
 #' This function uses randtests::runs.test to do perform a runs test on residuals to determine if they are randomly distributed. It also calculates the 3 x sigma limits
 #'
 #' @param x residuals from CPUE fits
@@ -36,6 +38,8 @@ ssruns_sig3 <- function(x, type=NULL, mixing="less") {
 }
 
 
+#' Residual Diagnostics
+#' 
 #' Function for residual diagnostics. Plots residuals and 3x sigma limits for indices or mean age or length and outputs a runs test table. Note, if you do not want to plot the residuals, use function ss3diags::SSrunstest.
 #'
 #' 
@@ -51,8 +55,8 @@ ssruns_sig3 <- function(x, type=NULL, mixing="less") {
 #' @param print_plot Option to print to PNG files
 #' @param png png plots. Deprecated, please use use_png
 #' @param use_png Draw plots in PNG format
-#' @param pdf PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.
-#' @param use_pdf option for pdf plots (not tested for TRUE)
+#' @param pdf PDF plots. Deprecated. Please use use_pdf.
+#' @param use_pdf option for pdf plots
 #' @param pch Optional vector of plot character values
 #' @param lty Optional vector of line types
 #' @param lwd Optional vector of line widths

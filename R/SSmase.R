@@ -1,6 +1,6 @@
-#' SSmase() computes mean absolute scaled error (MASE) for one-step ahead hindcasting cross-validations of indices
+#' Mean Absolute Scaled Error 
 #'
-#' MASE for one-step ahead hindcasting cross-validations and computes MASE from prediction residuals. 
+#' MASE for one-step ahead hindcasting cross-validations and computes MASE from prediction residuals of indices. 
 #' MASE is calculated the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and Naive Predictions (MAE.base)
 #' MASE.adj sets the MAE.base to a minimum MAE.base.adj (default=0.1)
 #' MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate, when obs show extremely little variation   

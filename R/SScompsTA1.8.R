@@ -1,3 +1,5 @@
+#' Francis Weighting for compositional data
+#'
 #' TA1.8 Francis function modified from r4ss::SSMethod.TA1.8 and r4ss::SSMethod.Cond.TA1.8 apply Francis weighting method TA1.8 to length-, age-, generalized size-composition data, or conditional age-at-length data from a Stock Synthesis model. For conditional age-at-length data, the mean age by year is calculated based on recommendations by Punt (2015). 
 #' The main purpose is to create a dataframe of the annual observed and expected mean length or age for each fleet that is used to calculate residuals for testing model fit. This function is used in SSplotRunstest and SSplotJABBAres.  
 #' 

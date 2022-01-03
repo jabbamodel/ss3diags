@@ -1,4 +1,4 @@
-#' SSplotHCxval() for one-step ahead hindcasting cross-validations of indices
+#' Hindcasting Cross-Validations of Multiple Models
 #'
 #' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction residuals. 
 #' MASE is calculated as the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and naive predictions (MAE.base)

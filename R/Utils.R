@@ -1,3 +1,4 @@
+#' Allow Multi-Plots
 #' Set the par() to options suitable for ss3diags multi plots.
 #'
 #' See \link[graphics]{par} for more details on each parameter.
@@ -15,6 +16,7 @@ sspar <- function(mfrow=c(1,1),plot.cex=1,mai=c(0.55,0.6,0.1,.1),omi = c(0.,0.,0
   par(list(mfrow=mfrow,mai = mai, mgp =c(2.,0.5,0),omi =omi, tck = -0.02,cex=plot.cex))
 }
 
+#' Convert Time-Steps
 #' Function to convert non-annual into annual time-steps for retros and cpue residuals
 #'  
 #' @param ss3out outputs from r4ss::SS_output() or r4ss::SSsummarize()

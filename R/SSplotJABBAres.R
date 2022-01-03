@@ -1,6 +1,6 @@
-#' A function to plot the residuals for all indices over the time series.  
+#' Residual Analysis Plot
 #'
-#' The plot includes boxplots to show the spread of residuals of across indicies with data in a given year. A loess regression line is fit to the residuals to show systematic trends.
+#' A function to plot the residuals for all indices over the time series. The plot includes boxplots to show the spread of residuals of across indicies with data in a given year. A loess regression line is fit to the residuals to show systematic trends.
 #' 
 #' @param ss3rep from r4ss::SS_output
 #' @param subplots optional specify use of "cpue" for index data, "len" for length composition data, or "age" for age composition data 
@@ -69,7 +69,7 @@
 #' dev.off()
 #' }
 SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
-                          subplots=c("cpue","len","age")[1],
+                          subplots=c("cpue","len","age","con")[1],
                           plot=TRUE,
                           print=deprecated(),
                           print_plot=FALSE,
@@ -157,8 +157,8 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
   }
   
   subplots = subplots[1]
-  datatypes= c("Index","Mean length","Mean age")
-  ylabel = datatypes[which(c("cpue","len","age")%in%subplots)]
+  datatypes= c("Index","Mean length","Mean age","Conditional age-at-length")
+  ylabel = datatypes[which(c("cpue","len","age","con")%in%subplots)]
   
   
   if(subplots=="cpue"){
@@ -178,6 +178,13 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     Res = comps
   }  
   
+  if(subplots == "con"){
+    cond = SScomps.FrancisB(ss3rep,fleet=NULL,type=subplots)$runs_dat
+    cond$residuals = ifelse(is.na(cond$Obs),NA,log(cond$Obs)-log(cond$Exp))
+    if(is.null(cond$Fleet_name)){ # Deal with Version control
+      cond$Fleet_name = cond$Name}
+    Res = cond
+  }
 
   
   pngfun <- function(file){
@@ -198,7 +205,12 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
   }
   
   # Define indices
-  resids = reshape2::dcast(Res,Time~Fleet,value.var="residuals")
+  if(subplots == "con"){
+    resids = reshape2::dcast(Res, Time ~ Fleet + Lbin, value.var = "residuals")
+  } else {
+    resids = reshape2::dcast(Res,Time~Fleet,value.var="residuals")
+  }
+  
   indices = unique(Res$Fleet_name)
   n.indices = length(indices)
   series = 1:n.indices
@@ -285,11 +297,13 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     Resids = t(resids[,-1])
     ylab= paste(ylabel,"residuals")
     n.years = length(yr)
+    if(subplots == "con") n.lbin <- length(unique(Res$Lbin))
     
     # setup colors, points, and line types
     if(is.null(col) & n.indices>3)  col <- rc(n.indices+1)[-1]
     if(is.null(col) & n.indices<3)  col <- rc(n.indices)
     if(is.null(col) & n.indices==3) col <- c("blue","red","green3")
+    if(is.null(col) & !is.null(n.lbin)) col <- rc(n.lbin)
     # set pch values if no input
     
     # if line stuff is shorter than number of lines, recycle as needed
@@ -318,12 +332,20 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     plot(0, type = "n", xlim = xlim, yaxs = yaxs, 
          ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylab,""), axes = FALSE)
     
-    Resids = ifelse(abs(Resids)>3,NA,Resids)
+    if(subplots == "con"){
+      Resids = ifelse(abs(Resids)>10,NA,Resids)
+    } else{
+      Resids = ifelse(abs(Resids)>3,NA,Resids)
+    }
+    
+    
     boxplot(as.matrix(Resids),add=TRUE,at=c(yr),xaxt="n",col=grey(0.8,0.5),notch=FALSE,outline = FALSE,axes=F)
     abline(h=0,lty=2)
     positions=runif(nrow(Resids),-0.2,0.2)
     
-    for(i in 1:n.indices){
+    rowi <- rownames(Resids)
+    
+    for(i in 1:length(rowi)){
       for(t in 1:n.years){
         lines(rep((yr+positions[i])[t],2),c(0,Resids[i,t]),col=col[i])}
       points(yr+positions[i],Resids[i,],col=1,pch=pch,bg=col[i])}
@@ -334,7 +356,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     Nobs =length(as.numeric(Resids)[is.na(as.numeric(Resids))==FALSE])
     RMSE = round(100*sqrt(mean(Resids^2,na.rm =TRUE)),1)
     rmse.i =  ni = NULL
-    for(i in 1:n.indices){
+    for(i in 1:length(rowi)){
       res.i =sum(Resids[i,]^2,na.rm =TRUE)
       ni[i] =length(as.numeric(Resids[i,])[is.na(as.numeric(Resids[i,]))==FALSE])
       rmse.i[i] = round(100*sqrt(res.i/ni[i]),1)

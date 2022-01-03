@@ -1,4 +1,4 @@
-#' Retrospective-Forecast with one-step ahead hindcasting 
+#' Retrospective-Forecast with One-Step Ahead Hindcasting 
 #'
 #' Plots retrospective pattern, including (optional) one-step ahead forecast and computes Mohn's Rho 
 #' 

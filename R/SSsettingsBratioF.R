@@ -1,4 +1,6 @@
-#' function to get Bratio and F settings
+#' Get Stock Status Settings
+#' 
+#' A function to get Bratio and F settings
 #'
 #' @param ss3rep from r4ss::SSgetoutput()
 #' @param status covarying stock status quantaties to extract from Hessian

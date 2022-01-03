@@ -1,3 +1,5 @@
+#'  Joint Distributions for Stock Status Ratios
+#'
 #' A function to generate kobe pdfs from a Multivariate Log-Normal Distribution including plotting option. This version is used for older versions of Stock Synthesis. For newer versions (v3.24 and newer), use SSdeltaMVLN().
 #' 
 #'

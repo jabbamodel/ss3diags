@@ -1,3 +1,4 @@
+#' Joint Distributions for Stock Status Ratios
 #'
 #' A function to generate joint distributions for stock status ratios (SSB/SSBref and F/Fref where ref can be MSY, SSB40, F40, etc.) using a Multivariate Log-Normal Distribution. The function produces a Kobe plot, maximum likelihood estimates and the MVLN Monte-Carlo distributions of the Kobe values which can be input into SSplotEnsemble().
 #' 

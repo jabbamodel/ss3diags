@@ -1,4 +1,4 @@
-#' A function to computes Mohn's Rho and one step ahead forecast bias (forecastrho)
+#' Mohn's Rho and Forecast Bias 
 #'
 #' This function produces the statistics from retrospective analysis (Mohn's rho and forecast bias). To visualize the retrospective forecasts from a Stock Synthesis model, use SSplotRetro().
 #' 

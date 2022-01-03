@@ -1,3 +1,5 @@
+#' Read SS MCMC
+#'
 #' A function to read mcmc file outputs from a Stock Synthesis model
 #'
 #'
@@ -18,7 +20,8 @@ SSreadMCMC <- function(mcmcdir){
 }
 
 
-
+#' MCMC Joint Distributions 
+#'
 #' A function to generate joint distributions for stock status ratios (SSB/SSBref and F/Fref where ref can be MSY, SSB40, F40, etc.) using MCMC. The function produces a Kobe plot, maximum likelihood estimates and the MVLN Monte-Carlo distributions of the Kobe values which can be input into SSplotEnsemble().
 #'
 #' @param mcmc file path for folder with the derived_posteriors.sso file

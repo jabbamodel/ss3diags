@@ -1,19 +1,15 @@
-#' Residual Analysis Plot
+#' SSplotJABBAres() 
 #'
-#' A function to plot the residuals for all indices over the time series. The plot includes boxplots to show the spread of residuals of across indicies with data in a given year. A loess regression line is fit to the residuals to show systematic trends.
+#' plots residuals for all indices as boxplot with a loess showing systematic trends
 #' 
 #' @param ss3rep from r4ss::SS_output
-#' @param subplots optional specify use of "cpue" for index data, "len" for length composition data, or "age" for age composition data 
-#' @param plot plot to active plot device? Deprecated.
-#' @param print print to PNG files? Deprecated. Please use print_plot.
-#' @param print_plot Option to print to PNG files
-#' @param png png plots. Deprecated, please use use_png
-#' @param use_png Draw plots in PNG format
-#' @param pdf PDF plots Deprecated. Please use use_pdf.
-#' @param use_pdf option for pdf plots 
-#' @param indexselect Vector of fleet numbers for each model for which to compare, if NULL all fleets will be used
+#' @param subplots optional use of cpue and comp data (only tested for length) 
+#' @param plot plot to active plot device?
+#' @param print print to PNG files?
+#' @param pdf not tested for TRUE
+#' @param indexselect Vector of fleet numbers for each model for which to compare
 #' @param miny  minimum abs values of ylim
-#' @param col Optional vector of colors to be used for lines. If NULL, colors will be generated automatically depending on the number of fleets.
+#' @param col Optional vector of colors to be used for lines. Input NULL
 #' @param pch Optional vector of plot character values
 #' @param lty Optional vector of line types
 #' @param lwd Optional vector of line widths
@@ -33,9 +29,9 @@
 #' the legend display the model names in an order that is different than that
 #' which is represented in the summary input object.
 #' @param legendncol Number of columns for the legend.
-#' @param legendcex Allows to adjust legend cex
+#' @param legendcex=1 Allows to adjust legend cex
 #' @param legendsp Space between legend labels
-#' @param legendindex Creates the legend for selected indices. NULL will automatically use the selected index's number
+#' @param legendindex Allows to add lengend for selected indices (plots)
 #' @param pwidth Width of plot
 #' @param pheight Height of plot
 #' @param punits Units for PNG file
@@ -49,116 +45,43 @@
 #' @param par list of graphics parameter values passed to par() function
 #' @param verbose Report progress to R GUI?
 #' @param boxcol color boxes 
-#' @param new Create new empty plot window. Deprecated.
+#' @param new Create new empty plot window
 #' @param add surpresses par() to create multiplot figs
-#' @param xlim Optional, values for x-axis range of years to display on plot. Default = "default" displays all years of available data. 
-#' @param xylabs TRUE or FALSE, include x- and y-axis labels. Default is TRUE.
-#' 
 #' @author Henning Winker (JRC-EC)
-#' 
-#' @importFrom grDevices grey
-#' @importFrom graphics boxplot 
-#' @importFrom stats predict loess runif
-#' @importFrom lifecycle deprecated
-#' 
 #' @export
-#' @example 
-#' \dontrun{
-#' #save plot as a PDF file
-#' SSplotJABBAres(ss3phk, subplots = "age", add = TRUE, use_pdf = TRUE, plotdir = getwd(), pdf = TRUE)
-#' dev.off()
-#' }
-SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
-                          subplots=c("cpue","len","age","con")[1],
-                          plot=TRUE,
-                          print=deprecated(),
-                          print_plot=FALSE,
-                          png=deprecated(),
-                          use_png=print_plot,
-                          pdf=deprecated(),
-                          use_pdf=FALSE,
+SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","len","age")[1],
+                          plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                           indexselect=NULL,
                           miny = 3,
                           col=NULL, 
-                          pch=21, 
-                          lty=1,
-                          lwd=2,
+                          pch=21, lty=1, lwd=2,
                           tickEndYr=TRUE,
-                          xlim="default", 
-                          ylimAdj=1.1,
-                          xaxs="i", 
-                          yaxs="i",
+                          xlim="default", ylimAdj=1.1,
+                          xaxs="i", yaxs="i",
                           xylabs=TRUE,
                           type="o", 
-                          legend=TRUE, 
-                          legendlabels="default", 
-                          legendloc="bottomleft",
-                          legendorder="default",
-                          legendncol=1,
-                          legendcex=1,
-                          legendsp=0.9,
-                          legendindex = NULL,
-                          pwidth=6.5,
-                          pheight=5.0,
-                          punits="in",
-                          res=300,
-                          ptsize=10,
-                          cex.main=1,
+                          legend=TRUE, legendlabels="default", legendloc="bottomleft",
+                          legendorder="default",legendncol=1,legendcex=1,legendsp=0.9,legendindex = NULL,
+                          pwidth=6.5,pheight=5.0,punits="in",res=300,ptsize=10,cex.main=1,
                           plotdir=NULL,
                           filenameprefix="",
                           par=list(mar=c(5,4,1,1)+.1),
                           verbose=TRUE,
-                          boxcol = grey(0.8,0.5),
-                          new=TRUE,
+                          boxcol =  grey(0.8,0.5),new=TRUE,
                           add=FALSE){ 
-  
-  
-  #Parameter DEPRECATION checks 
-  if (lifecycle::is_present(print)){
-    lifecycle::deprecate_warn("1.0.9","SSplotJABBAres(print)","SSplotJABBAres(print_plot)")
-    print_plot <- print
-  }
-  
-  if(lifecycle::is_present(png)){
-    lifecycle::deprecate_warn("1.0.9", "SSplotJABBAres(png)","SSplotJABBAres(use_png)")
-    use_png <- png
-  }
-  
-  if(lifecycle::is_present(pdf)){
-    lifecycle::deprecate_warn("1.0.9", "SSplotJABBAres(pdf)","SSplotJABBAres(use_pdf)")
-    use_pdf <- pdf
-  }
-  
-  if(!isTRUE(plot)){
-    lifecycle::deprecate_warn(
-      when = "1.0.9",
-      what = "SSplotJABBAres(plot)",
-      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
-    )
-  }
-  
-  if(!isTRUE(new)){
-    lifecycle::deprecate_warn(
-      when = "1.0.9",
-      what = "SSplotJABBAres(new)",
-      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
-    )
-  }
-  
-  
   #------------------------------------------
   # r4ss plotting functions
   #------------------------------------------
   # subfunction to write png files
   if(!add) graphics.off()
   if(add){
-    print_plot=F
-    use_png=F
+    print=F
+    png=F
   }
   
   subplots = subplots[1]
-  datatypes= c("Index","Mean length","Mean age","Conditional age-at-length")
-  ylabel = datatypes[which(c("cpue","len","age","con")%in%subplots)]
+  datatypes= c("Index","Mean length","Mean age")
+  ylabel = datatypes[which(c("cpue","len","age")%in%subplots)]
   
   
   if(subplots=="cpue"){
@@ -178,14 +101,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     Res = comps
   }  
   
-  if(subplots == "con"){
-    cond = SScomps.FrancisB(ss3rep,fleet=NULL,type=subplots)$runs_dat
-    cond$residuals = ifelse(is.na(cond$Obs),NA,log(cond$Obs)-log(cond$Exp))
-    if(is.null(cond$Fleet_name)){ # Deal with Version control
-      cond$Fleet_name = cond$Name}
-    Res = cond
-  }
-
+  
   
   pngfun <- function(file){
     # if extra text requested, add it before extention in file name
@@ -205,29 +121,26 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
   }
   
   # Define indices
-  if(subplots == "con"){
-    resids = reshape2::dcast(Res, Time ~ Fleet + Lbin, value.var = "residuals")
-  } else {
-    resids = reshape2::dcast(Res,Time~Fleet,value.var="residuals")
-  }
-  
+  resids = reshape2::dcast(Res,Time~Fleet,value.var="residuals")
   indices = unique(Res$Fleet_name)
   n.indices = length(indices)
   series = 1:n.indices
   yr = unique(round(resids$Time))
   
+  
+  log=FALSE #(no option to plot on log scale)
   if(is.null(legendindex))  legendindex=series
   if(!legend) legendindex=10000
   
-  if(use_png) print_plot <- TRUE
-  if(use_png & is.null(plotdir))
-    stop("to print_plot PNG files, you must supply a directory as 'plotdir'")
+  if(png) print <- TRUE
+  if(png & is.null(plotdir))
+    stop("to print PNG files, you must supply a directory as 'plotdir'")
   
   # check for internal consistency
-  if(use_pdf & use_png){
-    stop("To use 'use_pdf', set 'print_plot' or 'use_png' to FALSE.")
+  if(pdf & png){
+    stop("To use 'pdf', set 'print' or 'png' to FALSE.")
   }
-  if(use_pdf){
+  if(pdf){
     if(is.null(plotdir)){
       stop("to write to a PDF, you must supply a directory as 'plotdir'")
     }
@@ -281,9 +194,9 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     
     labels=c("Year",             #1
              "Residuals")         #2
-               
+    
     # open new window if requested
-    if(plot & use_png==FALSE){
+    if(plot & png==FALSE){
       if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       
     } else {
@@ -297,13 +210,11 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     Resids = t(resids[,-1])
     ylab= paste(ylabel,"residuals")
     n.years = length(yr)
-    if(subplots == "con") n.lbin <- length(unique(Res$Lbin))
     
     # setup colors, points, and line types
     if(is.null(col) & n.indices>3)  col <- rc(n.indices+1)[-1]
     if(is.null(col) & n.indices<3)  col <- rc(n.indices)
     if(is.null(col) & n.indices==3) col <- c("blue","red","green3")
-    if(is.null(col) & !is.null(n.lbin)) col <- rc(n.lbin)
     # set pch values if no input
     
     # if line stuff is shorter than number of lines, recycle as needed
@@ -312,7 +223,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     if(legendorder[1]=="default") legendorder <- 1:(n.indices+1)
     
     # open new window if requested
-    if(plot & use_png==FALSE){
+    if(plot & png==FALSE){
       if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       
     } else {
@@ -332,20 +243,12 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     plot(0, type = "n", xlim = xlim, yaxs = yaxs, 
          ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylab,""), axes = FALSE)
     
-    if(subplots == "con"){
-      Resids = ifelse(abs(Resids)>10,NA,Resids)
-    } else{
-      Resids = ifelse(abs(Resids)>3,NA,Resids)
-    }
-    
-    
+    Resids = ifelse(abs(Resids)>3,NA,Resids)
     boxplot(as.matrix(Resids),add=TRUE,at=c(yr),xaxt="n",col=grey(0.8,0.5),notch=FALSE,outline = FALSE,axes=F)
     abline(h=0,lty=2)
     positions=runif(nrow(Resids),-0.2,0.2)
     
-    rowi <- rownames(Resids)
-    
-    for(i in 1:length(rowi)){
+    for(i in 1:n.indices){
       for(t in 1:n.years){
         lines(rep((yr+positions[i])[t],2),c(0,Resids[i,t]),col=col[i])}
       points(yr+positions[i],Resids[i,],col=1,pch=pch,bg=col[i])}
@@ -356,37 +259,37 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     Nobs =length(as.numeric(Resids)[is.na(as.numeric(Resids))==FALSE])
     RMSE = round(100*sqrt(mean(Resids^2,na.rm =TRUE)),1)
     rmse.i =  ni = NULL
-    for(i in 1:length(rowi)){
+    for(i in 1:n.indices){
       res.i =sum(Resids[i,]^2,na.rm =TRUE)
       ni[i] =length(as.numeric(Resids[i,])[is.na(as.numeric(Resids[i,]))==FALSE])
       rmse.i[i] = round(100*sqrt(res.i/ni[i]),1)
     }
-      
+    
     legend('topright',c(paste0("RMSE = ",RMSE,"%")),bty="n",cex=legendcex+0.1,y.intersp=0.2,x.intersp = 0)
     if(legend) legend(legendloc,legendlabels,bty="n",col=1,pt.cex=1.1,cex=legendcex,pch=c(rep(21,n.indices),-1),pt.bg=c(col,1),lwd=c(rep(-1,n.indices),2))
-     axis(1, at=c(min(floor(yr)):max(floor(yr))))
+    axis(1, at=c(min(floor(yr)):max(floor(yr))))
     if(tickEndYr) axis(1, at=max(floor(yr)))
     axis(2)
     box()
-  
+    
     return(data.frame(indices=c(indices,"Combined"),RMSE.perc=c(rmse.i,RMSE),nobs=c(ni,Nobs)))
   } # jabba residual plot  
   #------------------------------------------------------------
   
   if(verbose) cat("Plotting JABBA residual plot \n")
   if(plot){ 
-    if(print_plot){
+    if(print){
       
-         pngfun(paste0("jabbaresidual.png",sep=""))
-         par(par)
-         rmse = jabbaresiduals()   
-        dev.off()
-        
-        }
-
-      if(!add)(par)
-      rmse = jabbaresiduals()# End of Fleet Loop
-       
+      pngfun(paste0("jabbaresidual.png",sep=""))
+      par(par)
+      rmse = jabbaresiduals()   
+      dev.off()
+      
+    }
+    
+    if(!add)(par)
+    rmse = jabbaresiduals()# End of Fleet Loop
+    
   }
   
   if(verbose) cat(paste0("\n","RMSE stats by Index:","\n"))

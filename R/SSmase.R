@@ -43,7 +43,7 @@ SSmase <- function(retroSummary,quants=c("cpue","len","age","con"),Season="defau
   
   if(subplots[1] %in% c("len","age","con")){
     if(is.null(hcruns$age) & is.null(hcruns$len) & is.null(hcruns$con)){
-      hcruns = SSretroComps(retroSummary, verbose = FALSE)
+      hcruns = SSretroComps(retroSummary)
       message("Converting retroSummary to summarized list using ss3diags::SSretroComps()") 
     }}  
   

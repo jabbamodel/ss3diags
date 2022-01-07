@@ -55,17 +55,18 @@ SSplotJABBAres(
 
 \item{subplots}{optional use of cpue and comp data (only tested for length)}
 
-\item{plot}{plot to active plot device? Deprecated.}
+\item{plot}{Deprecated. Plots (and subplots) are drawn to the active plot device 
+by default (TRUE), and the option to disable this, via FALSE, is unused.}
 
-\item{print}{print to PNG files? Deprecated. Please use print_plot.}
+\item{print}{Deprecated. Please use 'print_plot'.}
 
 \item{print_plot}{Option to print to PNG files}
 
-\item{png}{png plots. Deprecated, please use use_png}
+\item{png}{Deprecated. please use 'use_png'.}
 
 \item{use_png}{Draw plots in PNG format}
 
-\item{pdf}{PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.}
+\item{pdf}{Deprecated. Please use 'use_pdf'.}
 
 \item{use_pdf}{option for pdf plots (not tested for TRUE)}
 
@@ -97,7 +98,7 @@ year in timeseries plots.}
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
 
-\item{legend}{Add a legend?}
+\item{legend}{Option to add a legend. TRUE by default.}
 
 \item{legendlabels}{Optional vector of labels to include in legend.}
 
@@ -141,7 +142,8 @@ It will be separated from default name by an underscore.}
 
 \item{boxcol}{color boxes}
 
-\item{new}{Create new empty plot window. Deprecated.}
+\item{new}{Deprecated. New plot windows are created by default (TRUE), and the 
+option to disable this, via FALSE, is unused.}
 
 \item{add}{surpresses par() to create multiplot figs}
 }
@@ -151,3 +153,4 @@ plots residuals for all indices as boxplot with a loess showing systematic trend
 \author{
 Henning Winker (JRC-EC)
 }
+\keyword{ssplot}

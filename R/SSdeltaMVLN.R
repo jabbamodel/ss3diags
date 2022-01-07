@@ -1,6 +1,6 @@
 #' Delta Multivariate Log-normal Distribution
 #'
-#' function to generatbe kobe pdfs from a Multivariate Log-Normal Distribution
+#' Generatbe kobe pdfs from a Multivariate Log-Normal Distribution,
 #' including plotting option
 #'
 #' @param ss3rep from r4ss::SS_output
@@ -19,6 +19,8 @@
 #' @return output list of quant posteriors and mle's
 #' 
 #' @author Henning Winker (JRC-EC)
+#' 
+#' @keywords diags kobe lognormal
 #' 
 #' @importFrom stats rlnorm aggregate
 #' @importFrom graphics rect points lines legend

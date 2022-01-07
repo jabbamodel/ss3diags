@@ -22,6 +22,8 @@
 #' @references #' Punt, A.E. (2015). Some insights into data weighting in integrated stock assessments.
 #' Fish. Res. <http://dx.doi.org/10.1016/j.fishres.2015.12.006
 #' 
+#' @keywords diags 
+#' 
 #' @importFrom graphics par segments arrows points lines mtext 
 #' @importFrom stats var quantile 
 #' 

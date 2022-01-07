@@ -66,17 +66,18 @@ SSplotModelcomp(
 \arguments{
 \item{summaryoutput}{List created by r4ss::SSsummarize()}
 
-\item{plot}{Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.}
+\item{plot}{Deprecated. Plots (and subplots) are drawn to the active plot device 
+by default (TRUE), the option to disable this via FALSE, is unused here.}
 
-\item{print}{print to PNG. Deprecated.}
+\item{print}{Deprecated. Please use 'print_plot'.}
 
 \item{print_plot}{print to PNG files?}
 
-\item{png}{draws to png files. Deprecated.}
+\item{png}{Deprecated. Please use 'use_png'.}
 
 \item{use_png}{png TODO TODO Defaults to print value}
 
-\item{pdf}{draw in PDF(not tested for TRUE). Deprecated}
+\item{pdf}{Deprecated. Please use 'use_png'.}
 
 \item{use_pdf}{option for pdf plots (not tested for TRUE)}
 
@@ -127,7 +128,7 @@ top of lines)}
 
 \item{uncertainty}{uncertainty TODO TODO. Deafults to TRUE}
 
-\item{legend}{Add a legend?}
+\item{legend}{Option to add a legend. TRUE by default.}
 
 \item{legendlabels}{Optional vector of labels to include in legend.}
 
@@ -173,7 +174,8 @@ It will be separated from default name by an underscore.}
 
 \item{shadealpha}{Transparency adjustment used to make default shadecol}
 
-\item{new}{Create new empty plot window. Deprecated.}
+\item{new}{Deprecated. New plot windows are created by default (TRUE), and the 
+option to disable this, via FALSE, is unused.}
 
 \item{add}{surpresses par() to create multiplot figs}
 
@@ -191,3 +193,5 @@ Plots one-step ahead hindcasting cross-validations and computes MASE from predic
 \author{
 Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 }
+\keyword{hindcasting}
+\keyword{ssplot}

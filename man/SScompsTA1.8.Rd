@@ -48,3 +48,4 @@ Fish. Res. <http://dx.doi.org/10.1016/j.fishres.2015.12.006
 \author{
 Chris Francis, Andre Punt, Ian Taylor (modified by Henning Winker and Meg Oshima)
 }
+\keyword{diags}

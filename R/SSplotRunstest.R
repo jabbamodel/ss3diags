@@ -1,10 +1,19 @@
 #' This function uses randtests::runs.test to do perform a runs test on residuals to determine if they are randomly distributed. It also calculates the 3 x sigma limits
 #'
+
+#' runs test is conducted with library(randtests)
+#' 
 #' @param x residuals from CPUE fits
-#' @param type either "resid","observations". If NULL, defaults to "resid"
-#' @param mixing c("less","greater","two.sided"). Default less (corresponds to left.sided in runs.test function) is checking for positive autocorrelation only    
-#' @return a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet.
+#' @param type only c("resid","observations")
+#' @param mixing c("less","greater","two.sided"). Default less is checking for positive autocorrelation only    
+#' 
+#' @return runs p value and 3 x sigma limits
+#' 
+#' @keywords diags runsTest
+#' 
+
 #' @export
+#' 
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 ssruns_sig3 <- function(x, type=NULL, mixing="less") {
   if(is.null(type)) type="resid"
@@ -46,12 +55,13 @@ ssruns_sig3 <- function(x, type=NULL, mixing="less") {
 #' or 'con' for conditional age at length data
 #' @param indexselect Vector of fleet numbers for each model for which to compare
 #' @param miny  minimum abs values of ylim
-#' @param plot plot to active plot device?
-#' @param print print to PNG files? Deprecated. Please use print_plot.
+#' @param plot Deprecated. Plots (and subplots) are drawn to the active plot device 
+#' by default (TRUE), the option to disable this via FALSE, is unused here. 
+#' @param print Deprecated. Please use 'print_plot'.
 #' @param print_plot Option to print to PNG files
-#' @param png png plots. Deprecated, please use use_png
+#' @param png Deprecated, please use 'use_png'.
 #' @param use_png Draw plots in PNG format
-#' @param pdf PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.
+#' @param pdf Deprecated. Please use 'use_pdf'.
 #' @param use_pdf option for pdf plots (not tested for TRUE)
 #' @param pch Optional vector of plot character values
 #' @param lty Optional vector of line types
@@ -63,7 +73,7 @@ ssruns_sig3 <- function(x, type=NULL, mixing="less") {
 #' @param yaxs Choice of yaxs parameter (see ?par for more info)
 #' @param type Type parameter passed to points (default 'o' overplots points on
 #' top of lines)
-#' @param legend Add a legend?
+#' @param legend Option to add a legend. TRUE by default.
 #' @param legendloc Location of legend. Either a string like "topleft" or a vector
 #' @param legendcex Allows to adjust legend cex
 #' @param pwidth Width of plot
@@ -77,13 +87,15 @@ ssruns_sig3 <- function(x, type=NULL, mixing="less") {
 #' @param filenameprefix Additional text to append to PNG or PDF file names.
 #' It will be separated from default name by an underscore.
 #' @param par list of graphics parameter values passed to par() function
-#' @param verbose TRUE or FALSE, should the progress be reported to R GUI?
-#' @param new Create new empty plot window (TRUE or FALSE)
-#' @param add suppresses par() to create multiplot figs
+#' @param verbose Report progress to R GUI?
+#' @param new Deprecated. New plot windows are created by default (TRUE), and the 
+#' option to disable this, via FALSE, is unused.
+#' @param add surpresses par() to create multiplot figs
 #' @param xlim xlim TODO TODO
 #' @param xylabs draw x-axis and y-axis TODO TODO
 #' @return a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet. Note, runs test passed if p-value > 0.05 (residuals are random) and failed if p-value < 0.5 (residuals are not random)
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' @keywords ssplot runsTest
 #' @importFrom lifecycle deprecated
 #' @export
 
@@ -145,7 +157,7 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
     lifecycle::deprecate_warn(
       when = "1.0.9",
       what = "SSplotRunsTest(plot)",
-      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be defunct in a future version"
     )
   }
   
@@ -153,7 +165,7 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
     lifecycle::deprecate_warn(
       when = "1.0.9",
       what = "SSplotJABBAres(new)",
-      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
+      details = "The ability to explicitly disable new plot windows is unused and will be defunct in a future version"
     )
   }
   
@@ -363,6 +375,9 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
 #' @param verbose Report progress to R GUI?
 #' @return a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet. Note, runs test passed if p-value > 0.05 (residuals are random) and failed if p-value < 0.5 (residuals are not random)
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' 
+#' @keywords diags runsTest
+#' 
 #' @export
 
 SSrunstest <- function(ss3rep=ss3diags::ss3sma,

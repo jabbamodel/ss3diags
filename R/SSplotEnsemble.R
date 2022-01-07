@@ -1,6 +1,6 @@
-#' SSplotHCxal() for one-step ahead hindcasting cross-validations of indices
-#'
-#' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
+#' Multivariate lognormal (MVLN) Monte-Carlo distribution ensemble plot
+#' 
+#' Plots the Distributions for SSB/SSB40, F/FSPR40, SSB, F, Recruitment and Catch trajectories for the target model. 
 #' 
 #' @param kb SSdeltaMVLN $kb type output    
 #' @param subplots option to "Bratio","Fvalue","SSB", "F", "Recr","Catch" 
@@ -8,12 +8,13 @@
 #' @param ylabs yaxis labels for quants
 #' final year of values to show for each model. By default it is set to the
 #' @param endyrvec ending year specified in each model.
-#' @param plot Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.
-#' @param print print to PNG files? Deprecated. Please use print_plot. 
+#' @param plot Deprecated. Plots (and subplots) are drawn to the active plot device 
+#' by default (TRUE), and the option to disable this, via FALSE, is unused. 
+#' @param print Deprecated. Please use 'print_plot'. 
 #' @param print_plot print to PNG files?
-#' @param pdf not tested for TRUE. Deprecated. Please use use_pdf.
+#' @param pdf Deprecated. Please use 'use_pdf'.
 #' @param use_pdf option for pdf plots (not tested for TRUE)
-#' @param png output in PNG format. Deprecated. Please use use_png.
+#' @param png Deprecated. Please use 'use_png'.
 #' @param use_png Draw plots in PNG format
 #' @param col Optional vector of colors to be used for lines. Input NULL
 #' @param pch Optional vector of plot character values
@@ -22,12 +23,12 @@
 #' @param tickEndYr TRUE/FALSE switch to turn on/off extra axis mark at final
 #' year in timeseries plots.
 #' @param ylimAdj Multiplier for ylim parameter. Allows additional white space
-#' @param xlim = NULL range of years
+#' @param xlim Range of years. Optional parameter. NULL by default. 
 #' @param xaxs Choice of xaxs parameter (see ?par for more info)
 #' @param yaxs Choice of yaxs parameter (see ?par for more info)
 #' @param type Type parameter passed to points (default 'o' overplots points on
 #' top of lines)
-#' @param legend Add a legend?
+#' @param legend Add a legend to plot. TRUE by default.
 #' @param legendlabels Optional vector of labels to include in legend.
 #' @param legendloc Location of legend. Either a string like "topleft" or a vector
 #' of two numeric values representing the fraction of the maximum in the x and y
@@ -53,7 +54,8 @@
 #' @param verbose Report progress to R GUI?
 #' @param shadecol uncertainty shading of hcxval horizon
 #' @param shadealpha Transparency adjustment used to make default shadecol
-#' @param new Create new empty plot window. Deprecated.
+#' @param new Deprecated. New plot windows are created by default (TRUE), and the 
+#' option to disable this, via FALSE, is unused.
 #' @param add surpresses par() to create multiplot figs
 #' @param summaryoutput List created by r4ss::SSummarize(). TODO: Verify
 #' @param quantiles quantile TODO TODO. Default is (.025,.075)
@@ -70,6 +72,7 @@
 #' 
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 #' 
+#' @keywords ssplot
 #' 
 #' @export
 SSplotEnsemble<- function(kb, summaryoutput,
@@ -144,7 +147,7 @@ SSplotEnsemble<- function(kb, summaryoutput,
     lifecycle::deprecate_warn(
       when = "1.0.9",
       what = "SSplotEnsemble(plot)",
-      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be defunct in a future version"
     )
   }
     
@@ -152,7 +155,7 @@ SSplotEnsemble<- function(kb, summaryoutput,
     lifecycle::deprecate_warn(
       when = "1.0.9",
       what = "SSplotEnsemble(new)",
-      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
+      details = "The ability to explicitly disable new plot windows is unused and will be defunct in a future version"
     )
   }
   
@@ -452,6 +455,8 @@ SSplotEnsemble<- function(kb, summaryoutput,
 #' @param varlist variable list
 #' @param indexfleets Fleet vector index
 #' @param verbose Option to output messages to Rconsole
+#' 
+#' @keywords internal ssplot
 #' 
 #' @importFrom grDevices png
 #'

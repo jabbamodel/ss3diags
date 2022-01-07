@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSmase.R
 \name{SSmase}
 \alias{SSmase}
-\title{SSmase() computes MASE for one-step ahead hindcasting cross-validations of indices}
+\title{Computes MASE for one-step ahead hindcasting cross-validations of indices}
 \usage{
 SSmase(
   retroSummary,
@@ -54,3 +54,6 @@ MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate, when obs show
 \author{
 Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 }
+\keyword{MASE}
+\keyword{diags}
+\keyword{hindcasting}

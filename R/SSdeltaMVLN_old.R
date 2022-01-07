@@ -22,6 +22,8 @@
 #' 
 #' @author Henning Winker (JRC-EC)
 #' 
+#' @keywords diags kobe lognormal
+#' 
 #' @importFrom graphics rect points lines legend
 #' @importFrom utils tail 
 #' 

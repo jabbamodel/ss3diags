@@ -54,10 +54,10 @@ test_that("Hindcast plot is created for phk index", {
                legendcex = 0.7, 
                png = TRUE,
                print = TRUE, 
-               plotdir = getwd())
+               plotdir = path)
   
   fleets <- unique(retrosum.phk$indices$Fleet)
-  plot_names <- paste0(rep(getwd(), length(fleets)), 
+  plot_names <- paste0(rep(path, length(fleets)), 
                        "/", 
                        rep("hcxval", length(fleets)), 
                        "_", 

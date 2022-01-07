@@ -37,7 +37,7 @@ SSmase <- function(retroSummary,quants=c("cpue","len","age","con"),Season="defau
   xmin = NULL
   subplots = quants[1]
   if(is.null(hcruns$indices) & subplots[1] == "cpue"){
-    hcruns = r4ss::SSsummarize(retroSummary, verbose = FALSE)
+    hcruns = r4ss::SSsummarize(retroSummary)
     message("Converting retroSummary to summarized list using r4ss::SSsummarize()") 
   }  
   

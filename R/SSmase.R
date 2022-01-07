@@ -33,17 +33,17 @@ SSmase <- function(retroSummary,quants=c("cpue","len","age","con"),Season="defau
                    models="all",endyrvec="default",indexselect = NULL,MAE.base.adj=0.1,residuals=FALSE,
                    verbose=FALSE, indexfleets=1) { 
   
-  #hcruns =retroSummary #added for now
+  hcruns =retroSummary #added for now
   xmin = NULL
   subplots = quants[1]
   if(is.null(hcruns$indices) & subplots[1] == "cpue"){
-    hcruns = r4ss::SSsummarize(retroSummary)
+    hcruns = r4ss::SSsummarize(retroSummary, verbose = FALSE)
     message("Converting retroSummary to summarized list using r4ss::SSsummarize()") 
   }  
   
   if(subplots[1] %in% c("len","age","con")){
     if(is.null(hcruns$age) & is.null(hcruns$len) & is.null(hcruns$con)){
-      hcruns = SSretroComps(retroSummary)
+      hcruns = SSretroComps(retroSummary, verbose = FALSE)
       message("Converting retroSummary to summarized list using ss3diags::SSretroComps()") 
     }}  
   

@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSgetComps.R, R/SSretroComps.R
 \name{SSretroComps}
 \alias{SSretroComps}
-\title{SSretroComps}
+\title{Retrieve Composition Data from Multiple Models}
 \usage{
 SSretroComps(retroModels)
 

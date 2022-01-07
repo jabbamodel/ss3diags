@@ -5,15 +5,12 @@
 \title{SSplotJABBAres()}
 \usage{
 SSplotJABBAres(
-  ss3rep = ss3diags::ss3sma,
+  ss3rep = ss3sma,
   subplots = c("cpue", "len", "age")[1],
   plot = TRUE,
-  print = deprecated(),
-  print_plot = FALSE,
-  png = deprecated(),
-  use_png = print_plot,
-  pdf = deprecated(),
-  use_pdf = FALSE,
+  print = FALSE,
+  png = print,
+  pdf = FALSE,
   indexselect = NULL,
   miny = 3,
   col = NULL,
@@ -55,19 +52,11 @@ SSplotJABBAres(
 
 \item{subplots}{optional use of cpue and comp data (only tested for length)}
 
-\item{plot}{plot to active plot device? Deprecated.}
+\item{plot}{plot to active plot device?}
 
-\item{print}{print to PNG files? Deprecated. Please use print_plot.}
+\item{print}{print to PNG files?}
 
-\item{print_plot}{Option to print to PNG files}
-
-\item{png}{png plots. Deprecated, please use use_png}
-
-\item{use_png}{Draw plots in PNG format}
-
-\item{pdf}{PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.}
-
-\item{use_pdf}{option for pdf plots (not tested for TRUE)}
+\item{pdf}{not tested for TRUE}
 
 \item{indexselect}{Vector of fleet numbers for each model for which to compare}
 
@@ -84,15 +73,11 @@ SSplotJABBAres(
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
 
-\item{xlim}{xlim TODO TODO,}
-
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
 \item{xaxs}{Choice of xaxs parameter (see ?par for more info)}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
-
-\item{xylabs}{xylabs TODO TODO. Default is TRUE}
 
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
@@ -110,8 +95,6 @@ the legend display the model names in an order that is different than that
 which is represented in the summary input object.}
 
 \item{legendncol}{Number of columns for the legend.}
-
-\item{legendcex}{Allows to adjust legend cex}
 
 \item{legendsp}{Space between legend labels}
 
@@ -141,9 +124,11 @@ It will be separated from default name by an underscore.}
 
 \item{boxcol}{color boxes}
 
-\item{new}{Create new empty plot window. Deprecated.}
+\item{new}{Create new empty plot window}
 
 \item{add}{surpresses par() to create multiplot figs}
+
+\item{legendcex=1}{Allows to adjust legend cex}
 }
 \description{
 plots residuals for all indices as boxplot with a loess showing systematic trends

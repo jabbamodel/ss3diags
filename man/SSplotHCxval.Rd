@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSplotHCxval.R
 \name{SSplotHCxval}
 \alias{SSplotHCxval}
-\title{SSplotHCxval() for one-step ahead hindcasting cross-validations of indices}
+\title{Hindcasting Cross-Validations of Multiple Models}
 \usage{
 SSplotHCxval(
   retroSummary,
@@ -80,9 +80,9 @@ SSplotHCxval(
 
 \item{use_png}{Draw plots in PNG format}
 
-\item{pdf}{PDF plots (not tested for TRUE). Deprecated. Please use use_pdf.}
+\item{pdf}{PDF plots. Deprecated. Please use use_pdf.}
 
-\item{use_pdf}{option for pdf plots (not tested for TRUE)}
+\item{use_pdf}{option for pdf plots}
 
 \item{models}{Optional subset of the models described in
 r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
@@ -113,7 +113,7 @@ ending year specified in each model.}
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
 
-\item{xlim}{xlim TODO TODO.}
+\item{xlim}{Optional, values for x-axis range of years to display on plot. Default = "default" displays all years of available data. (currently not in use)}
 
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
@@ -123,12 +123,12 @@ year in timeseries plots.}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
 
-\item{xylabs}{x-axis and y-axis labels ?? Default is TRUE}
+\item{xylabs}{TRUE or FALSE, include x- and y-axis labels}
 
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
 
-\item{uncertainty}{uncertainty TODO TODO. Default is TRUE}
+\item{uncertainty}{TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.}
 
 \item{legend}{Add a legend?}
 
@@ -174,9 +174,9 @@ It will be separated from default name by an underscore.}
 
 \item{shadecol}{uncertainty shading of hcxval horizon}
 
-\item{shadecol2}{shadecol2 TODO TODO.}
+\item{shadecol2}{color for uncertainty in early years not affected by hindcast}
 
-\item{shadealpha}{Transparancy adjustment used to make default shadecol. TODO: verify}
+\item{shadealpha}{Transparancy adjustment used to make default shadecol. (currently not used)}
 
 \item{new}{Create new empty plot window}
 
@@ -192,7 +192,7 @@ It will be separated from default name by an underscore.}
 
 \item{plot}{plot to active plot device? Deprecated.}
 
-\item{shadecol1}{uncertainty shading of early years not affected by hindcast}
+\item{shadecol1}{uncertainty shading of early years not affected by hindcast (currently not used)}
 }
 \description{
 Plots one-step ahead hindcasting cross-validations and computes MASE from prediction residuals. 

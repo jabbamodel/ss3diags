@@ -5,8 +5,8 @@
 #' MASE.adj sets the MAE.base to a minimum MAE.base.adj (default=0.1)
 #' MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate, when obs show extremely little variation   
 #'
-#' @param retroSummary List created by r4ss::SSsummarize() 
-#' @param quants data type, either "cpue" for index data, "len" for length composition data, or "age" for age composition data. Note, if using "age" or "len", use SSretroComps() to extract and summarize the composition data first and use that as the retroSummary object.
+#' @param retroSummary raw list of retrospective runs created by r4ss::SSgetoutput(). Depending on the type of data, the function will call r4ss::SSsummarize or ss3diags:SSretroComps to summarize the list.
+#' @param quants data type, either "cpue" for index data, "len" for length composition data, or "age" for age composition data. Note, if using "age" or "len", SSretroComps() will be used to extract and summarize the composition data first.
 #' @param models Optional subset of the models described in
 #' r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
 #' columns in summary tables.
@@ -25,42 +25,42 @@
 #' @seealso [SSretroComps()] [r4ss::SSsummarize()]
 #' @examples
 #' \dontrun{
-#' #get retroSummary object
-#' retroI.sma <- r4ss::SSsummarize(retro.sma, verbose = F)
 #' # calculate MASE for CPUE indices only for fleets 1 and 2
-#' SSmase(retroC.sma, quant = "cpue", indexselect = c(1:2))
-#' #for length/age comp data use:
-#' retroI.sma <- SSretroComps(retro.sma)
-#' SSmase(retroC.sma, quant = "len", indexselect = c(1:2))
-#' 
+#' SSmase(retro.sma, quant = "cpue", indexselect = c(1:2))
 #' }
-SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
-                        models="all",endyrvec="default",indexselect = NULL,MAE.base.adj=0.1,residuals=FALSE,
-                        verbose=FALSE, indexfleets=1
-                        ){ 
+
+SSmase <- function(retroSummary,quants=c("cpue","len","age","con"),Season="default",
+                   models="all",endyrvec="default",indexselect = NULL,MAE.base.adj=0.1,residuals=FALSE,
+                   verbose=FALSE, indexfleets=1) { 
   
-  hcruns =retroSummary #added for now
+  #hcruns =retroSummary #added for now
   xmin = NULL
   subplots = quants[1]
   if(is.null(hcruns$indices) & subplots[1] == "cpue"){
-     stop("Require input object from r4ss::SSsummarize()") 
-   }  
+    hcruns = r4ss::SSsummarize(retroSummary)
+    message("Converting retroSummary to summarized list using r4ss::SSsummarize()") 
+  }  
   
-  if(subplots[1] %in% c("len","age")){
-    if(is.null(hcruns$age) & is.null(hcruns$len)){
-    stop("Require input object from ss3diags::SSdiagsComps") 
-  }}  
+  if(subplots[1] %in% c("len","age","con")){
+    if(is.null(hcruns$age) & is.null(hcruns$len) & is.null(hcruns$con)){
+      hcruns = SSretroComps(retroSummary)
+      message("Converting retroSummary to summarized list using ss3diags::SSretroComps()") 
+    }}  
   
   if(subplots[1]=="len"){
     if(is.null(hcruns$len)) stop("No Length Comps found")
     hcruns$indices = hcruns$len
   }
-    
+  
   if(subplots[1]=="age"){
     if(is.null(hcruns$age)) stop("No Age Comps found")
     hcruns$indices = hcruns$age
   }
-    
+  
+  if(subplots[1]=="con"){
+    if(is.null(hcruns$con)) stop("No Conditional Age-at-Length Comps found")
+    hcruns$indices = hcruns$con
+  }
   # subset if indexselect is specified
   if(is.null(indexselect) ==F & is.numeric(indexselect)){
     iname =  unique(hcruns$indices$Fleet_name)[indexselect]
@@ -99,7 +99,7 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
     }
     
     # Exclude all Time steps not use in reference run replist1
-    if(subplots[1]%in%c("len","age")){
+    if(subplots[1]%in%c("len","age","con")){
       indices$Use =  ifelse(is.na(indices$Like),-1,1)
     }
     RefUse = indices[indices$imodel==1 & indices$Use==1,]
@@ -117,7 +117,7 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
           indices2 <- rbind(indices2,indices[subset2 & indices$Fleet==ifleet,])
         }else{
           if(verbose){cat("some models have multiple indices, 'indexfleets' required\n",
-              "to compare fits to indices.\n")}
+                          "to compare fits to indices.\n")}
           return()
         }
       }else{
@@ -128,9 +128,9 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
     
     # Subset by month
     if(Season=="default"){
-                       Season = unique(indices2$Seas)[1]  
-                       if(verbose & length(unique(indices2$Seas))>1){cat("Taking Season",Season,"by default for Index",unique(indices2$Fleet_name))}
-                       
+      Season = unique(indices2$Seas)[1]  
+      if(verbose & length(unique(indices2$Seas))>1){cat("Taking Season",Season,"by default for Index",unique(indices2$Fleet_name))}
+      
     } else {
       Season = as.numeric(Season)[1]
       if(is.na(Season)) stop("Season must a default or and or the integer of indices$Seas 1,2,3,4")
@@ -172,10 +172,26 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
     nhc = length(endyrvec)-1
     
     
-    if(length(endyrvec[yr%in%endyrvec])>0 & length(which(yr.eval%in%yr))>1){ # ><>
-      if(verbose) cat(paste("\n","Computing MASE with",ifelse(npe<(length(endyrvec)-1),"only","all"),
-                            npe,"of",length(endyrvec)-1," prediction residuals for Index",indices2$Fleet_name[1]),"\n")
-      if(verbose & npe<(length(endyrvec)-1))cat(paste("\n","Warning:  Unequal spacing of naive predictions residuals may influence the interpretation of MASE","\n"))
+    if(length(endyrvec[yr%in%endyrvec]) >0 & length(which(yr.eval%in%yr)) > 1){ 
+      # ><>
+      if(verbose){
+        
+        cat(
+          paste("\n", "Computing MASE with", 
+                ifelse(npe < (length(endyrvec)-1), "only", "all"), 
+                npe, "of", length(endyrvec)-1, "prediction residuals for Index", 
+                indices2$Fleet_name[1]), 
+          "\n")
+        
+      }
+      
+      if(verbose & npe < (length(endyrvec)-1)){
+        
+        cat(
+          paste("\n","Warning: Unequal spacing of naive predictions residuals may influence the interpretation of MASE","\n")
+        )
+        
+      }
       
       index.i = unique(indices2$Fleet_name)
       pred.resid = NULL # Note Prediction Residuals
@@ -190,9 +206,9 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
           yobs = obs[subset]
           pred.resid = c(pred.resid,log(y[length(x)])-log(yobs[length(x)])) # add log() for v1.1
           
-                  }  
-        }
-        
+        }  
+      }
+      
       #}
       
       if(length(pred.resid)>length(pe.eval)) pred.resid=pred.resid[-1]
@@ -214,33 +230,33 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
       if(verbose) cat(paste0("\n","No observations in evaluation years to compute prediction residuals for Index ",indices2$Fleet_name[1]),"\n")
       MASE.i = res.i = NULL
       MASE.i = data.frame(Index=unique(indices2$Fleet_name)[1],Season=Season, MASE=NA,MAE.PR=NA,MAE.base=NA,MASE.adj=NA,n.eval=0)    }
-   
+    
     out = list(MASE=MASE.i,Residuals=res.i)
-       
+    
     return(out)
   } # End of mase function  
   #------------------------------------------------------------
   
-    # LOOP through fleets
-    nfleets=length(unique(hcruns$indices$Fleet))
-      
-      MASE =  Residuals = NULL
-      for(fi in 1:nfleets){
-        indexfleets = unique(hcruns$indices$Fleet)[fi] 
-        get_mase = mase(indexfleets)  
-        MASE = rbind(MASE,get_mase$MASE)
-        Residuals = rbind(Residuals,get_mase$Residuals)
-      } # End of Fleet Loop
-      
-    # Add new joint MASE  
-    jstats = apply(abs(Residuals[c("Pred.Res","Naive.Res")]),2,mean)
-    joint = data.frame(Index="joint",Season="",
-                       MASE=jstats[1]/jstats[2],MAE.PR=jstats[1],MAE.base=jstats[2],
-                       MASE.adj=jstats[1]/max(jstats[2],MAE.base.adj),n.eval=nrow(Residuals))  
-    MASE = rbind(MASE,joint)
-    rownames(MASE) = 1:nrow(MASE)
-    
- if(verbose) cat(paste0("\n","MASE stats by Index:","\n"))
+  # LOOP through fleets
+  nfleets=length(unique(hcruns$indices$Fleet))
+  
+  MASE =  Residuals = NULL
+  for(fi in 1:nfleets){
+    indexfleets = unique(hcruns$indices$Fleet)[fi] 
+    get_mase = mase(indexfleets)  
+    MASE = rbind(MASE,get_mase$MASE)
+    Residuals = rbind(Residuals,get_mase$Residuals)
+  } # End of Fleet Loop
+  
+  # Add new joint MASE  
+  jstats = apply(abs(Residuals[c("Pred.Res","Naive.Res")]),2,mean)
+  joint = data.frame(Index="joint",Season="",
+                     MASE=jstats[1]/jstats[2],MAE.PR=jstats[1],MAE.base=jstats[2],
+                     MASE.adj=jstats[1]/max(jstats[2],MAE.base.adj),n.eval=nrow(Residuals))  
+  MASE = rbind(MASE,joint)
+  rownames(MASE) = 1:nrow(MASE)
+  
+  if(verbose) cat(paste0("\n","MASE stats by Index:","\n"))
   ret = MASE
   if(residuals) ret = list(MASE=MASE,Residuals=Residuals) 
   return(ret)

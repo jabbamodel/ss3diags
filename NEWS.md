@@ -1,6 +1,6 @@
-# ss3diags (development version)
 
-# ss3diags 1.0.9 (2.0.0)
+
+# ss3diags (development version)
 
 * SSplot: Marked plot, png, pdf, print, and new as deprecated. They will be defunct in a future version.
 

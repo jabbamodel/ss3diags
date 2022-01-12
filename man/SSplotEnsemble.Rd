@@ -173,9 +173,17 @@ option to disable this, via FALSE, is unused.}
 \item{legendindex}{Allows to add lengend for selected indices (plots)}
 }
 \description{
-Plots the Distributions for SSB/SSB40, F/FSPR40, SSB, F, Recruitment and Catch trajectories for the target model.
+Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals
+}
+\examples{
+ \dontrun{
+
+mvln = SSdeltaMVLN(ss3sma, run = "SMA")
+sspar(mfrow = c(3, 2), plot.cex = 0.7)
+SSplotEnsemble(mvln$kb, ylabs = mvln$labels, add = T, verbose = F)
+
+}
 }
 \author{
 Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 }
-\keyword{ssplot}

@@ -72,7 +72,7 @@
 #' 
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 #' 
-#' @example 
+#' @examples 
 #'  \dontrun{
 #'
 #' mvln = SSdeltaMVLN(ss3sma, run = "SMA")

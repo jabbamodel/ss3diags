@@ -178,8 +178,7 @@ It will be separated from default name by an underscore.}
 
 \item{shadealpha}{Transparancy adjustment used to make default shadecol. (currently not used)}
 
-\item{new}{Deprecated. New plot windows are created by default (TRUE), and the 
-option to disable this, via FALSE, is unused.}
+\item{new}{Create new empty plot window}
 
 \item{add}{suppresses par() to create multiplot figs}
 

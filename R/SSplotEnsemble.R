@@ -72,7 +72,7 @@
 #' 
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 #' 
-#' @example 
+#' @examples 
 #'  \dontrun{
 #'
 #' mvln = SSdeltaMVLN(ss3sma, run = "SMA")
@@ -80,6 +80,8 @@
 #' SSplotEnsemble(mvln$kb, ylabs = mvln$labels, add = T, verbose = F)
 #' 
 #' }
+#' @keywords ssplot hindcasting
+#' 
 #' @export
 SSplotEnsemble<- function(kb, summaryoutput,
                         subplots=c("stock","harvest","SSB","F","Recr","Catch"),

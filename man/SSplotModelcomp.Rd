@@ -73,13 +73,13 @@ by default (TRUE), the option to disable this via FALSE, is unused here.}
 
 \item{print_plot}{print to PNG files?}
 
-\item{png}{Deprecated. Please use 'use_png'.}
+\item{png}{draws to png files. Deprecated.}
 
 \item{use_png}{Draw plots in PNG format, defaults to 'print_plot' value}
 
-\item{pdf}{PDF plots. Deprecated. Please use use_pdf.}
+\item{pdf}{Deprecated. Please use 'use_png'.}
 
-\item{use_pdf}{option for pdf plots (currently does not work with subplots)}
+\item{use_pdf}{option for pdf plots (not tested for TRUE)}
 
 \item{models}{Optional subset of the models described in
 r4ss function summaryoutput().  Either "all" or a vector of numbers indicating

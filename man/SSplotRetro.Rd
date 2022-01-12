@@ -67,10 +67,9 @@ SSplotRetro(
 
 \item{subplots}{Optional vector of subplots to be created, "SSB", "Bratio", "Fvalue", "Recruits", "Index"}
 
-\item{plot}{Deprecated. Plots (and subplots) are drawn to the active plot device 
-by default (TRUE), the option to disable this via FALSE, is unused here.}
+\item{plot}{Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.}
 
-\item{print}{Deprecated. Please use 'print_plot'.}
+\item{print}{print to PNG files? Deprecated. Please use print_plot.}
 
 \item{print_plot}{Option to print to PNG files}
 

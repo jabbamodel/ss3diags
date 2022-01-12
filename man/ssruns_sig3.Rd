@@ -9,16 +9,18 @@ ssruns_sig3(x, type = NULL, mixing = "less")
 \arguments{
 \item{x}{residuals from CPUE fits}
 
-\item{type}{either "resid","observations". If NULL, defaults to "resid"}
+\item{type}{only c("resid","observations")}
 
-\item{mixing}{c("less","greater","two.sided"). Default less (corresponds to left.sided in runs.test function) is checking for positive autocorrelation only}
-
+\item{mixing}{c("less","greater","two.sided"). Default less is checking for positive autocorrelation only}
 }
 \value{
-a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet.
+runs p value and 3 x sigma limits
 }
 \description{
 This function uses randtests::runs.test to do perform a runs test on residuals to determine if they are randomly distributed. It also calculates the 3 x sigma limits
+}
+\details{
+runs test is conducted with library(randtests)
 }
 \author{
 Henning Winker (JRC-EC) and Laurence Kell (Sea++)

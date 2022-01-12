@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSretroComps.R
 \name{SSretroComps}
 \alias{SSretroComps}
-\title{Multi Model Length/age comp}
+\title{Retrieve Composition Data from Multiple Models}
 \usage{
 SSretroComps(retroModels)
 }

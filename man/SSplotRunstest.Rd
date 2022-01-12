@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSplotRunstest.R
 \name{SSplotRunstest}
 \alias{SSplotRunstest}
-\title{Function for residual diagnostics. Plots residuals and 3x sigma limits for indices or mean age or length and outputs a runs test table. Note, if you do not want to plot the residuals, use function ss3diags::SSrunstest.}
+\title{Residual Diagnostics}
 \usage{
 SSplotRunstest(
   ss3rep = ss3diags::ss3sma,
@@ -64,9 +64,9 @@ by default (TRUE), the option to disable this via FALSE, is unused here.}
 
 \item{use_png}{Draw plots in PNG format}
 
-\item{pdf}{Deprecated. Please use 'use_pdf'.}
+\item{pdf}{PDF plots. Deprecated. Please use use_pdf.}
 
-\item{use_pdf}{option for pdf plots (not tested for TRUE)}
+\item{use_pdf}{option for pdf plots}
 
 \item{indexselect}{Vector of fleet numbers for each model for which to compare}
 
@@ -81,7 +81,7 @@ by default (TRUE), the option to disable this via FALSE, is unused here.}
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
 
-\item{xlim}{xlim TODO TODO}
+\item{xlim}{Optional, values for x-axis range of years to display on plot. Default = "default" displays all years of available data.}
 
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
@@ -89,7 +89,7 @@ year in timeseries plots.}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
 
-\item{xylabs}{draw x-axis and y-axis TODO TODO}
+\item{xylabs}{TRUE or FALSE, include x- and y-axis labels}
 
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSdiagsMCMC.R
 \name{SSreadMCMC}
 \alias{SSreadMCMC}
-\title{Reads in Stock Synthesis MCMC file}
+\title{Read SS MCMC}
 \usage{
 SSreadMCMC(mcmcdir)
 }
@@ -13,7 +13,7 @@ SSreadMCMC(mcmcdir)
 Stock Synthesis mcmc output file
 }
 \description{
-Imports the Stock Synthesis derived posteriors output file for MCMC data.
+A function to read mcmc file outputs from a Stock Synthesis model
 }
 \author{
 Henning Winker (JRC-EC) & Laurence Kell (Sea++)

@@ -34,7 +34,7 @@
 #' the legend display the model names in an order that is different than that
 #' which is represented in the summary input object.
 #' @param legendncol Number of columns for the legend.
-#' @param legendcex Allows to adjust legend cex
+#' @param legendcex=1 Allows to adjust legend cex
 #' @param legendsp Space between legend labels
 #' @param legendindex Allows to add lengend for selected indices (plots)
 #' @param pwidth Width of plot
@@ -53,8 +53,9 @@
 #' @param new Deprecated. New plot windows are created by default (TRUE), and the 
 #' option to disable this, via FALSE, is unused.
 #' @param add surpresses par() to create multiplot figs
-#' @param xlim xlim TODO TODO, 
-#' @param xylabs xylabs TODO TODO. Default is TRUE
+#' @param xlim Optional, values for x-axis range of years to display on plot. 
+#' Default = "default" displays all years of available data. (currently not used)
+#' @param xylabs TRUE or FALSE, include x- and y-axis labels
 #' 
 #' @author Henning Winker (JRC-EC)
 #' 
@@ -109,7 +110,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
                           boxcol = grey(0.8,0.5),
                           new=TRUE,
                           add=FALSE){ 
-  
+
   
   #Parameter DEPRECATION checks 
   if (lifecycle::is_present(print)){
@@ -144,6 +145,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
   }
   
   
+
   #------------------------------------------
   # r4ss plotting functions
   #------------------------------------------
@@ -176,7 +178,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     Res = comps
   }  
   
-
+  
   
   pngfun <- function(file){
     # if extra text requested, add it before extention in file name
@@ -202,12 +204,14 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
   series = 1:n.indices
   yr = unique(round(resids$Time))
   
+  
+  log=FALSE #(no option to plot on log scale)
   if(is.null(legendindex))  legendindex=series
   if(!legend) legendindex=10000
   
   if(use_png) print_plot <- TRUE
   if(use_png & is.null(plotdir))
-    stop("to print_plot PNG files, you must supply a directory as 'plotdir'")
+    stop("to print PNG files, you must supply a directory as 'plotdir'")
   
   # check for internal consistency
   if(use_pdf & use_png){
@@ -267,7 +271,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     
     labels=c("Year",             #1
              "Residuals")         #2
-               
+    
     # open new window if requested
     if(plot & use_png==FALSE){
       if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
@@ -296,7 +300,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     if(legendorder[1]=="default") legendorder <- 1:(n.indices+1)
     
     # open new window if requested
-    if(plot & use_png==FALSE){
+    if(plot & png==FALSE){
       if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       
     } else {
@@ -337,14 +341,14 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
       ni[i] =length(as.numeric(Resids[i,])[is.na(as.numeric(Resids[i,]))==FALSE])
       rmse.i[i] = round(100*sqrt(res.i/ni[i]),1)
     }
-      
+    
     legend('topright',c(paste0("RMSE = ",RMSE,"%")),bty="n",cex=legendcex+0.1,y.intersp=0.2,x.intersp = 0)
     if(legend) legend(legendloc,legendlabels,bty="n",col=1,pt.cex=1.1,cex=legendcex,pch=c(rep(21,n.indices),-1),pt.bg=c(col,1),lwd=c(rep(-1,n.indices),2))
-     axis(1, at=c(min(floor(yr)):max(floor(yr))))
+    axis(1, at=c(min(floor(yr)):max(floor(yr))))
     if(tickEndYr) axis(1, at=max(floor(yr)))
     axis(2)
     box()
-  
+    
     return(data.frame(indices=c(indices,"Combined"),RMSE.perc=c(rmse.i,RMSE),nobs=c(ni,Nobs)))
   } # jabba residual plot  
   #------------------------------------------------------------
@@ -353,16 +357,16 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
   if(plot){ 
     if(print_plot){
       
-         pngfun(paste0("jabbaresidual.png",sep=""))
-         par(par)
-         rmse = jabbaresiduals()   
-        dev.off()
-        
-        }
-
-      if(!add)(par)
-      rmse = jabbaresiduals()# End of Fleet Loop
-       
+      pngfun(paste0("jabbaresidual.png",sep=""))
+      par(par)
+      rmse = jabbaresiduals()   
+      dev.off()
+      
+    }
+    
+    if(!add)(par)
+    rmse = jabbaresiduals()# End of Fleet Loop
+    
   }
   
   if(verbose) cat(paste0("\n","RMSE stats by Index:","\n"))

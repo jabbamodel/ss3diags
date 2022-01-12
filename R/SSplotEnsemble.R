@@ -1,6 +1,6 @@
-#' Multivariate lognormal (MVLN) Monte-Carlo distribution ensemble plot
-#' 
-#' Plots the Distributions for SSB/SSB40, F/FSPR40, SSB, F, Recruitment and Catch trajectories for the target model. 
+#' Hindcasting Cross-Validations 
+#'
+#' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
 #' 
 #' @param kb SSdeltaMVLN $kb type output    
 #' @param subplots option to "Bratio","Fvalue","SSB", "F", "Recr","Catch" 
@@ -23,7 +23,7 @@
 #' @param tickEndYr TRUE/FALSE switch to turn on/off extra axis mark at final
 #' year in timeseries plots.
 #' @param ylimAdj Multiplier for ylim parameter. Allows additional white space
-#' @param xlim Range of years. Optional parameter. NULL by default. 
+#' @param xlim Optional, years to use for x-axis. Default NULL uses all years available. 
 #' @param xaxs Choice of xaxs parameter (see ?par for more info)
 #' @param yaxs Choice of yaxs parameter (see ?par for more info)
 #' @param type Type parameter passed to points (default 'o' overplots points on
@@ -58,12 +58,12 @@
 #' option to disable this, via FALSE, is unused.
 #' @param add surpresses par() to create multiplot figs
 #' @param summaryoutput List created by r4ss::SSummarize(). TODO: Verify
-#' @param quantiles quantile TODO TODO. Default is (.025,.075)
-#' @param xylabs xylabs X asis and Y axis labels TODO TODO. Default in NULL !
-#' @param uncertainty uncertainty TODO TODO. Default is TRUE
+#' @param quantiles quantiles for uncertainty in plots. Default is (.025,.075)
+#' @param xylabs TRUE or FALSE, include x- and y-axis labels. Defaults to TRUE
+#' @param uncertainty TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.
 #' @param mcmcVec mcmc vector TODO TODO. Default is FALSE
-#' @param indexQlabel indexQlabel TODO TODO. Default is TRUE
-#' @param indexQdigits indexQdigits TODO TODO. Default is 4
+#' @param indexQlabel TRUE/FALSE include labels for indices. Default is TRUE (currently not used)
+#' @param indexQdigits  Number of significant digits for catchability in legend. Default is 4
 #' 
 #' @importFrom grDevices graphics.off rgb adjustcolor dev.new dev.off 
 #' @importFrom graphics polygon abline axis box
@@ -72,8 +72,14 @@
 #' 
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 #' 
-#' @keywords ssplot
+#' @example 
+#'  \dontrun{
+#'
+#' mvln = SSdeltaMVLN(ss3sma, run = "SMA")
+#' sspar(mfrow = c(3, 2), plot.cex = 0.7)
+#' SSplotEnsemble(mvln$kb, ylabs = mvln$labels, add = T, verbose = F)
 #' 
+#' }
 #' @export
 SSplotEnsemble<- function(kb, summaryoutput,
                         subplots=c("stock","harvest","SSB","F","Recr","Catch"),

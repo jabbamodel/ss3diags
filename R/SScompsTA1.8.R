@@ -1,3 +1,5 @@
+#' Francis Weighting for compositional data
+#'
 #' TA1.8 Francis function modified from r4ss::SSMethod.TA1.8 and r4ss::SSMethod.Cond.TA1.8 apply Francis weighting method TA1.8 to length-, age-, generalized size-composition data, or conditional age-at-length data from a Stock Synthesis model. For conditional age-at-length data, the mean age by year is calculated based on recommendations by Punt (2015). 
 #' The main purpose is to create a dataframe of the annual observed and expected mean length or age for each fleet that is used to calculate residuals for testing model fit. This function is used in SSplotRunstest and SSplotJABBAres.  
 #' 
@@ -103,10 +105,10 @@ SScompsTA1.8 <- function(ss3rep, type=c('len','age','size','con'), fleet=NULL,
   
   if(type[1] == 'con'){
     
-    pldat <- matrix(0, length(uindx), 14,
+    pldat <- matrix(0, length(uindx), 15,
            dimnames = list(
              uindx,
-             c("Obsmn", "Obslo", "Obshi", "semn", "Expmn", "Std.res", "ObsloAdj",
+             c("Obsmn", "Obslo", "Obshi", "semn", "Expmn", "Like", "Std.res", "ObsloAdj",
                "ObshiAdj", "Total", "Fleet", "Yr", "EffN",'Time','Seas'
              )
            )
@@ -176,6 +178,7 @@ SScompsTA1.8 <- function(ss3rep, type=c('len','age','size','con'), fleet=NULL,
       pldat[i, "EffN"] <- 1 / var(Intermediate[, "Resid"])
       pldat[i,'Time'] <- mean(subdbase$Time)
       pldat[i,'Seas'] <- mean(subdbase$Seas)
+      pldat[i, 'Like'] <- mean(subdbase$Like)
       AllRes <- c(AllRes, Intermediate[, "Resid"])
     }
     Nmult <- 1 / var(pldat[, "Std.res"], na.rm = TRUE)
@@ -313,7 +316,8 @@ SScompsTA1.8 <- function(ss3rep, type=c('len','age','size','con'), fleet=NULL,
                                           Seas=pldat$Seas,
                                           Obs=pldat$Obsmn,
                                           Exp=pldat$Expmn,
-                                          SE=((pldat$Obsmn-pldat$ObsloAdj)/1.96)/pldat$ObsloAdj
+                                          SE=((pldat$Obsmn-pldat$ObsloAdj)/1.96)/pldat$ObsloAdj,
+                                          Like=pldat$Like
                                           ))
   
   

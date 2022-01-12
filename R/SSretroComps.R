@@ -1,4 +1,5 @@
-#' Multi Model Length/age comp
+
+#' Retrieve Composition Data from Multiple SS Models
 #' 
 #' Wrapper to get observed and expected mean length/age from multiple Stock Synthesis models.
 #' 
@@ -20,6 +21,7 @@ SSretroComps <- function(retroModels){
   hccomps = list()
   hccomps$len = NULL
   hccomps$age = NULL
+  hccomps$con = NULL
   hccomps$n = length(replist)
   hccomps$startyrs = rep(ref$startyr,length(replist))
   hccomps$endyrs = rep(ref$endyr,length(replist))
@@ -49,6 +51,17 @@ SSretroComps <- function(retroModels){
     hccomps$age = agecomps
   }
   
+  if(nrow(ref$condbase) > 0){
+    concomps = NULL
+    for(i in 1:length(replist)){
+      rep.temp = retroModels[[paste(replist[i])]]
+      rep.temp$condbase =rbind(rep.temp$ghostcondbase,rep.temp$condbase[,1:ncol(rep.temp$ghostcondbase)]) 
+      concomps = rbind(concomps,data.frame(SScompsTA1.8(rep.temp,type="con",plotit = F)$runs_dat,imodel=i))
+      
+  }
+    concomps=concomps[order(concomps$imodel,concomps$Fleet, concomps$Time),]
+    hccomps$con = concomps
+  }
   return(hccomps)
 }
 

@@ -80,6 +80,8 @@
 #' SSplotEnsemble(mvln$kb, ylabs = mvln$labels, add = T, verbose = F)
 #' 
 #' }
+#' @keywords ssplot hindcasting
+#' 
 #' @export
 SSplotEnsemble<- function(kb, summaryoutput,
                         subplots=c("stock","harvest","SSB","F","Recr","Catch"),

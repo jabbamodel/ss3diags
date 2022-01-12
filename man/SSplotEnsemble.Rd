@@ -187,3 +187,5 @@ SSplotEnsemble(mvln$kb, ylabs = mvln$labels, add = T, verbose = F)
 \author{
 Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 }
+\keyword{hindcasting}
+\keyword{ssplot}

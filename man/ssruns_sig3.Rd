@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSplotRunstest.R
 \name{ssruns_sig3}
 \alias{ssruns_sig3}
-\title{This function uses randtests::runs.test to do perform a runs test on residuals to determine if they are randomly distributed. It also calculates the 3 x sigma limits}
+\title{Runs Test for Residuals}
 \usage{
 ssruns_sig3(x, type = NULL, mixing = "less")
 }

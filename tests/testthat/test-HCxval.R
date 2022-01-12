@@ -108,7 +108,7 @@ test_that("SSretroComps returns the correct comp data for sma", {
 
 test_that("SSmase base.adj changes", {
   
-  ssmase <- SSmase(retroI.sma, MAE.base.adj = 0.15)
+  ssmase <- SSmase(retro.sma, MAE.base.adj = 0.15)
   
   expect_equal(round(ssmase$MASE.adj[1], 7), 0.6613612)
   

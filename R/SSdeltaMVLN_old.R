@@ -1,7 +1,7 @@
-#' SSdeltaMVLN_old() 
+#'  Joint Distributions for Stock Status Ratios
 #'
-#' function to generatbe kobe pdfs from a Multivariate Log-Normal Distribution
-#' including plotting option
+#' A function to generate kobe pdfs from a Multivariate Log-Normal Distribution including plotting option. This version is used for older versions of Stock Synthesis. For newer versions (v3.24 and newer), use SSdeltaMVLN().
+#' 
 #'
 #' @param ss3rep from r4ss::SSgetoutput()$replist1
 #' @param status covarying stock status quantaties to extract from Hessian
@@ -16,7 +16,7 @@
 #' @param xmax xlim maximum
 #' @param legendcex Allows to adjust legend cex
 #' @param verbose Report progress to R GUI?
-#' @param addtrj TODO! Default is TRUE
+#' @param addtrj TRUE/FALSE add trajectory of years. Default is TRUE
 #' 
 #' @return output list of kobe objects and mle's
 #' 

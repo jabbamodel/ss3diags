@@ -1,4 +1,4 @@
-#' Retrospective-Forecast with one-step ahead hindcasting 
+#' Retrospective-Forecast with One-Step Ahead Hindcasting 
 #'
 #' Plots retrospective pattern, including (optional) one-step ahead forecast and computes Mohn's Rho 
 #' 
@@ -9,15 +9,14 @@
 #' @param endyrvec Optional single year or vector of years representing the
 #' final year of values to show for each model. By default it is set to the
 #' ending year specified in each model.
-#' @param subplots Vector of subplots to be created
-#' @param plot Deprecated. Plots (and subplots) are drawn to the active plot device 
-#' by default (TRUE), the option to disable this via FALSE, is unused here.
-#' @param print Deprecated. Please use 'print_plot'.
+#' @param subplots Optional vector of subplots to be created, "SSB", "Bratio", "Fvalue", "Recruits", "Index" 
+#' @param plot Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.
+#' @param print print to PNG files? Deprecated. Please use print_plot.
 #' @param print_plot Option to print to PNG files
 #' @param png Deprecated, please use 'use_png'
 #' @param use_png Draw plots in PNG format
-#' @param pdf Deprecated. Please use 'use_pdf'.
-#' @param use_pdf option for pdf plots (not tested for TRUE)
+#' @param pdf PDF plots. Deprecated. Please use use_pdf.
+#' @param use_pdf option for pdf plots (currently does not work when subplots specified)
 #' @param xlim  optional xlim, which overwrites xmin   
 #' @param xmin  optional minimum year shown in plot (default first yr)   
 #' @param labels yaxis lable for biomass (bony fish and sharks) 
@@ -64,13 +63,13 @@
 #' @param new Deprecated. New plot windows are created by default (TRUE), and the 
 #' option to disable this, via FALSE, is unused.
 #' @param add surpresses par() to create multiplot figs
-#' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
-#' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
+#' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating mcmc values are used
+#' @param indexQlabel TRUE/FALSE, if TRUE add catchability to legend in plot of index fits (currently not used)
 #' @param indexQdigits Number of significant digits for catchability in legend
-#' @param showrho showrho TODO TODO. Defaults to TRUE
-#' @param xylabs Draw x and y axis lables (?) TODO TODO. Defaults to TRUE
-#' @param uncertainty uncertainty TODO TODO. Defaults to TRUE.
-#' @param shadealpha shadealpha TODO TODO. Defalut to 0.3
+#' @param showrho TRUE/FALSE include Mohn's rho value? Defaults to TRUE
+#' @param xylabs TRUE or FALSE, include x- and y-axis labels. Defaults to TRUE
+#' @param uncertainty TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.
+#' @param shadealpha set the transparency level (alpha) of the area of uncertainty. Defalut to 0.3 (currently not used)
 #' 
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' 

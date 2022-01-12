@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSplotModelcomp.R
 \name{SSplotModelcomp}
 \alias{SSplotModelcomp}
-\title{SSplotHCxal() for one-step ahead hindcasting cross-validations of indices}
+\title{Compare Multiple SS Model Estimates}
 \usage{
 SSplotModelcomp(
   summaryoutput = ss3diags::aspm.sma,
@@ -75,11 +75,11 @@ by default (TRUE), the option to disable this via FALSE, is unused here.}
 
 \item{png}{Deprecated. Please use 'use_png'.}
 
-\item{use_png}{png TODO TODO Defaults to print value}
+\item{use_png}{Draw plots in PNG format, defaults to 'print_plot' value}
 
-\item{pdf}{Deprecated. Please use 'use_png'.}
+\item{pdf}{PDF plots. Deprecated. Please use use_pdf.}
 
-\item{use_pdf}{option for pdf plots (not tested for TRUE)}
+\item{use_pdf}{option for pdf plots (currently does not work with subplots)}
 
 \item{models}{Optional subset of the models described in
 r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
@@ -111,9 +111,9 @@ final year of values to show for each model. By default it is set to the}
 \item{lwd}{Optional vector of line widths}
 
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
-year in timeseries plots.}
+year in timeseries plots. Default is FALSE}
 
-\item{xlim}{xlim TODO TODO}
+\item{xlim}{Optional, values for x-axis range of years to display on plot. Default = "default" displays all years of available data. (currently not used)}
 
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
@@ -121,12 +121,12 @@ year in timeseries plots.}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
 
-\item{xylabs}{draw x-axis and y-axis TODO TODO}
+\item{xylabs}{TRUE or FALSE, include x- and y-axis labels}
 
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
 
-\item{uncertainty}{uncertainty TODO TODO. Deafults to TRUE}
+\item{uncertainty}{TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.}
 
 \item{legend}{Option to add a legend. TRUE by default.}
 
@@ -181,14 +181,14 @@ option to disable this, via FALSE, is unused.}
 
 \item{mcmcVec}{NOT TESTED Vector of TRUE/FALSE values (or single value) indicating}
 
-\item{indexQlabel}{Add catchability to legend in plot of index fits (TRUE/FALSE)?}
+\item{indexQlabel}{TRUE/FALSE, if TRUE add catchability to legend in plot of index fits (currently not used)}
 
 \item{indexQdigits}{Number of significant digits for catchability in legend}
 
 \item{indexfleets}{CHECK IF NEEDED or how to adjust indexfleets}
 }
 \description{
-Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals
+A function to plot SSB, B-ratio, F, Recruits, and/or Index of Abundance fits from multiple SS models. This function uses an object of multiple SS models summarized with r4ss:SSsummarize().
 }
 \author{
 Mostly adopted from r4ss::SSplotComparisons by Taylor et al

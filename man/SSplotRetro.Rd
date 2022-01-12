@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSplotRetro.R
 \name{SSplotRetro}
 \alias{SSplotRetro}
-\title{Retrospective-Forecast with one-step ahead hindcasting}
+\title{Retrospective-Forecast with One-Step Ahead Hindcasting}
 \usage{
 SSplotRetro(
   summaryoutput,
@@ -65,7 +65,7 @@ SSplotRetro(
 \arguments{
 \item{summaryoutput}{List created by r4ss::SSsummarize()}
 
-\item{subplots}{Vector of subplots to be created}
+\item{subplots}{Optional vector of subplots to be created, "SSB", "Bratio", "Fvalue", "Recruits", "Index"}
 
 \item{plot}{Deprecated. Plots (and subplots) are drawn to the active plot device 
 by default (TRUE), the option to disable this via FALSE, is unused here.}
@@ -78,9 +78,9 @@ by default (TRUE), the option to disable this via FALSE, is unused here.}
 
 \item{use_png}{Draw plots in PNG format}
 
-\item{pdf}{Deprecated. Please use 'use_pdf'.}
+\item{pdf}{PDF plots. Deprecated. Please use use_pdf.}
 
-\item{use_pdf}{option for pdf plots (not tested for TRUE)}
+\item{use_pdf}{option for pdf plots (currently does not work when subplots specified)}
 
 \item{models}{Optional subset of the models described in
 r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
@@ -102,7 +102,7 @@ ending year specified in each model.}
 
 \item{forecastrho}{if true one-step ahead forecast rho value is denoted in plot}
 
-\item{showrho}{showrho TODO TODO. Defaults to TRUE}
+\item{showrho}{TRUE/FALSE include Mohn's rho value? Defaults to TRUE}
 
 \item{col}{Optional vector of colors to be used for lines. Input NULL}
 
@@ -121,12 +121,12 @@ year in timeseries plots.}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
 
-\item{xylabs}{Draw x and y axis lables (?) TODO TODO. Defaults to TRUE}
+\item{xylabs}{TRUE or FALSE, include x- and y-axis labels. Defaults to TRUE}
 
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
 
-\item{uncertainty}{uncertainty TODO TODO. Defaults to TRUE.}
+\item{uncertainty}{TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.}
 
 \item{legend}{Add a legend?}
 
@@ -177,15 +177,15 @@ option to disable this, via FALSE, is unused.}
 
 \item{add}{surpresses par() to create multiplot figs}
 
-\item{mcmcVec}{NOT TESTED Vector of TRUE/FALSE values (or single value) indicating}
+\item{mcmcVec}{NOT TESTED Vector of TRUE/FALSE values (or single value) indicating mcmc values are used}
 
 \item{shadecol1}{uncertainty shading of early years not affected by hindcast}
 
-\item{indexQlabel}{Add catchability to legend in plot of index fits (TRUE/FALSE)?}
+\item{indexQlabel}{TRUE/FALSE, if TRUE add catchability to legend in plot of index fits (currently not used)}
 
 \item{indexQdigits}{Number of significant digits for catchability in legend}
 
-\item{shadealpha}{shadealpha TODO TODO. Defalut to 0.3}
+\item{shadealpha}{set the transparency level (alpha) of the area of uncertainty. Defalut to 0.3 (currently not used)}
 }
 \description{
 Plots retrospective pattern, including (optional) one-step ahead forecast and computes Mohn's Rho

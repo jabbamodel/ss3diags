@@ -1,4 +1,4 @@
-#' One-step ahead hindcasting cross-validations
+#' Hindcasting Cross-Validations of Multiple Models
 #'
 #' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction residuals. 
 #' MASE is calculated as the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and naive predictions (MAE.base)
@@ -26,8 +26,8 @@
 #' @param print_plot Option to print to PNG files
 #' @param png Deprecated, please use 'use_png'.
 #' @param use_png Draw plots in PNG format
-#' @param pdf Deprecated. Please use 'use_pdf'.
-#' @param use_pdf option for pdf plots (not tested for TRUE)
+#' @param pdf PDF plots. Deprecated. Please use use_pdf.
+#' @param use_pdf option for pdf plots 
 #' @param col Optional vector of colors to be used for lines. Input NULL
 #' @param pch Optional vector of plot character values
 #' @param lty Optional vector of line types
@@ -65,18 +65,17 @@
 #' @param par list of graphics parameter values passed to par() function
 #' @param verbose Report progress to R GUI?
 #' @param shadecol uncertainty shading of hcxval horizon
-#' @param shadecol1 uncertainty shading of early years not affected by hindcast
-#' @param new Deprecated. New plot windows are created by default (TRUE), and the 
-#' option to disable this, via FALSE, is unused.
+#' @param shadecol1 uncertainty shading of early years not affected by hindcast (currently not used)
+#' @param new Create new empty plot window
 #' @param add suppresses par() to create multiplot figs
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
 #' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
 #' @param indexQdigits Number of significant digits for catchability in legend
-#' @param shadealpha Transparancy adjustment used to make default shadecol. TODO: verify 
-#' @param xlim xlim TODO TODO. 
-#' @param xylabs x-axis and y-axis labels ?? Default is TRUE
-#' @param uncertainty uncertainty TODO TODO. Default is TRUE
-#' @param shadecol2 shadecol2 TODO TODO. 
+#' @param shadealpha Transparancy adjustment used to make default shadecol. (currently not used) 
+#' @param xlim Optional, values for x-axis range of years to display on plot. Default = "default" displays all years of available data. (currently not in use)
+#' @param xylabs TRUE or FALSE, include x- and y-axis labels
+#' @param uncertainty TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.
+#' @param shadecol2 color for uncertainty in early years not affected by hindcast
 #' 
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 #' 

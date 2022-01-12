@@ -85,15 +85,11 @@ by default (TRUE), and the option to disable this, via FALSE, is unused.}
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
 
-\item{xlim}{xlim TODO TODO,}
-
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
 \item{xaxs}{Choice of xaxs parameter (see ?par for more info)}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
-
-\item{xylabs}{xylabs TODO TODO. Default is TRUE}
 
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
@@ -111,8 +107,6 @@ the legend display the model names in an order that is different than that
 which is represented in the summary input object.}
 
 \item{legendncol}{Number of columns for the legend.}
-
-\item{legendcex}{Allows to adjust legend cex}
 
 \item{legendsp}{Space between legend labels}
 
@@ -146,6 +140,8 @@ It will be separated from default name by an underscore.}
 option to disable this, via FALSE, is unused.}
 
 \item{add}{surpresses par() to create multiplot figs}
+
+\item{legendcex=1}{Allows to adjust legend cex}
 }
 \description{
 plots residuals for all indices as boxplot with a loess showing systematic trends

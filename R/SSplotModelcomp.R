@@ -1,6 +1,6 @@
-#' SSplotHCxal() for one-step ahead hindcasting cross-validations of indices
+#' Compare Multiple SS Model Estimates
 #'
-#' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
+#' A function to plot SSB, B-ratio, F, Recruits, and/or Index of Abundance fits from multiple SS models. This function uses an object of multiple SS models summarized with r4ss:SSsummarize().
 #' 
 #' @param summaryoutput List created by r4ss::SSsummarize() 
 #' @param models Optional subset of the models described in
@@ -29,7 +29,7 @@
 #' @param lty Optional vector of line types
 #' @param lwd Optional vector of line widths
 #' @param tickEndYr TRUE/FALSE switch to turn on/off extra axis mark at final
-#' year in timeseries plots.
+#' year in timeseries plots. Default is FALSE
 #' @param ylimAdj Multiplier for ylim parameter. Allows additional white space
 #' @param xaxs Choice of xaxs parameter (see ?par for more info)
 #' @param yaxs Choice of yaxs parameter (see ?par for more info)
@@ -65,20 +65,20 @@
 #' option to disable this, via FALSE, is unused.
 #' @param add surpresses par() to create multiplot figs
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
-#' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
+#' @param indexQlabel TRUE/FALSE, if TRUE add catchability to legend in plot of index fits (currently not used)
 #' @param indexQdigits Number of significant digits for catchability in legend
-#' @param xlim xlim TODO TODO
-#' @param xylabs draw x-axis and y-axis TODO TODO
-#' @param uncertainty uncertainty TODO TODO. Deafults to TRUE
+#' @param png draws to png files. Deprecated.
+#' @param use_png Draw plots in PNG format, defaults to 'print_plot' value
+#' @param xlim Optional, values for x-axis range of years to display on plot. Default = "default" displays all years of available data. (currently not used)
+#' @param xylabs TRUE or FALSE, include x- and y-axis labels
+#' @param uncertainty TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.
+#' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
+#' @export
 #' 
 #' @importFrom grDevices pdf
 #' @importFrom lifecycle deprecated
 #' 
-#' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
-#' 
 #' @keywords ssplot hindcasting
-#' 
-#' @export
 #' 
 SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
                         plot=TRUE,

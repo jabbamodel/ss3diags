@@ -1,3 +1,5 @@
+#' Runs Test for Residuals
+#' 
 #' This function uses randtests::runs.test to do perform a runs test on residuals to determine if they are randomly distributed. It also calculates the 3 x sigma limits
 #'
 
@@ -45,6 +47,8 @@ ssruns_sig3 <- function(x, type=NULL, mixing="less") {
 }
 
 
+#' Residual Diagnostics
+#' 
 #' Function for residual diagnostics. Plots residuals and 3x sigma limits for indices or mean age or length and outputs a runs test table. Note, if you do not want to plot the residuals, use function ss3diags::SSrunstest.
 #'
 #' 
@@ -61,8 +65,8 @@ ssruns_sig3 <- function(x, type=NULL, mixing="less") {
 #' @param print_plot Option to print to PNG files
 #' @param png Deprecated, please use 'use_png'.
 #' @param use_png Draw plots in PNG format
-#' @param pdf Deprecated. Please use 'use_pdf'.
-#' @param use_pdf option for pdf plots (not tested for TRUE)
+#' @param pdf PDF plots. Deprecated. Please use use_pdf.
+#' @param use_pdf option for pdf plots
 #' @param pch Optional vector of plot character values
 #' @param lty Optional vector of line types
 #' @param lwd Optional vector of line widths
@@ -87,12 +91,11 @@ ssruns_sig3 <- function(x, type=NULL, mixing="less") {
 #' @param filenameprefix Additional text to append to PNG or PDF file names.
 #' It will be separated from default name by an underscore.
 #' @param par list of graphics parameter values passed to par() function
-#' @param verbose Report progress to R GUI?
-#' @param new Deprecated. New plot windows are created by default (TRUE), and the 
-#' option to disable this, via FALSE, is unused.
-#' @param add surpresses par() to create multiplot figs
-#' @param xlim xlim TODO TODO
-#' @param xylabs draw x-axis and y-axis TODO TODO
+#' @param verbose TRUE or FALSE, should the progress be reported to R GUI?
+#' @param new Create new empty plot window (TRUE or FALSE)
+#' @param add suppresses par() to create multiplot figs
+#' @param xlim Optional, values for x-axis range of years to display on plot. Default = "default" displays all years of available data.
+#' @param xylabs TRUE or FALSE, include x- and y-axis labels
 #' @return a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet. Note, runs test passed if p-value > 0.05 (residuals are random) and failed if p-value < 0.5 (residuals are not random)
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 #' @keywords ssplot runsTest
@@ -164,8 +167,8 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
   if(!isTRUE(new)){
     lifecycle::deprecate_warn(
       when = "1.0.9",
-      what = "SSplotJABBAres(new)",
-      details = "The ability to explicitly disable new plot windows is unused and will be defunct in a future version"
+      what = "SSplotRunsTest(new)",
+      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
     )
   }
   
@@ -326,7 +329,7 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
       # LOOP through fleets
       nfleets=n.indices
 
-      if(print_plot){  #TODO: change this to makePNG
+      if(print_plot){  
         
         runs = NULL
         for(fi in 1:nfleets){
@@ -334,9 +337,9 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
           pngfun(paste0("residruns_",indices[fi],".png",sep=""))
           par(par)
           if(nrow(resid)>3 & (max(resid$Time)-min(resid$Time))>3){
-          get_runs = plot_runs(resid)    
-          dev.off()
-          runs = rbind(runs,c(get_runs$p.runs,get_runs$sig3lim))
+            get_runs = plot_runs(resid)    
+            dev.off()
+            runs = rbind(runs,c(get_runs$p.runs,get_runs$sig3lim))
           } else {
             runs = rbind(runs,c(NA,NA,NA))}
           

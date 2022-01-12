@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSplotEnsemble.R
 \name{SSplotEnsemble}
 \alias{SSplotEnsemble}
-\title{Multivariate lognormal (MVLN) Monte-Carlo distribution ensemble plot}
+\title{Hindcasting Cross-Validations}
 \usage{
 SSplotEnsemble(
   kb,
@@ -67,7 +67,7 @@ SSplotEnsemble(
 
 \item{models}{option to manually subset the models in kb$run}
 
-\item{quantiles}{quantile TODO TODO. Default is (.025,.075)}
+\item{quantiles}{quantiles for uncertainty in plots. Default is (.025,.075)}
 
 \item{ylabs}{yaxis labels for quants
 final year of values to show for each model. By default it is set to the}
@@ -100,7 +100,7 @@ by default (TRUE), and the option to disable this, via FALSE, is unused.}
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
 
-\item{xlim}{Range of years. Optional parameter. NULL by default.}
+\item{xlim}{Optional, years to use for x-axis. Default NULL uses all years available.}
 
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
@@ -108,12 +108,12 @@ year in timeseries plots.}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
 
-\item{xylabs}{xylabs X asis and Y axis labels TODO TODO. Default in NULL !}
+\item{xylabs}{TRUE or FALSE, include x- and y-axis labels. Defaults to TRUE}
 
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
 
-\item{uncertainty}{uncertainty TODO TODO. Default is TRUE}
+\item{uncertainty}{TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.}
 
 \item{legend}{Add a legend to plot. TRUE by default.}
 
@@ -166,9 +166,9 @@ option to disable this, via FALSE, is unused.}
 
 \item{mcmcVec}{mcmc vector TODO TODO. Default is FALSE}
 
-\item{indexQlabel}{indexQlabel TODO TODO. Default is TRUE}
+\item{indexQlabel}{TRUE/FALSE include labels for indices. Default is TRUE (currently not used)}
 
-\item{indexQdigits}{indexQdigits TODO TODO. Default is 4}
+\item{indexQdigits}{Number of significant digits for catchability in legend. Default is 4}
 
 \item{legendindex}{Allows to add lengend for selected indices (plots)}
 }

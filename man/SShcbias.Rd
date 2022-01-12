@@ -36,3 +36,5 @@ This function produces the statistics from retrospective analysis (Mohn's rho an
 \author{
 Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 }
+\keyword{diags}
+\keyword{hindcasting}

@@ -53,13 +53,14 @@ SSplotRunstest(
 generalized size composition data, 'age' for age composition data,
 or 'con' for conditional age at length data}
 
-\item{plot}{plot to active plot device?}
+\item{plot}{Deprecated. Plots (and subplots) are drawn to the active plot device 
+by default (TRUE), the option to disable this via FALSE, is unused here.}
 
-\item{print}{print to PNG files? Deprecated. Please use print_plot.}
+\item{print}{Deprecated. Please use 'print_plot'.}
 
 \item{print_plot}{Option to print to PNG files}
 
-\item{png}{png plots. Deprecated, please use use_png}
+\item{png}{Deprecated, please use 'use_png'.}
 
 \item{use_png}{Draw plots in PNG format}
 
@@ -93,7 +94,7 @@ year in timeseries plots.}
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
 
-\item{legend}{Add a legend?}
+\item{legend}{Option to add a legend. TRUE by default.}
 
 \item{legendloc}{Location of legend. Either a string like "topleft" or a vector}
 
@@ -121,7 +122,8 @@ It will be separated from default name by an underscore.}
 
 \item{verbose}{TRUE or FALSE, should the progress be reported to R GUI?}
 
-\item{new}{Create new empty plot window (TRUE or FALSE)}
+\item{new}{Deprecated. New plot windows are created by default (TRUE), and the 
+option to disable this, via FALSE, is unused.}
 
 \item{add}{suppresses par() to create multiplot figs}
 }
@@ -134,3 +136,5 @@ Function for residual diagnostics. Plots residuals and 3x sigma limits for indic
 \author{
 Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 }
+\keyword{runsTest}
+\keyword{ssplot}

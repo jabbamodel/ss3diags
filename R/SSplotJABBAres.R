@@ -4,9 +4,14 @@
 #' 
 #' @param ss3rep from r4ss::SS_output
 #' @param subplots optional use of cpue and comp data (only tested for length) 
-#' @param plot plot to active plot device?
-#' @param print print to PNG files?
-#' @param pdf not tested for TRUE
+#' @param plot Deprecated. Plots (and subplots) are drawn to the active plot device 
+#' by default (TRUE), and the option to disable this, via FALSE, is unused.
+#' @param print Deprecated. Please use 'print_plot'.
+#' @param print_plot Option to print to PNG files
+#' @param png Deprecated. please use 'use_png'.
+#' @param use_png Draw plots in PNG format
+#' @param pdf Deprecated. Please use 'use_pdf'.
+#' @param use_pdf option for pdf plots (not tested for TRUE)
 #' @param indexselect Vector of fleet numbers for each model for which to compare
 #' @param miny  minimum abs values of ylim
 #' @param col Optional vector of colors to be used for lines. Input NULL
@@ -20,7 +25,7 @@
 #' @param yaxs Choice of yaxs parameter (see ?par for more info)
 #' @param type Type parameter passed to points (default 'o' overplots points on
 #' top of lines)
-#' @param legend Add a legend?
+#' @param legend Option to add a legend. TRUE by default.
 #' @param legendlabels Optional vector of labels to include in legend.
 #' @param legendloc Location of legend. Either a string like "topleft" or a vector
 #' of two numeric values representing the fraction of the maximum in the x and y
@@ -45,38 +50,110 @@
 #' @param par list of graphics parameter values passed to par() function
 #' @param verbose Report progress to R GUI?
 #' @param boxcol color boxes 
-#' @param new Create new empty plot window
+#' @param new Deprecated. New plot windows are created by default (TRUE), and the 
+#' option to disable this, via FALSE, is unused.
 #' @param add surpresses par() to create multiplot figs
+#' @param xlim Optional, values for x-axis range of years to display on plot. 
+#' Default = "default" displays all years of available data. (currently not used)
+#' @param xylabs TRUE or FALSE, include x- and y-axis labels
+#' 
 #' @author Henning Winker (JRC-EC)
+#' 
+#' @keywords ssplot
+#' 
+#' @importFrom grDevices grey
+#' @importFrom graphics boxplot 
+#' @importFrom stats predict loess runif
+#' @importFrom lifecycle deprecated
+#' 
 #' @export
-SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","len","age")[1],
-                          plot=TRUE,print=FALSE,png=print,pdf=FALSE,
+SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
+                          subplots=c("cpue","len","age")[1],
+                          plot=TRUE,
+                          print=deprecated(),
+                          print_plot=FALSE,
+                          png=deprecated(),
+                          use_png=print_plot,
+                          pdf=deprecated(),
+                          use_pdf=FALSE,
                           indexselect=NULL,
                           miny = 3,
                           col=NULL, 
-                          pch=21, lty=1, lwd=2,
+                          pch=21, 
+                          lty=1,
+                          lwd=2,
                           tickEndYr=TRUE,
-                          xlim="default", ylimAdj=1.1,
-                          xaxs="i", yaxs="i",
+                          xlim="default", 
+                          ylimAdj=1.1,
+                          xaxs="i", 
+                          yaxs="i",
                           xylabs=TRUE,
                           type="o", 
-                          legend=TRUE, legendlabels="default", legendloc="bottomleft",
-                          legendorder="default",legendncol=1,legendcex=1,legendsp=0.9,legendindex = NULL,
-                          pwidth=6.5,pheight=5.0,punits="in",res=300,ptsize=10,cex.main=1,
+                          legend=TRUE, 
+                          legendlabels="default", 
+                          legendloc="bottomleft",
+                          legendorder="default",
+                          legendncol=1,
+                          legendcex=1,
+                          legendsp=0.9,
+                          legendindex = NULL,
+                          pwidth=6.5,
+                          pheight=5.0,
+                          punits="in",
+                          res=300,
+                          ptsize=10,
+                          cex.main=1,
                           plotdir=NULL,
                           filenameprefix="",
                           par=list(mar=c(5,4,1,1)+.1),
                           verbose=TRUE,
-                          boxcol =  grey(0.8,0.5),new=TRUE,
+                          boxcol = grey(0.8,0.5),
+                          new=TRUE,
                           add=FALSE){ 
+
+  
+  #Parameter DEPRECATION checks 
+  if (lifecycle::is_present(print)){
+    lifecycle::deprecate_warn("1.0.9","SSplotJABBAres(print)","SSplotJABBAres(print_plot)")
+    print_plot <- print
+  }
+  
+  if(lifecycle::is_present(png)){
+    lifecycle::deprecate_warn("1.0.9", "SSplotJABBAres(png)","SSplotJABBAres(use_png)")
+    use_png <- png
+  }
+  
+  if(lifecycle::is_present(pdf)){
+    lifecycle::deprecate_warn("1.0.9", "SSplotJABBAres(pdf)","SSplotJABBAres(use_pdf)")
+    use_pdf <- pdf
+  }
+  
+  if(!isTRUE(plot)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotJABBAres(plot)",
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be defunct in a future version"
+    )
+  }
+  
+  if(!isTRUE(new)){
+    lifecycle::deprecate_warn(
+      when = "1.0.9",
+      what = "SSplotJABBAres(new)",
+      details = "The ability to explicitly disable new plot windows is unused and will be defunct in a future version"
+    )
+  }
+  
+  
+
   #------------------------------------------
   # r4ss plotting functions
   #------------------------------------------
   # subfunction to write png files
   if(!add) graphics.off()
   if(add){
-    print=F
-    png=F
+    print_plot=F
+    use_png=F
   }
   
   subplots = subplots[1]
@@ -132,15 +209,15 @@ SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","len","age")[1],
   if(is.null(legendindex))  legendindex=series
   if(!legend) legendindex=10000
   
-  if(png) print <- TRUE
-  if(png & is.null(plotdir))
+  if(use_png) print_plot <- TRUE
+  if(use_png & is.null(plotdir))
     stop("to print PNG files, you must supply a directory as 'plotdir'")
   
   # check for internal consistency
-  if(pdf & png){
-    stop("To use 'pdf', set 'print' or 'png' to FALSE.")
+  if(use_pdf & use_png){
+    stop("To use 'use_pdf', set 'print_plot' or 'use_png' to FALSE.")
   }
-  if(pdf){
+  if(use_pdf){
     if(is.null(plotdir)){
       stop("to write to a PDF, you must supply a directory as 'plotdir'")
     }
@@ -196,7 +273,7 @@ SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","len","age")[1],
              "Residuals")         #2
     
     # open new window if requested
-    if(plot & png==FALSE){
+    if(plot & use_png==FALSE){
       if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       
     } else {
@@ -278,7 +355,7 @@ SSplotJABBAres<- function(ss3rep=ss3sma,subplots=c("cpue","len","age")[1],
   
   if(verbose) cat("Plotting JABBA residual plot \n")
   if(plot){ 
-    if(print){
+    if(print_plot){
       
       pngfun(paste0("jabbaresidual.png",sep=""))
       par(par)

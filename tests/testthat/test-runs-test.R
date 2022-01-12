@@ -1,12 +1,9 @@
-#library(ss3diags)
-#library(testthat)
 
+# Load ss3diags data
 ss3diags::ss3sma
 ss3diags::ss3phk
-#ss3diags::ss3her
+ss3diags::ss3her
 
-test_example_path <- system.file("extdata", package = "ss3diags")
-load(file.path(test_example_path, "gob.her.rdata"))
 #### Shortfin Mako Model ###############################################################
 ########################################################################################
 

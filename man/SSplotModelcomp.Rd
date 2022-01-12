@@ -66,13 +66,14 @@ SSplotModelcomp(
 \arguments{
 \item{summaryoutput}{List created by r4ss::SSsummarize()}
 
-\item{plot}{Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.}
+\item{plot}{Deprecated. Plots (and subplots) are drawn to the active plot device 
+by default (TRUE), the option to disable this via FALSE, is unused here.}
 
-\item{print}{print to PNG. Deprecated.}
+\item{print}{Deprecated. Please use 'print_plot'.}
 
 \item{print_plot}{print to PNG files?}
 
-\item{png}{draws to png files. Deprecated.}
+\item{png}{Deprecated. Please use 'use_png'.}
 
 \item{use_png}{Draw plots in PNG format, defaults to 'print_plot' value}
 
@@ -127,7 +128,7 @@ top of lines)}
 
 \item{uncertainty}{TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.}
 
-\item{legend}{Add a legend?}
+\item{legend}{Option to add a legend. TRUE by default.}
 
 \item{legendlabels}{Optional vector of labels to include in legend.}
 
@@ -173,7 +174,8 @@ It will be separated from default name by an underscore.}
 
 \item{shadealpha}{Transparency adjustment used to make default shadecol}
 
-\item{new}{Create new empty plot window. Deprecated.}
+\item{new}{Deprecated. New plot windows are created by default (TRUE), and the 
+option to disable this, via FALSE, is unused.}
 
 \item{add}{surpresses par() to create multiplot figs}
 
@@ -191,3 +193,5 @@ A function to plot SSB, B-ratio, F, Recruits, and/or Index of Abundance fits fro
 \author{
 Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 }
+\keyword{hindcasting}
+\keyword{ssplot}

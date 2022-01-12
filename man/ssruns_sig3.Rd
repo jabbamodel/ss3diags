@@ -12,6 +12,7 @@ ssruns_sig3(x, type = NULL, mixing = "less")
 \item{type}{either "resid","observations". If NULL, defaults to "resid"}
 
 \item{mixing}{c("less","greater","two.sided"). Default less (corresponds to left.sided in runs.test function) is checking for positive autocorrelation only}
+
 }
 \value{
 a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet.
@@ -22,3 +23,5 @@ This function uses randtests::runs.test to do perform a runs test on residuals t
 \author{
 Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 }
+\keyword{diags}
+\keyword{runsTest}

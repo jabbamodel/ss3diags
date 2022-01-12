@@ -22,3 +22,4 @@ A function to get Bratio and F settings
 \author{
 Henning Winker (JRC-EC)
 }
+\keyword{diags}

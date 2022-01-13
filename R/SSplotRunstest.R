@@ -356,7 +356,8 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
     return(runstable)
 } # end of SSplotRuns()
 #-----------------------------------------------------------------------------------------
-
+#' Residual Diagnostics Plot
+#' 
 #' Function for residual diagnostics. Outputs a runs test table that gives runs test p-values, if the runs test passed (p-value > 0.05, residuals are random) or failed (p-value < 0.05, residuals are not random), the 3x sigma limits for indices or mean age or length and the type of input data (cpue, length comp, age comp, size comp, or conditional age-at-length).  
 #'
 #'

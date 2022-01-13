@@ -672,14 +672,6 @@ NULL
 #' 
 "ss3sma"
 
-#' MCMC Gob Herring
-#'
-#' MCMC Gob Herring
-#' 
-#' @docType data
-#' 
-#' @format 4997 iterations of 328 variables
-#'
-"mcmc.her"
+
 
 

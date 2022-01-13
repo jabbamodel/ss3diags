@@ -682,14 +682,4 @@ NULL
 #'
 "mcmc.her"
 
-#' GOB Herring Synthesis model output
-#'
-#' Stock Synthesis output read by \code{\link[r4ss]{SS_output}()}
-#' 
-#' @docType data
-#' 
-#' @format List of 188
-#'
-"ss3her"
-
 

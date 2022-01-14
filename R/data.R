@@ -672,24 +672,6 @@ NULL
 #' 
 "ss3sma"
 
-#' MCMC Gob Herring
-#'
-#' MCMC Gob Herring
-#' 
-#' @docType data
-#' 
-#' @format 4997 iterations of 328 variables
-#'
-"mcmc.her"
 
-#' GOB Herring Synthesis model output
-#'
-#' Stock Synthesis output read by \code{\link[r4ss]{SS_output}()}
-#' 
-#' @docType data
-#' 
-#' @format List of 188
-#'
-"ss3her"
 
 

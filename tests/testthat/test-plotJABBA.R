@@ -12,7 +12,6 @@ dir.create(path, showWarnings = FALSE)
 
 ss3diags::ss3sma
 ss3diags::ss3phk
-#ss3diags::ss3her
 
 ## SMA
 test_that("file of sma_cpue_jabbaresiduals plot exists", {
@@ -80,37 +79,6 @@ test_that("file of phk_age_jabbaresiduals plot exists", {
   expect_true(file.exists(file.path(path, "phk_age_jabbaresidual.png")))
   
 })
-
-## HER
-# test_that("file of her_cpue_jabbaresiduals plot exists", {
-#   
-#   SSplotJABBAres(ss3her, 
-#                  png = TRUE, 
-#                  print = T, 
-#                  subplots = "cpue", 
-#                  indexselect = 2,
-#                  plotdir = path, 
-#                  filenameprefix = "her_cpue_")
-#   
-#   expect_true(file.exists(file.path(path, "her_cpue_jabbaresidual.png")))
-#   
-# })
-# 
-# test_that("file of her_age_jabbaresiduals plot exists", {
-#   
-#   SSplotJABBAres(ss3her, 
-#                  png = TRUE, 
-#                  print = T, 
-#                  subplots = "age", 
-#                  indexselect = 2,
-#                  plotdir = path, 
-#                  filenameprefix = "her_age_")
-#   
-#   expect_true(file.exists(file.path(path, "her_age_jabbaresidual.png")))
-#   
-# })
-# 
-
 
 
 

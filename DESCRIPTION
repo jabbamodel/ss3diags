@@ -1,24 +1,32 @@
 Package: ss3diags
 Title: Stock Synthesis Model Diagnostics for Intergated Stock Assessments
-Version: 1.0.8.9003
+Version: 1.0.8.9004
 Authors@R: 
-    c(person(given = "Henning",
-           family = "Winker",
-           role = c("aut","cre"),
-           email = "henning.winker@ec.europa.eu"),
-           person(given = "Felipe",
-           family = "Carvalho",
-           role = c("aut"),
-           email = "felipe.carvalho@noaa.gov"),
-           person(given = "Massimiliano",
-           family = "Cardinale",
-           role = c("aut"),
-           email = "massimiliano.cardinale@slu.se"),
-           person(given = "Laurence",
-           family = "Kell",
-           role = c("aut"),
-           email = "laurie@seaplusplus.co.uk")
-           )
+  c(person(given = "Henning",
+    family = "Winker",
+    role = c("aut","cre"),
+    email = "henning.winker@ec.europa.eu"),
+    person(given = "Felipe",
+    family = "Carvalho",
+    role = c("aut"),
+    email = "felipe.carvalho@noaa.gov"),
+    person(given = "Massimiliano",
+    family = "Cardinale",
+    role = c("aut"),
+    email = "massimiliano.cardinale@slu.se"),
+    person(given = "Laurence",
+    family = "Kell",
+    role = c("aut"),
+    email = "laurie@seaplusplus.co.uk"),
+    person(given = "Megumi",
+    family = "Oshima",
+    role = c("aut"),
+    email = "megumi.oshima@noaa.gov"),
+    person(given = "Eric",
+    family = "Fletcher",
+    role = c("aut"),
+    email = "eric.fletcher@noaa")
+  ) 
 Maintainer: Henning Winker <Henning.Winker@gmail.com>
 Description: Compilation of diagnostic functions for Stock Synthesis models, which
   developed for the MS "Using Model Diagnostics in Integrated Stock Assessments".

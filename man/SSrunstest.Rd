@@ -32,3 +32,5 @@ Function for residual diagnostics. Outputs a runs test table that gives runs tes
 \author{
 Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 }
+\keyword{diags}
+\keyword{runsTest}

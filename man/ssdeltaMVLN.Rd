@@ -53,3 +53,6 @@ A function to generate joint distributions for stock status ratios (SSB/SSBref a
 \author{
 Henning Winker (JRC-EC)
 }
+\keyword{diags}
+\keyword{kobe}
+\keyword{lognormal}

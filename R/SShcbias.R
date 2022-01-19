@@ -11,7 +11,11 @@
 #' ending year specified in each model.
 #' @param quants SSB or F quantity
 #' @param verbose Report progress to R GUI?
+#' 
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' 
+#' @keywords diags hindcasting
+#' 
 #' @export
 #' @seealso [SSplotRetro()]
 SShcbias<- function(summaryoutput, quants=c("SSB","F"),

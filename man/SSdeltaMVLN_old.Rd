@@ -59,3 +59,6 @@ A function to generate kobe pdfs from a Multivariate Log-Normal Distribution inc
 \author{
 Henning Winker (JRC-EC)
 }
+\keyword{diags}
+\keyword{kobe}
+\keyword{lognormal}

@@ -21,3 +21,7 @@ Reformatted Rep file outputs
 Convert Time-Steps
 Function to convert non-annual into annual time-steps for retros and cpue residuals
 }
+\keyword{rep}
+\keyword{retro}
+\keyword{retrocomps}
+\keyword{utils}

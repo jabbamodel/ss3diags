@@ -72,11 +72,11 @@ SSplotHCxval(
 
 \item{Season}{option to specify Season - Default uses first available, i.e. usual Seas = 1}
 
-\item{print}{print to PNG files? Deprecated. Please use print_plot.}
+\item{print}{Deprecated. Please use 'print_plot'.}
 
 \item{print_plot}{Option to print to PNG files}
 
-\item{png}{png plots. Deprecated, please use use_png}
+\item{png}{Deprecated, please use 'use_png'.}
 
 \item{use_png}{Draw plots in PNG format}
 
@@ -130,7 +130,7 @@ top of lines)}
 
 \item{uncertainty}{TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.}
 
-\item{legend}{Add a legend?}
+\item{legend}{Option to add a legend. TRUE by default.}
 
 \item{legendlabels}{Optional vector of labels to include in legend.}
 
@@ -190,7 +190,8 @@ It will be separated from default name by an underscore.}
 
 \item{indexfleets}{CHECK IF NEEDED or how to adjust indexfleets}
 
-\item{plot}{plot to active plot device? Deprecated.}
+\item{plot}{Deprecated. Plots (and subplots) are drawn to the active plot device 
+by default (TRUE), and the option to disable this, via FALSE, is unused.}
 
 \item{shadecol1}{uncertainty shading of early years not affected by hindcast (currently not used)}
 }
@@ -203,3 +204,5 @@ MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate if obs show ve
 \author{
 Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 }
+\keyword{hindcasting}
+\keyword{ssplot}

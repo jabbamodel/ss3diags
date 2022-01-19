@@ -18,3 +18,5 @@ ensemble_plot_index(summaryoutput, varlist, indexfleets = 1, verbose = TRUE)
 \description{
 function to plot different fits to a single index of abundance
 }
+\keyword{internal}
+\keyword{ssplot}

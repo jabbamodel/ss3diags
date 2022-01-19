@@ -18,3 +18,5 @@ A function to read mcmc file outputs from a Stock Synthesis model
 \author{
 Henning Winker (JRC-EC) & Laurence Kell (Sea++)
 }
+\keyword{MCMC}
+\keyword{utils}

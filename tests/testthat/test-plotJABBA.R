@@ -9,6 +9,7 @@ dir.create(path, showWarnings = FALSE)
 
 ## Simple
 test_that("file of simple_cpue_jabbaresiduals plot exists", {
+
   
   SSplotJABBAres(simple, 
                  png = TRUE, 
@@ -49,4 +50,5 @@ test_that("file of simple_len_jabbaresiduals plot exists", {
 #   expect_true(file.exists(file.path(path, "simple_con_jabbaresidual.png")))
 #   
 # })
+
 

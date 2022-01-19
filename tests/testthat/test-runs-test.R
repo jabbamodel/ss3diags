@@ -1,9 +1,8 @@
-#library(ss3diags)
-#library(testthat)
 
 simple <- ss3diags::simple
 
 #### Simple Model ###############################################################
+
 ########################################################################################
 
 
@@ -117,6 +116,7 @@ test_that("runs test works with simple model", {
   expect_equal(run_fish$runs.p[1], test.p)
   expect_equal(run_fish$sigma3.lo[1], lcl)
   expect_equal(run_fish$sigma3.hi[1], ucl)
+
   ## specifying cpue index
   run_cpue <- SSrunstest(simple, quants = "len", indexselect = 2)
   expect_match(run_cpue$Index, "Survey")

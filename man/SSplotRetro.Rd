@@ -73,7 +73,7 @@ SSplotRetro(
 
 \item{print_plot}{Option to print to PNG files}
 
-\item{png}{png plots. Deprecated, please use use_png}
+\item{png}{Deprecated, please use 'use_png'}
 
 \item{use_png}{Draw plots in PNG format}
 
@@ -171,7 +171,8 @@ It will be separated from default name by an underscore.}
 
 \item{shadecol}{uncertainty shading of hcxval horizon}
 
-\item{new}{Create new empty plot window. Deprecated.}
+\item{new}{Deprecated. New plot windows are created by default (TRUE), and the 
+option to disable this, via FALSE, is unused.}
 
 \item{add}{surpresses par() to create multiplot figs}
 
@@ -191,3 +192,5 @@ Plots retrospective pattern, including (optional) one-step ahead forecast and co
 \author{
 Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 }
+\keyword{retro}
+\keyword{ssplot}

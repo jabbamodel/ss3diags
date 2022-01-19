@@ -17,3 +17,5 @@ vector of color codes
 \description{
 r4ss color generator
 }
+\keyword{ssplot}
+\keyword{utils}

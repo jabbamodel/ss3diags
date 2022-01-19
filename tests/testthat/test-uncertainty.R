@@ -1,23 +1,21 @@
-library(ss3diags)
-library(testthat)
+# Test script for evaluating model uncertainty
 
+simple <- ss3diags::simple
 
-ss3diags::ss3sma
+mvln.msy <- SSdeltaMVLN(simple, Fref = "MSY")
 
-mvln.msy <- SSdeltaMVLN(ss3sma, Fref = "MSY")
-
-test_that("mle table values are as expected for SMA with Fref = MSY", {
+test_that("mle table values are as expected for Simple with Fref = MSY", {
   
-  expect_equal(round(mvln.msy$mle$harvest[1], 7), 0.0417581)
-  expect_equal(round(mvln.msy$mle$stock[1], 5), 1.91848)
-  expect_equal(round(mvln.msy$mle$F[1], 10), 0.0023503797)
+  expect_equal(round(mvln.msy$mle$harvest[1], 7), 0.8845945)
+  expect_equal(round(mvln.msy$mle$stock[1], 7), 2.0921525)
+  expect_equal(round(mvln.msy$mle$F[1], 7), 0.1009570)
   
 })
 
 
 test_that("Kobe plot values are correct", {
   
-  kb <- mvln.msy$kb[which(mvln.msy$kb$year == 2015),]
+  kb <- mvln.msy$kb[which(mvln.msy$kb$year == 100),] #last year of model
     
   kb$green = ifelse(kb$stock > 1 & kb$harvest < 1, 1, 0) 
   kb$red = ifelse(kb$stock < 1 & kb$harvest > 1, 1, 0) 

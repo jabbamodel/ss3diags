@@ -1,86 +1,54 @@
-library(testthat)
-library(ss3diags)
+## Test script for JABBA residual plot
 
- test_example_path <- system.file("extdata", package = "ss3diags")
+simple <- ss3diags::simple
 
 path <- file.path(tempdir(), "test_runs")
 dir.create(path, showWarnings = FALSE)
 
-# load(file.path(test_example_path, "natl.sma.rdata"))
-# load(file.path(test_example_path, "pac.hke.rdata"))
-#load(file.path(test_example_path, "gob.her.rdata"))
+#ss3diags::diags_simple
 
-ss3diags::ss3sma
-ss3diags::ss3phk
+## Simple
+test_that("file of simple_cpue_jabbaresiduals plot exists", {
 
-## SMA
-test_that("file of sma_cpue_jabbaresiduals plot exists", {
   
-  SSplotJABBAres(ss3sma, 
+  SSplotJABBAres(simple, 
                  png = TRUE, 
                  print = T, 
                  subplots = "cpue", 
-                 indexselect = 2,
                  plotdir = path, 
-                 filenameprefix = "sma_cpue2")
+                 filenameprefix = "simple_cpue")
   
-  expect_true(file.exists(file.path(path, "sma_cpue2jabbaresidual.png")))
+  expect_true(file.exists(file.path(path, "simple_cpuejabbaresidual.png")))
   
-  SSplotJABBAres(ss3sma, 
-                 png = TRUE, 
-                 print = T, 
-                 subplots = "cpue", 
-                 indexselect = c(1, 3:5),
-                 plotdir = path, 
-                 filenameprefix = "sma_cpue_")
-  
-  expect_true(file.exists(file.path(path, "sma_cpue_jabbaresidual.png")))
   
 })
 
-test_that("file of sma_len_jabbaresiduals plot exists", {
+test_that("file of simple_len_jabbaresiduals plot exists", {
   
-  SSplotJABBAres(ss3sma, 
+  SSplotJABBAres(simple, 
                  png = TRUE, 
                  print = T, 
                  subplots = "len", 
-                 indexselect = 2:3,
+                 indexselect = 2,
                  plotdir = path, 
-                 filenameprefix = "sma_len23_")
+                 filenameprefix = "simple_len2_")
   
-  expect_true(file.exists(file.path(path, "sma_len23_jabbaresidual.png")))
+  expect_true(file.exists(file.path(path, "simple_len2_jabbaresidual.png")))
   
 })
 
-## PHK
-test_that("file of phk_cpue_jabbaresiduals plot exists", {
-  
-  SSplotJABBAres(ss3phk, 
-                 png = TRUE, 
-                 print = T, 
-                 subplots = "cpue", 
-                 plotdir = path, 
-                 filenameprefix = "phk_cpue_")
-  
-  expect_true(file.exists(file.path(path, "phk_cpue_jabbaresidual.png")))
-  
-})
-
-test_that("file of phk_age_jabbaresiduals plot exists", {
-  
-  SSplotJABBAres(ss3phk, 
-                 png = TRUE, 
-                 print = T, 
-                 subplots = "age", 
-                 indexselect = 1,
-                 plotdir = path, 
-                 filenameprefix = "phk_age_")
-  
-  expect_true(file.exists(file.path(path, "phk_age_jabbaresidual.png")))
-  
-})
-
-
-
+##CAAL uncomment when con option is finished in function
+# test_that("file of simple_con_jabbaresiduals plot exists", {
+#   
+#   SSplotJABBAres(simple, 
+#                  png = TRUE, 
+#                  print = T, 
+#                  subplots = "con",
+#                  plotdir = path, 
+#                  filenameprefix = "simple_con_")
+#   
+#   expect_true(file.exists(file.path(path, "simple_con_jabbaresidual.png")))
+#   
+# })
 
 

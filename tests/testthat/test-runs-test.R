@@ -1,8 +1,7 @@
 #library(ss3diags)
 #library(testthat)
 
-#ss3diags::diags_simple
-load("C:/Users/Megumi.Oshima/Documents/ss3diags/data/diags_simple.rda")
+simple <- ss3diags::simple
 
 #### Simple Model ###############################################################
 ########################################################################################

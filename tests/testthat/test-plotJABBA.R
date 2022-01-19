@@ -1,9 +1,6 @@
 ## Test script for JABBA residual plot
 
-test_example_path <- system.file("data", package = "ss3diags")
-#ss3diags::diags_simple
-load("C:/Users/Megumi.Oshima/Documents/ss3diags/data/diags_simple.rda")
-
+simple <- ss3diags::simple
 
 path <- file.path(tempdir(), "test_runs")
 dir.create(path, showWarnings = FALSE)

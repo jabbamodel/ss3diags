@@ -3,9 +3,7 @@
 path <- file.path(tempdir(), "test_runs")
 dir.create(path, showWarnings = FALSE)
 
-#ss3diags::diags_simple
-load("C:/Users/Megumi.Oshima/Documents/ss3diags/data/retro_simple.rda")
-
+retroSimple <- ss3diags::retroSimple
 retrosum.simple <- r4ss::SSsummarize(retroSimple)
 
 ## SSB

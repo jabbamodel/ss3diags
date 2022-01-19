@@ -1,8 +1,6 @@
 # Test script for evaluating model uncertainty
 
-#ss3diags::diags_simple
-load("C:/Users/Megumi.Oshima/Documents/ss3diags/data/diags_simple.rda")
-
+simple <- ss3diags::simple
 
 mvln.msy <- SSdeltaMVLN(simple, Fref = "MSY")
 

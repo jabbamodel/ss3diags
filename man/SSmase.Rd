@@ -63,3 +63,6 @@ SSmase(retro.sma, quant = "cpue", indexselect = c(1:2))
 \author{
 Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 }
+\keyword{MASE}
+\keyword{diags}
+\keyword{hindcasting}

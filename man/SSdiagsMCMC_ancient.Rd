@@ -53,3 +53,5 @@ A function to generate joint distributions for stock status ratios (SSB/SSBref a
 \author{
 Henning Winker (JRC-EC), Massimiliano and Laurence Kell (Sea++)
 }
+\keyword{MCMC}
+\keyword{diags}

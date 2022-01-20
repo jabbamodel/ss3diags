@@ -18,9 +18,15 @@
 #' @param indexfleets Single value or vector of length n = number of models in summary object of the fleet number(s) for the index to compare. 
 #' @param MAE.base.adj minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)   
 #' @param verbose Report progress to R GUI?
+#' 
 #' @param residuals If true, includes a dataframe in the output of the prediction residuals and naive prediction residuals. Default is FALSE.
+#' 
 #' @return MASE and hcxval statistic
+#' 
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
+#' 
+#' @keywords diags MASE hindcasting
+#' 
 #' @export
 #' @seealso [SSretroComps()] [r4ss::SSsummarize()]
 #' @examples

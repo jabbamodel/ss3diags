@@ -13,7 +13,7 @@
 #' @param plot Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.
 #' @param print print to PNG files? Deprecated. Please use print_plot.
 #' @param print_plot Option to print to PNG files
-#' @param png png plots. Deprecated, please use use_png
+#' @param png Deprecated, please use 'use_png'
 #' @param use_png Draw plots in PNG format
 #' @param pdf PDF plots. Deprecated. Please use use_pdf.
 #' @param use_pdf option for pdf plots (currently does not work when subplots specified)
@@ -60,7 +60,8 @@
 #' @param verbose Report progress to R GUI?
 #' @param shadecol uncertainty shading of hcxval horizon
 #' @param shadecol1 uncertainty shading of early years not affected by hindcast
-#' @param new Create new empty plot window. Deprecated.
+#' @param new Deprecated. New plot windows are created by default (TRUE), and the 
+#' option to disable this, via FALSE, is unused.
 #' @param add surpresses par() to create multiplot figs
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating mcmc values are used
 #' @param indexQlabel TRUE/FALSE, if TRUE add catchability to legend in plot of index fits (currently not used)
@@ -69,8 +70,13 @@
 #' @param xylabs TRUE or FALSE, include x- and y-axis labels. Defaults to TRUE
 #' @param uncertainty TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.
 #' @param shadealpha set the transparency level (alpha) of the area of uncertainty. Defalut to 0.3 (currently not used)
+#' 
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' 
+#' @keywords ssplot retro
+#' 
 #' @importFrom lifecycle deprecated
+#' 
 #' @export
 SSplotRetro<- function(summaryoutput, 
                        subplots=c("SSB","F"),
@@ -150,7 +156,7 @@ SSplotRetro<- function(summaryoutput,
     lifecycle::deprecate_warn(
       when = "1.0.9",
       what = "SSplotRetro(plot)",
-      details = "The ability to explictly disable plot windows or plot subplots is unused and will be removed in a future version"
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be defunct in a future version"
     )
   }
   
@@ -158,7 +164,7 @@ SSplotRetro<- function(summaryoutput,
     lifecycle::deprecate_warn(
       when = "1.0.9",
       what = "SSplotRetro(new)",
-      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
+      details = "The ability to explicitly disable new plot windows is unused and will be defunct in a future version"
     )
   }
   

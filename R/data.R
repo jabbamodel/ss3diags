@@ -23,6 +23,7 @@
 #' # The list of retrospective runs, which contains 8 lists, one for each peel
 #' str(retro.phk, max.level = 1)
 #' }
+#' @noRd
 NULL
 
 
@@ -48,6 +49,7 @@ NULL
 #' # List the three objects returned by the line above
 #' ls(pattern = "sma")
 #' }
+#' @noRd
 NULL
 
 
@@ -670,25 +672,7 @@ NULL
 #' 
 "ss3sma"
 
-#' MCMC Gob Herring
-#'
-#' MCMC Gob Herring
-#' 
-#' @docType data
-#' 
-#' @format 4997 iterations of 328 variables
-#'
-"mcmc.her"
 
-#' GOB Herring Synthesis model output
-#'
-#' Stock Synthesis output read by \code{\link[r4ss]{SS_output}()}
-#' 
-#' @docType data
-#' 
-#' @format List of 188
-#'
-"ss3her"
 
 #' A simulated Simple Stock Synthesis model for a "cod-like" stock.
 #'

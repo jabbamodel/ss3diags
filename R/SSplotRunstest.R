@@ -324,7 +324,7 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
     #------------------------------------------------------------
     
     
-    if(verbose) cat("Plotting Residual Runs Tests \n")
+    if(verbose) message("Plotting Residual Runs Tests")
     if(plot){ 
       # LOOP through fleets
       nfleets=n.indices
@@ -456,7 +456,7 @@ SSrunstest <- function(ss3rep=ss3diags::ss3sma,
   #------------------------------------------------------------
   
   
-  if(verbose) cat("Computing Residual Runs Tests \n")
+  if(verbose) message("Computing Residual Runs Tests")
     # LOOP through fleets
     nfleets=n.indices
     runs = NULL

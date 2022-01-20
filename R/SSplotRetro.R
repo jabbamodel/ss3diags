@@ -210,7 +210,7 @@ SSplotRetro<- function(summaryoutput,
                            paste0(filenameprefix, "SSplotComparisons_",
                                   format(Sys.time(), '%d-%b-%Y_%H.%M' ), ".pdf"))
       pdf(file=pdffile, width=pwidth, height=pheight)
-      if(verbose) cat("PDF file with plots will be:",pdffile,'\n')
+      if(verbose) message("PDF file with plots will be:",pdffile)
       par(par)
     }
     
@@ -346,7 +346,7 @@ SSplotRetro<- function(summaryoutput,
     
     # Check if uncertainty is measured
     if(uncertainty ==TRUE & sum(exp[,1]-lower[,1])==0){
-      if(verbose) cat("No uncertainty estimates available from the provided")
+      if(verbose) message("No uncertainty estimates available from the provided")
       uncertainty=FALSE
     }
       
@@ -432,7 +432,7 @@ SSplotRetro<- function(summaryoutput,
   } # End of plot_retro function  
   #------------------------------------------------------------
   
-  if(verbose) cat("Plotting Retrospective pattern \n")
+  if(verbose) message("Plotting Retrospective pattern")
   if(plot){ 
     if(print_plot){
       

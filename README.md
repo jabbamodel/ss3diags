@@ -24,7 +24,7 @@ ss3diags is not currently supported on CRAN. To install `ss3diags` directly from
 ```S
 install.packages("devtools")
 library(devtools)
-install_github("JABBAmodel/ss3diags") #should this be switched to PIFSC repo?
+install_github("PIFSCstockassessments/ss3diags") #should this be switched to PIFSC repo?
 ```
 Once the package is installed it can be loaded by:
 ```S
@@ -34,7 +34,7 @@ library(ss3diags)
 #### Example Model  
 For demonstration purposes, a simple, cod-like SS model was simulated using [ss3sim](https://github.com/ss3sim/ss3sim). The model includes 2 fleets, one fishery and one survey. Catch data is available from year 26 to year 100 (final year of model). An index of abundance is available from the survey fleet for years 62 - 100. No discard data was simulated. Simulated composition data includes length (fleets 1 and 2), age (fleets 1 and 2), and conditional age-at-length (fleet 1). The SS output for this model can be loaded into the environment using 
 ```S
-data("diags_simple")
+simple <- ss3diags::simple
 ```
 
 #### Residual Diagnostics
@@ -69,7 +69,7 @@ The plots above show the residuals for both fishery and survey length and age-co
 #### Retrospective and Forecast Bias  
 Retrospective analysis is commonly used to check the consistency of model estimates such as spawning stock biomass (SSB) and fishing mortality (F) as the model is updated with new data in retrospect. The retrospective analysis involves sequentially removing observations from the terminal year (i.e., peels), fitting the model to the truncated series, and then comparing the relative difference between model estimates from the full-time series with the truncated time-series. Steps to conduct a retrospective analysis with a Stock Synthesis model are documented [here](/Cookbook/Run_Retrospective_example.R). An example of a retrospective analysis can be loaded in for use and summarized by 
 ```S
-data("retro_simple")
+retroSimple <- ss3diags::retroSimple
 sumSimple <- r4ss::SSsummarize(retroSimple)
 ```
 Note that `SSsummarize()` summarises the modelled quantities and abundance indices but not composition data. To plot the output from the retrospective analysis you can use the function 

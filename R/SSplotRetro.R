@@ -452,7 +452,7 @@ SSplotRetro<- function(summaryoutput,
   }   
   
   
-  if(verbose) cat(paste0("\n","Mohn's Rho stats, including one step ahead forecasts:","\n"))
+  if(verbose) cat(paste0("Mohn's Rho stats, including one step ahead forecasts:","\n"))
   return(get_rho)
 } # end of SSplotRetro()
 #-----------------------------------------------------------------------------------------

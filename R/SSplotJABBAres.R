@@ -369,7 +369,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     
   }
   
-  if(verbose) cat(paste0("\n","RMSE stats by Index:","\n"))
+  if(verbose) cat(paste0("RMSE stats by Index:","\n"))
   return(rmse)
 } # end of SSplotJABBAresids()
 #-----------------------------------------------------------------------------------------

@@ -80,7 +80,7 @@ test_that("runs test works with simple model", {
   yrs <- pldat$Yr
   
   runs_dat <- data.frame(Fleet=pldat$Fleet,
-                         Fleet_name=ss3sma$FleetNames[pldat$Fleet],
+                         Fleet_name=simple$FleetNames[pldat$Fleet],
                          Yr=yrs,
                          Time=pldat$Time,
                          Seas=pldat$Seas,

@@ -203,6 +203,6 @@ retroSimple
 Stock Synthesis output read by \code{\link[r4ss]{SS_output}()}
 }
 \author{
-
+R. Methot
 }
 \keyword{datasets}

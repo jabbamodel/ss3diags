@@ -870,7 +870,7 @@ NULL
 #' 
 #' @source simulated with \pkg{ss3sim}
 #'
-#' @author 
+#' @author R. Methot,
 #' 
 "simple"
 
@@ -1071,6 +1071,6 @@ NULL
 #' 
 #' @source simulated with \pkg{ss3sim}
 #'
-#' @author 
+#' @author R. Methot
 #' 
 "retroSimple"

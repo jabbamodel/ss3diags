@@ -225,7 +225,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
                          paste0(filenameprefix, "SSplotComparisons_",
                                 format(Sys.time(), '%d-%b-%Y_%H.%M' ), ".pdf"))
     pdf(file=pdffile, width=pwidth, height=pheight)
-    if(verbose) cat("PDF file with plots will be:",pdffile,'\n')
+    if(verbose) message("PDF file with plots will be:",pdffile)
     par(par)
   }
   
@@ -353,7 +353,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
   } # jabba residual plot  
   #------------------------------------------------------------
   
-  if(verbose) cat("Plotting JABBA residual plot \n")
+  if(verbose) message("Plotting JABBA residual plot")
   if(plot){ 
     if(print_plot){
       
@@ -369,7 +369,7 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     
   }
   
-  if(verbose) cat(paste0("\n","RMSE stats by Index:","\n"))
+  if(verbose) cat(paste0("RMSE stats by Index:","\n"))
   return(rmse)
 } # end of SSplotJABBAresids()
 #-----------------------------------------------------------------------------------------

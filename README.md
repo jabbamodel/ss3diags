@@ -54,19 +54,13 @@ Once the package is installed it can be loaded by:
 library(ss3diags)
 ```
 
-#### Example Model
+## Applying ss3diags for Model Diagnostics 
 
-For demonstration purposes, a simple, cod-like SS model was simulated
-using [ss3sim](https://github.com/ss3sim/ss3sim). The model includes 2
-fleets, one fishery and one survey. Catch data is available from year 26
-to year 100 (final year of model). An index of abundance is available
-from the survey fleet for years 62 - 100. No discard data was simulated.
-Simulated composition data includes length (fleets 1 and 2), age (fleets
-1 and 2), and conditional age-at-length (fleet 1). The SS output for
-this model can be loaded into the environment using
+#### Example Model  
 
+For demonstration purposes, a simple, cod-like SS model was simulated using [ss3sim](https://github.com/ss3sim/ss3sim). The model includes 2 fleets, one fishery and one survey. Catch data is available from year 26 to year 100 (final year of model). An index of abundance is available from the survey fleet for years 62 - 100. No discard data was simulated. Simulated composition data includes length (fleets 1 and 2), age (fleets 1 and 2), and conditional age-at-length (fleet 1). The SS output for this model can be loaded into the environment using 
 ``` r
-data("simple")
+data("simple") #ss3diags::simple
 ```
 
 #### Residual Diagnostics

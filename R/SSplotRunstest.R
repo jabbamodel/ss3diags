@@ -186,7 +186,7 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
     subplots = subplots[1]
     datatypes= c("Index","Mean length","Mean age", "Conditional age-at-length")
     ylabel = datatypes[which(c("cpue","len","age", "con")%in%subplots)]
-    if(verbose) cat('\n',"Running Runs Test Diagnosics for",datatypes[which(c("cpue","len","age", "con")%in%subplots)],'\n')
+    if(verbose) message("Running Runs Test Diagnostics w/ plots for",datatypes[which(c("cpue","len","age", "con")%in%subplots)])
     if(subplots=="cpue"){
     cpue = ss3rep$cpue
     cpue$residuals = ifelse(is.na(cpue$Obs) | is.na(cpue$Like),NA,log(cpue$Obs)-log(cpue$Exp))
@@ -252,7 +252,7 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
                            paste0(filenameprefix, "SSplotComparisons_",
                                   format(Sys.time(), '%d-%b-%Y_%H.%M' ), ".pdf"))
       pdf(file=pdffile, width=pwidth, height=pheight)
-      if(verbose) cat("PDF file with plots will be:",pdffile,'\n')
+      if(verbose) message("PDF file with plots will be:",pdffile,'\n')
       par(par)
     }
     
@@ -324,7 +324,7 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
     #------------------------------------------------------------
     
     
-    if(verbose) cat("Plotting Residual Runs Tests \n")
+    if(verbose) message("Plotting Residual Runs Tests")
     if(plot){ 
       # LOOP through fleets
       nfleets=n.indices
@@ -363,7 +363,7 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
     
     runstable = data.frame(Index=indices,runs.p=as.matrix(runs)[,1],Test=ifelse(is.na(as.matrix(runs)[,1]),"Excluded",ifelse(as.matrix(runs)[,1]<0.05,"Failed","Passed")),sigma3.lo=as.matrix(runs)[,2],sigma3.hi=as.matrix(runs)[,3],type=subplots) 
     colnames(runstable) = c("Index","runs.p","test","sigma3.lo","sigma3.hi","type")
-    if(verbose) cat(paste0("\n","Runs Test stats by ",datatypes[which(c("cpue","len","age","con")%in%subplots)],":","\n"))
+    if(verbose) cat(paste0("Residual Runs Test (/w plot) stats by ",datatypes[which(c("cpue","len","age","con")%in%subplots)],":","\n"))
     return(runstable)
 } # end of SSplotRuns()
 #-----------------------------------------------------------------------------------------
@@ -394,7 +394,7 @@ SSrunstest <- function(ss3rep=ss3diags::ss3sma,
   datatypes= c("Index","Mean length","Mean age","Conditional age-at-length")
   subplots = quants
   ylabel = datatypes[which(c("cpue","len","age","con")%in%subplots)]
-  if(verbose) cat('\n',"Running Runs Test Diagnosics for",datatypes[which(c("cpue","len","age","con")%in%subplots)],'\n')
+  if(verbose) cat("Running Runs Test Diagnosics for",datatypes[which(c("cpue","len","age","con")%in%subplots)],'\n')
   if(subplots=="cpue"){
     cpue = ss3rep$cpue
     cpue$residuals = ifelse(is.na(cpue$Obs) | is.na(cpue$Like),NA,log(cpue$Obs)-log(cpue$Exp))
@@ -456,7 +456,7 @@ SSrunstest <- function(ss3rep=ss3diags::ss3sma,
   #------------------------------------------------------------
   
   
-  if(verbose) cat("Computing Residual Runs Tests \n")
+  if(verbose) message("Computing Residual Runs Tests")
     # LOOP through fleets
     nfleets=n.indices
     runs = NULL
@@ -473,7 +473,7 @@ SSrunstest <- function(ss3rep=ss3diags::ss3sma,
   
   runstable = data.frame(Index=indices,runs.p=as.matrix(runs)[,1],Test=ifelse(is.na(as.matrix(runs)[,1]),"Excluded",ifelse(as.matrix(runs)[,1]<0.05,"Failed","Passed")),sigma3.lo=as.matrix(runs)[,2],sigma3.hi=as.matrix(runs)[,3],type=subplots) 
   colnames(runstable) = c("Index","runs.p","test","sigma3.lo","sigma3.hi","type")
-  if(verbose) cat(paste0("\n","Runs Test stats by ",datatypes[which(c("cpue","len","age","con")%in%subplots)],":","\n"))
+  if(verbose) cat(paste0("Residual Runs Test stats by ",datatypes[which(c("cpue","len","age","con")%in%subplots)],":","\n"))
   return(runstable)
 } # end of SSplotRuns()
 #-----------------------------------------------------------------------------------------

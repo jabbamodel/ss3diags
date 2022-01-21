@@ -12,6 +12,7 @@
 library(r4ss)
 library(doParallel)
 registerDoParallel(8)
+library(tidyverse)
 
 # Step 1. Identify a directory for the profile likelihood model run(s)
 dirname.base <- "./model_recipes"
@@ -33,11 +34,11 @@ file.copy(file.path(dirname.completed.model.run, list_of_files), dirname.R0.prof
 
 # Step 6. Edit "control.ss" in the "R0_profile" working directory to estimate at least one parameter in each phase
 # E.g., 
-control.file <- readLines(paste(dirname.R0.profile, "/control.ss_new", sep=""))
-linen <- NULL
-linen <- grep("#_recdev phase", control.file)
-control.file[linen] <- paste0("1 #_recdev phase")
-write(control.file, paste(dirname.R0.profile, "/control.ss_new", sep=""))
+control.file <- SS_readctl(file = file.path(dirname.R0.profile, "control.ss_new"), 
+                      datlist = file.path(dirname.R0.profile, "data.ss_new"))
+control.file$recdev_phase <- 1
+SS_writectl(control.file, 
+            outfile = file.path(dirname.R0.profile, "control.ss_new"))
 
 # Step 7. Edit "starter.ss" in the "R0_profile" working directory to read from init values from control_modified.ss
 starter.file <- SS_readstarter(file.path(dirname.R0.profile, "/starter.ss", sep=""))
@@ -59,7 +60,7 @@ SS_writestarter(starter.file, dir = dirname.R0.profile, overwrite = TRUE)
 #########################################################
 
 # vector of values to profile over
-R0.vec <- seq(18.0,19.0,0.1)     
+R0.vec <- seq(16.0,20.0,0.1)     
 Nprof.R0 <- length(R0.vec)
 #Define directory
 #mydir <- mydir
@@ -73,13 +74,13 @@ profile <- SS_profile(dir=dirname.R0.profile, # directory
                       profilevec=R0.vec)
 
 # read the output files (with names like Report1.sso, Report2.sso, etc.)
-prof.R0.models <- SSgetoutput(dirvec=c, keyvec=1:Nprof.R0, getcovar = FALSE) # 
+prof.R0.models <- SSgetoutput(dirvec=dirname.R0.profile, keyvec=1:Nprof.R0, getcovar = FALSE) # 
 
 # Step 9.  summarize output
 prof.R0.summary <- SSsummarize(prof.R0.models)
 
 #add base model into summary
-MLEmodel <- SS_output(dirname.R0.profile)
+MLEmodel <- SS_output(dirname.completed.model.run)
 prof.R0.models$MLE <- MLEmodel
 prof.R0.summary <- SSsummarize(prof.R0.models)
 
@@ -94,14 +95,13 @@ mainlike_components_labels <- c('Total likelihood','Index likelihood',"Discard",
 # plot profile using summary created above
 SSplotProfile(prof.R0.summary,           # summary object
               profile.string = "R0",     # substring of profile parameter
-              profile.label=expression(log(italic(R)[0])), 
+              profile.label=expression(log(italic(R)[0])),
               print = TRUE,
               plotdir=plotdir 
               )
-
-Baseval <- round(Base$parameters$Value[grep("R0",Base$parameters$Label)],2)
-#Baselab <- paste(Baseval,sep="")
-#axis(1,at=Baseval,label=Baselab)
+Baseval <- prof.R0.models$MLE$parameters %>% 
+  filter(str_detect(Label, "SR_LN")) %>% 
+  pull(Value)
 abline(v = Baseval, lty=2)
 
 
@@ -117,26 +117,33 @@ SSplotComparisons(prof.R0.summary,
                   legendloc='bottomleft')
 
 ###Piner plot
-par(mfrow = c(2,2))
+png(file.path(plotdir,"R0_profile_plot_Length_like.png"),width=7,height=4.5,res=300,units='in')
 PinerPlot(prof.R0.summary, 
           profile.string = "R0", 
           component = "Length_like",
           main = "Changes in length-composition likelihoods by fleet",
           add_cutoff = TRUE,
           cutoff_prob = 0.95)
-Baseval <- round(Base$parameters$Value[grep("SR_LN",Base$parameters$Label)],2)
-#Baselab <- paste(Baseval,sep="")
-#axis(1,at=Baseval,label=Baselab)
+abline(v = Baseval, lty=2)
+dev.off()
+
+png(file.path(plotdir,"R0_profile_plot_Age_like.png"),width=7,height=4.5,res=300,units='in')
+PinerPlot(prof.R0.summary, 
+          profile.string = "R0", 
+          component = "Age_like",
+          main = "Changes in age-composition likelihoods by fleet",
+          add_cutoff = TRUE,
+          cutoff_prob = 0.95)
 abline(v = Baseval, lty=2)
 dev.off()
 
 png(file.path(plotdir,"R0_profile_plot_Survey_like.png"),width=7,height=4.5,res=300,units='in')
-par(mar=c(5,4,1,1))
-PinerPlot(prof.R0.summary, profile.string = "R0", component = "Surv_like",main = "Changes in Index likelihoods by fleet",
+PinerPlot(prof.R0.summary, 
+          profile.string = "R0", 
+          component = "Surv_like",
+          main = "Changes in Index likelihoods by fleet",
           add_cutoff = TRUE,
-          cutoff_prob = 0.95, legendloc="topleft")
-Baseval <- round(Base$parameters$Value[grep("SR_LN",Base$parameters$Label)],2)
-#Baselab <- paste(Baseval,sep="")
-#axis(1,at=Baseval,label=Baselab)
+          cutoff_prob = 0.95)
 abline(v = Baseval, lty=2)
 dev.off()
+

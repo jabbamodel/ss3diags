@@ -252,7 +252,7 @@ SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
                            paste0(filenameprefix, "SSplotComparisons_",
                                   format(Sys.time(), '%d-%b-%Y_%H.%M' ), ".pdf"))
       pdf(file=pdffile, width=pwidth, height=pheight)
-      if(verbose) cat("PDF file with plots will be:",pdffile,'\n')
+      if(verbose) message("PDF file with plots will be:",pdffile,'\n')
       par(par)
     }
     

@@ -82,28 +82,16 @@ conditional age-at-length fits.
 ``` r
 sspar(mfrow = c(2,2))
 SSplotRunstest(simple, subplots = "cpue", add = TRUE)
-#> 
-#>  Running Runs Test Diagnosics for Index 
-#> Plotting Residual Runs Tests
-#> 
-#> Runs Test stats by Index:
+#> Residual Runs Test (/w plot) stats by Index:
 #>    Index runs.p   test  sigma3.lo sigma3.hi type
 #> 1 Survey  0.033 Failed -0.4320694 0.4320694 cpue
 SSplotRunstest(simple, subplots = "len", add = TRUE)
-#> 
-#>  Running Runs Test Diagnosics for Mean length 
-#> Plotting Residual Runs Tests
-#> 
-#> Runs Test stats by Mean length:
+#> Residual Runs Test (/w plot) stats by Mean length:
 #>     Index runs.p   test  sigma3.lo sigma3.hi type
 #> 1 Fishery  0.724 Passed -0.1454301 0.1454301  len
 #> 2  Survey  0.338 Passed -0.1105796 0.1105796  len
 SSplotRunstest(simple, subplots = "con", add = TRUE)
-#> 
-#>  Running Runs Test Diagnosics for Conditional age-at-length 
-#> Plotting Residual Runs Tests
-#> 
-#> Runs Test stats by Conditional age-at-length:
+#> Residual Runs Test (/w plot) stats by Conditional age-at-length:
 #>     Index runs.p   test  sigma3.lo sigma3.hi type
 #> 1 Fishery    0.5 Passed -0.1491212 0.1491212  con
 ```
@@ -141,16 +129,12 @@ the example below, we plot the residuals for the mean age
 ``` r
 sspar(mfrow=c(1,2),plot.cex=0.8)
 SSplotJABBAres(simple, subplots = "age", add = TRUE)
-#> Plotting JABBA residual plot
-#> 
 #> RMSE stats by Index:
 #>    indices RMSE.perc nobs
 #> 1  Fishery       9.3   69
 #> 2   Survey       5.1   20
 #> 3 Combined       8.5   89
 SSplotJABBAres(simple, subplots = "len", add = TRUE)
-#> Plotting JABBA residual plot
-#> 
 #> RMSE stats by Index:
 #>    indices RMSE.perc nobs
 #> 1  Fishery       4.5   75
@@ -188,8 +172,6 @@ retrospective analysis you can use the function
 ``` r
 sspar(mfrow=c(1,2),plot.cex=0.8)
 SSplotRetro(sumSimple, subplots = "SSB", add = TRUE)
-#> Plotting Retrospective pattern
-#> 
 #> Mohn's Rho stats, including one step ahead forecasts:
 #>   type     peel         Rho  ForecastRho
 #> 1  SSB       99 0.007769174 -0.006152424
@@ -199,8 +181,6 @@ SSplotRetro(sumSimple, subplots = "SSB", add = TRUE)
 #> 5  SSB       95 0.245173711  0.254376716
 #> 6  SSB Combined 0.147629846  0.151841528
 SSplotRetro(sumSimple, subplots = "F", add = TRUE)
-#> Plotting Retrospective pattern
-#> 
 #> Mohn's Rho stats, including one step ahead forecasts:
 #>   type     peel         Rho  ForecastRho
 #> 1    F       99 -0.00509569  0.006707778
@@ -225,8 +205,6 @@ be visualized by adding `forecast = TRUE` in the function above.
 ``` r
 sspar(mfrow=c(1,2),plot.cex=0.8)
 SSplotRetro(sumSimple, subplots = "SSB", forecast = TRUE, add = TRUE, xlim = c(94,100), uncertainty = FALSE)
-#> Plotting Retrospective pattern
-#> 
 #> Mohn's Rho stats, including one step ahead forecasts:
 #>   type     peel         Rho  ForecastRho
 #> 1  SSB       99 0.007769174 -0.006152424
@@ -236,8 +214,6 @@ SSplotRetro(sumSimple, subplots = "SSB", forecast = TRUE, add = TRUE, xlim = c(9
 #> 5  SSB       95 0.245173711  0.254376716
 #> 6  SSB Combined 0.147629846  0.151841528
 SSplotRetro(sumSimple, subplots = "F", forecast = TRUE, add = TRUE, xlim = c(94,100), uncertainty = FALSE, ylim = c(0,0.16))
-#> Plotting Retrospective pattern
-#> 
 #> Mohn's Rho stats, including one step ahead forecasts:
 #>   type     peel         Rho  ForecastRho
 #> 1    F       99 -0.00509569  0.006707778

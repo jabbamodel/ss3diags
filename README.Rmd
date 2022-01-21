@@ -61,7 +61,7 @@ data("simple")
 
 #### Residual Diagnostics
 ss3diags provides 4 main functions to evaluate model misspecification: `SSplotRunstest()` (and `SSrunstest()`), `SSplotJABBAres()`, `SSplotRetro()`, and `SShcbias()`. A runs test is a test for randomness and in the runstest functions, it is applied to the residuals from model fits to abundance indices or composition data. Below, we show an example of performing a runs test on the index, length composition, and conditional age-at-length fits. 
-```{r simpleRuns}
+```{r simpleRuns, warning=FALSE, message=FALSE}
 sspar(mfrow = c(2,2))
 SSplotRunstest(simple, subplots = "cpue", add = TRUE)
 SSplotRunstest(simple, subplots = "len", add = TRUE)
@@ -78,7 +78,7 @@ To only produce the summary table and skip the plot, use `SSrunstest()`.
 
 The second function for residual diagnostics is the function `SSplotJABBAres()`. This function is from the R package [JABBA](https://github.com/jabbamodel/JABBA) and plots a timeseries of residuals for all fleets of the indicated data (cpue or composition). In the example below, we plot the residuals for the mean age (age-composition) and mean length (length-composition) for both fleets. 
 
-```{r JABBAruns}
+```{r JABBAruns, message=FALSE, warning=FALSE}
 sspar(mfrow=c(1,2),plot.cex=0.8)
 SSplotJABBAres(simple, subplots = "age", add = TRUE)
 SSplotJABBAres(simple, subplots = "len", add = TRUE)
@@ -93,14 +93,14 @@ data("retro_simple")
 sumSimple <- r4ss::SSsummarize(retroSimple)
 ```
 Note that `SSsummarize()` summarises the modelled quantities and abundance indices but not composition data. To plot the output from the retrospective analysis you can use the function 
-```{r retroSimple_plots}
+```{r retroSimple_plots, warning=FALSE, message=FALSE}
 sspar(mfrow=c(1,2),plot.cex=0.8)
 SSplotRetro(sumSimple, subplots = "SSB", add = TRUE)
 SSplotRetro(sumSimple, subplots = "F", add = TRUE)
 ```
 
 Retrospective analysis is useful to evaluate how consistent the modeled quantities are in retrospect. However, providing fisheries management advice requires predicting a stock’s response to management and checking that predictions are consistent when updated by new data in the future. A first, intuitive extension of the retrospective analysis is to assess potential forecast bias by adding the additional step of forward projecting quantities, such as SSB, over the truncated years. This can be visualized by adding `forecast = TRUE` in the function above. 
-```{r retroSimple_forecast_plots}
+```{r retroSimple_forecast_plots, warning=FALSE, message=FALSE}
 sspar(mfrow=c(1,2),plot.cex=0.8)
 SSplotRetro(sumSimple, subplots = "SSB", forecast = TRUE, add = TRUE, xlim = c(94,100), uncertainty = FALSE)
 SSplotRetro(sumSimple, subplots = "F", forecast = TRUE, add = TRUE, xlim = c(94,100), uncertainty = FALSE, ylim = c(0,0.16))

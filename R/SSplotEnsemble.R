@@ -137,23 +137,23 @@ SSplotEnsemble<- function(kb, summaryoutput,
   
   #Parameter DEPRECATION checks 
   if (lifecycle::is_present(print)){
-    lifecycle::deprecate_warn("1.0.9","SSplotEnsemble(print)","SSplotEnsemble(print_plot)")
+    lifecycle::deprecate_warn("2.0.0","SSplotEnsemble(print)","SSplotEnsemble(print_plot)")
     print_plot <- print
   }
   
   if(lifecycle::is_present(png)){
-    lifecycle::deprecate_warn("1.0.9", "SSplotEnsemble(png)","SSplotEnsemble(use_png)")
+    lifecycle::deprecate_warn("2.0.0", "SSplotEnsemble(png)","SSplotEnsemble(use_png)")
     use_png <- png
   }
   
   if(lifecycle::is_present(pdf)){
-    lifecycle::deprecate_warn("1.0.9", "SSplotEnsemble(pdf)","SSplotEnsemble(use_pdf)")
+    lifecycle::deprecate_warn("2.0.0", "SSplotEnsemble(pdf)","SSplotEnsemble(use_pdf)")
     use_pdf <- pdf
   }
   
   if(!isTRUE(plot)){
     lifecycle::deprecate_warn(
-      when = "1.0.9",
+      when = "2.0.0",
       what = "SSplotEnsemble(plot)",
       details = "The ability to explictly disable plot windows or plot subplots is unused and will be defunct in a future version"
     )
@@ -161,7 +161,7 @@ SSplotEnsemble<- function(kb, summaryoutput,
     
   if(!isTRUE(new)){
     lifecycle::deprecate_warn(
-      when = "1.0.9",
+      when = "2.0.0",
       what = "SSplotEnsemble(new)",
       details = "The ability to explicitly disable new plot windows is unused and will be defunct in a future version"
     )

@@ -9,11 +9,12 @@ reference:
 
 - title: Datasets
   desc: >
-     Example stock synthesis runs from the 2020 Pacific Hake (HKE) assessment, 
-     the ICCAT 2017 North Atlantic Shortfin Mako (SMA) assessment, and the 
-     Gulf of Bothia Herring (HER) assessment. Each assessment includes a
-     Stock Synthesis (V3.30.14) base-case run, list of retrospective runs,
-     and list of base-case and aspm runs.
+     A simple, cod-like SS model was simulated using ss3sim. The model includes 
+     2 fleets, one fishery and one survey. Catch data is available from year 26 
+     to year 100 (final year of model). An index of abundance is available from 
+     the survey fleet for years 62 - 100. No discard data was simulated. 
+     Simulated composition data includes length (fleets 1 and 2), age (fleets 1 
+     and 2), and conditional age-at-length (fleet 1). 
 
   contents:
     - has_keyword("datasets")

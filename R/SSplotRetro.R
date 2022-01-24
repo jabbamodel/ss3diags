@@ -379,25 +379,37 @@ SSplotRetro<- function(summaryoutput,
       imodel <- models[which(endyrvec==max(endyrvec))[1]]
       
       if(uncertainty){
-        polygon(c(yr,rev(yr)),c(lower[,imodel],rev(upper[,imodel])),col=shadecol,border=shadecol)
+      
+        polygon(c(seq(xlim[1], xlim[2]), rev(seq(xlim[1], xlim[2]))), 
+                c(lower[which(lower$Yr == xlim[1]):which(lower$Yr == xlim[2]),imodel],
+                  rev(upper[which(upper$Yr == xlim[1]):which(upper$Yr == xlim[2]),imodel])),
+                col=shadecol,
+                border=shadecol)
       }  
       
+      
       # Plot Reference
-      x.ref = exp$Yr
-      y.ref = exp[,imodel]
+      x.ref = exp$Yr[which(exp$Yr == xlim[1]):which(exp$Yr == xlim[2])]
+      y.ref = exp[which(exp$Yr == xlim[1]):which(exp$Yr == xlim[2]),imodel]
       lines(x.ref,y.ref,col=col[1],lwd=2,lty=1,pch=16)
       rho.i = fcrho.i = NULL
       for(iline in (2:nlines)[!mcmcVec]){
         imodel <- models[iline]
-        subset <- yr <= endyrvec[iline] 
-        subsetfc <- yr <= endyrvec[iline]+1
+        subset <- yr <= endyrvec[iline] & yr >= xlim[1]
+        subsetfc <- yr <= endyrvec[iline]+1 & yr >= xlim[1]
         x <- yr[subset]
         y <- exp[subset,imodel]
         xfc <- yr[subsetfc]
         yfc <- exp[subsetfc,imodel]
         lines(x, y, lwd=lwd[iline], col=col[iline], type="l",cex=0.9)
         if(forecast){
-        lines(xfc[(length(xfc)-1):length(xfc)], yfc[(length(xfc)-1):length(xfc)], lwd=1, col=col[iline], type="l",cex=0.9,lty=2)
+        lines(xfc[(length(xfc)-1):length(xfc)], 
+              yfc[(length(xfc)-1):length(xfc)], 
+              lwd=1, 
+              col=col[iline], 
+              type="l",
+              cex=0.9,
+              lty=2)
         points(xfc[length(xfc)], yfc[length(yfc)],pch=21,
                  bg=col[iline],col=1, type="p",cex=0.9)
         }

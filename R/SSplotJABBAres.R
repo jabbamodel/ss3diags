@@ -1,9 +1,13 @@
-#' SSplotJABBAres() 
+#' Residual plot
 #'
-#' plots residuals for all indices as boxplot with a loess showing systematic trends
+#' plots residuals for all indices as boxplot (color coded by fleet) with a loess showing systematic trends over time. This function is from the package JABBA. 
 #' 
-#' @param ss3rep from r4ss::SS_output
-#' @param subplots optional use of cpue and comp data (only tested for length) 
+#' @param ss3rep Stock Synthesis output as read by r4SS function SS_output
+#' @param subplots string of type of data to plot, 'cpue' for index of abundance data, 'len' or 'age' for length- or age-composition, or 'con' for conditional age-at-length data. 
+#' @param seas string indicating how to treat data from multiple seasons
+#' 'comb' - combine seasonal data for each year and plot against Yr
+#' 'sep' - treat season separately, plotting against Yr.S.
+#' If is.null(seas), it is assumed that there is only one season and option 'comb' is used.
 #' @param plot Deprecated. Plots (and subplots) are drawn to the active plot device 
 #' by default (TRUE), and the option to disable this, via FALSE, is unused.
 #' @param print Deprecated. Please use 'print_plot'.
@@ -19,10 +23,10 @@
 #' @param lty Optional vector of line types
 #' @param lwd Optional vector of line widths
 #' @param tickEndYr TRUE/FALSE switch to turn on/off extra axis mark at final
-#' year in timeseries plots.
+#' year in time series plots.
 #' @param ylimAdj Multiplier for ylim parameter. Allows additional white space
-#' @param xaxs Choice of xaxs parameter (see ?par for more info)
-#' @param yaxs Choice of yaxs parameter (see ?par for more info)
+#' @param xaxs Choice of x-axis parameter (see ?par for more info)
+#' @param yaxs Choice of y-axis parameter (see ?par for more info)
 #' @param type Type parameter passed to points (default 'o' overplots points on
 #' top of lines)
 #' @param legend Option to add a legend. TRUE by default.
@@ -36,7 +40,7 @@
 #' @param legendncol Number of columns for the legend.
 #' @param legendcex Allows to adjust legend cex. Defaults to 1.
 #' @param legendsp Space between legend labels
-#' @param legendindex Allows to add lengend for selected indices (plots)
+#' @param legendindex Allows to add legend for selected indices (plots)
 #' @param pwidth Width of plot
 #' @param pheight Height of plot
 #' @param punits Units for PNG file
@@ -52,7 +56,7 @@
 #' @param boxcol color boxes 
 #' @param new Deprecated. New plot windows are created by default (TRUE), and the 
 #' option to disable this, via FALSE, is unused.
-#' @param add surpresses par() to create multiplot figs
+#' @param add supresses par() to create multiplot figs
 #' @param xlim Optional, values for x-axis range of years to display on plot. 
 #' Default = "default" displays all years of available data. (currently not used)
 #' @param xylabs TRUE or FALSE, include x- and y-axis labels
@@ -68,7 +72,8 @@
 #' 
 #' @export
 SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
-                          subplots=c("cpue","len","age")[1],
+                          subplots=c("cpue","len","age", "con")[1],
+                          seas = NULL,
                           plot=TRUE,
                           print=deprecated(),
                           print_plot=FALSE,
@@ -157,10 +162,10 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
   }
   
   subplots = subplots[1]
-  datatypes= c("Index","Mean length","Mean age")
-  ylabel = datatypes[which(c("cpue","len","age")%in%subplots)]
+  datatypes= c("Index","Mean length","Mean age", "Conditional Age")
+  ylabel = datatypes[which(c("cpue","len","age", "con")%in%subplots)]
   
-  
+
   if(subplots=="cpue"){
     cpue = ss3rep$cpue
     cpue$residuals = ifelse(is.na(cpue$Obs),NA,log(cpue$Obs)-log(cpue$Exp))
@@ -178,16 +183,32 @@ SSplotJABBAres<- function(ss3rep=ss3diags::ss3sma,
     Res = comps
   }  
   
+  if(subplots=="con"){
+    cond = SScompsTA1.8(ss3rep,fleet=NULL,type=subplots,plotit = FALSE)$runs_dat
+    cond$residuals = ifelse(is.na(cond$Obs),NA,log(cond$Obs)-log(cond$Exp))
+    if(is.null(cond$Fleet_name)){ # Deal with Version control
+      cond$Fleet_name = cond$Name}
+    Res = cond
+  }
   
+  if(is.null(seas)){
+    seas <- 'comb'
+    if(length(unique(Res$Seas))>1)
+      cat('Warning: combining data from multiple seasons\n')
+  }
   
   pngfun <- function(file){
-    # if extra text requested, add it before extention in file name
+    # if extra text requested, add it before extension in file name
     file <- paste0(filenameprefix, file)
     # open png file
     png(filename=file.path(plotdir,file),
         width=pwidth,height=pheight,units=punits,res=res,pointsize=ptsize)
     # change graphics parameters to input value
     par(par)
+  }
+  
+  if(seas == "comb"){
+    Res$Time <- Res$Yr
   }
   
   # subset if indexselect is specified

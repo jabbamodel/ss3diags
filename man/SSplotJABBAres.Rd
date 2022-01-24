@@ -2,11 +2,12 @@
 % Please edit documentation in R/SSplotJABBAres.R
 \name{SSplotJABBAres}
 \alias{SSplotJABBAres}
-\title{SSplotJABBAres()}
+\title{Residual plot}
 \usage{
 SSplotJABBAres(
   ss3rep = ss3diags::ss3sma,
-  subplots = c("cpue", "len", "age")[1],
+  subplots = c("cpue", "len", "age", "con")[1],
+  seas = NULL,
   plot = TRUE,
   print = deprecated(),
   print_plot = FALSE,
@@ -51,9 +52,14 @@ SSplotJABBAres(
 )
 }
 \arguments{
-\item{ss3rep}{from r4ss::SS_output}
+\item{ss3rep}{Stock Synthesis output as read by r4SS function SS_output}
 
-\item{subplots}{optional use of cpue and comp data (only tested for length)}
+\item{subplots}{string of type of data to plot, 'cpue' for index of abundance data, 'len' or 'age' for length- or age-composition, or 'con' for conditional age-at-length data.}
+
+\item{seas}{string indicating how to treat data from multiple seasons
+'comb' - combine seasonal data for each year and plot against Yr
+'sep' - treat season separately, plotting against Yr.S.
+If is.null(seas), it is assumed that there is only one season and option 'comb' is used.}
 
 \item{plot}{Deprecated. Plots (and subplots) are drawn to the active plot device 
 by default (TRUE), and the option to disable this, via FALSE, is unused.}
@@ -83,16 +89,16 @@ by default (TRUE), and the option to disable this, via FALSE, is unused.}
 \item{lwd}{Optional vector of line widths}
 
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
-year in timeseries plots.}
+year in time series plots.}
 
 \item{xlim}{Optional, values for x-axis range of years to display on plot. 
 Default = "default" displays all years of available data. (currently not used)}
 
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
-\item{xaxs}{Choice of xaxs parameter (see ?par for more info)}
+\item{xaxs}{Choice of x-axis parameter (see ?par for more info)}
 
-\item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
+\item{yaxs}{Choice of y-axis parameter (see ?par for more info)}
 
 \item{xylabs}{TRUE or FALSE, include x- and y-axis labels}
 
@@ -117,7 +123,7 @@ which is represented in the summary input object.}
 
 \item{legendsp}{Space between legend labels}
 
-\item{legendindex}{Allows to add lengend for selected indices (plots)}
+\item{legendindex}{Allows to add legend for selected indices (plots)}
 
 \item{pwidth}{Width of plot}
 
@@ -146,10 +152,10 @@ It will be separated from default name by an underscore.}
 \item{new}{Deprecated. New plot windows are created by default (TRUE), and the 
 option to disable this, via FALSE, is unused.}
 
-\item{add}{surpresses par() to create multiplot figs}
+\item{add}{supresses par() to create multiplot figs}
 }
 \description{
-plots residuals for all indices as boxplot with a loess showing systematic trends
+plots residuals for all indices as boxplot (color coded by fleet) with a loess showing systematic trends over time. This function is from the package JABBA.
 }
 \author{
 Henning Winker (JRC-EC)

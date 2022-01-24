@@ -1,4 +1,8 @@
+# ss3diags (dev-mo)
 
+* SSplotRetro: fixed bug so that the shading in uncertainty area shows up when xlims are specified.
+* SSplotJABBAres: added 'con' option to subplots argument so conditional age-at-length data can be plotted. Also added a seas argument so user can specify if data should be combined across seasons within a year or kept separate.
+* SScompsTA1.8: added a seas argument so users can specify if data should be combined across seasons within a year or kept separate.
 
 # ss3diags (development version)
 

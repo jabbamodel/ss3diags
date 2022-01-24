@@ -46,21 +46,27 @@ development version of ss3diags from [GitHub](https://github.com/) with:
 remotes::install_github("PIFSCstockassessments/ss3diags")
 ```
 
-## Applying ss3diags for Model Diagnostics
-
 Once the package is installed it can be loaded by:
 
 ``` r
 library(ss3diags)
 ```
 
-## Applying ss3diags for Model Diagnostics 
+## Applying ss3diags for Model Diagnostics
 
-#### Example Model  
+#### Example Model
 
-For demonstration purposes, a simple, cod-like SS model was simulated using [ss3sim](https://github.com/ss3sim/ss3sim). The model includes 2 fleets, one fishery and one survey. Catch data is available from year 26 to year 100 (final year of model). An index of abundance is available from the survey fleet for years 62 - 100. No discard data was simulated. Simulated composition data includes length (fleets 1 and 2), age (fleets 1 and 2), and conditional age-at-length (fleet 1). The SS output for this model can be loaded into the environment using 
+For demonstration purposes, a simple, cod-like SS model was simulated
+using [ss3sim](https://github.com/ss3sim/ss3sim). The model includes 2
+fleets, one fishery and one survey. Catch data is available from year 26
+to year 100 (final year of model). An index of abundance is available
+from the survey fleet for years 62 - 100. No discard data was simulated.
+Simulated composition data includes length (fleets 1 and 2), age (fleets
+1 and 2), and conditional age-at-length (fleet 1). The SS output for
+this model can be loaded into the environment using
+
 ``` r
-data("simple") #ss3diags::simple
+data("simple")
 ```
 
 #### Residual Diagnostics

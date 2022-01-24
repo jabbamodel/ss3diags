@@ -4,11 +4,15 @@
 #' The main purpose is to create a dataframe of the annual observed and expected mean length or age for each fleet that is used to calculate residuals for testing model fit. This function is used in SSplotRunstest and SSplotJABBAres.  
 #' 
 #' @param ss3rep Stock Synthesis output as read by r4SS function SS_output
-#' @param type either 'len' (for length composition data), 'size' (for
+#' @param type string of either 'len' (for length composition data), 'size' (for
 #' generalized size composition data), 'age' (for age composition data),
 #' or 'con' (for conditional age at length data)
 #' @param fleet vector of one or more fleet numbers whose data are to
 #' be analysed simultaneously, if NULL, all fleets will be analysed
+#' @param seas string indicating how to treat data from multiple seasons
+#' 'comb' - combine seasonal data for each year and plot against Yr
+#' 'sep' - treat season separately, plotting against Yr.S.
+#' If is.null(seas), it is assumed that there is only one season and option 'comb' is used.
 #' @param plotit if TRUE, make an illustrative plot like one or more
 #' panels of Fig. 4 in Francis (2011).
 #' @param maxpanel maximum number of panels within a plot, default 1000
@@ -31,13 +35,12 @@
 #' 
 #' @export
 
-SScompsTA1.8 <- function(ss3rep, type=c('len','age','size','con'), fleet=NULL,
+SScompsTA1.8 <- function(ss3rep, type=c('len','age','size','con'), fleet=NULL, seas = NULL,
                               plotit = FALSE, maxpanel = 1000){
   
   # Defaults
   part = 0:2
   pick.gender = 0:3
-  seas = NULL
   method = NULL
   
   is.in <- function (x, y)!is.na(match(x, y))
@@ -77,8 +80,8 @@ SScompsTA1.8 <- function(ss3rep, type=c('len','age','size','con'), fleet=NULL,
   dbase <- dbase[sel,]
   if(is.null(seas)){
     seas <- 'comb'
-    #if(length(unique(dbase$Seas))>1)
-    #  cat('Warning: combining data from multiple seasons\n')
+    if(length(unique(dbase$Seas))>1)
+      cat('Warning: combining data from multiple seasons\n')
   }
   # create label for partitions
   partitions <- sort(unique(dbase$Part)) # values are 0, 1, or 2
@@ -176,7 +179,7 @@ SScompsTA1.8 <- function(ss3rep, type=c('len','age','size','con'), fleet=NULL,
       pldat[i, "Total"] <- Total
       pldat[i, "Yr"] <- mean(if (seas == "comb") subdbase[["Yr"]] else subdbase[["Yr.S"]])
       pldat[i, "EffN"] <- 1 / var(Intermediate[, "Resid"])
-      pldat[i,'Time'] <- mean(subdbase$Time)
+      pldat[i,'Time'] <- mean(if (seas == "comb") subdbase[["Yr"]] else subdbase[["Yr.S"]])
       pldat[i,'Seas'] <- mean(subdbase$Seas)
       pldat[i, 'Like'] <- mean(subdbase$Like)
       AllRes <- c(AllRes, Intermediate[, "Resid"])
@@ -206,8 +209,8 @@ SScompsTA1.8 <- function(ss3rep, type=c('len','age','size','con'), fleet=NULL,
       pldat[i,'Obshi'] <- pldat[i,'Obsmn']+2*pldat[i,'semn']
       pldat[i,'Std.res'] <- (pldat[i,'Obsmn']-pldat[i,'Expmn'])/pldat[i,'semn']
       pldat[i,'Fleet'] <- mean(subdbase$Fleet)
-      pldat[i,'Yr'] <- mean(subdbase$Yr) 
-      pldat[i,'Time'] <- mean(subdbase$Time)
+      pldat[i,'Yr'] <- mean(if (seas == "comb") subdbase[["Yr"]] else subdbase[["Yr.S"]])
+      pldat[i,'Time'] <- mean(if (seas == "comb") subdbase[["Yr"]] else subdbase[["Yr.S"]])
       pldat[i,'Seas'] <- mean(subdbase$Seas)
       pldat[i,'Like'] <- mean(subdbase$Like)
       

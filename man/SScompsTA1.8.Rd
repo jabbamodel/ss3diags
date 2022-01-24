@@ -8,6 +8,7 @@ SScompsTA1.8(
   ss3rep,
   type = c("len", "age", "size", "con"),
   fleet = NULL,
+  seas = NULL,
   plotit = FALSE,
   maxpanel = 1000
 )
@@ -15,12 +16,17 @@ SScompsTA1.8(
 \arguments{
 \item{ss3rep}{Stock Synthesis output as read by r4SS function SS_output}
 
-\item{type}{either 'len' (for length composition data), 'size' (for
+\item{type}{string of either 'len' (for length composition data), 'size' (for
 generalized size composition data), 'age' (for age composition data),
 or 'con' (for conditional age at length data)}
 
 \item{fleet}{vector of one or more fleet numbers whose data are to
 be analysed simultaneously, if NULL, all fleets will be analysed}
+
+\item{seas}{string indicating how to treat data from multiple seasons
+'comb' - combine seasonal data for each year and plot against Yr
+'sep' - treat season separately, plotting against Yr.S.
+If is.null(seas), it is assumed that there is only one season and option 'comb' is used.}
 
 \item{plotit}{if TRUE, make an illustrative plot like one or more
 panels of Fig. 4 in Francis (2011).}

@@ -2,19 +2,23 @@
 % Please edit documentation in R/SSplotEnsemble.R
 \name{SSplotEnsemble}
 \alias{SSplotEnsemble}
-\title{SSplotHCxal() for one-step ahead hindcasting cross-validations of indices}
+\title{Hindcasting Cross-Validations}
 \usage{
 SSplotEnsemble(
   kb,
+  summaryoutput,
   subplots = c("stock", "harvest", "SSB", "F", "Recr", "Catch"),
   models = "all",
   quantiles = c(0.025, 0.975),
   ylabs = NULL,
   endyrvec = "default",
   plot = TRUE,
-  print = FALSE,
-  png = print,
+  print = deprecated(),
+  print_plot = FALSE,
+  png = deprecated(),
+  use_png = print_plot,
   pdf = FALSE,
+  use_pdf = FALSE,
   col = NULL,
   pch = NULL,
   lty = 1,
@@ -50,26 +54,40 @@ SSplotEnsemble(
   add = FALSE,
   mcmcVec = FALSE,
   indexQlabel = TRUE,
-  indexQdigits = 4
+  indexQdigits = 4,
+  legendindex = NULL
 )
 }
 \arguments{
 \item{kb}{SSdeltaMVLN $kb type output}
 
+\item{summaryoutput}{List created by r4ss::SSummarize(). TODO: Verify}
+
 \item{subplots}{option to "Bratio","Fvalue","SSB", "F", "Recr","Catch"}
 
 \item{models}{option to manually subset the models in kb$run}
+
+\item{quantiles}{quantiles for uncertainty in plots. Default is (.025,.075)}
 
 \item{ylabs}{yaxis labels for quants
 final year of values to show for each model. By default it is set to the}
 
 \item{endyrvec}{ending year specified in each model.}
 
-\item{plot}{plot to active plot device?}
+\item{plot}{Deprecated. Plots (and subplots) are drawn to the active plot device 
+by default (TRUE), and the option to disable this, via FALSE, is unused.}
 
-\item{print}{print to PNG files?}
+\item{print}{Deprecated. Please use 'print_plot'.}
 
-\item{pdf}{not tested for TRUE}
+\item{print_plot}{print to PNG files?}
+
+\item{png}{Deprecated. Please use 'use_png'.}
+
+\item{use_png}{Draw plots in PNG format}
+
+\item{pdf}{Deprecated. Please use 'use_pdf'.}
+
+\item{use_pdf}{option for pdf plots (not tested for TRUE)}
 
 \item{col}{Optional vector of colors to be used for lines. Input NULL}
 
@@ -82,7 +100,7 @@ final year of values to show for each model. By default it is set to the}
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
 
-\item{xlim}{= NULL range of years}
+\item{xlim}{Optional, years to use for x-axis. Default NULL uses all years available.}
 
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
@@ -90,10 +108,14 @@ year in timeseries plots.}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
 
+\item{xylabs}{TRUE or FALSE, include x- and y-axis labels. Defaults to TRUE}
+
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
 
-\item{legend}{Add a legend?}
+\item{uncertainty}{TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.}
+
+\item{legend}{Add a legend to plot. TRUE by default.}
 
 \item{legendlabels}{Optional vector of labels to include in legend.}
 
@@ -106,6 +128,8 @@ the legend display the model names in an order that is different than that
 which is represented in the summary input object.}
 
 \item{legendncol}{Number of columns for the legend.}
+
+\item{legendcex}{Allows to adjust legend cex}
 
 \item{legendsp}{Space between legend labels}
 
@@ -135,17 +159,33 @@ It will be separated from default name by an underscore.}
 
 \item{shadealpha}{Transparency adjustment used to make default shadecol}
 
-\item{new}{Create new empty plot window}
+\item{new}{Deprecated. New plot windows are created by default (TRUE), and the 
+option to disable this, via FALSE, is unused.}
 
 \item{add}{surpresses par() to create multiplot figs}
 
-\item{legendcex=1}{Allows to adjust legend cex}
+\item{mcmcVec}{mcmc vector TODO TODO. Default is FALSE}
+
+\item{indexQlabel}{TRUE/FALSE include labels for indices. Default is TRUE (currently not used)}
+
+\item{indexQdigits}{Number of significant digits for catchability in legend. Default is 4}
 
 \item{legendindex}{Allows to add lengend for selected indices (plots)}
 }
 \description{
 Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals
 }
+\examples{
+ \dontrun{
+
+mvln = SSdeltaMVLN(ss3sma, run = "SMA")
+sspar(mfrow = c(3, 2), plot.cex = 0.7)
+SSplotEnsemble(mvln$kb, ylabs = mvln$labels, add = T, verbose = F)
+
+}
+}
 \author{
 Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 }
+\keyword{hindcasting}
+\keyword{ssplot}

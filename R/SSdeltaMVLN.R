@@ -1,7 +1,6 @@
-#' SSdeltaMVLN() 
+#' Joint Distributions for Stock Status Ratios
 #'
-#' function to generatbe kobe pdfs from a Multivariate Log-Normal Distribution
-#' including plotting option
+#' A function to generate joint distributions for stock status ratios (SSB/SSBref and F/Fref where ref can be MSY, SSB40, F40, etc.) using a Multivariate Log-Normal Distribution. The function produces a Kobe plot, maximum likelihood estimates and the MVLN Monte-Carlo distributions of the Kobe values which can be input into SSplotEnsemble().
 #'
 #' @param ss3rep from r4ss::SS_output
 #' @param Fref  Choice of Fratio c("MSY","Btgt"), correponding to F_MSY and F_Btgt                                                               
@@ -13,10 +12,18 @@
 #' @param ymax ylim maximum
 #' @param xmax xlim maximum
 #' @param addprj include forecast years
-#' @param legendcex=1 Allows to adjust legend cex
+#' @param legendcex Allows to adjust legend cex
 #' @param verbose Report progress to R GUI?
-#' @return output list of quant posteriors and mle's
+#' 
+#' @return output list of maximum likelihood estimates and the MVLN Monte-Carlo distributions of the Kobe values, and kobe plot
+#' 
 #' @author Henning Winker (JRC-EC)
+#' 
+#' @keywords diags kobe lognormal
+#' 
+#' @importFrom stats rlnorm aggregate
+#' @importFrom graphics rect points lines legend
+#' 
 #' @export
 SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,mc=5000,weight=1,run="MVLN",plot=TRUE,
                        addprj=FALSE,ymax=NULL,xmax=NULL,legendcex=1,verbose=TRUE){

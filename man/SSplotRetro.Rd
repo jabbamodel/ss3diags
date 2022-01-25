@@ -2,15 +2,18 @@
 % Please edit documentation in R/SSplotRetro.R
 \name{SSplotRetro}
 \alias{SSplotRetro}
-\title{SSplotRetro() Retrospective-Forecast with one-step ahead hindcasting}
+\title{Retrospective-Forecast with One-Step Ahead Hindcasting}
 \usage{
 SSplotRetro(
   summaryoutput,
   subplots = c("SSB", "F"),
   plot = TRUE,
-  print = FALSE,
-  png = print,
-  pdf = FALSE,
+  print = deprecated(),
+  print_plot = FALSE,
+  png = deprecated(),
+  use_png = print_plot,
+  pdf = deprecated(),
+  use_pdf = FALSE,
   models = "all",
   endyrvec = "default",
   xlim = NULL,
@@ -52,19 +55,31 @@ SSplotRetro(
   shadecol = grey(0.4, 0.6),
   new = TRUE,
   add = FALSE,
-  mcmcVec = FALSE
+  mcmcVec = FALSE,
+  shadecol1 = grey(0.5, 0.4),
+  indexQlabel = TRUE,
+  indexQdigits = 4,
+  shadealpha = 0.3
 )
 }
 \arguments{
 \item{summaryoutput}{List created by r4ss::SSsummarize()}
 
-\item{subplots}{Vector of subplots to be created}
+\item{subplots}{Optional vector of subplots to be created, "SSB", "Bratio", "Fvalue", "Recruits", "Index"}
 
-\item{plot}{plot to active plot device?}
+\item{plot}{Option to draw subplots and plot in the interface. Deprecated. Option to disable will be removed in future version.}
 
-\item{print}{print to PNG files?}
+\item{print}{print to PNG files? Deprecated. Please use print_plot.}
 
-\item{pdf}{not tested for TRUE}
+\item{print_plot}{Option to print to PNG files}
+
+\item{png}{Deprecated, please use 'use_png'}
+
+\item{use_png}{Draw plots in PNG format}
+
+\item{pdf}{PDF plots. Deprecated. Please use use_pdf.}
+
+\item{use_pdf}{option for pdf plots (currently does not work when subplots specified)}
 
 \item{models}{Optional subset of the models described in
 r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
@@ -86,6 +101,8 @@ ending year specified in each model.}
 
 \item{forecastrho}{if true one-step ahead forecast rho value is denoted in plot}
 
+\item{showrho}{TRUE/FALSE include Mohn's rho value? Defaults to TRUE}
+
 \item{col}{Optional vector of colors to be used for lines. Input NULL}
 
 \item{pch}{Optional vector of plot character values}
@@ -103,8 +120,12 @@ year in timeseries plots.}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
 
+\item{xylabs}{TRUE or FALSE, include x- and y-axis labels. Defaults to TRUE}
+
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
+
+\item{uncertainty}{TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.}
 
 \item{legend}{Add a legend?}
 
@@ -119,6 +140,8 @@ the legend display the model names in an order that is different than that
 which is represented in the summary input object.}
 
 \item{legendncol}{Number of columns for the legend.}
+
+\item{legendcex}{Allows to adjust legend cex}
 
 \item{legendsp}{Space between legend labels}
 
@@ -148,19 +171,20 @@ It will be separated from default name by an underscore.}
 
 \item{shadecol}{uncertainty shading of hcxval horizon}
 
-\item{new}{Create new empty plot window}
+\item{new}{Deprecated. New plot windows are created by default (TRUE), and the 
+option to disable this, via FALSE, is unused.}
 
 \item{add}{surpresses par() to create multiplot figs}
 
-\item{mcmcVec}{NOT TESTED Vector of TRUE/FALSE values (or single value) indicating}
-
-\item{legendcex=1}{Allows to adjust legend cex}
+\item{mcmcVec}{NOT TESTED Vector of TRUE/FALSE values (or single value) indicating mcmc values are used}
 
 \item{shadecol1}{uncertainty shading of early years not affected by hindcast}
 
-\item{indexQlabel}{Add catchability to legend in plot of index fits (TRUE/FALSE)?}
+\item{indexQlabel}{TRUE/FALSE, if TRUE add catchability to legend in plot of index fits (currently not used)}
 
 \item{indexQdigits}{Number of significant digits for catchability in legend}
+
+\item{shadealpha}{set the transparency level (alpha) of the area of uncertainty. Defalut to 0.3 (currently not used)}
 }
 \description{
 Plots retrospective pattern, including (optional) one-step ahead forecast and computes Mohn's Rho
@@ -168,3 +192,5 @@ Plots retrospective pattern, including (optional) one-step ahead forecast and co
 \author{
 Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 }
+\keyword{retro}
+\keyword{ssplot}

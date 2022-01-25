@@ -29,11 +29,13 @@ In addition, the ss3diags Github respository provides fully commented
 step-by-step R recipes on how to:
 
 -   [Do log-likelood profiling for
-    R0](/Cookbook/Likelihood_profile_R0_example.R)
--   [Run the ASPM diagnostic](/Cookbook/Setup_ASPM_example.R)
+    R0](https://github.com/PIFSCstockassessments/ss3diags/blob/c27e82082855ef8f5cc894da9dd548018555d62a/Cookbook/Likelihood_profile_R0_example.R)
+-   [Run the ASPM
+    diagnostic](https://github.com/PIFSCstockassessments/ss3diags/blob/c27e82082855ef8f5cc894da9dd548018555d62a/Cookbook/Setup_ASPM_example.R)
 -   [Conduct iterative hindcasts for restrospective analysis with
-    forecasts](/Cookbook/Run_Retrospective_example.R)
--   [Do Jitter tests](/Cookbook/Jitter_test_example.R)
+    forecasts](https://github.com/PIFSCstockassessments/ss3diags/blob/c27e82082855ef8f5cc894da9dd548018555d62a/Cookbook/Run_Retrospective_example.R)
+-   [Do Jitter
+    tests](https://github.com/PIFSCstockassessments/ss3diags/blob/c27e82082855ef8f5cc894da9dd548018555d62a/Cookbook/Jitter_test_example.R)
 
 with Stock Synthesis by making use of a comprehensive collection of R
 functions available in the R package

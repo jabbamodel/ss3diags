@@ -168,7 +168,12 @@ series, and then comparing the relative difference between model
 estimates from the full-time series with the truncated time-series.
 Steps to conduct a retrospective analysis with a Stock Synthesis model
 are documented [here](/Cookbook/Run_Retrospective_example.R). An example
-of a retrospective analysis can be loaded in for use and summarized by
+of a retrospective analysis can be loaded in for use and summarized by:
+
+``` r
+data("retroSimple")
+sumSimple <- r4ss::SSsummarize(retroSimple)
+```
 
 Note that `SSsummarize()` summarises the modelled quantities and
 abundance indices but not composition data. To plot the output from the

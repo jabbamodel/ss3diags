@@ -20,6 +20,8 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/r4ss/r4ss/workflows/R-CMD-check/badge.svg)](https://github.com/PIFSCstockassessments/ss3diags/actions)
 <!-- badges: end -->
 
+*NOTE: This is the NNFSPIFSCstockasssessments fork of the main [ss3diags](https://github.com/jabbamodel/ss3diags) repository.*
+
 ### Build Status
 
 The R package `ss3diags` enables users to apply advanced diagnostics to evaluate a Stock Synthesis model. Diagnostics include residual analyses, hindcasting and cross-validation techniques, and retrospective analyses. Functions also allow users to reproduce the key model diagnostics plots that presented in the paper 'A Cookbook for Using Model Diagnostics in Integrated Stock Assessments'. 

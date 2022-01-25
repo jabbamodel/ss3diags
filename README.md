@@ -8,6 +8,9 @@
 [![R-CMD-check](https://github.com/r4ss/r4ss/workflows/R-CMD-check/badge.svg)](https://github.com/PIFSCstockassessments/ss3diags/actions)
 <!-- badges: end -->
 
+*NOTE: This is the NNFSPIFSCstockasssessments fork of the main
+[ss3diags](https://github.com/jabbamodel/ss3diags) repository.*
+
 ### Build Status
 
 The R package `ss3diags` enables users to apply advanced diagnostics to

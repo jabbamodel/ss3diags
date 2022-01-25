@@ -2,7 +2,7 @@
 
 * ss3iags is now installed as an R-package. Package documentation is upatded to reflect these chenges. 
   * A simple, cod-like, Stock Synthesis model, simulated via ss3sim, replaces Pacific North Hake (`pac.hke`) and North Atlantic Shortfin Mako Shark (`natl.sma`) example datasets.
-* SSplotRetro: fixed bug so that the shading in uncertainty area shows up when xlims are specified. (GH-44)
+* SSplotRetro: fixed bug so that the shading in uncertainty area shows up when xlims are specified.
 * SSplotJABBAres: added 'con' option to subplots argument so conditional age-at-length data can be plotted. Also added a seas argument so user can specify if data should be combined across seasons within a year or kept separate. 
 * SScompsTA1.8: added a seas argument so users can specify if data should be combined across seasons within a year or kept separate.
 * SSplot functions (SSplotModelComp, SSplotEnsemble, SSplotHCxval, SSplotJABBAres, SSplotRetro): Marked `plot`, `png`, `pdf`, `print`, and `new` as deprecated. They will be defunct in a future version.
@@ -24,7 +24,7 @@
 
 * Updated SSdeltaMVLN
 
-# ss3diags 1.04 
+# ss3diags 1.0.4 
 
 * Reference: authors changes 
 

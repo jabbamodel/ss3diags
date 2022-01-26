@@ -80,8 +80,8 @@ The second function for residual diagnostics is the function `SSplotJABBAres()`.
 
 ```{r JABBAruns, message=FALSE, warning=FALSE}
 sspar(mfrow=c(1,2),plot.cex=0.8)
-SSplotJABBAres(simple, subplots = "age", add = TRUE)
-SSplotJABBAres(simple, subplots = "len", add = TRUE)
+SSplotJABBAres(simple, subplots = "age", add = TRUE, seas="comb")
+SSplotJABBAres(simple, subplots = "len", add = TRUE, seas="comb")
 ```
 
 The plots above show the residuals for both fishery and survey length and age-composition data for each year, and the black line is a LOESS smoother fit to all of the residuals. When data from multiple fleets are avaialble in a year, a boxplot is displayed to show the median and quantiles for that year. Additionally, the root-mean squared error is reported in the top right-hand corner to indicate how well the model fits the data (lower RMSE indicates better fit).

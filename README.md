@@ -133,13 +133,13 @@ the example below, we plot the residuals for the mean age
 
 ``` r
 sspar(mfrow=c(1,2),plot.cex=0.8)
-SSplotJABBAres(simple, subplots = "age", add = TRUE)
+SSplotJABBAres(simple, subplots = "age", add = TRUE, seas="comb")
 #> RMSE stats by Index:
 #>    indices RMSE.perc nobs
 #> 1  Fishery       9.3   69
 #> 2   Survey       5.1   20
 #> 3 Combined       8.5   89
-SSplotJABBAres(simple, subplots = "len", add = TRUE)
+SSplotJABBAres(simple, subplots = "len", add = TRUE, seas="comb")
 #> RMSE stats by Index:
 #>    indices RMSE.perc nobs
 #> 1  Fishery       4.5   75

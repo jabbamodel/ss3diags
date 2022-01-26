@@ -29,11 +29,13 @@ In addition, the ss3diags Github respository provides fully commented
 step-by-step R recipes on how to:
 
 -   [Do log-likelood profiling for
-    R0](/Cookbook/Likelihood_profile_R0_example.R)
--   [Run the ASPM diagnostic](/Cookbook/Setup_ASPM_example.R)
+    R0](https://github.com/PIFSCstockassessments/ss3diags/blob/master/Cookbook/Likelihood_profile_R0_example.R)
+-   [Run the ASPM
+    diagnostic](https://github.com/PIFSCstockassessments/ss3diags/blob/master/Cookbook/Setup_ASPM_example.R)
 -   [Conduct iterative hindcasts for restrospective analysis with
-    forecasts](/Cookbook/Run_Retrospective_example.R)
--   [Do Jitter tests](/Cookbook/Jitter_test_example.R)
+    forecasts](https://github.com/PIFSCstockassessments/ss3diags/blob/master/Cookbook/Run_Retrospective_example.R)
+-   [Do Jitter
+    tests](https://github.com/PIFSCstockassessments/ss3diags/blob/master/Cookbook/Jitter_test_example.R)
 
 with Stock Synthesis by making use of a comprehensive collection of R
 functions available in the R package
@@ -166,7 +168,12 @@ series, and then comparing the relative difference between model
 estimates from the full-time series with the truncated time-series.
 Steps to conduct a retrospective analysis with a Stock Synthesis model
 are documented [here](/Cookbook/Run_Retrospective_example.R). An example
-of a retrospective analysis can be loaded in for use and summarized by
+of a retrospective analysis can be loaded in for use and summarized by:
+
+``` r
+data("retroSimple")
+sumSimple <- r4ss::SSsummarize(retroSimple)
+```
 
 Note that `SSsummarize()` summarises the modelled quantities and
 abundance indices but not composition data. To plot the output from the

@@ -1,6 +1,6 @@
 Package: ss3diags
 Title: Stock Synthesis Model Diagnostics for Intergated Stock Assessments
-Version: 2.0.0
+Version: 2.0.0.9001
 Authors@R: 
   c(person(given = "Henning",
     family = "Winker",
@@ -49,4 +49,5 @@ Suggests:
   knitr,
   rmarkdown,
   markdown
-URL: https://pifscstockassessments.github.io/ss3diags
+URL: https://github.com/PIFSCstockassessments/ss3diags
+BugReports:  https://github.com/PIFSCstockassessments/ss3diags/issues

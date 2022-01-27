@@ -1,3 +1,10 @@
+# ss3diags 2.0.1
+
+* Minor README Updates and corrections
+  * Change in SSplotJABBAres to show the combined seasonal data as boxplots
+  * Fixup links to Cookbook sripts.
+* Formatted DESCRIPTION URL and BugReports links to the PIFSCstockassessments repo too add to its R package site.
+
 # ss3diags 2.0.0 
 
 * ss3iags is now installed as an R-package. Package documentation is upatded to reflect these chenges. 

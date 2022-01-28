@@ -4,7 +4,7 @@ Version: 2.0.1
 Authors@R: 
   c(person(given = "Henning",
     family = "Winker",
-    role = c("aut","cre"),
+    role = c("aut"),
     email = "henning.winker@ec.europa.eu"),
     person(given = "Felipe",
     family = "Carvalho",
@@ -20,14 +20,13 @@ Authors@R:
     email = "laurie@seaplusplus.co.uk"),
     person(given = "Megumi",
     family = "Oshima",
-    role = c("aut"),
+    role = c("aut","cre"),
     email = "megumi.oshima@noaa.gov"),
     person(given = "Eric",
     family = "Fletcher",
     role = c("aut"),
     email = "eric.fletcher@noaa")
   ) 
-Maintainer: Henning Winker <Henning.Winker@gmail.com>
 Description: Compilation of diagnostic functions for Stock Synthesis models, which
   developed for the MS "Using Model Diagnostics in Integrated Stock Assessments".
 Depends:

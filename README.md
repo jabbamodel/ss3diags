@@ -257,7 +257,8 @@ functions `SSdeltaMVLN()`, `SSplotEnsemble()`, and `SSplotKobe()`.
 
 If you would like to contribute to ss3diags or have suggestions for
 diagnostic tests to include in the package, you can submit a new
-[issue](https://github.com/PIFSCstockassessments/ss3diags/issues).
+[issue](https://github.com/PIFSCstockassessments/ss3diags/issues) or at
+<megumi.oshima@noaa.gov>.
 
 ## Reference
 

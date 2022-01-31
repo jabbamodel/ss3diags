@@ -8,8 +8,9 @@
 [![R-CMD-check](https://github.com/r4ss/r4ss/workflows/R-CMD-check/badge.svg)](https://github.com/PIFSCstockassessments/ss3diags/actions)
 <!-- badges: end -->
 
-*NOTE: This is the PIFSCstockasssessments fork of the main
-[ss3diags](https://github.com/jabbamodel/ss3diags) repository.*
+*NOTE: This is the PIFSCstockasssessments fork of the main ss3diags
+repository. The main ss3diags repo is located at
+<https://github.com/jabbamodel/ss3diags>*
 
 ### Build Status
 

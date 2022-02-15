@@ -1,13 +1,23 @@
-#' Function to do runs.test and 3 x sigma limits
+#' Runs Test for Residuals
+#' 
+#' This function uses randtests::runs.test to do perform a runs test on residuals to determine if they are randomly distributed. It also calculates the 3 x sigma limits
 #'
+
 #' runs test is conducted with library(randtests)
+#' 
 #' @param x residuals from CPUE fits
 #' @param type only c("resid","observations")
-#' @param mixing c("less","greater","two.sided"). Default less is checking for postive autocorrelation only    
+#' @param mixing c("less","greater","two.sided"). Default less is checking for positive autocorrelation only    
+#' 
 #' @return runs p value and 3 x sigma limits
+#' 
+#' @keywords diags runsTest
+#' 
+
 #' @export
+#' 
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)
-ssruns_sig3 <- function(x,type=NULL,mixing="less") {
+ssruns_sig3 <- function(x, type=NULL, mixing="less") {
   if(is.null(type)) type="resid"
   if(type=="resid"){
     mu = 0}else{mu = mean(x, na.rm = TRUE)}
@@ -37,18 +47,26 @@ ssruns_sig3 <- function(x,type=NULL,mixing="less") {
 }
 
 
-#' plot function for runs test plot 
+#' Residual Diagnostics
+#' 
+#' Function for residual diagnostics. Plots residuals and 3x sigma limits for indices or mean age or length and outputs a runs test table. Note, if you do not want to plot the residuals, use function ss3diags::SSrunstest.
 #'
-#' Residual diagnostics with runs test p-value and 3xsigma limits for Indices and meanL
-#'
-#' @param ss3rep from r4ss::SSgetoutput()$replist1
-#' @param mixing c("less","greater","two.sided"). Default less is checking for postive autocorrelation only    
-#' @param subplots optional use of c("cpue","len","age"), yet to be tested for age.
+#' 
+#' @param ss3rep Stock Synthesis output as read by r4SS function SS_output
+#' @param mixing c("less","greater","two.sided"). Default less is checking for positive autocorrelation only    
+#' @param subplots optional 'cpue' for index data, 'len' for length composition data, 'size' for
+#' generalized size composition data, 'age' for age composition data,
+#' or 'con' for conditional age at length data
 #' @param indexselect Vector of fleet numbers for each model for which to compare
 #' @param miny  minimum abs values of ylim
-#' @param plot plot to active plot device?
-#' @param print print to PNG files?
-#' @param pdf not tested for TRUE
+#' @param plot Deprecated. Plots (and subplots) are drawn to the active plot device 
+#' by default (TRUE), the option to disable this via FALSE, is unused here. 
+#' @param print Deprecated. Please use 'print_plot'.
+#' @param print_plot Option to print to PNG files
+#' @param png Deprecated, please use 'use_png'.
+#' @param use_png Draw plots in PNG format
+#' @param pdf PDF plots. Deprecated. Please use use_pdf.
+#' @param use_pdf option for pdf plots
 #' @param pch Optional vector of plot character values
 #' @param lty Optional vector of line types
 #' @param lwd Optional vector of line widths
@@ -59,9 +77,9 @@ ssruns_sig3 <- function(x,type=NULL,mixing="less") {
 #' @param yaxs Choice of yaxs parameter (see ?par for more info)
 #' @param type Type parameter passed to points (default 'o' overplots points on
 #' top of lines)
-#' @param legend Add a legend?
+#' @param legend Option to add a legend. TRUE by default.
 #' @param legendloc Location of legend. Either a string like "topleft" or a vector
-#' @param legendcex=1 Allows to adjust legend cex
+#' @param legendcex Allows to adjust legend cex
 #' @param pwidth Width of plot
 #' @param pheight Height of plot
 #' @param punits Units for PNG file
@@ -73,47 +91,102 @@ ssruns_sig3 <- function(x,type=NULL,mixing="less") {
 #' @param filenameprefix Additional text to append to PNG or PDF file names.
 #' It will be separated from default name by an underscore.
 #' @param par list of graphics parameter values passed to par() function
-#' @param verbose Report progress to R GUI?
-#' @param new Create new empty plot window
-#' @param add surpresses par() to create multiplot figs
-#' @return Runs Test p-values and sig3 limits
+#' @param verbose TRUE or FALSE, should the progress be reported to R GUI?
+#' @param new Create new empty plot window (TRUE or FALSE)
+#' @param add suppresses par() to create multiplot figs
+#' @param xlim Optional, values for x-axis range of years to display on plot. Default = "default" displays all years of available data.
+#' @param xylabs TRUE or FALSE, include x- and y-axis labels
+#' @return a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet. Note, runs test passed if p-value > 0.05 (residuals are random) and failed if p-value < 0.5 (residuals are not random)
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' @keywords ssplot runsTest
+#' @importFrom lifecycle deprecated
 #' @export
 
-SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","age")[1],
-                             plot=TRUE,print=FALSE,png=print,pdf=FALSE,
-                             indexselect = NULL,
-                             miny = 1,
-                             pch=21, lty=1, lwd=2,
-                             tickEndYr=FALSE,
-                             xlim="default", ylimAdj=1.4,
-                             xaxs="i", yaxs="i",
-                             xylabs=TRUE,
-                             type="o", 
-                             legend=TRUE, legendloc="top",
-                             legendcex=1,
-                             pwidth=6.5,pheight=5.0,punits="in",res=300,ptsize=10,cex.main=1,
-                             plotdir=NULL,
-                             filenameprefix="",
-                             par=list(mar=c(5,4,1,1)+.1),
-                             verbose=TRUE,
-                             new=TRUE,
-                             add=FALSE){
+SSplotRunstest <- function(ss3rep=ss3diags::ss3sma,
+                           mixing="less",
+                           subplots=c("cpue","len","age", "con")[1], 
+                           plot=TRUE,
+                           print=deprecated(),
+                           print_plot=FALSE,
+                           png=deprecated(),
+                           use_png=print_plot,
+                           pdf=deprecated(),
+                           use_pdf=FALSE,
+                           indexselect = NULL,
+                           miny = 1,
+                           pch=21, 
+                           lty=1, 
+                           lwd=2,
+                           tickEndYr=FALSE,
+                           xlim="default", 
+                           ylimAdj=1.4,
+                           xaxs="i", 
+                           yaxs="i",
+                           xylabs=TRUE,
+                           type="o", 
+                           legend=TRUE, 
+                           legendloc="top",
+                           legendcex=1,
+                           pwidth=6.5,
+                           pheight=5.0,
+                           punits="in",
+                           res=300,
+                           ptsize=10,
+                           cex.main=1,
+                           plotdir=NULL,
+                           filenameprefix="",
+                           par=list(mar=c(5,4,1,1)+.1),
+                           verbose=TRUE,
+                           new=TRUE,
+                           add=FALSE){
+
+  #Parameter DEPRECATION checks 
+  if (lifecycle::is_present(print)){
+    lifecycle::deprecate_warn("2.0.0","SSplotRunstest(print)","SSplotRunstest(print_plot)")
+    print_plot <- print
+  }
   
+  if(lifecycle::is_present(png)){
+    lifecycle::deprecate_warn("2.0.0", "SSplotRunstest(png)","SSplotRunstest(use_png)")
+    use_png <- png
+  }
+  
+  if(lifecycle::is_present(pdf)){
+    lifecycle::deprecate_warn("2.0.0", "SSplotRunstest(pdf)","SSplotRunstest(use_pdf)")
+    use_pdf <- pdf
+  }
+  
+  if(!isTRUE(plot)){
+    lifecycle::deprecate_warn(
+      when = "2.0.0",
+      what = "SSplotRunsTest(plot)",
+      details = "The ability to explictly disable plot windows or plot subplots is unused and will be defunct in a future version"
+    )
+  }
+  
+  if(!isTRUE(new)){
+    lifecycle::deprecate_warn(
+      when = "2.0.0",
+      what = "SSplotRunsTest(new)",
+      details = "The ability to explicitly disable new plot windows is unused and will be removed in a future version"
+    )
+  }
+  
+    
     #-------------------------------------------
     # r4ss plotting functions and coding style
     #-------------------------------------------
     # subfunction to write png files
     if(!add) graphics.off()
     if(add){
-      print=F
-      png=F
+      print_plot=F
+      use_png=F
     }
   
     subplots = subplots[1]
-    datatypes= c("Index","Mean length","Mean age")
-    ylabel = datatypes[which(c("cpue","len","age")%in%subplots)]
-    if(verbose) cat('\n',"Running Runs Test Diagnosics for",datatypes[which(c("cpue","len","age")%in%subplots)],'\n')
+    datatypes= c("Index","Mean length","Mean age", "Conditional age-at-length")
+    ylabel = datatypes[which(c("cpue","len","age", "con")%in%subplots)]
+    if(verbose) message("Running Runs Test Diagnostics w/ plots for",datatypes[which(c("cpue","len","age", "con")%in%subplots)])
     if(subplots=="cpue"){
     cpue = ss3rep$cpue
     cpue$residuals = ifelse(is.na(cpue$Obs) | is.na(cpue$Like),NA,log(cpue$Obs)-log(cpue$Exp))
@@ -131,6 +204,14 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","
       Res = comps
     }  
       
+    if(subplots=="con"){
+      cond = SScompsTA1.8(ss3rep,fleet=NULL,type=subplots,plotit = FALSE)$runs_dat
+      cond$residuals = ifelse(is.na(cond$Obs),NA,log(cond$Obs)-log(cond$Exp))
+      if(is.null(cond$Fleet_name)){ # Deal with Version control
+        cond$Fleet_name = cond$Name}
+      Res = cond
+    }
+    
     pngfun <- function(file){
     # if extra text requested, add it before extention in file name
     file <- paste0(filenameprefix, file)
@@ -142,7 +223,7 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","
   }
   
   # subset if indexselect is specified
-  if(is.null(indexselect) ==F & is.numeric(indexselect)){
+  if(is.null(indexselect) == F & is.numeric(indexselect)){
     iname =  unique(Res$Fleet_name)[indexselect]
     if(TRUE %in% is.na(iname)) stop("One or more index numbers exceed number of available indices")
     Res = Res[Res$Fleet_name%in%iname,]
@@ -155,15 +236,15 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","
     
     
     
-    if(png) print <- TRUE
-    if(png & is.null(plotdir))
+    if(use_png) print_plot <- TRUE
+    if(use_png & is.null(plotdir))
       stop("to print PNG files, you must supply a directory as 'plotdir'")
     
     # check for internal consistency
-    if(pdf & png){
-      stop("To use 'pdf', set 'print' or 'png' to FALSE.")
+    if(use_pdf & use_png){
+      stop("To use 'use_pdf', set 'print_plot' or 'use_png' to FALSE.")
     }
-    if(pdf){
+    if(use_pdf){
       if(is.null(plotdir)){
         stop("to write to a PDF, you must supply a directory as 'plotdir'")
       }
@@ -171,7 +252,7 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","
                            paste0(filenameprefix, "SSplotComparisons_",
                                   format(Sys.time(), '%d-%b-%Y_%H.%M' ), ".pdf"))
       pdf(file=pdffile, width=pwidth, height=pheight)
-      if(verbose) cat("PDF file with plots will be:",pdffile,'\n')
+      if(verbose) message("PDF file with plots will be:",pdffile,'\n')
       par(par)
     }
     
@@ -189,7 +270,7 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","
       
     
       # open new window if requested
-      if(plot & png==FALSE){
+      if(plot & use_png==FALSE){
         if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
         
       } else {
@@ -243,11 +324,12 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","
     #------------------------------------------------------------
     
     
-    if(verbose) cat("Plotting Residual Runs Tests \n")
+    if(verbose) message("Plotting Residual Runs Tests")
     if(plot){ 
       # LOOP through fleets
       nfleets=n.indices
-      if(print){
+
+      if(print_plot){  
         
         runs = NULL
         for(fi in 1:nfleets){
@@ -255,9 +337,9 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","
           pngfun(paste0("residruns_",indices[fi],".png",sep=""))
           par(par)
           if(nrow(resid)>3 & (max(resid$Time)-min(resid$Time))>3){
-          get_runs = plot_runs(resid)    
-          dev.off()
-          runs = rbind(runs,c(get_runs$p.runs,get_runs$sig3lim))
+            get_runs = plot_runs(resid)    
+            dev.off()
+            runs = rbind(runs,c(get_runs$p.runs,get_runs$sig3lim))
           } else {
             runs = rbind(runs,c(NA,NA,NA))}
           
@@ -281,33 +363,38 @@ SSplotRunstest <- function(ss3rep=ss3sma,mixing="less",subplots=c("cpue","len","
     
     runstable = data.frame(Index=indices,runs.p=as.matrix(runs)[,1],Test=ifelse(is.na(as.matrix(runs)[,1]),"Excluded",ifelse(as.matrix(runs)[,1]<0.05,"Failed","Passed")),sigma3.lo=as.matrix(runs)[,2],sigma3.hi=as.matrix(runs)[,3],type=subplots) 
     colnames(runstable) = c("Index","runs.p","test","sigma3.lo","sigma3.hi","type")
-    if(verbose) cat(paste0("\n","Runs Test stats by ",datatypes[which(c("cpue","len","age")%in%subplots)],":","\n"))
+    if(verbose) cat(paste0("Residual Runs Test (/w plot) stats by ",datatypes[which(c("cpue","len","age","con")%in%subplots)],":","\n"))
     return(runstable)
 } # end of SSplotRuns()
 #-----------------------------------------------------------------------------------------
-
-#' runs test  
+#' Residual Diagnostics Plot
+#' 
+#' Function for residual diagnostics. Outputs a runs test table that gives runs test p-values, if the runs test passed (p-value > 0.05, residuals are random) or failed (p-value < 0.05, residuals are not random), the 3x sigma limits for indices or mean age or length and the type of input data (cpue, length comp, age comp, size comp, or conditional age-at-length).  
 #'
-#' Residual diagnostics with runs test p-value and 3xsigma limits for Indices, mean length and mean age
 #'
-#' @param ss3rep from r4ss::SSgetoutput()$replist1
-#' @param mixing c("less","greater","two.sided"). Default less is checking for postive autocorrelation only    
-#' @param quants optional use of c("cpue","len","age"), yet to be tested for age.
+#' @param ss3rep Stock Synthesis output as read by r4SS function SS_output
+#' @param mixing c("less","greater","two.sided"). Default less is checking for positive autocorrelation only    
+#' @param quants optional use of c("cpue","len","age","con"), default uses CPUE.
 #' @param indexselect Vector of fleet numbers for each model for which to compare
 #' @param verbose Report progress to R GUI?
-#' @return Runs Test p-values and sig3 limits
+#' @return a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet. Note, runs test passed if p-value > 0.05 (residuals are random) and failed if p-value < 0.5 (residuals are not random)
 #' @author Henning Winker (JRC-EC) and Laurance Kell (Sea++)
+#' 
+#' @keywords diags runsTest
+#' 
 #' @export
 
-SSrunstest <- function(ss3rep=ss3sma,mixing="less",quants=c("cpue","len","age")[1],
-                           indexselect = NULL,
-                           verbose=TRUE){
+SSrunstest <- function(ss3rep=ss3diags::ss3sma,
+                       mixing="less",
+                       quants=c("cpue","len","age","con")[1],
+                       indexselect = NULL,
+                       verbose=TRUE){
   
   
-  datatypes= c("Index","Mean length","Mean age")
+  datatypes= c("Index","Mean length","Mean age","Conditional age-at-length")
   subplots = quants
-  ylabel = datatypes[which(c("cpue","len","age")%in%subplots)]
-  if(verbose) cat('\n',"Running Runs Test Diagnosics for",datatypes[which(c("cpue","len","age")%in%subplots)],'\n')
+  ylabel = datatypes[which(c("cpue","len","age","con")%in%subplots)]
+  if(verbose) cat("Running Runs Test Diagnosics for",datatypes[which(c("cpue","len","age","con")%in%subplots)],'\n')
   if(subplots=="cpue"){
     cpue = ss3rep$cpue
     cpue$residuals = ifelse(is.na(cpue$Obs) | is.na(cpue$Like),NA,log(cpue$Obs)-log(cpue$Exp))
@@ -325,7 +412,13 @@ SSrunstest <- function(ss3rep=ss3sma,mixing="less",quants=c("cpue","len","age")[
     Res = comps
   }  
   
-  
+  if(subplots=="con"){
+    cond = SScompsTA1.8(ss3rep,fleet=NULL,type=subplots,plotit = FALSE)$runs_dat
+    cond$residuals = ifelse(is.na(cond$Obs),NA,log(cond$Obs)-log(cond$Exp))
+    if(is.null(cond$Fleet_name)){ # Deal with Version control
+      cond$Fleet_name = cond$Name}
+    Res = cond
+  }  
   # subset if indexselect is specified
   if(is.null(indexselect) ==F & is.numeric(indexselect)){
     iname =  unique(Res$Fleet_name)[indexselect]
@@ -363,7 +456,7 @@ SSrunstest <- function(ss3rep=ss3sma,mixing="less",quants=c("cpue","len","age")[
   #------------------------------------------------------------
   
   
-  if(verbose) cat("Computing Residual Runs Tests \n")
+  if(verbose) message("Computing Residual Runs Tests")
     # LOOP through fleets
     nfleets=n.indices
     runs = NULL
@@ -380,7 +473,7 @@ SSrunstest <- function(ss3rep=ss3sma,mixing="less",quants=c("cpue","len","age")[
   
   runstable = data.frame(Index=indices,runs.p=as.matrix(runs)[,1],Test=ifelse(is.na(as.matrix(runs)[,1]),"Excluded",ifelse(as.matrix(runs)[,1]<0.05,"Failed","Passed")),sigma3.lo=as.matrix(runs)[,2],sigma3.hi=as.matrix(runs)[,3],type=subplots) 
   colnames(runstable) = c("Index","runs.p","test","sigma3.lo","sigma3.hi","type")
-  if(verbose) cat(paste0("\n","Runs Test stats by ",datatypes[which(c("cpue","len","age")%in%subplots)],":","\n"))
+  if(verbose) cat(paste0("Residual Runs Test stats by ",datatypes[which(c("cpue","len","age","con")%in%subplots)],":","\n"))
   return(runstable)
 } # end of SSplotRuns()
 #-----------------------------------------------------------------------------------------

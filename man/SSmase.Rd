@@ -2,24 +2,25 @@
 % Please edit documentation in R/SSmase.R
 \name{SSmase}
 \alias{SSmase}
-\title{SSmase() computes MASE for one-step ahead hindcasting cross-validations of indices}
+\title{Mean Absolute Scaled Error}
 \usage{
 SSmase(
   retroSummary,
-  quants = c("cpue", "len", "age"),
+  quants = c("cpue", "len", "age", "con"),
   Season = "default",
   models = "all",
   endyrvec = "default",
   indexselect = NULL,
   MAE.base.adj = 0.1,
   residuals = FALSE,
-  verbose = FALSE
+  verbose = FALSE,
+  indexfleets = 1
 )
 }
 \arguments{
-\item{retroSummary}{List created by r4ss::SSsummarize()}
+\item{retroSummary}{raw list of retrospective runs created by r4ss::SSgetoutput(). Depending on the type of data, the function will call r4ss::SSsummarize or ss3diags:SSretroComps to summarize the list.}
 
-\item{quants}{data type c("cpue","len","age)}
+\item{quants}{data type, either "cpue" for index data, "len" for length composition data, or "age" for age composition data. Note, if using "age" or "len", SSretroComps() will be used to extract and summarize the composition data first.}
 
 \item{Season}{option to specify Season - Default uses first available, i.e. usual Seas = 1}
 
@@ -31,23 +32,37 @@ columns in summary tables.}
 final year of values to show for each model. By default it is set to the
 ending year specified in each model.}
 
-\item{indexselect}{= Vector of fleet numbers for each model for which to compare}
+\item{indexselect}{Vector of fleet numbers for each model for which to compare}
 
 \item{MAE.base.adj}{minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)}
 
+\item{residuals}{If true, includes a dataframe in the output of the prediction residuals and naive prediction residuals. Default is FALSE.}
+
 \item{verbose}{Report progress to R GUI?}
 
-\item{indexfleets}{CHECK IF NEEDED or how to adjust indexfleets}
+\item{indexfleets}{Single value or vector of length n = number of models in summary object of the fleet number(s) for the index to compare.}
 }
 \value{
 MASE and hcxval statistic
 }
 \description{
-MASE for one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals. 
+MASE for one-step ahead hindcasting cross-validations and computes MASE from prediction residuals of indices. 
 MASE is calculated the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and Naive Predictions (MAE.base)
 MASE.adj sets the MAE.base to a minimum MAE.base.adj (default=0.1)
 MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate, when obs show extremely little variation
 }
+\examples{
+\dontrun{
+# calculate MASE for CPUE indices only for fleets 1 and 2
+SSmase(retro.sma, quant = "cpue", indexselect = c(1:2))
+}
+}
+\seealso{
+[SSretroComps()] [r4ss::SSsummarize()]
+}
 \author{
 Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 }
+\keyword{MASE}
+\keyword{diags}
+\keyword{hindcasting}

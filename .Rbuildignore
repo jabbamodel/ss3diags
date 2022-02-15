@@ -1,2 +1,16 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.github$
+^\Cookbook$
+^\Vignette$
+data-raw
+testing.html
+testing.rmd
+^data-raw$
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^README\.Rmd$
+^model_recipes$

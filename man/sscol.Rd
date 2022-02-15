@@ -2,7 +2,7 @@
 % Please edit documentation in R/Utils.R
 \name{sscol}
 \alias{sscol}
-\title{sscol r4ss color generator}
+\title{r4ss color generator}
 \usage{
 sscol(n, alpha = 1)
 }
@@ -15,5 +15,7 @@ sscol(n, alpha = 1)
 vector of color codes
 }
 \description{
-sscol r4ss color generator
+r4ss color generator
 }
+\keyword{ssplot}
+\keyword{utils}

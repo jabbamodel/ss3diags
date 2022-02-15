@@ -2,14 +2,17 @@
 % Please edit documentation in R/SSplotModelcomp.R
 \name{SSplotModelcomp}
 \alias{SSplotModelcomp}
-\title{SSplotHCxal() for one-step ahead hindcasting cross-validations of indices}
+\title{Compare Multiple SS Model Estimates}
 \usage{
 SSplotModelcomp(
-  summaryoutput = aspm.sma,
+  summaryoutput = ss3diags::aspm.sma,
   plot = TRUE,
-  print = FALSE,
-  png = print,
-  pdf = FALSE,
+  print = deprecated(),
+  print_plot = FALSE,
+  png = deprecated(),
+  use_png = print_plot,
+  pdf = deprecated(),
+  use_pdf = FALSE,
   models = "all",
   subplots = c("SSB", "Bratio", "Fvalue", "Recruits", "Index", "RecDevs"),
   brp = c("msy", "btargs"),
@@ -56,17 +59,27 @@ SSplotModelcomp(
   add = FALSE,
   mcmcVec = FALSE,
   indexQlabel = TRUE,
-  indexQdigits = 4
+  indexQdigits = 4,
+  indexfleets = 1
 )
 }
 \arguments{
 \item{summaryoutput}{List created by r4ss::SSsummarize()}
 
-\item{plot}{plot to active plot device?}
+\item{plot}{Deprecated. Plots (and subplots) are drawn to the active plot device 
+by default (TRUE), the option to disable this via FALSE, is unused here.}
 
-\item{print}{print to PNG files?}
+\item{print}{Deprecated. Please use 'print_plot'.}
 
-\item{pdf}{not tested for TRUE}
+\item{print_plot}{print to PNG files?}
+
+\item{png}{draws to png files. Deprecated.}
+
+\item{use_png}{Draw plots in PNG format, defaults to 'print_plot' value}
+
+\item{pdf}{Deprecated. Please use 'use_png'.}
+
+\item{use_pdf}{option for pdf plots (not tested for TRUE)}
 
 \item{models}{Optional subset of the models described in
 r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
@@ -98,7 +111,9 @@ final year of values to show for each model. By default it is set to the}
 \item{lwd}{Optional vector of line widths}
 
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
-year in timeseries plots.}
+year in timeseries plots. Default is FALSE}
+
+\item{xlim}{Optional, values for x-axis range of years to display on plot. Default = "default" displays all years of available data. (currently not used)}
 
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
@@ -106,10 +121,14 @@ year in timeseries plots.}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
 
+\item{xylabs}{TRUE or FALSE, include x- and y-axis labels}
+
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
 
-\item{legend}{Add a legend?}
+\item{uncertainty}{TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.}
+
+\item{legend}{Option to add a legend. TRUE by default.}
 
 \item{legendlabels}{Optional vector of labels to include in legend.}
 
@@ -122,6 +141,8 @@ the legend display the model names in an order that is different than that
 which is represented in the summary input object.}
 
 \item{legendncol}{Number of columns for the legend.}
+
+\item{legendcex}{Allows to adjust legend cex}
 
 \item{legendsp}{Space between legend labels}
 
@@ -153,23 +174,24 @@ It will be separated from default name by an underscore.}
 
 \item{shadealpha}{Transparency adjustment used to make default shadecol}
 
-\item{new}{Create new empty plot window}
+\item{new}{Deprecated. New plot windows are created by default (TRUE), and the 
+option to disable this, via FALSE, is unused.}
 
 \item{add}{surpresses par() to create multiplot figs}
 
 \item{mcmcVec}{NOT TESTED Vector of TRUE/FALSE values (or single value) indicating}
 
-\item{indexQlabel}{Add catchability to legend in plot of index fits (TRUE/FALSE)?}
+\item{indexQlabel}{TRUE/FALSE, if TRUE add catchability to legend in plot of index fits (currently not used)}
 
 \item{indexQdigits}{Number of significant digits for catchability in legend}
 
 \item{indexfleets}{CHECK IF NEEDED or how to adjust indexfleets}
-
-\item{legendcex=1}{Allows to adjust legend cex}
 }
 \description{
-Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals
+A function to plot SSB, B-ratio, F, Recruits, and/or Index of Abundance fits from multiple SS models. This function uses an object of multiple SS models summarized with r4ss:SSsummarize().
 }
 \author{
 Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 }
+\keyword{hindcasting}
+\keyword{ssplot}

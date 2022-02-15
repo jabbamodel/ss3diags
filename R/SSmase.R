@@ -221,7 +221,7 @@ SSmase<- function(retroSummary,quants=c("cpue","len","age"),Season="default",
       } # End of Fleet Loop
       
     # Add new joint MASE  
-    jstats = apply(abs(Residuals[c("Pred.Res","Native.Res")]),2,mean)
+    jstats = apply(abs(Residuals[c("Pred.Res","Naive.Res")]),2,mean)
     joint = data.frame(Index="joint",Season="",
                        MASE=jstats[1]/jstats[2],MAE.PR=jstats[1],MAE.base=jstats[2],
                        MASE.adj=jstats[1]/max(jstats[2],MAE.base.adj),n.eval=nrow(Residuals))  

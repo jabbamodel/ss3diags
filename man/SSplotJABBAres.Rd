@@ -2,19 +2,15 @@
 % Please edit documentation in R/SSplotJABBAres.R
 \name{SSplotJABBAres}
 \alias{SSplotJABBAres}
-\title{Residual plot}
+\title{SSplotJABBAres()}
 \usage{
 SSplotJABBAres(
-  ss3rep = ss3diags::ss3sma,
-  subplots = c("cpue", "len", "age", "con")[1],
-  seas = NULL,
+  ss3rep = ss3sma,
+  subplots = c("cpue", "len", "age")[1],
   plot = TRUE,
-  print = deprecated(),
-  print_plot = FALSE,
-  png = deprecated(),
-  use_png = print_plot,
-  pdf = deprecated(),
-  use_pdf = FALSE,
+  print = FALSE,
+  png = print,
+  pdf = FALSE,
   indexselect = NULL,
   miny = 3,
   col = NULL,
@@ -52,29 +48,15 @@ SSplotJABBAres(
 )
 }
 \arguments{
-\item{ss3rep}{Stock Synthesis output as read by r4SS function SS_output}
+\item{ss3rep}{from r4ss::SS_output}
 
-\item{subplots}{string of type of data to plot, 'cpue' for index of abundance data, 'len' or 'age' for length- or age-composition, or 'con' for conditional age-at-length data.}
+\item{subplots}{optional use of cpue and comp data (only tested for length)}
 
-\item{seas}{string indicating how to treat data from multiple seasons
-'comb' - combine seasonal data for each year and plot against Yr
-'sep' - treat season separately, plotting against Yr.S.
-If is.null(seas), it is assumed that there is only one season and option 'comb' is used.}
+\item{plot}{plot to active plot device?}
 
-\item{plot}{Deprecated. Plots (and subplots) are drawn to the active plot device 
-by default (TRUE), and the option to disable this, via FALSE, is unused.}
+\item{print}{print to PNG files?}
 
-\item{print}{Deprecated. Please use 'print_plot'.}
-
-\item{print_plot}{Option to print to PNG files}
-
-\item{png}{Deprecated. please use 'use_png'.}
-
-\item{use_png}{Draw plots in PNG format}
-
-\item{pdf}{Deprecated. Please use 'use_pdf'.}
-
-\item{use_pdf}{option for pdf plots (not tested for TRUE)}
+\item{pdf}{not tested for TRUE}
 
 \item{indexselect}{Vector of fleet numbers for each model for which to compare}
 
@@ -89,23 +71,18 @@ by default (TRUE), and the option to disable this, via FALSE, is unused.}
 \item{lwd}{Optional vector of line widths}
 
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
-year in time series plots.}
-
-\item{xlim}{Optional, values for x-axis range of years to display on plot. 
-Default = "default" displays all years of available data. (currently not used)}
+year in timeseries plots.}
 
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
-\item{xaxs}{Choice of x-axis parameter (see ?par for more info)}
+\item{xaxs}{Choice of xaxs parameter (see ?par for more info)}
 
-\item{yaxs}{Choice of y-axis parameter (see ?par for more info)}
-
-\item{xylabs}{TRUE or FALSE, include x- and y-axis labels}
+\item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
 
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
 
-\item{legend}{Option to add a legend. TRUE by default.}
+\item{legend}{Add a legend?}
 
 \item{legendlabels}{Optional vector of labels to include in legend.}
 
@@ -119,11 +96,9 @@ which is represented in the summary input object.}
 
 \item{legendncol}{Number of columns for the legend.}
 
-\item{legendcex}{Allows to adjust legend cex. Defaults to 1.}
-
 \item{legendsp}{Space between legend labels}
 
-\item{legendindex}{Allows to add legend for selected indices (plots)}
+\item{legendindex}{Allows to add lengend for selected indices (plots)}
 
 \item{pwidth}{Width of plot}
 
@@ -149,15 +124,15 @@ It will be separated from default name by an underscore.}
 
 \item{boxcol}{color boxes}
 
-\item{new}{Deprecated. New plot windows are created by default (TRUE), and the 
-option to disable this, via FALSE, is unused.}
+\item{new}{Create new empty plot window}
 
-\item{add}{supresses par() to create multiplot figs}
+\item{add}{surpresses par() to create multiplot figs}
+
+\item{legendcex=1}{Allows to adjust legend cex}
 }
 \description{
-plots residuals for all indices as boxplot (color coded by fleet) with a loess showing systematic trends over time. This function is from the package JABBA.
+plots residuals for all indices as boxplot with a loess showing systematic trends
 }
 \author{
 Henning Winker (JRC-EC)
 }
-\keyword{ssplot}

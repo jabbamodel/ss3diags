@@ -1,18 +1,11 @@
-#' Read SS MCMC
+#' SSreadMCMC() 
 #'
-#' A function to read mcmc file outputs from a Stock Synthesis model
+#' function to read mcmc file outputs
 #'
 #' @param mcmcdir file path for folder with the derived_posteriors.sso file
-#' 
 #' @return Stock Synthesis mcmc output file
-#' 
 #' @author Henning Winker (JRC-EC) & Laurence Kell (Sea++)
-#' 
 #' @export
-#' 
-#' @keywords utils MCMC
-#' 
-#' @importFrom utils read.csv
 #' 
 SSreadMCMC <- function(mcmcdir){
   
@@ -25,9 +18,10 @@ SSreadMCMC <- function(mcmcdir){
 }
 
 
-#' MCMC Joint Distributions 
+
+#' SSdiagsMCMC() 
 #'
-#' A function to generate joint distributions for stock status ratios (SSB/SSBref and F/Fref where ref can be MSY, SSB40, F40, etc.) using MCMC. The function produces a Kobe plot, maximum likelihood estimates and the MVLN Monte-Carlo distributions of the Kobe values which can be input into SSplotEnsemble().
+#' function to read mcmc file outputs for Kobe and SSplotEnsemble() plotting
 #'
 #' @param mcmc file path for folder with the derived_posteriors.sso file
 #' @param ss3rep from r4ss::SS_output
@@ -39,16 +33,10 @@ SSreadMCMC <- function(mcmcdir){
 #' @param ymax ylim maximum
 #' @param xmax xlim maximum
 #' @param addprj include forecast years
-#' @param legendcex Allows to adjust legend cex
+#' @param legendcex=1 Allows to adjust legend cex
 #' @param verbose Report progress to R GUI?
-#' 
-#' @return output list maximum likelihood estimates and the MCMC posterier distributions of the Kobe values and a Kobe plot
-#' @seealso [SSdeltaMVLN()], [SSplotEnsemble()], [SSkobe()]
-#' 
+#' @return output list of quant mcmc posteriors and mle's
 #' @author Henning Winker (JRC-EC), Massimiliano and Laurence Kell (Sea++)
-#' 
-#' @keywords diags MCMC
-#' 
 #' @export
 
 SSdiagsMCMC = function(mcmc,ss3rep,Fref = NULL,years=NULL,run="MCMC",thin = 1,plot=TRUE,

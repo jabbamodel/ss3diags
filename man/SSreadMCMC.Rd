@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSdiagsMCMC.R
 \name{SSreadMCMC}
 \alias{SSreadMCMC}
-\title{Read SS MCMC}
+\title{SSreadMCMC()}
 \usage{
 SSreadMCMC(mcmcdir)
 }
@@ -13,10 +13,8 @@ SSreadMCMC(mcmcdir)
 Stock Synthesis mcmc output file
 }
 \description{
-A function to read mcmc file outputs from a Stock Synthesis model
+function to read mcmc file outputs
 }
 \author{
 Henning Winker (JRC-EC) & Laurence Kell (Sea++)
 }
-\keyword{MCMC}
-\keyword{utils}

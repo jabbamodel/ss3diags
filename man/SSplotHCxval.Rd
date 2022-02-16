@@ -2,18 +2,15 @@
 % Please edit documentation in R/SSplotHCxval.R
 \name{SSplotHCxval}
 \alias{SSplotHCxval}
-\title{Hindcasting Cross-Validations of Multiple Models}
+\title{SSplotHCxal() for one-step ahead hindcasting cross-validations of indices}
 \usage{
 SSplotHCxval(
   retroSummary,
   subplots = c("cpue", "len", "age"),
   Season = "default",
-  print = deprecated(),
-  print_plot = FALSE,
-  png = deprecated(),
-  use_png = print_plot,
-  pdf = deprecated(),
-  use_pdf = FALSE,
+  print = FALSE,
+  png = print,
+  pdf = FALSE,
   models = "all",
   endyrvec = "default",
   xmin = NULL,
@@ -54,15 +51,11 @@ SSplotHCxval(
   verbose = TRUE,
   shadecol = grey(0.5, 0.4),
   shadecol2 = grey(0.5, 0.4),
-  shadealpha = 0.3,
   new = TRUE,
   add = FALSE,
   mcmcVec = FALSE,
   indexQlabel = TRUE,
-  indexQdigits = 4,
-  indexfleets = 1,
-  plot = TRUE,
-  shadecol1 = grey(0.5, 0.4)
+  indexQdigits = 4
 )
 }
 \arguments{
@@ -72,17 +65,9 @@ SSplotHCxval(
 
 \item{Season}{option to specify Season - Default uses first available, i.e. usual Seas = 1}
 
-\item{print}{Deprecated. Please use 'print_plot'.}
+\item{print}{print to PNG files?}
 
-\item{print_plot}{Option to print to PNG files}
-
-\item{png}{Deprecated, please use 'use_png'.}
-
-\item{use_png}{Draw plots in PNG format}
-
-\item{pdf}{PDF plots. Deprecated. Please use use_pdf.}
-
-\item{use_pdf}{option for pdf plots}
+\item{pdf}{not tested for TRUE}
 
 \item{models}{Optional subset of the models described in
 r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
@@ -96,7 +81,7 @@ ending year specified in each model.}
 
 \item{indexselect}{= Vector of fleet numbers for each model for which to compare}
 
-\item{MAE.base.adj}{minimum MASE denominator (naive predictions) for MASE.adj (default = 0.1)}
+\item{MAE.base.adj}{minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)}
 
 \item{show.mase.adj}{if TRUE it show mase.adj in () in plot}
 
@@ -113,8 +98,6 @@ ending year specified in each model.}
 \item{tickEndYr}{TRUE/FALSE switch to turn on/off extra axis mark at final
 year in timeseries plots.}
 
-\item{xlim}{Optional, values for x-axis range of years to display on plot. Default = "default" displays all years of available data. (currently not in use)}
-
 \item{ylimAdj}{Multiplier for ylim parameter. Allows additional white space}
 
 \item{ylim}{will over-write ylimAdj if specified}
@@ -123,14 +106,10 @@ year in timeseries plots.}
 
 \item{yaxs}{Choice of yaxs parameter (see ?par for more info)}
 
-\item{xylabs}{TRUE or FALSE, include x- and y-axis labels}
-
 \item{type}{Type parameter passed to points (default 'o' overplots points on
 top of lines)}
 
-\item{uncertainty}{TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.}
-
-\item{legend}{Option to add a legend. TRUE by default.}
+\item{legend}{Add a legend?}
 
 \item{legendlabels}{Optional vector of labels to include in legend.}
 
@@ -144,11 +123,9 @@ which is represented in the summary input object.}
 
 \item{legendncol}{Number of columns for the legend.}
 
-\item{legendcex}{Allows to adjust legend cex}
-
 \item{legendsp}{Space between legend labels}
 
-\item{legendindex}{Allows to add legend for selected indices (plots)}
+\item{legendindex}{Allows to add lengend for selected indices (plots)}
 
 \item{pwidth}{Width of plot}
 
@@ -174,13 +151,9 @@ It will be separated from default name by an underscore.}
 
 \item{shadecol}{uncertainty shading of hcxval horizon}
 
-\item{shadecol2}{color for uncertainty in early years not affected by hindcast}
-
-\item{shadealpha}{Transparancy adjustment used to make default shadecol. (currently not used)}
-
 \item{new}{Create new empty plot window}
 
-\item{add}{suppresses par() to create multiplot figs}
+\item{add}{surpresses par() to create multiplot figs}
 
 \item{mcmcVec}{NOT TESTED Vector of TRUE/FALSE values (or single value) indicating}
 
@@ -190,19 +163,18 @@ It will be separated from default name by an underscore.}
 
 \item{indexfleets}{CHECK IF NEEDED or how to adjust indexfleets}
 
-\item{plot}{Deprecated. Plots (and subplots) are drawn to the active plot device 
-by default (TRUE), and the option to disable this, via FALSE, is unused.}
+\item{plot}{plot to active plot device?}
 
-\item{shadecol1}{uncertainty shading of early years not affected by hindcast (currently not used)}
+\item{legendcex=1}{Allows to adjust legend cex}
+
+\item{shadecol1}{uncertainty shading of early years not affected by hindcast}
 }
 \description{
-Plots one-step ahead hindcasting cross-validations and computes MASE from prediction residuals. 
-MASE is calculated as the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and naive predictions (MAE.base)
+Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
+MASE is calculated the average ratio of mean absolute error (MAE) of prediction residuals (MAE.PR) and Naive Predictions (MAE.base)
 MASE.adj sets the MAE.base to a minimum MAE.base.adj (default=0.1)
-MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate if obs show very little annual variation
+MASE.adj allow passing (MASE<1) if MAE.PE < 0.1 and thus accurate if obs show very little annaual variation
 }
 \author{
 Henning Winker (JRC-EC) and Laurence Kell (Sea++)
 }
-\keyword{hindcasting}
-\keyword{ssplot}

@@ -2,8 +2,7 @@
 % Please edit documentation in R/Utils.R
 \name{SSdiagsTime2Year}
 \alias{SSdiagsTime2Year}
-\title{Convert Time-Steps
-Function to convert non-annual into annual time-steps for retros and cpue residuals}
+\title{SSdiagsTime2Year()}
 \usage{
 SSdiagsTime2Year(ss3out, time.steps = 0.25, end.time)
 }
@@ -18,10 +17,5 @@ SSdiagsTime2Year(ss3out, time.steps = 0.25, end.time)
 Reformatted Rep file outputs
 }
 \description{
-Convert Time-Steps
 Function to convert non-annual into annual time-steps for retros and cpue residuals
 }
-\keyword{rep}
-\keyword{retro}
-\keyword{retrocomps}
-\keyword{utils}

@@ -1,6 +1,6 @@
-#' Compare Multiple SS Model Estimates
+#' SSplotHCxal() for one-step ahead hindcasting cross-validations of indices
 #'
-#' A function to plot SSB, B-ratio, F, Recruits, and/or Index of Abundance fits from multiple SS models. This function uses an object of multiple SS models summarized with r4ss:SSsummarize().
+#' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
 #' 
 #' @param summaryoutput List created by r4ss::SSsummarize() 
 #' @param models Optional subset of the models described in
@@ -16,26 +16,21 @@
 #' @param indexselect = Vector of fleet numbers for each model for which to compare
 #' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets
 #' @param indexUncertainty Show fixed uncertainty intervals on index (not estimated)
-#' @param plot Deprecated. Plots (and subplots) are drawn to the active plot device 
-#' by default (TRUE), the option to disable this via FALSE, is unused here. 
-#' @param print Deprecated. Please use 'print_plot'.
-#' @param print_plot print to PNG files?
-#' @param pdf Deprecated. Please use 'use_png'.
-#' @param use_pdf option for pdf plots (not tested for TRUE)
-#' @param png Deprecated. Please use 'use_png'.
-#' @param use_png png TODO TODO Defaults to print value
+#' @param plot plot to active plot device?
+#' @param print print to PNG files?
+#' @param pdf not tested for TRUE
 #' @param col Optional vector of colors to be used for lines. Input NULL
 #' @param pch Optional vector of plot character values
 #' @param lty Optional vector of line types
 #' @param lwd Optional vector of line widths
 #' @param tickEndYr TRUE/FALSE switch to turn on/off extra axis mark at final
-#' year in timeseries plots. Default is FALSE
+#' year in timeseries plots.
 #' @param ylimAdj Multiplier for ylim parameter. Allows additional white space
 #' @param xaxs Choice of xaxs parameter (see ?par for more info)
 #' @param yaxs Choice of yaxs parameter (see ?par for more info)
 #' @param type Type parameter passed to points (default 'o' overplots points on
 #' top of lines)
-#' @param legend Option to add a legend. TRUE by default.
+#' @param legend Add a legend?
 #' @param legendlabels Optional vector of labels to include in legend.
 #' @param legendloc Location of legend. Either a string like "topleft" or a vector
 #' of two numeric values representing the fraction of the maximum in the x and y
@@ -44,7 +39,7 @@
 #' the legend display the model names in an order that is different than that
 #' which is represented in the summary input object.
 #' @param legendncol Number of columns for the legend.
-#' @param legendcex Allows to adjust legend cex
+#' @param legendcex=1 Allows to adjust legend cex
 #' @param legendsp Space between legend labels
 #' @param legendindex Allows to add lengend for selected indices (plots)
 #' @param pwidth Width of plot
@@ -61,33 +56,15 @@
 #' @param verbose Report progress to R GUI?
 #' @param shadecol uncertainty shading of hcxval horizon
 #' @param shadealpha Transparency adjustment used to make default shadecol
-#' @param new Deprecated. New plot windows are created by default (TRUE), and the 
-#' option to disable this, via FALSE, is unused.
+#' @param new Create new empty plot window
 #' @param add surpresses par() to create multiplot figs
 #' @param mcmcVec NOT TESTED Vector of TRUE/FALSE values (or single value) indicating
-#' @param indexQlabel TRUE/FALSE, if TRUE add catchability to legend in plot of index fits (currently not used)
+#' @param indexQlabel Add catchability to legend in plot of index fits (TRUE/FALSE)?
 #' @param indexQdigits Number of significant digits for catchability in legend
-#' @param png draws to png files. Deprecated.
-#' @param use_png Draw plots in PNG format, defaults to 'print_plot' value
-#' @param xlim Optional, values for x-axis range of years to display on plot. Default = "default" displays all years of available data. (currently not used)
-#' @param xylabs TRUE or FALSE, include x- and y-axis labels
-#' @param uncertainty TRUE/FALSE include uncertainty intervals around SSB or F estimated timeseries. Defaults to TRUE.
 #' @author Mostly adopted from r4ss::SSplotComparisons by Taylor et al
 #' @export
-#' 
-#' @importFrom grDevices pdf
-#' @importFrom lifecycle deprecated
-#' 
-#' @keywords ssplot hindcasting
-#' 
-SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
-                        plot=TRUE,
-                        print=deprecated(),
-                        print_plot=FALSE,
-                        png=deprecated(),
-                        use_png=print_plot,
-                        pdf=deprecated(),
-                        use_pdf=FALSE,
+SSplotModelcomp<- function(summaryoutput=aspm.sma,
+                        plot=TRUE,print=FALSE,png=print,pdf=FALSE,
                         models="all",
                         subplots=c("SSB","Bratio","Fvalue","Recruits","Index","RecDevs"),
                         brp = c("msy","btargs"),
@@ -98,84 +75,31 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
                         indexselect = NULL,
                         indexUncertainty=TRUE,
                         col=NULL, 
-                        pch=NULL, 
-                        lty=1, 
-                        lwd=2,
+                        pch=NULL, lty=1, lwd=2,
                         tickEndYr=FALSE,
                         xlim="default", ylimAdj=1.05,
-                        xaxs="i",
-                        yaxs="i",
+                        xaxs="i", yaxs="i",
                         xylabs=TRUE,
-                        type="l", 
-                        uncertainty=TRUE, 
-                        legend=TRUE, 
-                        legendlabels="default", 
-                        legendloc="topright",
-                        legendorder="default",
-                        legendncol=1,
-                        legendcex=1,
-                        legendsp=0.9,
-                        legendindex = NULL,
-                        pwidth=6.5,
-                        pheight=5.0,
-                        punits="in",
-                        res=300,
-                        ptsize=10,
-                        cex.main=1,
+                        type="l", uncertainty=TRUE, 
+                        legend=TRUE, legendlabels="default", legendloc="topright",
+                        legendorder="default",legendncol=1,legendcex=1,legendsp=0.9,legendindex = NULL,
+                        pwidth=6.5,pheight=5.0,punits="in",res=300,ptsize=10,cex.main=1,
                         plotdir=NULL,
                         filenameprefix="",
                         par=list(mar=c(5,4,1,1)+.1),
                         verbose=TRUE,
-                        shadecol = NULL, 
-                        shadealpha=0.3,
-                        new=TRUE,
-                        add=FALSE,
-                        mcmcVec=FALSE,
-                        indexQlabel=TRUE,
-                        indexQdigits=4,
-                        indexfleets=1
+                        shadecol = NULL, shadealpha=0.3,new=TRUE,
+                        add=FALSE,mcmcVec=FALSE,indexQlabel=TRUE,
+                        indexQdigits=4
                         ){ # plot different fits to a single index of abundance
-  
-  #Parameter DEPRECATION checks 
-  if (lifecycle::is_present(print)){
-    lifecycle::deprecate_warn("2.0.0","SSplotModelcomp(print)","SSplotModelcomp(print_plot)")
-    print_plot <- print
-  }
-  
-  if(lifecycle::is_present(png)){
-    lifecycle::deprecate_warn("2.0.0", "SSplotModelcomp(png)","SSplotModelcomp(use_png)")
-    use_png <- png
-  }
-  
-  if(lifecycle::is_present(pdf)){
-    lifecycle::deprecate_warn("2.0.0", "SSplotModelcomp(pdf)","SSplotModelcomp(use_pdf)")
-    use_pdf <- pdf
-  }
-
-  if(!isTRUE(plot)){
-    lifecycle::deprecate_warn(
-      when = "2.0.0",
-      what = "SSplotModelcomp(plot)",
-      details = "The ability to explictly disable plot windows or plot subplots is unused and will be defunct in a future version"
-    )
-  }
-  
-  if(!isTRUE(new)){
-    lifecycle::deprecate_warn(
-      when = "2.0.0",
-      what = "SSplotModelcomp(new)",
-      details = "The ability to explicitly disable new plot windows is unused and will be defunct in a future version"
-    )
-  }
-  
   #------------------------------------------
   # r4ss plotting functions
   #------------------------------------------
   # subfunction to write png files
   if(!add) graphics.off()
   if(add){
-    print_plot=F
-    use_png=F
+    print=F
+    png=F
   }
   quant = subplots[1]
   refplots=c("SSB","Bratio","Fvalue","Recruits","Index","RecDevs")
@@ -190,11 +114,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     file <- paste0(filenameprefix, file)
     # open png file
     png(filename=file.path(plotdir,file),
-        width=pwidth,
-        height=pheight,
-        units=punits,
-        res=res,
-        pointsize=ptsize)
+        width=pwidth,height=pheight,units=punits,res=res,pointsize=ptsize)
     # change graphics parameters to input value
     par(par)
   }
@@ -202,27 +122,25 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
   # subset if indexselect is specified
   if(is.null(indexselect) ==F & is.numeric(indexselect)){
     iname =  unique(summaryoutput$indices$Fleet_name)[indexselect]
-    if(TRUE %in% is.na(iname)) {
-      stop("One or more index numbers exceed number of available indices")
-    }
+    if(TRUE %in% is.na(iname)) stop("One or more index numbers exceed number of available indices")
     summaryoutput$indices = summaryoutput$indices[summaryoutput$indices$Fleet_name%in%iname,]
   }
   
   
-  # NOTE: 'log scale' option is not used -ef 
+  log=FALSE #(no option to plot on log scale)
   if(is.null(legendindex))  legendindex=1:summaryoutput$n
   if(!legend) legendindex=10000
   
   
-  if(use_png) print_plot <- TRUE
-  if(use_png & is.null(plotdir))
+  if(png) print <- TRUE
+  if(png & is.null(plotdir))
     stop("to print PNG files, you must supply a directory as 'plotdir'")
   
   # check for internal consistency
-  if(use_pdf & use_png){
-    stop("To use 'pdf', set 'print_plot' or 'use_png' to FALSE.")
+  if(pdf & png){
+    stop("To use 'pdf', set 'print' or 'png' to FALSE.")
   }
-  if(use_pdf){
+  if(pdf){
     if(is.null(plotdir)){
       stop("to write to a PDF, you must supply a directory as 'plotdir'")
     }
@@ -246,7 +164,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
         legendloc="topleft"
       }
       if(is.numeric(legendloc)) {
-        Usr <- par("usr")
+        Usr <- par()$usr
         legendloc <- list(x = Usr[1] + legendloc[1] * (Usr[2] - Usr[1]),
                           y = Usr[3] + legendloc[2] * (Usr[4] - Usr[3]))
       }
@@ -256,18 +174,9 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
       if(type=="l"){
         legend.pch <- rep(NA,length(pch))
       }
-      legend(legendloc, 
-             legend=legendlabels[legendorder],
-             col=col[legendorder], 
-             lty=lty[legendorder],
-             seg.len = 2,
-             lwd=lwd[legendorder], 
-             pch=legend.pch[legendorder], 
-             bty="n", 
-             ncol=legendncol,
-             pt.cex=0.7,
-             cex=legendcex,
-             y.intersp = legendsp)
+      legend(legendloc, legend=legendlabels[legendorder],
+             col=col[legendorder], lty=lty[legendorder],seg.len = 2,
+             lwd=lwd[legendorder], pch=legend.pch[legendorder], bty="n", ncol=legendncol,pt.cex=0.7,cex=legendcex,y.intersp = legendsp)
     }
     
     # r4ss Colors
@@ -291,11 +200,11 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     # plot_index function
     #-------------------------------------------------------------
     # get stuff from summary output (minimized)
-    n        <- summaryoutput[["n"]]
-    nsexes   <- summaryoutput[["nsexes"]]
-    startyrs <- summaryoutput[["startyrs"]]
-    endyrs   <- summaryoutput[["endyrs"]]
-    indices  <- summaryoutput[["indices"]]
+    n             <- summaryoutput$n
+    nsexes        <- summaryoutput$nsexes
+    startyrs      <- summaryoutput$startyrs
+    endyrs        <- summaryoutput$endyrs
+    indices <- summaryoutput$indices
     
     
     if(models[1]=="all") models <- 1:n    
@@ -335,18 +244,16 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     if(length(lty) < nlines) lty <- rep(lty,nlines)[1:nlines]
     if(length(lwd) < nlines) lwd <- rep(lwd,nlines)[1:nlines]
     
-    if(!is.expression(legendlabels[1]) 
-       && legendlabels[1]=="default") {
-      legendlabels <- paste("model",1:nlines)
-    }
+    if(!is.expression(legendlabels[1]) &&
+       legendlabels[1]=="default") legendlabels <- paste("model",1:nlines)
     if(legendorder[1]=="default") legendorder <- 1:nlines
     
     # open new window if requested
-    if(plot & use_png==FALSE){
-      if(!add) {
-        dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
-      }
+    if(plot & png==FALSE){
+      if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
+      
     } else {
+      
       if(!add) par(par)
     }
     
@@ -354,8 +261,8 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     indices2 <- NULL
     for(iline in 1:nlines){
       imodel <- models[iline]
-      subset1 <- indices[["imodel"]]==imodel & !is.na(indices[["Like"]])
-      subset2 <- indices[["imodel"]]==imodel
+      subset1 <- indices$imodel==imodel & !is.na(indices$Like)
+      subset2 <- indices$imodel==imodel
       if(length(unique(indices$Fleet[subset1])) > 1){
         if(!is.null(indexfleets[imodel])){
           ifleet <- indexfleets[imodel]
@@ -370,29 +277,40 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
       }
     }
     # get quantities for plot
-    yr <- indices2[["Yr"]]
-    obs <- indices2[["Obs"]]
-    exp <- indices2[["Exp"]]
-    imodel <- indices2[["imodel"]]
-    se <- indices2[["SE"]]
-    Q <- indices2[["Calc_Q"]]
-    ylab=labels[2]
-
+    yr <- indices2$Yr
+    obs <- indices2$Obs
+    exp <- indices2$Exp
+    imodel <- indices2$imodel
+    se <- indices2$SE
+    Q <- indices2$Calc_Q
+    if(log){
+      obs <- log(obs)
+      exp <- log(exp)
+      ylab=labels[3]
+    }else{
+      ylab=labels[2]
+    }
     
     # get uncertainty intervals if requested
     if(indexUncertainty){
       
-      indexSEvec <- indices2[["SE"]]
-      upper <- qlnorm(.975,meanlog=log(obs),sdlog=indexSEvec)
-      lower <- qlnorm(.025,meanlog=log(obs),sdlog=indexSEvec)
+      indexSEvec <- indices2$SE
+      if(log){
+        uppers <- qnorm(.975,mean=y,sd=indexSEvec)
+        lower <- qnorm(.025,mean=y,sd=indexSEvec)
+      }else{
+        upper <- qlnorm(.975,meanlog=log(obs),sdlog=indexSEvec)
+        lower <- qlnorm(.025,meanlog=log(obs),sdlog=indexSEvec)
+      }
+      
     }else{
       upper <- NULL
       lower <- NULL
-    }#end indexUncertainty
+    }
     
     ### make plot of index fits
     # calculate ylim (excluding dummy observations from observed but not expected)
-    sub <- !is.na(indices2[["Like"]])
+    sub <- !is.na(indices2$Like)
     ylim <- ylimAdj*range(exp, obs[sub], lower[sub], upper[sub], na.rm=TRUE)
     # if no values included in subset, then set ylim based on all values
     
@@ -400,95 +318,81 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     if(!any(sub)){
       ylim <- ylimAdj*range(exp, obs, lower, upper, na.rm=TRUE)
     }
-    # 0 included if not in log space
-    # NOTE: 'log scale' option is not used -ef 
-    ylim <- range(0,ylim*1.1)
-    
+    if(!log){
+      # 0 included if not in log space
+      ylim <- range(0,ylim*1.1)
+    }
     
     if(is.null(xmin)){
-      xmin = min(startyrs)
-    } 
+      xmin = min(startyrs)} 
     
     meanQ <- rep(NA,nlines)
     
-    plot(0, 
-         type = "n", 
-         xlim = c(max(min(yr),xmin),min(c(max(yr),max(endyrvec)))), 
-         yaxs = yaxs, 
-         ylim = ylim, 
-         xlab = ifelse(xylabs,"Year",""), 
-         ylab = ifelse(xylabs,ylab,""), 
-         axes = FALSE)
       
-    # NOTE: 'log scale' option is not used -ef 
-    if(yaxs != "i"){
+        plot(0, type = "n", xlim = c(max(min(yr),xmin),min(c(max(yr),max(endyrvec)))), yaxs = yaxs, 
+             ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylab,""), axes = FALSE)
+      
+      if(!log & yaxs != "i"){
         abline(h = 0, col = "grey")
-    }
-    Qtext <- rep("(Q =", nlines)
+      }
+      Qtext <- rep("(Q =", nlines)
       
-    
-    for(iline in 1:nlines){
+      
+      for(iline in 1:nlines){
       adj <- 0.2*iline/nlines - 0.1
       imodel <- models[iline]
-      subset <- indices2[["imodel"]]==imodel & !is.na(indices2[["Like"]]) & yr>= xmin
-      subexp <- indices2[["imodel"]]==imodel & yr>= xmin
+      subset <- indices2$imodel==imodel & !is.na(indices2$Like) & yr>= xmin
+      subexp <- indices2$imodel==imodel  & yr>= xmin
       if(iline==1){
-        if(indexUncertainty){
-          arrows(x0=yr[subset], 
-                 y0=lower[subset], 
-                 x1=yr[subset], 
-                 y1=upper[subset],
-                 length=0.02, 
-                 angle=90, 
-                 code=3, 
-                 col=1)
-          }
-        points(yr[subset],obs[subset],pch=21,cex=1,bg="white")
+      if(indexUncertainty){
+      arrows(x0=yr[subset], y0=lower[subset],
+             x1=yr[subset], y1=upper[subset],
+             length=0.02, angle=90, code=3, col=1)
+      }
+      points(yr[subset],obs[subset],pch=21,cex=1,bg="white")
       }
       lines(yr[subexp],exp[subexp],lwd=lwd,col=col[iline])
       
-    }
-    if(quant=="Bratio") abline(h=1,lty=2)
-      
-    # Plot Reference
+      }
+      if(quant=="Bratio") abline(h=1,lty=2)
+      # Plot Reference
         
       
-    #legendlabels <- c("Ref",rev(yr.eval))
-    if(indexQlabel){
-      legendlabels2 <- paste(legendlabels, Qtext,
-                             format(meanQ, digits=indexQdigits), ")")
-    }
-    if(legend){
-      # add legend if requested
-      legendfun(legendlabels)
-    }
-    legend("top",
-           paste0(unique(indices2[["Fleet_name"]])[1]),
-           bty="n",
-           y.intersp=-0.2,
-           cex=legendcex+0.1)
-    
-    axis(1, at=c(max(xmin,min(yr)):max(endyrvec)))
-    
-    if(tickEndYr) axis(1, at=max(endyrvec))
+      #legendlabels <- c("Ref",rev(yr.eval))
+      if(indexQlabel){
+        legendlabels2 <- paste(legendlabels, Qtext,
+                               format(meanQ, digits=indexQdigits), ")")
+      }
+      if(legend){
+        # add legend if requested
       
-    axis(2)
-    box()
+        legendfun(legendlabels)
+      }
+      legend("top",paste0(unique(indices2$Fleet_name)[1]),bty="n",y.intersp=-0.2,cex=legendcex+0.1)
+      
+      
+      
+      
+        axis(1, at=c(max(xmin,min(yr)):max(endyrvec)))
+        if(tickEndYr) axis(1, at=max(endyrvec))
+      
+        axis(2)
+        box()
     
   } # End of plot_index function  
   #------------------------------------------------------------
   
   plot_quants <- function(quant="SSB"){  
     
-    if(use_png) print_plot <- TRUE
-    if(use_png & is.null(plotdir))
+    if(png) print <- TRUE
+    if(png & is.null(plotdir))
       stop("to print PNG files, you must supply a directory as 'plotdir'")
     
     # check for internal consistency
-    if(use_pdf & use_png){
-      stop("To use 'pdf', set 'print_plot' or 'use_png' to FALSE.")
+    if(pdf & png){
+      stop("To use 'pdf', set 'print' or 'png' to FALSE.")
     }
-    if(use_pdf){
+    if(pdf){
       if(is.null(plotdir)){
         stop("to write to a PDF, you must supply a directory as 'plotdir'")
       }
@@ -516,18 +420,9 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
       if(type=="l"){
         legend.pch <- rep(NA,length(pch))
       }
-      legend(legendloc, 
-             legend=legendlabels[legendorder],
-             col=col[legendorder], 
-             lty=lty[legendorder],
-             seg.len = 2,
-             lwd=lwd[legendorder], 
-             pch=legend.pch[legendorder], 
-             bty="n", 
-             ncol=legendncol,
-             pt.cex=0.7,
-             cex=legendcex,
-             y.intersp = legendsp)
+      legend(legendloc, legend=legendlabels[legendorder],
+             col=col[legendorder], lty=lty[legendorder],seg.len = 2,
+             lwd=lwd[legendorder], pch=legend.pch[legendorder], bty="n", ncol=legendncol,pt.cex=0.7,cex=legendcex,y.intersp = legendsp)
     }
     
     # r4ss Colors
@@ -549,53 +444,51 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     # plot function
     
     # get stuff from summary output (minimized)
-    n             <- summaryoutput[["n"]]
-    startyrs      <- summaryoutput[["startyrs"]]
-    endyrs        <- summaryoutput[["endyrs"]]
+    n             <- summaryoutput$n
+    startyrs      <- summaryoutput$startyrs
+    endyrs        <- summaryoutput$endyrs
     years         <- min(startyrs):max(endyrs)
     if(quant=="SSB"){
-      exp      <- summaryoutput[["SpawnBio"]]
-      lower <- summaryoutput[["SpawnBioLower"]]
-      upper <- summaryoutput[["SpawnBioUpper"]]
+    exp      <- summaryoutput$SpawnBio
+    lower <- summaryoutput$SpawnBioLower
+    upper <- summaryoutput$SpawnBioUpper
     }
     if(quant=="Bratio"){
-      exp        <- summaryoutput[["Bratio"]]
-      lower <- summaryoutput[["BratioLower"]]
-      upper <- summaryoutput[["BratioUpper"]]
+    exp        <- summaryoutput$Bratio
+    lower <- summaryoutput$BratioLower
+    upper <- summaryoutput$BratioUpper
     }
     if(quant=="Fvalue"){
-      exp       <- summaryoutput[["Fvalue"]]
-      lower <- summaryoutput[["FvalueLower"]]
-      upper <- summaryoutput[["FvalueUpper"]]
+    exp       <- summaryoutput$Fvalue
+    lower <- summaryoutput$FvalueLower
+    upper <- summaryoutput$FvalueUpper
     }
     if(quant=="Recruits"){
-      exp       <- summaryoutput[["recruits"]]
-      lower <- summaryoutput[["recruitsLower"]]
-      upper <- summaryoutput[["recruitsUpper"]]
+      exp       <- summaryoutput$recruits
+      lower <- summaryoutput$recruitsLower
+      upper <- summaryoutput$recruitsUpper
     }
     if(quant=="RecDevs"){
-      exp       <- summaryoutput[["recdevs"]]
-      lower <- summaryoutput[["recdevsLower"]]
-      upper <- summaryoutput[["recdevsUpper"]]
+      exp       <- summaryoutput$recdevs
+      lower <- summaryoutput$recdevsLower
+      upper <- summaryoutput$recdevsUpper
       for(r in 1:(ncol(exp)-2)){
-        exp[,r] <- ifelse(is.na(exp[,r]),0,exp[,r])  
-        lower[,r] <- ifelse(is.na(lower[,r]) & is.na(exp[,r])==F,0.01,lower[,r])  
-        upper[,r] <- ifelse(is.na(upper[,r]) & is.na(exp[,r])==F,-0.01,upper[,r])  
+      exp[,r] <- ifelse(is.na(exp[,r]),0,exp[,r])  
+      lower[,r] <- ifelse(is.na(lower[,r]) & is.na(exp[,r])==F,0.01,lower[,r])  
+      upper[,r] <- ifelse(is.na(upper[,r]) & is.na(exp[,r])==F,-0.01,upper[,r])  
       } 
       
-      base = summaryoutput[["recruits"]]
+      base = summaryoutput$recruits
       if(min(base$Yr)<min(exp$Yr)){
-        base = base[base$Yr%in%exp$Yr ==FALSE,] 
-        base[,1:(ncol(base)-2)] = 0
-        exp = rbind(base,exp)
-        lower = rbind(base,lower)
-        upper = rbind(base,upper)
-      } 
-      else {
-        exp = exp[exp$Yr>=min(base$Yr),]
-        lower = lower[exp$Yr>=min(base$Yr),]
-        upper = upper[exp$Yr>=min(base$Yr),]
-      }
+      base = base[base$Yr%in%exp$Yr ==FALSE,] 
+      base[,1:(ncol(base)-2)] = 0
+      exp = rbind(base,exp)
+      lower = rbind(base,lower)
+      upper = rbind(base,upper)} else {
+      exp = exp[exp$Yr>=min(base$Yr),]
+      lower = lower[exp$Yr>=min(base$Yr),]
+      upper = upper[exp$Yr>=min(base$Yr),]
+    }
     }
     if(models[1]=="all") models <- 1:n    
     nlines <- length(models) 
@@ -630,7 +523,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     if(legendorder[1]=="default") legendorder <- 1:(nlines)
     
     # open new window if requested
-    if(plot & use_png==FALSE){
+    if(plot & png==FALSE){
       if(!add) dev.new(width=pwidth,height=pheight,pointsize=ptsize,record=TRUE)
       
     } else {
@@ -641,7 +534,7 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
     
     # Check if uncertainty is measured
     if(uncertainty ==TRUE & sum(exp[,1]-lower[,1])==0){
-      if(verbose) message("No uncertainty estimates available from the provided")
+      if(verbose) cat("No uncertainty estimates available from the provided")
       uncertainty=FALSE
     }
     
@@ -666,34 +559,20 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
       ylim = c(-ylims,ylims) 
     }
     
-    plot(0, 
-         type = "n", 
-         xlim = c(max(min(yr),xmin),max(yr)), 
-         yaxs = yaxs, 
-         ylim = ylim, 
-         xlab = ifelse(xylabs,"Year",""), 
-         ylab = ifelse(xylabs,ylabs[which(refplots%in%quant)],""), 
-         axes = FALSE)
+    plot(0, type = "n", xlim = c(max(min(yr),xmin),max(yr)), yaxs = yaxs, 
+         ylim = ylim, xlab = ifelse(xylabs,"Year",""), ylab = ifelse(xylabs,ylabs[which(refplots%in%quant)],""), axes = FALSE)
     
     if(uncertainty){
-      for(iline in 1:nlines){
+    for(iline in 1:nlines){
       
-        if(quant%in%c("SSB","Fvalue","Bratio")){  
-          polygon(c(yr,rev(yr)),
-                  c(lower[,iline],rev(upper[,iline])),
-                  col=shadecol[iline],border=shadecol[iline])
-        } else {
-          adj <- 0.2*iline/nlines - 0.1
-          arrows(x0=yr+adj, 
-                 y0=lower[,iline],
-                 x1=yr+adj, 
-                 y1=upper[,iline],
-                 length=0.02, 
-                 angle=90, 
-                 code=3, 
-                 col=col[iline])
-        }
-      }
+    if(quant%in%c("SSB","Fvalue","Bratio")){  
+       polygon(c(yr,rev(yr)),c(lower[,iline],rev(upper[,iline])),col=shadecol[iline],border=shadecol[iline])
+    } else {
+      adj <- 0.2*iline/nlines - 0.1
+      arrows(x0=yr+adj, y0=lower[,iline],
+      x1=yr+adj, y1=upper[,iline],
+      length=0.02, angle=90, code=3, col=col[iline])
+    }}
     }
     
     for(iline in 1:nlines){
@@ -726,54 +605,48 @@ SSplotModelcomp<- function(summaryoutput=ss3diags::aspm.sma,
   if(plot){ 
     # subplots
     for(s in 1:length(subplots)){
-      if(print_plot){
-        if(subplots[s]!="index"){  
-          quant=subplots[s]
-          par(par)
-          pngfun(paste0("ModelComp_",quant,".png",sep=""))
-          plot_quants(quant)
-          dev.off()
-        }else{  
-          if(subplots[s]=="index") {
-            nfleets=length(unique(summaryoutput$indices$Fleet))
-          }
-          for(fi in 1:nfleets){
-            legend=F
-            if(fi%in%legendindex) legend=TRUE
-            indexfleets = unique(summaryoutput$indices$Fleet)[fi] 
-            pngfun(paste0("FitsIndex_",unique(summaryoutput$indices$Fleet)[fi],".png",sep=""))
-            par(par)
-            plot_index(indexfleets)   
-            dev.off()
-            legend = legend.temp 
-          } # End of Fleet Loop
-        } #End index ifelse
-      } #End print_plot 
+    if(print){
+    if(subplots[s]!="index"){  
+    quant=subplots[s]
+    par(par)
+    pngfun(paste0("ModelComp_",quant,".png",sep=""))
+    plot_quants(quant)
+    dev.off()
+    }else{  
+      if(subplots[s]=="index") nfleets=length(unique(summaryoutput$indices$Fleet))
+      for(fi in 1:nfleets){
+        legend=F
+        if(fi%in%legendindex) legend=TRUE
+        indexfleets = unique(summaryoutput$indices$Fleet)[fi] 
+        pngfun(paste0("FitsIndex_",unique(summaryoutput$indices$Fleet)[fi],".png",sep=""))
+        par(par)
+        plot_index(indexfleets)   
+        dev.off()
+        legend = legend.temp 
+      } # End of Fleet Loop
+    }}
     }
-    
     # subplots
     for(s in 1:length(subplots)){
-      if(verbose) message(paste0("Plot Comparison of ",subplots[s]))
-      if(subplots[s]!="Index"){  
-        if(!add)par(par)
-        quant=subplots[s]
-        plot_quants(quant)   
-      }else{  
-        nfleets=length(unique(summaryoutput$indices$Fleet))
+      if(verbose) cat(paste0("\n","Plot Comparison of ",subplots[s],"\n"))
+    if(subplots[s]!="Index"){  
+    if(!add)par(par)
+    quant=subplots[s]
+    plot_quants(quant)   
+    }else{  
+       nfleets=length(unique(summaryoutput$indices$Fleet))
       
         for(fi in 1:nfleets){
-          legend=F
-          if(fi%in%legendindex) legend=TRUE
-          indexfleets = unique(summaryoutput$indices$Fleet)[fi] 
-          if(!add)par(par)
-          plot_index(indexfleets)   
-          legend = legend.temp 
-        } # End of Fleet Loop
-      }
-    }  
+        legend=F
+        if(fi%in%legendindex) legend=TRUE
+        indexfleets = unique(summaryoutput$indices$Fleet)[fi] 
+        if(!add)par(par)
+        plot_index(indexfleets)   
+        legend = legend.temp 
+      } # End of Fleet Loop
+    }
+  }  
   } # endplot
 
 } # end of SSplotModelcomp()
 #-----------------------------------------------------------------------------------------
-
-

@@ -2,8 +2,7 @@
 % Please edit documentation in R/Utils.R
 \name{sspar}
 \alias{sspar}
-\title{Allow Multi-Plots
-Set the par() to options suitable for ss3diags multi plots.}
+\title{sspar()}
 \usage{
 sspar(
   mfrow = c(1, 1),
@@ -20,12 +19,8 @@ sspar(
 
 \item{mai}{graphical par for plot margins}
 
-\item{omi}{Outer margins in lines of text.}
-
 \item{labs}{if TRUE margins are narrow}
 }
 \description{
-See \link[graphics]{par} for more details on each parameter.
+Set the par() to options suitable for ss3diags multi plots
 }
-\keyword{ssplot}
-\keyword{utils}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSdeltaMVLN.R
 \name{SSdeltaMVLN}
 \alias{SSdeltaMVLN}
-\title{Joint Distributions for Stock Status Ratios}
+\title{SSdeltaMVLN()}
 \usage{
 SSdeltaMVLN(
   ss3rep,
@@ -40,19 +40,17 @@ SSdeltaMVLN(
 
 \item{xmax}{xlim maximum}
 
-\item{legendcex}{Allows to adjust legend cex}
-
 \item{verbose}{Report progress to R GUI?}
+
+\item{legendcex=1}{Allows to adjust legend cex}
 }
 \value{
-output list of maximum likelihood estimates and the MVLN Monte-Carlo distributions of the Kobe values, and kobe plot
+output list of quant posteriors and mle's
 }
 \description{
-A function to generate joint distributions for stock status ratios (SSB/SSBref and F/Fref where ref can be MSY, SSB40, F40, etc.) using a Multivariate Log-Normal Distribution. The function produces a Kobe plot, maximum likelihood estimates and the MVLN Monte-Carlo distributions of the Kobe values which can be input into SSplotEnsemble().
+function to generatbe kobe pdfs from a Multivariate Log-Normal Distribution
+including plotting option
 }
 \author{
 Henning Winker (JRC-EC)
 }
-\keyword{diags}
-\keyword{kobe}
-\keyword{lognormal}

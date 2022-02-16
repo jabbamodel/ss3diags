@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSdiagsMCMC.R
 \name{SSdiagsMCMC}
 \alias{SSdiagsMCMC}
-\title{MCMC Joint Distributions}
+\title{SSdiagsMCMC()}
 \usage{
 SSdiagsMCMC(
   mcmc,
@@ -40,21 +40,16 @@ SSdiagsMCMC(
 
 \item{xmax}{xlim maximum}
 
-\item{legendcex}{Allows to adjust legend cex}
-
 \item{verbose}{Report progress to R GUI?}
+
+\item{legendcex=1}{Allows to adjust legend cex}
 }
 \value{
-output list maximum likelihood estimates and the MCMC posterier distributions of the Kobe values and a Kobe plot
+output list of quant mcmc posteriors and mle's
 }
 \description{
-A function to generate joint distributions for stock status ratios (SSB/SSBref and F/Fref where ref can be MSY, SSB40, F40, etc.) using MCMC. The function produces a Kobe plot, maximum likelihood estimates and the MVLN Monte-Carlo distributions of the Kobe values which can be input into SSplotEnsemble().
-}
-\seealso{
-[SSdeltaMVLN()], [SSplotEnsemble()], [SSkobe()]
+function to read mcmc file outputs for Kobe and SSplotEnsemble() plotting
 }
 \author{
 Henning Winker (JRC-EC), Massimiliano and Laurence Kell (Sea++)
 }
-\keyword{MCMC}
-\keyword{diags}

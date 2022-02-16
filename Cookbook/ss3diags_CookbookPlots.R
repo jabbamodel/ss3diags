@@ -14,8 +14,8 @@
 
 
 # load packages
-#library(ss3diags)
-#library(r4ss)
+library(ss3diags)
+library(r4ss)
 
 # Set workdirectory to save output 
 setwd("C:/Work/Research/MS_diags/Revision2")
@@ -26,8 +26,8 @@ dir.create("output",showWarnings = F)
 data("natl.sma")
 data("pac.hke")
 # Data documentation
-# help("natl.sma") 
-# help("pac.hke")
+help("natl.sma") 
+help("pac.hke")
 
 # Save Dianostic Statistics  
 # Runs Test

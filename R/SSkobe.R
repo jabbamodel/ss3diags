@@ -1,6 +1,6 @@
 #' KOBE phase plot
 #'
-#' Generates a Kobe plot or phase plot illustrating the stock status uncertainty over SSB/SSBmsy and F/Fmsy
+#' plots the stock status uncertaint over SSB/SSBmsy and F/Fmsy
 #'
 #' @param kb output from SSdeltaMVLN()$kb
 #' @param joint option FALSE shows individual runs
@@ -11,23 +11,15 @@
 #' @param ylim graphic parameter
 #' @param xlim graphic parameter
 #' @param fill shows color-coded quadrants
-#' @param legend option for legend. TRUE by default.
+#' @param legend graphic parameter
 #' @param legendpos legend position 
-#' @param legendcex legend size
-#' @param legendruns show legend for run labels
+#' @param legendcex lengend size
+#' @param legendruns show legend for run lables
 #' @param yr.label show year along trajectory
-#' @param yr.int year intervals along trajectory
-#' @param verbose Output to R console. Default is TRUE 
-#' 
+#' @param yr.int = year interval along trajectory
+#' @param verbose 
 #' @return Kobe Quadrant percentages
-#' 
 #' @export
-#' 
-#' @keywords ssplot kobe
-#' 
-#' @importFrom gplots ci2d
-#' @importFrom graphics text
-#' @importFrom stats median 
 
 SSplotKobe <- function(kb,joint = TRUE,year = NULL,
                        posterior = c("points","kernel"),

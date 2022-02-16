@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSsettingsBratioF.R
 \name{SSsettingsBratioF}
 \alias{SSsettingsBratioF}
-\title{Get Stock Status Settings}
+\title{SSsettingsBratioF}
 \usage{
 SSsettingsBratioF(ss3rep, status = c("Bratio", "F"), verbose = TRUE)
 }
@@ -17,9 +17,8 @@ SSsettingsBratioF(ss3rep, status = c("Bratio", "F"), verbose = TRUE)
 output list with Bratio and F settings
 }
 \description{
-A function to get Bratio and F settings
+function to get Bratio and F settings
 }
 \author{
 Henning Winker (JRC-EC)
 }
-\keyword{diags}

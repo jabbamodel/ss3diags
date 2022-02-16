@@ -1,8 +1,8 @@
 
-#' MCMC Joint Distributions 
+#' SSdiagsMCMC_ancient() 
+#' RECOVERING OLD SS runs
+#' function to read mcmc file outputs for Kobe and SSplotEnsemble() plotting
 #'
-#' A function to generate joint distributions for stock status ratios (SSB/SSBref and F/Fref where ref can be MSY, SSB40, F40, etc.) using MCMC. The function produces a Kobe plot, maximum likelihood estimates and the MVLN Monte-Carlo distributions of the Kobe values which can be input into SSplotEnsemble(). Use for Stock Synthesis models older than 3.24, for later versions use SSdiagsMCMC().
-#' 
 #' @param mcmc file path for folder with the derived_posteriors.sso file
 #' @param ss3rep from r4ss::SS_output
 #' @param Fref  Choice of Fratio c("MSY","Btgt), correponding to F_MSY and F_Btgt                                                               
@@ -13,14 +13,10 @@
 #' @param ymax ylim maximum
 #' @param xmax xlim maximum
 #' @param addprj include forecast years
-#' @param legendcex Allows to adjust legend cex
+#' @param legendcex=1 Allows to adjust legend cex
 #' @param verbose Report progress to R GUI?
-#' 
-#' @return output list maximum likelihood estimates and the MCMC posterier distributions of the Kobe values and a Kobe plot
+#' @return output list of quant mcmc posteriors and mle's
 #' @author Henning Winker (JRC-EC), Massimiliano and Laurence Kell (Sea++)
-#' 
-#' @keywords diags MCMC
-#' 
 #' @export
 
 SSdiagsMCMC_ancient = function(mcmc,ss3rep,Fref = NULL,years=NULL,run="MCMC",thin = 1,plot=TRUE,
@@ -32,7 +28,7 @@ SSdiagsMCMC_ancient = function(mcmc,ss3rep,Fref = NULL,years=NULL,run="MCMC",thi
   if(is.null(dat$SSB_Unfished)==F){
   cat("This is indeed an accient run, perhaps 2014 or earlier?")
   } else {
-    stop("This seems to be a more recent SS3 version, try SSdiagsMCMC()")
+    stop("This seems to be a more recent SS3 version, try SSdeltaMVLN()")
     
   }  
   

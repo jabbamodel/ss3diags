@@ -2,7 +2,7 @@
 % Please edit documentation in R/SSdeltaMVLN_old.R
 \name{SSdeltaMVLN_old}
 \alias{SSdeltaMVLN_old}
-\title{Joint Distributions for Stock Status Ratios}
+\title{SSdeltaMVLN_old()}
 \usage{
 SSdeltaMVLN_old(
   ss3rep,
@@ -40,25 +40,21 @@ SSdeltaMVLN_old(
 
 \item{plot}{option to show plot}
 
-\item{addtrj}{TRUE/FALSE add trajectory of years. Default is TRUE}
-
 \item{ymax}{ylim maximum}
 
 \item{xmax}{xlim maximum}
 
-\item{legendcex}{Allows to adjust legend cex}
-
 \item{verbose}{Report progress to R GUI?}
+
+\item{legendcex=1}{Allows to adjust legend cex}
 }
 \value{
 output list of kobe objects and mle's
 }
 \description{
-A function to generate kobe pdfs from a Multivariate Log-Normal Distribution including plotting option. This version is used for older versions of Stock Synthesis. For newer versions (v3.24 and newer), use SSdeltaMVLN().
+function to generatbe kobe pdfs from a Multivariate Log-Normal Distribution
+including plotting option
 }
 \author{
 Henning Winker (JRC-EC)
 }
-\keyword{diags}
-\keyword{kobe}
-\keyword{lognormal}

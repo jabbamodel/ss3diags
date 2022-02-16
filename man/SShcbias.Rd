@@ -2,7 +2,7 @@
 % Please edit documentation in R/SShcbias.R
 \name{SShcbias}
 \alias{SShcbias}
-\title{Mohn's Rho and Forecast Bias}
+\title{SShcbias()}
 \usage{
 SShcbias(
   summaryoutput,
@@ -15,7 +15,7 @@ SShcbias(
 \arguments{
 \item{summaryoutput}{List created by r4ss::SSsummarize()}
 
-\item{quants}{SSB or F quantity}
+\item{quants}{SSB or F quantaty}
 
 \item{models}{Optional subset of the models described in
 r4ss function summaryoutput().  Either "all" or a vector of numbers indicating
@@ -28,13 +28,8 @@ ending year specified in each model.}
 \item{verbose}{Report progress to R GUI?}
 }
 \description{
-This function produces the statistics from retrospective analysis (Mohn's rho and forecast bias). To visualize the retrospective forecasts from a Stock Synthesis model, use SSplotRetro().
-}
-\seealso{
-[SSplotRetro()]
+Computes Mohn's Rho and one step ahead forecast bias (forecastrho)
 }
 \author{
 Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 }
-\keyword{diags}
-\keyword{hindcasting}

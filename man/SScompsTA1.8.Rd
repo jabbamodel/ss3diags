@@ -2,13 +2,12 @@
 % Please edit documentation in R/SScompsTA1.8.R
 \name{SScompsTA1.8}
 \alias{SScompsTA1.8}
-\title{Francis Weighting for compositional data}
+\title{TA1.8 Francis function modified from r4ss::SSMethod.TA1.8 to create mean length/age}
 \usage{
 SScompsTA1.8(
   ss3rep,
-  type = c("len", "age", "size", "con"),
+  type = c("len", "age", "size", "con")[1],
   fleet = NULL,
-  seas = NULL,
   plotit = FALSE,
   maxpanel = 1000
 )
@@ -16,41 +15,33 @@ SScompsTA1.8(
 \arguments{
 \item{ss3rep}{Stock Synthesis output as read by r4SS function SS_output}
 
-\item{type}{string of either 'len' (for length composition data), 'size' (for
+\item{type}{either 'len' (for length composition data), 'size' (for
 generalized size composition data), 'age' (for age composition data),
 or 'con' (for conditional age at length data)}
 
 \item{fleet}{vector of one or more fleet numbers whose data are to
-be analysed simultaneously, if NULL, all fleets will be analysed}
-
-\item{seas}{string indicating how to treat data from multiple seasons
-'comb' - combine seasonal data for each year and plot against Yr
-'sep' - treat season separately, plotting against Yr.S.
-If is.null(seas), it is assumed that there is only one season and option 'comb' is used.}
+be analysed simultaneously (the output N multiplier applies
+to all fleets combined)}
 
 \item{plotit}{if TRUE, make an illustrative plot like one or more
 panels of Fig. 4 in Francis (2011).}
 
-\item{maxpanel}{maximum number of panels within a plot, default 1000}
+\item{printit}{if TRUE, print results to R console.}
 }
 \value{
-ss_out data.frame of observed, predicted mean length/age and 95% confidence intervals based on stage 1 and stage 2 weighting
-
-runs_dat data.frame of observed and predicted mean length or age for each year/fleet.
+data.frame of observed, predicted mean length/age and residuals
 }
 \description{
-TA1.8 Francis function modified from r4ss::SSMethod.TA1.8 and r4ss::SSMethod.Cond.TA1.8 apply Francis weighting method TA1.8 to length-, age-, generalized size-composition data, or conditional age-at-length data from a Stock Synthesis model. For conditional age-at-length data, the mean age by year is calculated based on recommendations by Punt (2015). 
-The main purpose is to create a dataframe of the annual observed and expected mean length or age for each fleet that is used to calculate residuals for testing model fit. This function is used in SSplotRunstest and SSplotJABBAres.
+Uses method TA1.8 (described in Appendix A of Francis 2011) to do
+stage-2 weighting of composition data from a Stock Synthesis model.
+The main purpose is to create obs, exp and residuals of mean L/age 
+Please see r4ss::SSMethod.TA1.8 for full set of intended options
 }
 \references{
 Francis, R.I.C.C. (2011). Data weighting in statistical
 fisheries stock assessment models. Canadian Journal of
 Fisheries and Aquatic Sciences 68: 1124-1138.
-
-#' Punt, A.E. (2015). Some insights into data weighting in integrated stock assessments.
-Fish. Res. <http://dx.doi.org/10.1016/j.fishres.2015.12.006
 }
 \author{
-Chris Francis, Andre Punt, Ian Taylor (modified by Henning Winker and Meg Oshima)
+Chris Francis, Andre Punt, Ian Taylor (modified by Henning Winker)
 }
-\keyword{diags}

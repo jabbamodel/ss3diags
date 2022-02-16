@@ -2,35 +2,33 @@
 % Please edit documentation in R/SSplotRunstest.R
 \name{SSrunstest}
 \alias{SSrunstest}
-\title{Residual Diagnostics Plot}
+\title{runs test}
 \usage{
 SSrunstest(
-  ss3rep = ss3diags::ss3sma,
+  ss3rep = ss3sma,
   mixing = "less",
-  quants = c("cpue", "len", "age", "con")[1],
+  quants = c("cpue", "len", "age")[1],
   indexselect = NULL,
   verbose = TRUE
 )
 }
 \arguments{
-\item{ss3rep}{Stock Synthesis output as read by r4SS function SS_output}
+\item{ss3rep}{from r4ss::SSgetoutput()$replist1}
 
-\item{mixing}{c("less","greater","two.sided"). Default less is checking for positive autocorrelation only}
+\item{mixing}{c("less","greater","two.sided"). Default less is checking for postive autocorrelation only}
 
-\item{quants}{optional use of c("cpue","len","age","con"), default uses CPUE.}
+\item{quants}{optional use of c("cpue","len","age"), yet to be tested for age.}
 
 \item{indexselect}{Vector of fleet numbers for each model for which to compare}
 
 \item{verbose}{Report progress to R GUI?}
 }
 \value{
-a dataframe with runs test p-value, if the test has passed or failed, 3x sigma high and low limits, and the type of data used. Rows are for each fleet. Note, runs test passed if p-value > 0.05 (residuals are random) and failed if p-value < 0.5 (residuals are not random)
+Runs Test p-values and sig3 limits
 }
 \description{
-Function for residual diagnostics. Outputs a runs test table that gives runs test p-values, if the runs test passed (p-value > 0.05, residuals are random) or failed (p-value < 0.05, residuals are not random), the 3x sigma limits for indices or mean age or length and the type of input data (cpue, length comp, age comp, size comp, or conditional age-at-length).
+Residual diagnostics with runs test p-value and 3xsigma limits for Indices, mean length and mean age
 }
 \author{
 Henning Winker (JRC-EC) and Laurance Kell (Sea++)
 }
-\keyword{diags}
-\keyword{runsTest}

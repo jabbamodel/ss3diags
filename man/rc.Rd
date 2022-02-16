@@ -2,7 +2,7 @@
 % Please edit documentation in R/Utils.R
 \name{rc}
 \alias{rc}
-\title{r4ss color palette}
+\title{rc r4ss color palette}
 \usage{
 rc(n, alpha = 1)
 }
@@ -15,7 +15,5 @@ rc(n, alpha = 1)
 vector of color codes
 }
 \description{
-r4ss color palette
+rc r4ss color palette
 }
-\keyword{ssplot}
-\keyword{utils}

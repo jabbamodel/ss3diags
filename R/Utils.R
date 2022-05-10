@@ -13,65 +13,87 @@ sspar <- function(mfrow=c(1,1),plot.cex=1,mai=c(0.55,0.6,0.1,.1),omi = c(0.,0.,0
   par(list(mfrow=mfrow,mai = mai, mgp =c(2.,0.5,0),omi =omi, tck = -0.02,cex=plot.cex))
 }
 
-#' SSdiagsTime2Year()
+#' SSdiagsStep2Year()
 #'
 #' Function to convert non-annual into annual time-steps for retros and cpue residuals   
-#' @param ss3out outputs from r4ss::SS_output() or r4ss::SSsummarize()
+#' @param ss3out outputs from r4ss::SS_output(), r4ss::SSsummarize() or ss3diags::SSretroComps()
 #' @param time.steps  time steps behind yrs e.g. 0.25 for quarterly 
-#' @param end.time last time step e.g. 2018.75 with a cpue observation
+#' @param styr start year step (e.g. 1950)
+#' @param season reference Season for retrospective
 #' @return Reformatted Rep file outputs
 #' @export
-SSdiagsTime2Year = function(ss3out,time.steps=0.25,end.time){
-  if(is.null(ss3out$len)==F | is.null(ss3out$len)==F){
-  type = "retrocomps"} else {  
-  type = ifelse(is.null(ss3out$modelnames),"rep","retro")
+SSdiagsStep2Year <-  function(ss3out,time.steps=0.25,styr,season=1){
+
+  make.conv <- function(step1,time.steps){
+  y0 = step1-floor(step1)
+  intv = floor(1/time.steps)
+  Seas = 1:intv 
+  Step = c(-2,-1,seq(y0,(200-time.steps)*intv,1))+step1
+  Yr = floor(c(-2,-1,seq(y0,200-time.steps,time.steps))+styr)
+  Time = c(-2,-1,seq(y0,200-time.steps,time.steps))+styr
+  Seas = c(1,1,rep(1:intv,200))
+  conv = data.frame(Step,Yr,Time,Seas)
+  return(conv)
   }
-  # Conversion match function
-  convTY <- function(indices,end.time,time.steps){
-    steps = (unique(indices$Time))
-    nsteps = length(steps)
-    Time = rev(rev(seq(0,end.time,time.steps))[1:nsteps])
-    Yr = floor(Time)  
-    Seas = (Time-Yr)*4+1
-    conv = match(indices$Time,steps)
-    indices$Yr = Yr[conv]
-    indices$Time = Time[conv]
-    indices$Seas = Seas[conv]
+  
+  convTY <- function(indices,conv){
+    Steps = indices$Yr
+    indices$Yr = conv$Yr[match(Steps,conv$Step)]
+    indices$Time = conv$Time[match(Steps,conv$Step)]
+    indices$Seas = conv$Seas[match(Steps,conv$Step)]
     return(indices)
   }
   
-  if(type == "rep"){ 
-    ss3out$cpue =  convTY(ss3out$cpue,end.time,time.steps)
-    #if(!is.null(ss3out$lendbase)) ss3out$lendbase =  convTY(ss3out$lendbase,end.time,time.steps)
-    # length comps not working
-  }
-  if(type == "retro"){ 
-    ss3out$indices =  convTY(ss3out$indices,end.time,time.steps)
-    # SSB
-    ssb = ss3out$SpawnBio
-    steps = unique(ssb$Yr)  
-    nsteps = length(steps)
-    Time = (rev(rev(seq(0,end.time,time.steps))[1:nsteps]))
-    ssb$Time = Time
-    subset = ssb$Time%in%floor(ssb$Time)
-    ssb = ssb[subset,] 
-    ss3out$SpawnBio =  ssb
-    ss3out$SpawnBioLower = ss3out$SpawnBioLower[subset,]
-    ss3out$SpawnBioUpper = ss3out$SpawnBioUpper[subset,]
+  
+  convQuant <- function(ss3out,quants=c("SpawnBio","Fvalue","Bratio","SPRratio","recdevs","recruits"),conv,season){
+    out = ss3out
+    for(j in 1:length(quants)){
+    quant = quants[j]
+    Quant = out[[paste0(quant)]]
+    Steps = Quant$Yr
+    Quant$Yr = conv$Time[match(Steps,conv$Step)]
+    subs = c("","SD","Lower","Upper")
+    for(i in 1:length(subs)){
+      out[[paste0(quant,subs[i])]]$Yr = Quant$Yr
+      out[[paste0(quant,subs[i])]]= out[[paste0(quant,subs[i])]][
+        out[[paste0(quant,subs[i])]]$Yr%in%conv$Time[conv$Seas==season],]
+      out[[paste0(quant,subs[i])]]$Yr =  floor(out[[paste0(quant,subs[i])]]$Yr) 
+    }
+    } # end j 
+   return(out)
+  } 
+  
+  if(!is.null(ss3out$Data_File)){
+    type="rep"
+    step1 = ss3out$startyr
+    conv = make.conv(step1,time.steps)
+    ss3out$cpue = convTY(ss3out$cpue,conv)
+    if(!is.null(ss3out$lendbase))
+         ss3out$lendbase = convTY(ss3out$lendbase,conv)
     
-    ss3out$SpawnBio$Yr = ssb$Time
-    ss3out$SpawnBioLower$Yr = ssb$Time
-    ss3out$SpawnBioUpper$Yr = ssb$Time 
-    ss3out$startyrs = rep(min(ssb$Time),ss3out$n)
-    ss3out$endyrs = rep(max(ssb$Time),ss3out$n)
-    # Can add F and Rec if needed
+    ss3out$startyr = conv$Yr[conv$Step%in%step1]
+    ss3out$endyr = conv$Yr[conv$Step%in%ss3out$endyr]
+  } else if(!is.null(ss3out$modelnames)){
+    type ="retro"
+    step1 = ss3out$startyrs[1]
+    conv = make.conv(step1,time.steps)
+    ss3out$indices = convTY(ss3out$indices,conv)
+    ss3out = convQuant(ss3out,conv=conv,season =season)
+    ss3out$startyrs = rep(conv$Yr[conv$Step%in%step1],length(ss3out$startyrs)) 
+    ss3out$endyrs = rep(conv$Yr[conv$Step%in%ss3out$endyrs[1]],length(ss3out$endyrs)) 
+    } else if(is.null(ss3out$len)==F | is.null(ss3out$age)==F){
+    type = "retrocomps"
+    step1 = ss3out$startyrs[1]
+    conv = make.conv(step1,time.steps)
+    if(!is.null(ss3out$len))
+       ss3out$len = convTY(ss3out$len,conv)
+    if(!is.null(ss3out$age))
+      ss3out$len = convTY(ss3out$age,conv)
+    
+    ss3out$startyrs = rep(conv$Yr[conv$Step%in%step1],length(ss3out$startyrs)) 
+    ss3out$endyrs = rep(conv$Yr[conv$Step%in%ss3out$endyrs[1]],length(ss3out$endyrs)) 
   }
-  if(type=="retrocomps"){
-    if(!is.null(ss3out$len)) ss3out$len =  convTY(ss3out$len,end.time,time.steps)
-    if(!is.null(ss3out$age)) ss3out$len =  convTY(ss3out$age,end.time,time.steps)
-    ss3out$startyrs = rep(min(ss3out$len$Time,ss3out$age$Time),ss3out$n)
-    ss3out$endyrs = rep(max(ss3out$len$Time,ss3out$age$Time),ss3out$n)
-  }
+
   return(ss3out)
 }
 

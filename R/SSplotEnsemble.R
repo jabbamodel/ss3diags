@@ -1,6 +1,6 @@
-#' SSplotHCxal() for one-step ahead hindcasting cross-validations of indices
+#' SSplotEnsemble() 
 #'
-#' Plots one-step ahead hindcasting cross-validations and computes MASE from prediction redisuals 
+#' Plots model ensembles and forecasts with uncertaity represented by MVLN or MCMC posteriors
 #' 
 #' @param kb SSdeltaMVLN $kb type output    
 #' @param subplots option to "Bratio","Fvalue","SSB", "F", "Recr","Catch" 

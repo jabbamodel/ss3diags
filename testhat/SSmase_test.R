@@ -13,7 +13,7 @@ SSmase(smaL,quants="len",indexselect = 2:4)
 # check manually
 mase = SSmase(sma,residuals = T)
 # Joint mase from index 1, 3,4
-mae = apply(mase$Residuals[c("Pred.Res","Native.Res")],2,
+mae = apply(mase$Residuals[c("Pred.Res","Naive.Res")],2,
             function(x)mean(abs(x)))
 # MASE
 mae[1]/mae[2]
@@ -27,3 +27,4 @@ SSmase(phk,verbose=T,indexselect = 1)
 phkA = ss3diags::SSretroComps(retro.phk)
 SSmase(phkA,quants="age")
 
+SSplotHCxval(sma)

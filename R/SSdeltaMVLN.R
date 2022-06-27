@@ -15,11 +15,15 @@
 #' @param addprj include forecast years
 #' @param legendcex=1 Allows to adjust legend cex
 #' @param verbose Report progress to R GUI?
+#' @param seed retains interannual correlation structure like MCMC 
 #' @return output list of quant posteriors and mle's
 #' @author Henning Winker (JRC-EC)
 #' @export
+#' @examples 
+#' mvn = SSdeltaMVLN(ss3sma,plot=TRUE) 
+
 SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,mc=5000,weight=1,run="MVLN",plot=TRUE,
-                       addprj=FALSE,ymax=NULL,xmax=NULL,legendcex=1,verbose=TRUE){
+                       addprj=FALSE,ymax=NULL,xmax=NULL,legendcex=1,verbose=TRUE,seed=123){
   
   status=c('Bratio','F')
   quants =c("SSB","Recr")
@@ -87,6 +91,7 @@ SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,mc=5000,weight=1,run="MVLN"
   if(is.null(hat$Label)){ylabel = hat$LABEL} else {ylabel=hat$Label}
   kb=mle = NULL
   for(yi in 1:length(yrs)){ 
+    set.seed(seed)
     yr = yrs[yi]
     x <- cv[cv$label.j %in% paste0(status[2],"_",c(yr-1,yr,yr+1)) & cv$label.i %in% paste0(status[1],"_",c(yr-1,yr,yr+1)),]
     x1 = cv1[cv1$label.j %in% paste0(status[1],"_",c(yr-1,yr,yr+1)),] 

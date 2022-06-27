@@ -16,7 +16,8 @@ SSdeltaMVLN(
   ymax = NULL,
   xmax = NULL,
   legendcex = 1,
-  verbose = TRUE
+  verbose = TRUE,
+  seed = 123
 )
 }
 \arguments{
@@ -42,6 +43,8 @@ SSdeltaMVLN(
 
 \item{verbose}{Report progress to R GUI?}
 
+\item{seed}{retains interannual correlation structure like MCMC}
+
 \item{legendcex=1}{Allows to adjust legend cex}
 }
 \value{
@@ -50,6 +53,9 @@ output list of quant posteriors and mle's
 \description{
 function to generatbe kobe pdfs from a Multivariate Log-Normal Distribution
 including plotting option
+}
+\examples{
+mvn = SSdeltaMVLN(ss3sma,plot=TRUE) 
 }
 \author{
 Henning Winker (JRC-EC)

@@ -9,8 +9,11 @@ SSplotKobe(
   joint = TRUE,
   year = NULL,
   posterior = c("points", "kernel"),
+  ci.levels = c(0.5, 0.8, 0.95),
+  path = TRUE,
   xlab = expression(SSB/SSB[MSY]),
   ylab = expression(F/F[MSY]),
+  pt.cex = 0.8,
   ylim = NULL,
   xlim = NULL,
   fill = TRUE,
@@ -32,9 +35,15 @@ SSplotKobe(
 
 \item{posterior}{visualization of posterior c("points","kernel")}
 
+\item{ci.levels}{option for kernel with default ci.levels=c(0.50,0.80,0.95)}
+
+\item{path}{shows historical years}
+
 \item{xlab}{graphic parameter}
 
 \item{ylab}{graphic parameter}
+
+\item{pt.cex}{option change relative size of points (default 0.8)}
 
 \item{ylim}{graphic parameter}
 

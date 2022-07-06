@@ -207,7 +207,7 @@ SSplotEnsemble<- function(kb,
     run = kb$run
     year = kb$year
     
-    exp      <- aggregate(y~year+run,kb,mean)
+    exp      <- aggregate(y~year+run,kb,median)
     lower    <- aggregate(y~year+run,kb,quantile,quantiles[1])
     upper <- aggregate(y~year+run,kb,quantile,quantiles[2])
     exp$Yr = exp$year

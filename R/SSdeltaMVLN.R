@@ -4,8 +4,9 @@
 #' including plotting option
 #'
 #' @param ss3rep from r4ss::SS_output
-#' @param Fref  Choice of Fratio c("MSY","Btgt"), correponding to F_MSY and F_Btgt                                                               
+#' @param Fref  Choice of Fratio c("MSY","Btgt","SPR","F01"), correponding to F_MSY and F_Btgt                                                               
 #' @param years single year or vector of years for mvln   
+#' @param virgin if FALSE (default) the B0 base for Bratio is SSB_unfished
 #' @param mc number of monte-carlo simulations   
 #' @param weight weighting option for model ensembles weight*mc 
 #' @param run qualifier for model run
@@ -22,7 +23,7 @@
 #' @examples 
 #' mvn = SSdeltaMVLN(ss3sma,plot=TRUE) 
 
-SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,mc=5000,weight=1,run="MVLN",plot=TRUE,
+SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,virgin=FALSE,mc=5000,weight=1,run="MVLN",plot=TRUE,
                        addprj=FALSE,ymax=NULL,xmax=NULL,legendcex=1,verbose=TRUE,seed=123){
   
   status=c('Bratio','F')
@@ -44,34 +45,70 @@ SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,mc=5000,weight=1,run="MVLN"
   
   # brp checks for starter file setting
   refyr = max(yrs)
-  bt = hat[hat$Label==paste0("SSB_",refyr),2]
+  endyr = ss3rep$endyr
+  bt = hat[hat$Label==paste0("SSB_",endyr),2]
+  ft = hat[hat$Label==paste0("F_",endyr),2]
+  # virgin
+  bv =hat[hat$Label%in%c("SSB_virgin","SSB_Virgin"),2]
+  # unfished
   b0 =hat[hat$Label%in%c("SSB_unfished","SSB_Unfished"),2]
-  btrg = hat[hat$Label==paste0("SSB_Btgt"),2]
+  fmsy = hat[hat$Label%in%c("Fstd_MSY","annF_MSY"),2]
+  fspr = hat[hat$Label%in%c("Fstd_SPR","annF_SPR"),2]
   bmsy = hat[hat$Label==paste0("SSB_MSY"),2]
-  bb.check = c(bt/b0,bt/bmsy,bt/btrg)
+  
+  bf01= f01=option.btgt = FALSE
+  
+  if("SSB_Btgt"%in%hat$Label){
+  btgt = hat[hat$Label==paste0("SSB_Btgt"),2]
+  if(!is.null(Fref)) if(Fref=="F01") stop("F01 not defined: choose Fref = MSY or Btgt ")
+  }
+  if("SSB_F01"%in%hat$Label){
+    f01=TRUE
+    if(is.null(Fref)) Fref = "Btgt"
+    btgt = hat[hat$Label==paste0("SSB_F01"),2]*b0 #  Why SSB_F01 ratio???
+    if(round(hat[hat$Label%in%c("annF_F01"),2],2)==round(fmsy,2)){
+    option.btgt=TRUE 
+    if(!is.null(Fref))if(Fref=="MSY") stop("FMSY not defined: choose Fref = F01 ")
+    bf01= TRUE}
+  }
   
   
+  bratio = hat[hat$Label==paste0("Bratio_",refyr),2]
+  bb.check = c(bt/bv,bt/bmsy,bt/btgt)
+  
+  option.btgt = FALSE
+  if(btgt==bmsy){
+    option.btgt = TRUE
+    if(is.null(Fref)) Fref = "Btgt"
+    if(Fref=="MSY") stop("FMSY not defined: choose Fref = Btgt ")
+    
+  }
+  if(fmsy==fspr){
+    if(is.null(Fref)) Fref = "SPR"
+    if(Fref=="MSY") stop("FMSY not defined: choose Fref = SPR")
+  }
   
   # bratio definition
-  bratio = hat[hat$Label==paste0("Bratio_",refyr),2]
-  bb = which(abs(bratio-bb.check)==min(abs(bratio-bb.check)))   
-  if(bb%in%c(1:2)==F) stop("This Bratio is not [yet] defined, please rerun Stock Synthesis with starter.ss option for Depletion basis: 1 or 2")
+  bb = max(which(abs(bratio-bb.check)==min(abs(bratio-bb.check))))   
+  if(bf01) bb=4
   
-  bbasis  = c("SSB/SSB0","SSB/SSBMSY","SSB/SSBtrg")[bb]
+  bbasis  = c("SSB/SSB0","SSB/SSBMSY","SSB/SSBtgt","SSB/SSBF01")[bb]
   fbasis = strsplit(ss3rep$F_report_basis,";")[[1]][1]
-  gettrg = strsplit(fbasis,"%")[[1]][1]
-  gettrg = as.numeric(strsplit(gettrg,"B")[[1]][2])
+  if(is.na(ss3rep$btarg)) ss3rep$btarg=0
+  gettrg = ifelse(ss3rep$btarg>0,ss3rep$btarg,round(btgt/b0,2))
   if(fbasis%in%c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"),paste0("(F)/(F",ss3rep$btarg*100,"%SPR)"))){
     fb = which(c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"),
                  paste0("(F)/(F",ss3rep$btarg*100,"%SPR)"))%in%fbasis)
   } else { stop("F_report_basis is not defined, please rerun Stock Synthesis with recommended starter.ss option for F_report_basis: 1")}
+  
   if(is.null(Fref) & fb%in%c(1,2)) Fref = "MSY"
   if(is.null(Fref) & fb%in%c(3)) Fref = "Btgt"
   if(is.null(Fref) & fb%in%c(4)) Fref = "SPR"
+  if(Fref=="F01") Fref="Btgt" # hack to avoid redundancy later
   
   if(verbose) cat("\n","starter.sso with Bratio:",bbasis,"and F:",fbasis,"\n","\n")
-  bref  = ifelse(ss3rep$btarg<0,gettrg/100,ss3rep$btarg)
-  if(is.na(bref)) bref = 0.4
+
+  bref  = gettrg
   
   if(fb==4 & Fref[1] %in% c("Btgt","MSY")) stop("Fref = ",Fref[1]," option conflicts with ",fbasis," in starter.sso, please choose Fref = SPR")
   if(fb==2 & Fref[1] %in% c("Btgt","SPR")) stop("Fref = ",Fref[1]," option conflicts with ",fbasis," in starter.sso, please choose Fref = MSY")
@@ -79,7 +116,7 @@ SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,mc=5000,weight=1,run="MVLN"
   if(fb%in%c(1,2) &  Fref[1] =="MSY") Fquant = "MSY"
   if(fb%in%c(1,3) & Fref[1] =="Btgt") Fquant = "Btgt"
   if(fb%in%c(1,4) & Fref[1] =="SPR") Fquant = "SPR"
-  
+  if(Fquant == "Btgt" & f01) Fquant = "F01"
   
   # check ss3 version
   if("Fstd_MSY"%in%hat$Label){Fname = "Fstd_"} else {Fname="annF_"}
@@ -138,6 +175,20 @@ SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,mc=5000,weight=1,run="MVLN"
   mle = mle[,c(1:5,7,6,8)]
   kb = kb[,c(1:6,8,7,9)]
   
+  # virgin or unfished?
+  if(!virgin){
+  if(bb%in%c(1,3)){
+  if(bb==1 | bb==3 & !option.btgt){
+    kb[,"stock"] = kb[,"stock"]*(bv/b0)
+    mle[,"stock"] = mle[,"stock"]*(bv/b0)
+  }}}
+  if(virgin){ # reverse correction
+    if(bb==3 & option.btgt){
+      kb[,"stock"] = kb[,"stock"]*(b0/bv)
+      mle[,"stock"] = mle[,"stock"]*(b0/bv)
+    }}
+  
+  
   # Take ratios
   if(bb==1){
   kb[,"stock"] = kb[,"stock"]/bref  
@@ -169,11 +220,13 @@ SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,mc=5000,weight=1,run="MVLN"
   kb$Catch = rep(Catch$Obs,each=max(kb$iter))
   mle$Catch = Catch$Obs
   trg =round(bref*100,0)
-  xlab = c(bquote("SSB/SSB"[.(trg)]),expression(SSB/SSB[MSY]))[bb] 
+  spr = round(ss3rep$sprtarg*100,0)
+  xlab = c(bquote("SSB/SSB"[.(trg)]),expression(SSB/SSB[MSY]),bquote("SSB/SSB"[.(trg)]),expression(SSB/SSB[F0.1]))[bb] 
   ylab = c(expression(F/F[MSY]),
            bquote("F/F"[SB~.(trg)]),
-           bquote("F/F"[SPR~.(trg)])
-  )[which(c("MSY","Btgt","SPR")%in%Fquant)] 
+           bquote("F/F"[SPR~.(spr)]),
+           expression(F/F[0.1])
+  )[which(c("MSY","Btgt","SPR","F01")%in%Fquant)] 
   
   if(plot==TRUE){
     sh =c("stock","harvest")
@@ -207,7 +260,7 @@ SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,mc=5000,weight=1,run="MVLN"
   }
   labs = ifelse(quants=="Recr","Recruits",quants)
   return(list(kb=kb,mle=mle,quants=c("stock","harvest","SSB","F","Recr","Catch"),
-                labels=c(xlab,ylab,labs[1],"F",labs[2],"Catch")))
-  }
+                labels=c(xlab,ylab,labs[1],"F",labs[2],"Catch"),Btgtref = bref))
+  } # End 
 
 

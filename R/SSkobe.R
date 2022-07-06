@@ -6,6 +6,9 @@
 #' @param joint option FALSE shows individual runs
 #' @param year option to choose year for kobe, last year is default
 #' @param posterior visualization of posterior c("points","kernel")
+#' @param ci.levels option for kernel with default ci.levels=c(0.50,0.80,0.95)
+#' @param path shows historical years
+#' @param pt.cex option change relative size of points (default 0.8)
 #' @param xlab graphic parameter
 #' @param ylab graphic parameter
 #' @param ylim graphic parameter
@@ -22,8 +25,8 @@
 #' @export
 
 SSplotKobe <- function(kb,joint = TRUE,year = NULL,
-                       posterior = c("points","kernel"),
-                       xlab = expression(SSB/SSB[MSY]),ylab = expression(F/F[MSY]),ylim = NULL,
+                       posterior = c("points","kernel"),ci.levels=c(0.50,0.80,0.95), path=TRUE, 
+                       xlab = expression(SSB/SSB[MSY]),ylab = expression(F/F[MSY]),pt.cex = 0.8, ylim = NULL,
                        xlim = NULL,fill = TRUE,legend = TRUE,legendpos = "right",legendcex = 0.7, 
                        legendruns = TRUE, yr.label = TRUE, yr.int = 5,verbose=TRUE){
   
@@ -56,22 +59,23 @@ SSplotKobe <- function(kb,joint = TRUE,year = NULL,
   lines(c2,c1,lty=3,lwd=0.7)
   
   if(posterior[1]=="kernel"){
-    kernelF <- gplots::ci2d(kb$stock,kb$harvest,nbins=151,factor=1.5,ci.levels=c(0.50,0.80,0.75,0.90,0.95),show="none")
-    polygon(kernelF$contours$"0.95",lty=2,border=NA,col="cornsilk4")
-    polygon(kernelF$contours$"0.8",border=NA,lty=2,col="grey")
-    polygon(kernelF$contours$"0.5",border=NA,lty=2,col="cornsilk2")
+    kernelF <- gplots::ci2d(kb$stock,kb$harvest,nbins=151,factor=1.5,ci.levels=ci.levels,show="none")
+    polygon(kernelF$contours[[3]],lty=2,border=NA,col="cornsilk4")
+    polygon(kernelF$contours[[2]],border=NA,lty=2,col="grey")
+    polygon(kernelF$contours[[1]],border=NA,lty=2,col="cornsilk2")
   } 
   
+   
   # MVN posterior
   if(n>1 & joint==FALSE){
     if(posterior[1]=="points") for(i in 1:n) points(kb$stock[kb$run==r[i]],kb$harvest[kb$run==r[i]],col=sscol(n,0.3)[i],pch=16,cex=0.8)
-    for(i in 1:n) points(median(kb$stock[kb$run==r[i]]),median(kb$harvest[kb$run==r[i]]),bg=sscol(n,1)[i],pch=21,cex=1.5,col=1)
+    for(i in 1:n) points(median(kb$stock[kb$run==r[i]]),median(kb$harvest[kb$run==r[i]]),bg=sscol(n,1)[i],pch=21,cex=1.5*pt.cex,col=1)
   } else {
-    if(posterior[1]=="points")  points(kb$stock,kb$harvest,bg=grey(0.6,0.8),pch=21)
+   if(posterior[1]=="points")  points(kb$stock,kb$harvest,bg=grey(0.6,0.8),pch=21)
   }  
-  lines(trj$stock, trj$harvest,lwd=2)
+  if(path) lines(trj$stock, trj$harvest,lwd=1.5)
   
-  if(yr.label){
+  if(yr.label & path){
     showyr = unique(yr.int*floor(trj$year/yr.int))
     for(i in 1:length(trj$year)){
       if(trj$year[i] %in% showyr){
@@ -79,8 +83,8 @@ SSplotKobe <- function(kb,joint = TRUE,year = NULL,
         text(trj$stock[i]-0.05, trj$harvest[i]-0.07, as.character(trj$year[i]), cex=0.8, col="blue")
       }}
   }
-  points(median(kb$stock),median(kb$harvest),bg=0,pch=21,cex=2,lwd=2)
-  points(trj$stock[1],trj$harvest[1],bg=0,pch=21,cex=1.7,lwd=2)
+  points(median(kb$stock),median(kb$harvest),bg=0,pch=21,cex=2*pt.cex,lwd=1)
+  if(path) points(trj$stock[1],trj$harvest[1],bg=0,pch=21,cex=1.7*pt.cex,lwd=1)
   if(legendruns & joint==F){
     legend("topright",paste(r),bty="n",cex=0.8,pch=21,pt.bg=sscol(n,1),col=1,pt.cex=1.5)
   }

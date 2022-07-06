@@ -8,6 +8,7 @@ SSdeltaMVLN(
   ss3rep,
   Fref = NULL,
   years = NULL,
+  virgin = FALSE,
   mc = 5000,
   weight = 1,
   run = "MVLN",
@@ -23,9 +24,11 @@ SSdeltaMVLN(
 \arguments{
 \item{ss3rep}{from r4ss::SS_output}
 
-\item{Fref}{Choice of Fratio c("MSY","Btgt"), correponding to F_MSY and F_Btgt}
+\item{Fref}{Choice of Fratio c("MSY","Btgt","SPR","F01"), correponding to F_MSY and F_Btgt}
 
 \item{years}{single year or vector of years for mvln}
+
+\item{virgin}{if FALSE (default) the B0 base for Bratio is SSB_unfished}
 
 \item{mc}{number of monte-carlo simulations}
 

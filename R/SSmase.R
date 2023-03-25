@@ -17,6 +17,7 @@
 #' @param indexselect = Vector of fleet numbers for each model for which to compare
 #' @param indexfleets CHECK IF NEEDED or how to adjust indexfleets
 #' @param MAE.base.adj minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)   
+#' @param residuals if TRUE, outputs individual prediction and naive residuals   
 #' @param verbose Report progress to R GUI?
 #' @return MASE and hcxval statistic
 #' @author Henning Winker (JRC-EC) and Laurence Kell (Sea++)

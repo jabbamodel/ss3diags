@@ -24,6 +24,4 @@ Wrapper to get observed and expected mean length/age from multiple Stock Synthes
 }
 \author{
 Henning Winker
-
-Henning Winker
 }

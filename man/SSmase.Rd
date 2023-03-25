@@ -35,6 +35,8 @@ ending year specified in each model.}
 
 \item{MAE.base.adj}{minimum MASE demoninator (naive predictions) for MASE.adj (default = 0.1)}
 
+\item{residuals}{if TRUE, outputs individual prediction and naive residuals}
+
 \item{verbose}{Report progress to R GUI?}
 
 \item{indexfleets}{CHECK IF NEEDED or how to adjust indexfleets}

@@ -7,6 +7,7 @@
 #' @param Fref  Choice of Fratio c("MSY","Btgt","SPR","F01"), correponding to F_MSY and F_Btgt                                                               
 #' @param years single year or vector of years for mvln   
 #' @param virgin if FALSE (default) the B0 base for Bratio is SSB_unfished
+#' @param catch.type reported catch c("kill_bio","Obs","Exp","sel_bio","ret_bio")
 #' @param mc number of monte-carlo simulations   
 #' @param weight weighting option for model ensembles weight*mc 
 #' @param run qualifier for model run
@@ -15,6 +16,7 @@
 #' @param xmax xlim maximum
 #' @param addprj include forecast years
 #' @param legendcex=1 Allows to adjust legend cex
+#' @param summary if TRUE trajectory summary table with MLEs and CIs is added
 #' @param verbose Report progress to R GUI?
 #' @param seed retains interannual correlation structure like MCMC 
 #' @return output list of quant posteriors and mle's
@@ -23,8 +25,8 @@
 #' @examples 
 #' mvn = SSdeltaMVLN(ss3sma,plot=TRUE) 
 
-SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,virgin=FALSE,mc=5000,weight=1,run="MVLN",plot=TRUE,
-                       addprj=FALSE,ymax=NULL,xmax=NULL,legendcex=1,verbose=TRUE,seed=123){
+SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,virgin=FALSE,catch.type=c("kill_bio","Obs","Exp","sel_bio","ret_bio"),mc=5000,weight=1,run="MVLN",plot=TRUE,
+                       addprj=FALSE,ymax=NULL,xmax=NULL,legendcex=1,summary = TRUE,verbose=TRUE,seed=123){
   
   status=c('Bratio','F')
   quants =c("SSB","Recr")
@@ -208,10 +210,10 @@ SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,virgin=FALSE,mc=5000,weight
   mle[,"F"] = fm
 }    
 
-  
+  C = ss3rep$catch[,catch.type[1]]
   # Add catch
-  C_obs = aggregate(Obs~Yr,ss3rep$catch,sum)
-  #colnames(C_obs) = c("Yr","Obs")
+  C_obs = aggregate(C~Yr,ss3rep$catch,sum)
+  colnames(C_obs) = c("Yr","Obs")
   Cobs = C_obs[C_obs$Yr%in%yrs,]
   foreyrs = unique(as.numeric(gsub(paste0("ForeCatch_"),"",hat$Label[grep(paste0("ForeCatch_"), hat$Label)])))
   Cfore = data.frame(Yr=foreyrs,Obs=hat$Value[hat$Label%in%paste0("ForeCatch_",foreyrs)] )
@@ -259,7 +261,49 @@ SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,virgin=FALSE,mc=5000,weight
            col=1,cex=legendcex,pt.cex=2.2,bty="n")
   }
   labs = ifelse(quants=="Recr","Recruits",quants)
+  
+  refB = c(paste0("B",trg),"Bmsy",paste0("B",trg),"BF0.1")[bb] 
+  refF = c("Fmsy",
+           paste0("Fb",trg),
+           paste0("F",spr),
+           "F0.1")[which(c("MSY","Btgt","SPR","F01")%in%Fquant)] 
+  refpts = data.frame(RefPoint=c("Ftgt","Btgt","MSY","B0","R0"),value=c((mle$F/mle$harvest)[1],
+                                                                        (mle$SSB/mle$stock)[1],
+                                                                        MSY=hat$Value[hat$Label=="Dead_Catch_MSY"],
+                                                                        B0=b0,
+                                                                        MSY=hat$Value[hat$Label=="Recr_unfished"]))
+  
+  
+  
+  kbs = aggregate(cbind(stock,harvest,SSB,F,Recr,Catch)~year+run,kb,
+                  quantile, c(0.5,quantiles))
+  out = data.frame(year = kbs$year,
+                   run = kbs$run,
+                   stock.mle  = mle$stock,
+                   stock.lci= kbs$stock[,2],
+                   stock.uci= kbs$stock[,3],
+                   harvest  = mle$harvest,
+                   harvest.lci= kbs$harvest[,2],
+                   harvest.uci= kbs$harvest[,3],
+                   SSB.mle  = mle$SSB,
+                   SSB.lci= kbs$SSB[,2],
+                   SSB.uci= kbs$SSB[,3],
+                   F.mle  = mle$F,
+                   F.lci= kbs$F[,2],
+                   F.uci= kbs$F[,3],
+                   Recr.mle  = mle$Recr,
+                   Recr.lci= kbs$Recr[,2],
+                   Recr.uci= kbs$Recr[,3],
+                   Catch = mle$Catch,
+                   Catch.Type = catch.type[1]
+  )
+  on =  names(out)
+  on[1:6] = c(paste0(paste0("B",refB,"."),c("mle","lci","uci")),
+              paste0(paste0("F",refF,"."),c("mle","lci","uci")))
+  names(out) = on
+  
   return(list(kb=kb,mle=mle,quants=c("stock","harvest","SSB","F","Recr","Catch"),
+              refpts= refpts,table= out,
                 labels=c(xlab,ylab,labs[1],"F",labs[2],"Catch"),Btgtref = bref))
   } # End 
 

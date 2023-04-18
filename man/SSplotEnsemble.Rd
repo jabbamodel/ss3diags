@@ -9,6 +9,7 @@ SSplotEnsemble(
   subplots = c("stock", "harvest", "SSB", "F", "Recr", "Catch"),
   models = "all",
   quantiles = c(0.025, 0.975),
+  joint = FALSE,
   ylabs = NULL,
   endyrvec = "default",
   plot = TRUE,
@@ -48,8 +49,6 @@ SSplotEnsemble(
   shadealpha = 0.3,
   new = TRUE,
   add = FALSE,
-  mcmcVec = FALSE,
-  indexQlabel = TRUE,
   indexQdigits = 4
 )
 }
@@ -59,6 +58,8 @@ SSplotEnsemble(
 \item{subplots}{option to "Bratio","Fvalue","SSB", "F", "Recr","Catch"}
 
 \item{models}{option to manually subset the models in kb$run}
+
+\item{joint}{creates a joint ensemble plot}
 
 \item{ylabs}{yaxis labels for quants
 final year of values to show for each model. By default it is set to the}

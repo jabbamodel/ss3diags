@@ -9,6 +9,7 @@ SSdeltaMVLN(
   Fref = NULL,
   years = NULL,
   virgin = FALSE,
+  catch.type = c("kill_bio", "Obs", "Exp", "sel_bio", "ret_bio"),
   mc = 5000,
   weight = 1,
   run = "MVLN",
@@ -17,6 +18,7 @@ SSdeltaMVLN(
   ymax = NULL,
   xmax = NULL,
   legendcex = 1,
+  summary = TRUE,
   verbose = TRUE,
   seed = 123
 )
@@ -29,6 +31,8 @@ SSdeltaMVLN(
 \item{years}{single year or vector of years for mvln}
 
 \item{virgin}{if FALSE (default) the B0 base for Bratio is SSB_unfished}
+
+\item{catch.type}{reported catch c("kill_bio","Obs","Exp","sel_bio","ret_bio")}
 
 \item{mc}{number of monte-carlo simulations}
 
@@ -43,6 +47,8 @@ SSdeltaMVLN(
 \item{ymax}{ylim maximum}
 
 \item{xmax}{xlim maximum}
+
+\item{summary}{if TRUE trajectory summary table with MLEs and CIs is added}
 
 \item{verbose}{Report progress to R GUI?}
 

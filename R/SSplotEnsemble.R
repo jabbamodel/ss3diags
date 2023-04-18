@@ -5,6 +5,7 @@
 #' @param kb SSdeltaMVLN $kb type output    
 #' @param subplots option to "Bratio","Fvalue","SSB", "F", "Recr","Catch" 
 #' @param models option to manually subset the models in kb$run  
+#' @param joint creates a joint ensemble plot
 #' @param ylabs yaxis labels for quants
 #' final year of values to show for each model. By default it is set to the
 #' @param endyrvec ending year specified in each model.
@@ -57,6 +58,7 @@ SSplotEnsemble<- function(kb,
                         subplots=c("stock","harvest","SSB","F","Recr","Catch"),
                         models = "all", 
                         quantiles = c(0.025,0.975),
+                        joint=FALSE,
                         ylabs = NULL,
                         endyrvec="default",
                         plot=TRUE,print=FALSE,png=print,pdf=FALSE,
@@ -75,7 +77,7 @@ SSplotEnsemble<- function(kb,
                         par=list(mar=c(5,4,1,1)+.1),
                         verbose=TRUE,
                         shadecol = NULL, shadealpha=0.3,new=TRUE,
-                        add=FALSE,mcmcVec=FALSE,indexQlabel=TRUE,
+                        add=FALSE,
                         indexQdigits=4
                         ){ # plot different fits to a single index of abundance
   #------------------------------------------
@@ -87,6 +89,27 @@ SSplotEnsemble<- function(kb,
     print=F
     png=F
   }
+  mle=FALSE
+  ## check object
+  if(!is.null(kb$mle)){
+    mle=TRUE
+    obj = kb
+    kb = kb$kb
+    if(is.null(ylabs)) ylabs = obj$labels
+  }
+  
+  if(class(kb)=="list" & is.null(kb$mle)){
+    obj = kb[[1]]
+    if(is.null(ylabs)) ylabs = obj$labels
+    kb = do.call(rbind,lapply(kb,function(x){
+      x$kb
+    }))
+    rownames(kb) = 1:nrow(kb)
+  }
+  
+  if(joint){
+    kb$run = "Joint"
+  }
   
   if(is.null(ylabs)){
     ylab.default = TRUE
@@ -95,8 +118,24 @@ SSplotEnsemble<- function(kb,
     ylab.default = FALSE
   }
   
+  # r4ss Colors
+  rc <- function(n,alpha=1){
+    # a subset of rich.colors by Arni Magnusson from the gregmisc package
+    # a.k.a. rich.colors.short, but put directly in this function
+    # to try to diagnose problem with transparency on one computer
+    x <- seq(0, 1, length = n)
+    r <- 1/(1 + exp(20 - 35 * x))
+    g <- pmin(pmax(0, -0.8 + 6 * x - 5 * x^2), 1)
+    b <- dnorm(x, 0.25, 0.15)/max(dnorm(x, 0.25, 0.15))
+    rgb.m <- matrix(c(r, g, b), ncol = 3)
+    rich.vector <- apply(rgb.m, 1, function(v) rgb(v[1], v[2], v[3], alpha=alpha))
+  }
   
   refquants=c("stock","harvest","SSB","F","Recr","Catch")
+  
+  
+  kbs = aggregate(cbind(stock,harvest,SSB,F,Recr,Catch)~year+run,kb,
+                  quantile, c(0.5,quantiles))
   
   # Check time line
   minyr = max(aggregate(year~run,kb,min)[,2])
@@ -180,18 +219,7 @@ SSplotEnsemble<- function(kb,
              lwd=lwd[legendorder], pch=legend.pch[legendorder], bty="n", ncol=legendncol,pt.cex=0.7,cex=legendcex,y.intersp = legendsp)
     }
     
-    # r4ss Colors
-    rc <- function(n,alpha=1){
-      # a subset of rich.colors by Arni Magnusson from the gregmisc package
-      # a.k.a. rich.colors.short, but put directly in this function
-      # to try to diagnose problem with transparency on one computer
-      x <- seq(0, 1, length = n)
-      r <- 1/(1 + exp(20 - 35 * x))
-      g <- pmin(pmax(0, -0.8 + 6 * x - 5 * x^2), 1)
-      b <- dnorm(x, 0.25, 0.15)/max(dnorm(x, 0.25, 0.15))
-      rgb.m <- matrix(c(r, g, b), ncol = 3)
-      rich.vector <- apply(rgb.m, 1, function(v) rgb(v[1], v[2], v[3], alpha=alpha))
-    }
+  
     
     
     
@@ -203,13 +231,17 @@ SSplotEnsemble<- function(kb,
     startyrs      <- min(kb$year)
     endyrs        <- max(kb$year)
     years         <- unique(kb$year)
-    y = kb[,quant]   
+    y = kbs[,quant]   
     run = kb$run
     year = kb$year
     
-    exp      <- aggregate(y~year+run,kb,median)
-    lower    <- aggregate(y~year+run,kb,quantile,quantiles[1])
-    upper <- aggregate(y~year+run,kb,quantile,quantiles[2])
+    if(mle){ 
+    exp      <- data.frame(year=obj$mle$year,run=obj$mle$run,y=obj$mle[,quant])
+    } else {
+    exp      <- data.frame(year=kbs$year,run=kbs$run,y=y[,1])
+    }
+    lower    <- data.frame(year=kbs$year,run=kbs$run,y=y[,2])
+    upper <- data.frame(year=kbs$year,run=kbs$run,y=y[,3])
     exp$Yr = exp$year
     lower$Yr = lower$year
     upper$Yr = upper$year

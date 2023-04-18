@@ -299,7 +299,7 @@ SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,virgin=FALSE,catch.type=c("
                    Catch.Type = catch.type[1]
   )
   on =  names(out)
-  on[1:6] = c(paste0(paste0("B",refB,"."),c("mle","lci","uci")),
+  on[3:8] = c(paste0(paste0("B",refB,"."),c("mle","lci","uci")),
               paste0(paste0("F",refF,"."),c("mle","lci","uci")))
   names(out) = on
   

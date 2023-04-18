@@ -4,7 +4,8 @@
 #' 
 #' @param kb SSdeltaMVLN $kb type output    
 #' @param subplots option to "Bratio","Fvalue","SSB", "F", "Recr","Catch" 
-#' @param models option to manually subset the models in kb$run  
+#' @param models option to manually subset the models in kb$run
+#' @param quantiles = c(0.025,0.975)  
 #' @param joint creates a joint ensemble plot
 #' @param ylabs yaxis labels for quants
 #' final year of values to show for each model. By default it is set to the

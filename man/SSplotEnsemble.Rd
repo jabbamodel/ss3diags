@@ -59,6 +59,8 @@ SSplotEnsemble(
 
 \item{models}{option to manually subset the models in kb$run}
 
+\item{quantiles}{= c(0.025,0.975)}
+
 \item{joint}{creates a joint ensemble plot}
 
 \item{ylabs}{yaxis labels for quants

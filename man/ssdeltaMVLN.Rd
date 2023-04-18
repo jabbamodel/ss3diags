@@ -20,6 +20,7 @@ SSdeltaMVLN(
   legendcex = 1,
   summary = TRUE,
   verbose = TRUE,
+  quantiles = c(0.025, 0.975),
   seed = 123
 )
 }
@@ -51,6 +52,8 @@ SSdeltaMVLN(
 \item{summary}{if TRUE trajectory summary table with MLEs and CIs is added}
 
 \item{verbose}{Report progress to R GUI?}
+
+\item{quantiles}{for computing CIs, default c(0.025,0.975)}
 
 \item{seed}{retains interannual correlation structure like MCMC}
 

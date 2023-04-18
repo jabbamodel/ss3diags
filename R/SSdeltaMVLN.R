@@ -17,6 +17,7 @@
 #' @param addprj include forecast years
 #' @param legendcex=1 Allows to adjust legend cex
 #' @param summary if TRUE trajectory summary table with MLEs and CIs is added
+#' @param quantiles for computing CIs, default c(0.025,0.975)
 #' @param verbose Report progress to R GUI?
 #' @param seed retains interannual correlation structure like MCMC 
 #' @return output list of quant posteriors and mle's
@@ -26,7 +27,7 @@
 #' mvn = SSdeltaMVLN(ss3sma,plot=TRUE) 
 
 SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,virgin=FALSE,catch.type=c("kill_bio","Obs","Exp","sel_bio","ret_bio"),mc=5000,weight=1,run="MVLN",plot=TRUE,
-                       addprj=FALSE,ymax=NULL,xmax=NULL,legendcex=1,summary = TRUE,verbose=TRUE,seed=123){
+                       addprj=FALSE,ymax=NULL,xmax=NULL,legendcex=1,summary = TRUE,verbose=TRUE,quantiles = c(0.025,0.975),seed=123){
   
   status=c('Bratio','F')
   quants =c("SSB","Recr")

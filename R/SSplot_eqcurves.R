@@ -17,6 +17,7 @@
 #' # SPR40 refpoints 
 #' SSplot_eqcurves(ss3phk,Fref="SPR") 
 SSplot_eqcurves = function(ss3rep,Fref=c("MSY","Btgt","SPR","F01")[2],msyline=NULL,cex=0.7){ 
+  
   eq = ss3rep$equil_yield
   b = eq$SSB
   f = eq$F_report
@@ -24,14 +25,18 @@ SSplot_eqcurves = function(ss3rep,Fref=c("MSY","Btgt","SPR","F01")[2],msyline=NU
 
   hat = ss3rep$derived_quants
   b0 =hat[hat$Label%in%c("SSB_unfished","SSB_Unfished"),2]
+  r0 = hat[hat$Label%in%c("Recr_unfished","Recr_Unfished"),2]
+  spr0 = b0/r0
   fmsy = hat[hat$Label%in%c("Fstd_MSY","annF_MSY"),2]
   if(Fref=="SPR"){
     ftgt = hat[hat$Label%in%c("Fstd_SPR","annF_SPR"),2]
     trg=paste0("SPR",round(ss3rep$sprtarg*100))
+    if(ss3rep$sprtarg<0)trg=paste0("SPR",round(40))  
   }
   if(Fref=="Btgt"){
      ftgt = hat[hat$Label%in%c("Fstd_Btgt","annF_Btgt"),2]
      trg =paste0("SB",round(ss3rep$btarg*100))
+     if(ss3rep$btarg<0)trg=paste0("SB",round(40)) 
   }  
   if(Fref=="F01"){
     ftgt = hat[hat$Label%in%c("annF_F01"),2]

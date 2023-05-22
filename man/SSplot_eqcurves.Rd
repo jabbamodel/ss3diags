@@ -7,6 +7,8 @@
 SSplot_eqcurves(
   ss3rep,
   Fref = c("MSY", "Btgt", "SPR", "F01")[2],
+  plot = TRUE,
+  verbose = TRUE,
   msyline = NULL,
   cex = 0.7
 )

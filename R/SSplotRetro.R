@@ -194,6 +194,8 @@ SSplotRetro<- function(summaryoutput, subplots=c("SSB","F"),
     Lower <- summaryoutput$SpawnBioLower
     Upper <- summaryoutput$SpawnBioUpper
     if(is.null(labels)){
+      if(is.na(summaryoutput$SpawnOutputUnits[1])) 
+        summaryoutput$SpawnOutputUnits[1] = "biomass"
       if(summaryoutput$SpawnOutputUnits[1]=="numbers"){
       labels = "Stock fecundity"
       } else {

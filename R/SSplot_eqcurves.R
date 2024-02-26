@@ -22,7 +22,11 @@ SSplot_eqcurves = function(ss3rep,Fref=c("MSY","Btgt","SPR","F01")[2],plot=TRUE,
   b = eq$SSB
   f = eq$F_report
   y = eq$Tot_Catch
-
+  d = data.frame(b,f,y)
+  d = d[order(b),]
+  f=d$f
+  b = d$b
+  y = d$y
   hat = ss3rep$derived_quants
   b0 =hat[hat$Label%in%c("SSB_unfished","SSB_Unfished"),2]
   r0 = hat[hat$Label%in%c("Recr_unfished","Recr_Unfished"),2]

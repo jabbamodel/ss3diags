@@ -7,7 +7,7 @@
 #' @param Fref  Choice of Fratio c("MSY","Btgt","SPR","F01"), correponding to F_MSY and F_Btgt                                                               
 #' @param years single year or vector of years for mvln   
 #' @param virgin if FALSE (default) the B0 base for Bratio is SSB_unfished
-#' @param catch.type reported catch c("kill_bio","Obs","Exp","sel_bio","ret_bio")
+#' @param catch.type reported catch c("Exp","Obs","sel_bio","ret_bio")
 #' @param mc number of monte-carlo simulations   
 #' @param weight weighting option for model ensembles weight*mc 
 #' @param run qualifier for model run
@@ -26,7 +26,7 @@
 #' @examples 
 #' mvn = SSdeltaMVLN(ss3sma,plot=TRUE) 
 
-SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,virgin=FALSE,catch.type=c("kill_bio","Obs","Exp","sel_bio","ret_bio"),mc=5000,weight=1,run="MVLN",plot=TRUE,
+SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,virgin=FALSE,catch.type=c("Exp","Obs","sel_bio","ret_bio"),mc=5000,weight=1,run="MVLN",plot=TRUE,
                        addprj=FALSE,ymax=NULL,xmax=NULL,legendcex=1,summary = TRUE,verbose=TRUE,quantiles = c(0.025,0.975),seed=123){
   
   status=c('Bratio','F')

@@ -19,6 +19,9 @@
 SSplot_eqcurves = function(ss3rep,Fref=c("MSY","Btgt","SPR","F01")[2],plot=TRUE,verbose=TRUE, msyline=NULL,cex=0.7){ 
   
   eq = ss3rep$equil_yield
+  eq = eq[!is.na(eq$F_report),]
+  eq = eq[!is.na(eq$SSB),]
+  
   b = eq$SSB
   f = eq$F_report
   y = eq$Tot_Catch

@@ -9,7 +9,7 @@ SSdeltaMVLN(
   Fref = NULL,
   years = NULL,
   virgin = FALSE,
-  catch.type = c("kill_bio", "Obs", "Exp", "sel_bio", "ret_bio"),
+  catch.type = c("Exp", "Obs", "sel_bio", "ret_bio"),
   mc = 5000,
   weight = 1,
   run = "MVLN",
@@ -33,7 +33,7 @@ SSdeltaMVLN(
 
 \item{virgin}{if FALSE (default) the B0 base for Bratio is SSB_unfished}
 
-\item{catch.type}{reported catch c("kill_bio","Obs","Exp","sel_bio","ret_bio")}
+\item{catch.type}{reported catch c("Exp","Obs","sel_bio","ret_bio")}
 
 \item{mc}{number of monte-carlo simulations}
 

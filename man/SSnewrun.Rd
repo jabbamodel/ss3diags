@@ -8,10 +8,11 @@ SSnewrun(
   model,
   dat,
   ctl,
-  ss.exe = "SS.exe",
+  ss.exe = "ss3.exe",
   newdir,
   overwrite = TRUE,
-  pars = TRUE
+  pars = FALSE,
+  par.file = "ss3.par"
 )
 }
 \arguments{
@@ -27,7 +28,9 @@ SSnewrun(
 
 \item{overwrite}{if TRUE existingg files are overwritten}
 
-\item{pars}{if TRUE the "ss.par" is copied}
+\item{pars}{if TRUE the "ss3.par" is copied}
+
+\item{par.file}{par file name, default ss3.par}
 }
 \description{
 creates a subfolder with relevant ss3 file for retros and forecasts

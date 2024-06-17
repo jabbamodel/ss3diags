@@ -26,5 +26,5 @@ SSnewrun <- function(model,dat,ctl,ss.exe="ss3.exe",newdir,overwrite=TRUE,pars=F
   # Automatically ignored for models without wtatage.ss
   file.copy(file.path(model.run, "wtatage.ss"), file.path(newdir, "wtatage.ss"),overwrite=overwrite)
   # add parameters
-  if(pars) file.copy(file.path(model.run, par.file), file.path(newdir, "ss.par"),overwrite=overwrite)
+  if(pars) file.copy(file.path(model.run, par.file), file.path(newdir,par.file),overwrite=overwrite)
 } # end function

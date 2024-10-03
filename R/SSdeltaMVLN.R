@@ -96,7 +96,14 @@ SSdeltaMVLN = function(ss3rep,Fref = NULL,years=NULL,virgin=FALSE,catch.type=c("
   if(bf01) bb=4
   
   bbasis  = c("SSB/SSB0","SSB/SSBMSY","SSB/SSBtgt","SSB/SSBF01")[bb]
-  fbasis = strsplit(ss3rep$F_report_basis,";")[[1]][1]
+  
+  if(!is.null(ss3rep$F_report_basis))
+    fbasis = strsplit(ss3rep$F_report_basis,";")[[1]][1]
+  # For  r4ss_1.50.0  
+  if(!is.null(ss3rep$F_std_basis))
+    fbasis = strsplit(ss3rep$F_std_basis,";")[[1]][1]
+  
+  
   if(is.na(ss3rep$btarg)) ss3rep$btarg=0
   gettrg = ifelse(ss3rep$btarg>0,ss3rep$btarg,round(btgt/b0,2))
   if(fbasis%in%c("_abs_F","(F)/(Fmsy)",paste0("(F)/(F_at_B",ss3rep$btarg*100,"%)"),paste0("(F)/(F",ss3rep$btarg*100,"%SPR)"))){

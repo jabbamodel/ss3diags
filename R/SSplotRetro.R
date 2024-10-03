@@ -208,14 +208,19 @@ SSplotRetro<- function(summaryoutput, subplots=c("SSB","F"),
     Lower <- summaryoutput$FvalueLower
     Upper <- summaryoutput$FvalueUpper
     if(is.null(labels)){
+      if(!is.null(summaryoutput$FvalueLabels)){
       if(strsplit(summaryoutput$FvalueLabels[1],";")[[1]][1]=="_abs_F"){
         labels = "Fishing mortality F"
       } else if(strsplit(summaryoutput$FvalueLabels[1],";")[[1]][1]=="(F)/(Fmsy)"){
         labels = expression(F/F[MSY])
       } else
         labels = "F ratio"
+      } else {
+        labels = "Fishing mortality"
+      }
     }
-    }
+    
+  }
     
 
     ylab = labels
